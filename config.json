@@ -1,0 +1,95 @@
+{
+  "spreadsheet_id": "1JnUHGR8XOXEFK-c43TdetbBmaydL_D8OVW0g-GZZQu0",
+  "service_account_file": "secrets/service_account.json",
+  "claude_cmd": "claude",
+  "telegram": {
+    "bot_token_env": "TELEGRAM_BOT_TOKEN",
+    "chat_id_env": "TELEGRAM_CHAT_ID"
+  },
+  "wizz": {
+    "base_url": "https://www.wizzair.com/en-gb/flights/fare-finder/yerevan/anywhere",
+    "duration": "1_week",
+    "months_ahead": 4,
+    "fare_api_match": "SmartSearchCheapFlightsV2",
+    "profile_dir": ".browser/wizz",
+    "headless": false,
+    "url_template": "https://www.wizzair.com/en-gb/flights/fare-finder/{origin}/{dest}/0/0/0/1/0/0/{date_from}/{date_to}?flexible=anytime&duration={duration}",
+    "origin_slug": "yerevan",
+    "origin_code": "EVN"
+  },
+  "watchlist": {
+    "origin": "EVN",
+    "date_windows": [
+      "2026-09-19..2026-09-21",
+      "2026-12-31..2027-01-04"
+    ],
+    "price_threshold": 25,
+    "currency_note": "fares are per-person, USD"
+  },
+  "passengers": {
+    "flip_date": "2026-12-29",
+    "before": {
+      "adults": 2,
+      "infants": 1
+    },
+    "after": {
+      "adults": 2,
+      "children": 1
+    }
+  },
+  "inbound": {
+    "enabled": true,
+    "max_destinations": 20
+  },
+  "alerts": {
+    "leg_drop_pct": 15,
+    "leg_drop_abs": 5,
+    "min_history_runs_for_atl": 3,
+    "trip_total_alert": 100,
+    "trip_drop_abs": 10,
+    "digest_weekday": 6
+  },
+  "trips": {
+    "min_nights": 4,
+    "max_nights": 10,
+    "max_results": 10,
+    "infant_fee_per_leg": 0,
+    "nearby_groups": [
+      [
+        "FCO",
+        "NAP",
+        "BRI"
+      ],
+      [
+        "MXP",
+        "VCE"
+      ],
+      [
+        "BUD",
+        "BTS",
+        "PRG"
+      ],
+      [
+        "CRL",
+        "EIN",
+        "DTM"
+      ]
+    ]
+  },
+  "stays": {
+    "max_results": 6,
+    "headless": false,
+    "min_rating": 7.5,
+    "min_rating_airbnb": 9.0,
+    "target_nightly": 90,
+    "breakfast_per_person": 8,
+    "transport_per_day": 6,
+    "far_km": 2.5,
+    "weights": {
+      "price": 0.35,
+      "rating": 0.2,
+      "location": 0.25,
+      "hard": 0.2
+    }
+  }
+}

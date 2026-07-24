@@ -1,0 +1,6 @@
+secrets/
+service_account.json
+.browser/
+__pycache__/
+*.pyc
+.env

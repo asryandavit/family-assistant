@@ -1,0 +1,806 @@
+{
+  "_doc": "Curated per-city zones for scoring stays. prefer/avoid have center+radius_m (haversine, distance-decayed) and/or bbox; 'match' strings are a fallback signal when coordinates are missing. weight: +1 strongest prefer, -1 strongest avoid. sea_points used only when sea_city is true.",
+  "LCA": {
+    "city": "Larnaca",
+    "sea_city": true,
+    "center": { "lat": 34.9163, "lng": 33.635 },
+    "sea_points": [{ "lat": 34.9182, "lng": 33.6392 }],
+    "prefer": [
+      {
+        "name": "Finikoudes / centre",
+        "center": { "lat": 34.9182, "lng": 33.6392 },
+        "radius_m": 800,
+        "weight": 1.0,
+        "match": ["finikoudes", "city center", "larnaca centre"],
+        "why": "on the beach promenade, flat, walkable, Blue Flag shallow water"
+      },
+      {
+        "name": "Mackenzie",
+        "center": { "lat": 34.8817, "lng": 33.6247 },
+        "radius_m": 900,
+        "weight": 0.85,
+        "match": ["mackenzie", "makenzy"],
+        "why": "calm sandy beach, laid-back family vibe"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Inland / Oroklini",
+        "center": { "lat": 34.975, "lng": 33.61 },
+        "radius_m": 3000,
+        "weight": -0.5,
+        "match": ["oroklini", "voroklini"],
+        "why": "quiet but needs a car"
+      }
+    ]
+  },
+  "BRI": {
+    "city": "Bari",
+    "sea_city": true,
+    "center": { "lat": 41.1253, "lng": 16.8686 },
+    "sea_points": [{ "lat": 41.1206, "lng": 16.876 }],
+    "prefer": [
+      {
+        "name": "Murat",
+        "center": { "lat": 41.1253, "lng": 16.8686 },
+        "radius_m": 700,
+        "weight": 1.0,
+        "match": ["murat", "murattiano", "via sparano"],
+        "why": "flat grid, walkable, safe day and night"
+      },
+      {
+        "name": "Lungomare / Madonnella",
+        "center": { "lat": 41.1206, "lng": 16.876 },
+        "radius_m": 800,
+        "weight": 0.9,
+        "match": ["lungomare", "madonnella", "nazario sauro"],
+        "why": "seafront, sea views, near Pane e Pomodoro beach"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Bari Vecchia",
+        "center": { "lat": 41.129, "lng": 16.87 },
+        "radius_m": 450,
+        "weight": -0.6,
+        "match": ["bari vecchia", "old town"],
+        "why": "narrow cobbles, stroller-hostile"
+      },
+      {
+        "name": "Around Centrale",
+        "center": { "lat": 41.118, "lng": 16.87 },
+        "radius_m": 500,
+        "weight": -0.5,
+        "match": ["stazione centrale"],
+        "why": "unpleasant at night"
+      }
+    ]
+  },
+  "NAP": {
+    "city": "Naples",
+    "sea_city": true,
+    "center": { "lat": 40.84, "lng": 14.252 },
+    "sea_points": [
+      { "lat": 40.828, "lng": 14.247 },
+      { "lat": 40.83, "lng": 14.22 }
+    ],
+    "prefer": [
+      {
+        "name": "Chiaia",
+        "center": { "lat": 40.833, "lng": 14.23 },
+        "radius_m": 900,
+        "weight": 1.0,
+        "match": ["chiaia"],
+        "why": "safest, upscale, seafront + Villa Comunale park"
+      },
+      {
+        "name": "Santa Lucia / Lungomare",
+        "center": { "lat": 40.828, "lng": 14.247 },
+        "radius_m": 700,
+        "weight": 0.9,
+        "match": ["santa lucia", "lungomare"],
+        "why": "quiet, sea views"
+      },
+      {
+        "name": "Vomero",
+        "center": { "lat": 40.844, "lng": 14.228 },
+        "radius_m": 900,
+        "weight": 0.6,
+        "match": ["vomero"],
+        "why": "residential and quiet, but funicular needed"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Around Garibaldi/Centrale",
+        "center": { "lat": 40.853, "lng": 14.272 },
+        "radius_m": 800,
+        "weight": -1.0,
+        "match": ["garibaldi", "stazione centrale"],
+        "why": "rough at night"
+      },
+      {
+        "name": "Quartieri Spagnoli core",
+        "center": { "lat": 40.84, "lng": 14.247 },
+        "radius_m": 400,
+        "weight": -0.6,
+        "match": ["quartieri spagnoli"],
+        "why": "claustrophobic, some windowless flats"
+      },
+      {
+        "name": "Centro Storico core",
+        "center": { "lat": 40.85, "lng": 14.257 },
+        "radius_m": 500,
+        "weight": -0.4,
+        "match": ["centro storico", "spaccanapoli"],
+        "why": "crowds and scooters, hard with a stroller"
+      }
+    ]
+  },
+  "BUD": {
+    "city": "Budapest",
+    "sea_city": false,
+    "center": { "lat": 47.4979, "lng": 19.0402 },
+    "prefer": [
+      {
+        "name": "District V Belvaros",
+        "center": { "lat": 47.495, "lng": 19.052 },
+        "radius_m": 800,
+        "weight": 1.0,
+        "match": ["district v", "belvaros", "lipotvaros"],
+        "why": "central, walkable, safe"
+      },
+      {
+        "name": "District XIII Ujlipotvaros",
+        "center": { "lat": 47.515, "lng": 19.05 },
+        "radius_m": 900,
+        "weight": 0.95,
+        "match": ["ujlipotvaros", "district xiii"],
+        "why": "residential, near Margaret Island, great for families"
+      },
+      {
+        "name": "District I / Obuda",
+        "center": { "lat": 47.54, "lng": 19.04 },
+        "radius_m": 1200,
+        "weight": 0.6,
+        "match": ["obuda", "district i", "buda castle"],
+        "why": "quiet, historic"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Inner District VIII",
+        "center": { "lat": 47.496, "lng": 19.07 },
+        "radius_m": 900,
+        "weight": -0.7,
+        "match": ["jozsefvaros", "blaha", "corvin"],
+        "why": "rougher pockets"
+      },
+      {
+        "name": "District VII ruin-bar core",
+        "center": { "lat": 47.498, "lng": 19.062 },
+        "radius_m": 600,
+        "weight": -0.8,
+        "match": ["district vii", "erzsebetvaros", "ruin bar"],
+        "why": "very noisy at night"
+      },
+      {
+        "name": "District X Kobanya",
+        "center": { "lat": 47.48, "lng": 19.13 },
+        "radius_m": 2000,
+        "weight": -0.6,
+        "match": ["kobanya"],
+        "why": "rough and far"
+      }
+    ]
+  },
+  "OTP": {
+    "city": "Bucharest",
+    "sea_city": false,
+    "center": { "lat": 44.436, "lng": 26.1027 },
+    "prefer": [
+      {
+        "name": "Calea Victoriei / Piata Victoriei",
+        "center": { "lat": 44.452, "lng": 26.085 },
+        "radius_m": 1000,
+        "weight": 1.0,
+        "match": ["calea victoriei", "piata victoriei", "dorobanti"],
+        "why": "elegant, safe, family-friendly"
+      },
+      {
+        "name": "Old Town edge",
+        "center": { "lat": 44.431, "lng": 26.101 },
+        "radius_m": 600,
+        "weight": 0.7,
+        "match": ["lipscani", "old town", "centrul vechi"],
+        "why": "central; pick quieter side streets"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Ferentari",
+        "center": { "lat": 44.405, "lng": 26.06 },
+        "radius_m": 2000,
+        "weight": -1.0,
+        "match": ["ferentari"],
+        "why": "unsafe"
+      },
+      {
+        "name": "Rahova / Pantelimon",
+        "center": { "lat": 44.41, "lng": 26.07 },
+        "radius_m": 1800,
+        "weight": -0.8,
+        "match": ["rahova", "pantelimon", "obor"],
+        "why": "rough fringes"
+      }
+    ]
+  },
+  "BTS": {
+    "city": "Bratislava",
+    "sea_city": false,
+    "center": { "lat": 48.144, "lng": 17.107 },
+    "prefer": [
+      {
+        "name": "Stare Mesto",
+        "center": { "lat": 48.144, "lng": 17.107 },
+        "radius_m": 700,
+        "weight": 1.0,
+        "match": ["stare mesto", "old town"],
+        "why": "pedestrian core, safe, walkable"
+      },
+      {
+        "name": "Palisady",
+        "center": { "lat": 48.149, "lng": 17.101 },
+        "radius_m": 700,
+        "weight": 0.95,
+        "match": ["palisady"],
+        "why": "quiet upscale, minutes from Old Town"
+      },
+      {
+        "name": "Ruzinov",
+        "center": { "lat": 48.156, "lng": 17.15 },
+        "radius_m": 1500,
+        "weight": 0.6,
+        "match": ["ruzinov"],
+        "why": "green, family, tram to centre"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Main station area",
+        "center": { "lat": 48.158, "lng": 17.106 },
+        "radius_m": 500,
+        "weight": -0.6,
+        "match": ["hlavna stanica"],
+        "why": "unpleasant at night"
+      },
+      {
+        "name": "Outer estates",
+        "center": { "lat": 48.19, "lng": 17.02 },
+        "radius_m": 3000,
+        "weight": -0.7,
+        "match": ["devinska", "vrakuna", "petrzalka juh"],
+        "why": "impractical"
+      }
+    ]
+  },
+  "PRG": {
+    "city": "Prague",
+    "sea_city": false,
+    "center": { "lat": 50.087, "lng": 14.42 },
+    "prefer": [
+      {
+        "name": "Vinohrady",
+        "center": { "lat": 50.076, "lng": 14.445 },
+        "radius_m": 1100,
+        "weight": 1.0,
+        "match": ["vinohrady"],
+        "why": "leafy, residential, safe, parks and cafes"
+      },
+      {
+        "name": "Mala Strana",
+        "center": { "lat": 50.088, "lng": 14.404 },
+        "radius_m": 700,
+        "weight": 0.8,
+        "match": ["mala strana", "lesser town"],
+        "why": "central and beautiful, but cobbled"
+      },
+      {
+        "name": "Stare Mesto",
+        "center": { "lat": 50.087, "lng": 14.42 },
+        "radius_m": 600,
+        "weight": 0.7,
+        "match": ["stare mesto", "old town"],
+        "why": "walkable to everything"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Wenceslas Sq side streets",
+        "center": { "lat": 50.081, "lng": 14.427 },
+        "radius_m": 450,
+        "weight": -0.8,
+        "match": ["wenceslas", "vaclavske", "perlova"],
+        "why": "red-light and noise"
+      },
+      {
+        "name": "Around Hlavni nadrazi",
+        "center": { "lat": 50.083, "lng": 14.436 },
+        "radius_m": 450,
+        "weight": -0.5,
+        "match": ["hlavni nadrazi"],
+        "why": "unpleasant at night"
+      }
+    ]
+  },
+  "VCE": {
+    "city": "Venice",
+    "sea_city": true,
+    "center": { "lat": 45.438, "lng": 12.335 },
+    "sea_points": [{ "lat": 45.43, "lng": 12.34 }],
+    "prefer": [
+      {
+        "name": "Castello",
+        "center": { "lat": 45.435, "lng": 12.352 },
+        "radius_m": 700,
+        "weight": 1.0,
+        "match": ["castello"],
+        "why": "space, Giardini park, fewer bridges along the waterfront"
+      },
+      {
+        "name": "Cannaregio",
+        "center": { "lat": 45.444, "lng": 12.33 },
+        "radius_m": 800,
+        "weight": 0.9,
+        "match": ["cannaregio"],
+        "why": "wide streets, family vibe"
+      },
+      {
+        "name": "Mestre (mainland)",
+        "center": { "lat": 45.49, "lng": 12.242 },
+        "radius_m": 1500,
+        "weight": 0.55,
+        "match": ["mestre"],
+        "why": "50-60% cheaper, lifts and bigger rooms far more likely, 10-15 min by train"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "San Marco core",
+        "center": { "lat": 45.434, "lng": 12.339 },
+        "radius_m": 400,
+        "weight": -0.6,
+        "match": ["san marco"],
+        "why": "crushing crowds, tiny costly rooms"
+      }
+    ]
+  },
+  "FCO": {
+    "city": "Rome",
+    "sea_city": false,
+    "center": { "lat": 41.899, "lng": 12.473 },
+    "prefer": [
+      {
+        "name": "Centro Storico / Navona",
+        "center": { "lat": 41.899, "lng": 12.473 },
+        "radius_m": 700,
+        "weight": 1.0,
+        "match": ["navona", "pantheon", "centro storico"],
+        "why": "walkable pedestrian piazzas"
+      },
+      {
+        "name": "Prati",
+        "center": { "lat": 41.908, "lng": 12.465 },
+        "radius_m": 900,
+        "weight": 0.95,
+        "match": ["prati"],
+        "why": "wide streets, quieter, supermarkets, good transit"
+      },
+      {
+        "name": "Monti",
+        "center": { "lat": 41.894, "lng": 12.49 },
+        "radius_m": 600,
+        "weight": 0.75,
+        "match": ["monti"],
+        "why": "family rooms near the Colosseum, but hills and cobbles"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Around Termini",
+        "center": { "lat": 41.901, "lng": 12.501 },
+        "radius_m": 700,
+        "weight": -0.9,
+        "match": ["termini", "esquilino"],
+        "why": "gritty after dark"
+      },
+      {
+        "name": "Trevi immediate",
+        "center": { "lat": 41.901, "lng": 12.483 },
+        "radius_m": 250,
+        "weight": -0.4,
+        "match": ["trevi"],
+        "why": "too noisy for a toddler's sleep"
+      }
+    ]
+  },
+  "MXP": {
+    "city": "Milan",
+    "sea_city": false,
+    "center": { "lat": 45.464, "lng": 9.19 },
+    "prefer": [
+      {
+        "name": "Duomo / Brera",
+        "center": { "lat": 45.47, "lng": 9.188 },
+        "radius_m": 800,
+        "weight": 1.0,
+        "match": ["brera", "duomo", "centro"],
+        "why": "central, walkable, safe"
+      },
+      {
+        "name": "Porta Nuova / Porta Venezia",
+        "center": { "lat": 45.48, "lng": 9.2 },
+        "radius_m": 900,
+        "weight": 0.9,
+        "match": ["porta nuova", "porta venezia", "isola"],
+        "why": "modern, parks, good transit"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Around Centrale",
+        "center": { "lat": 45.486, "lng": 9.204 },
+        "radius_m": 600,
+        "weight": -0.7,
+        "match": ["centrale"],
+        "why": "unpleasant at night"
+      }
+    ]
+  },
+  "RHO": {
+    "city": "Rhodes",
+    "sea_city": true,
+    "center": { "lat": 36.445, "lng": 28.227 },
+    "sea_points": [{ "lat": 36.452, "lng": 28.227 }],
+    "prefer": [
+      {
+        "name": "New Town / Elli Beach",
+        "center": { "lat": 36.45, "lng": 28.225 },
+        "radius_m": 900,
+        "weight": 1.0,
+        "match": ["elli", "new town", "rhodes town"],
+        "why": "walkable to town and beach, family hotels"
+      },
+      {
+        "name": "Faliraki / Kallithea",
+        "center": { "lat": 36.34, "lng": 28.21 },
+        "radius_m": 2500,
+        "weight": 0.8,
+        "match": ["faliraki", "kallithea"],
+        "why": "sandy shallow beaches, calmer east coast"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Old Town as a stroller base",
+        "center": { "lat": 36.444, "lng": 28.227 },
+        "radius_m": 450,
+        "weight": -0.6,
+        "match": ["old town", "medieval"],
+        "why": "pebble-mosaic paving"
+      },
+      {
+        "name": "Faliraki bar street",
+        "center": { "lat": 36.343, "lng": 28.208 },
+        "radius_m": 350,
+        "weight": -0.7,
+        "match": ["bar street"],
+        "why": "nightlife noise"
+      }
+    ]
+  },
+  "HAM": {
+    "city": "Hamburg",
+    "sea_city": false,
+    "center": { "lat": 53.55, "lng": 9.993 },
+    "prefer": [
+      {
+        "name": "Eppendorf / Winterhude",
+        "center": { "lat": 53.59, "lng": 9.99 },
+        "radius_m": 1400,
+        "weight": 1.0,
+        "match": ["eppendorf", "winterhude", "harvestehude"],
+        "why": "leafy, quiet, by the Alster"
+      },
+      {
+        "name": "Altona / Ottensen",
+        "center": { "lat": 53.55, "lng": 9.935 },
+        "radius_m": 1200,
+        "weight": 0.9,
+        "match": ["altona", "ottensen"],
+        "why": "green harbourfront, relaxed"
+      },
+      {
+        "name": "HafenCity",
+        "center": { "lat": 53.541, "lng": 9.999 },
+        "radius_m": 900,
+        "weight": 0.8,
+        "match": ["hafencity"],
+        "why": "wide stroller-friendly promenades"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "St. Pauli / Reeperbahn",
+        "center": { "lat": 53.55, "lng": 9.964 },
+        "radius_m": 700,
+        "weight": -0.9,
+        "match": ["reeperbahn", "st. pauli", "st pauli"],
+        "why": "nightlife and red-light, noisy"
+      },
+      {
+        "name": "St. Georg by Hauptbahnhof",
+        "center": { "lat": 53.554, "lng": 10.01 },
+        "radius_m": 600,
+        "weight": -0.7,
+        "match": ["st. georg", "st georg", "hauptbahnhof"],
+        "why": "rough at night"
+      }
+    ]
+  },
+  "EIN": {
+    "city": "Eindhoven",
+    "sea_city": false,
+    "center": { "lat": 51.44, "lng": 5.478 },
+    "prefer": [
+      {
+        "name": "Centrum",
+        "center": { "lat": 51.44, "lng": 5.478 },
+        "radius_m": 800,
+        "weight": 1.0,
+        "match": ["centrum", "binnenstad", "city centre"],
+        "why": "central, walkable, best transit"
+      },
+      {
+        "name": "Strijp-S",
+        "center": { "lat": 51.448, "lng": 5.457 },
+        "radius_m": 700,
+        "weight": 0.85,
+        "match": ["strijp"],
+        "why": "trendy modern lofts, own station"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Woensel-West",
+        "center": { "lat": 51.452, "lng": 5.47 },
+        "radius_m": 800,
+        "weight": -0.7,
+        "match": ["woensel-west", "woensel west"],
+        "why": "roughest pocket"
+      }
+    ]
+  },
+  "CRL": {
+    "city": "Brussels",
+    "sea_city": false,
+    "center": { "lat": 50.847, "lng": 4.352 },
+    "prefer": [
+      {
+        "name": "Ixelles",
+        "center": { "lat": 50.827, "lng": 4.369 },
+        "radius_m": 1200,
+        "weight": 1.0,
+        "match": ["ixelles", "elsene", "flagey"],
+        "why": "parks, cafes, safe"
+      },
+      {
+        "name": "Sablon",
+        "center": { "lat": 50.841, "lng": 4.356 },
+        "radius_m": 600,
+        "weight": 0.9,
+        "match": ["sablon", "zavel"],
+        "why": "upscale, central, quieter"
+      },
+      {
+        "name": "Sainte-Catherine",
+        "center": { "lat": 50.85, "lng": 4.348 },
+        "radius_m": 600,
+        "weight": 0.85,
+        "match": ["sainte-catherine", "saint catherine"],
+        "why": "central lower town, safe, food scene"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Gare du Midi / Anneessens",
+        "center": { "lat": 50.836, "lng": 4.336 },
+        "radius_m": 800,
+        "weight": -0.9,
+        "match": ["gare du midi", "zuid", "anneessens"],
+        "why": "sketchy after dark"
+      },
+      {
+        "name": "Molenbeek / Saint-Josse / Gare du Nord",
+        "center": { "lat": 50.855, "lng": 4.34 },
+        "radius_m": 1200,
+        "weight": -0.9,
+        "match": ["molenbeek", "saint-josse", "gare du nord"],
+        "why": "avoid with a family"
+      }
+    ]
+  },
+  "DTM": {
+    "city": "Dortmund",
+    "sea_city": false,
+    "center": { "lat": 51.514, "lng": 7.466 },
+    "prefer": [
+      {
+        "name": "Kreuzviertel",
+        "center": { "lat": 51.506, "lng": 7.46 },
+        "radius_m": 800,
+        "weight": 1.0,
+        "match": ["kreuzviertel"],
+        "why": "safe, lively, tree-lined, near centre"
+      },
+      {
+        "name": "Kaiser- / Saarlandviertel",
+        "center": { "lat": 51.515, "lng": 7.475 },
+        "radius_m": 800,
+        "weight": 0.9,
+        "match": ["kaiserviertel", "saarlandstrasse"],
+        "why": "leafy Altbau, walkable"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Nordstadt",
+        "center": { "lat": 51.523, "lng": 7.46 },
+        "radius_m": 1100,
+        "weight": -1.0,
+        "match": ["nordstadt", "borsigplatz", "nordmarkt"],
+        "why": "roughest area"
+      },
+      {
+        "name": "Around Hauptbahnhof",
+        "center": { "lat": 51.518, "lng": 7.459 },
+        "radius_m": 450,
+        "weight": -0.6,
+        "match": ["hauptbahnhof"],
+        "why": "unpleasant at night"
+      },
+      {
+        "name": "Dorstfeld",
+        "center": { "lat": 51.513, "lng": 7.41 },
+        "radius_m": 1200,
+        "weight": -0.8,
+        "match": ["dorstfeld"],
+        "why": "extremist presence"
+      }
+    ]
+  },
+  "BVA": {
+    "city": "Paris",
+    "sea_city": false,
+    "center": { "lat": 48.8566, "lng": 2.3522 },
+    "prefer": [
+      {
+        "name": "7th / Rue Cler",
+        "center": { "lat": 48.856, "lng": 2.306 },
+        "radius_m": 900,
+        "weight": 1.0,
+        "match": ["7th", "rue cler", "champ de mars", "invalides"],
+        "why": "wide pavements, stroller-friendly, safe"
+      },
+      {
+        "name": "6th / Luxembourg",
+        "center": { "lat": 48.848, "lng": 2.336 },
+        "radius_m": 800,
+        "weight": 1.0,
+        "match": ["6th", "luxembourg", "saint-germain"],
+        "why": "Luxembourg Gardens: puppet theatre, sailboat pond, carousel"
+      },
+      {
+        "name": "5th / Latin Quarter",
+        "center": { "lat": 48.845, "lng": 2.348 },
+        "radius_m": 900,
+        "weight": 0.85,
+        "match": ["5th", "latin quarter", "jardin des plantes"],
+        "why": "better value, big park"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Gare du Nord / Est",
+        "center": { "lat": 48.88, "lng": 2.355 },
+        "radius_m": 800,
+        "weight": -0.9,
+        "match": ["gare du nord", "gare de l'est"],
+        "why": "avoid at night"
+      },
+      {
+        "name": "Marais (lift warning)",
+        "center": { "lat": 48.859, "lng": 2.362 },
+        "radius_m": 700,
+        "weight": -0.2,
+        "match": ["marais"],
+        "why": "hip and walkable but many buildings have no lift"
+      },
+      {
+        "name": "Montmartre hills",
+        "center": { "lat": 48.886, "lng": 2.34 },
+        "radius_m": 800,
+        "weight": -0.3,
+        "match": ["montmartre", "18th"],
+        "why": "steep with a stroller"
+      }
+    ]
+  },
+  "LTN": {
+    "city": "London",
+    "sea_city": false,
+    "center": { "lat": 51.5074, "lng": -0.1278 },
+    "prefer": [
+      {
+        "name": "South Kensington",
+        "center": { "lat": 51.494, "lng": -0.174 },
+        "radius_m": 900,
+        "weight": 1.0,
+        "match": ["south kensington", "kensington"],
+        "why": "safe, free museums, Diana Memorial Playground"
+      },
+      {
+        "name": "Bloomsbury",
+        "center": { "lat": 51.522, "lng": -0.127 },
+        "radius_m": 800,
+        "weight": 0.9,
+        "match": ["bloomsbury", "russell square"],
+        "why": "calm, central, good value, superb transport"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Soho / Leicester Sq",
+        "center": { "lat": 51.511, "lng": -0.13 },
+        "radius_m": 600,
+        "weight": -0.7,
+        "match": ["soho", "leicester square"],
+        "why": "nightlife noise"
+      },
+      {
+        "name": "Around King's Cross late",
+        "center": { "lat": 51.532, "lng": -0.124 },
+        "radius_m": 500,
+        "weight": -0.3,
+        "match": ["king's cross", "kings cross"],
+        "why": "busy station surrounds at night"
+      }
+    ]
+  },
+  "Barcelona": {
+    "city": "Barcelona",
+    "sea_city": true,
+    "center": { "lat": 41.3874, "lng": 2.1686 },
+    "sea_points": [{ "lat": 41.3785, "lng": 2.1925 }],
+    "prefer": [
+      {
+        "name": "Eixample",
+        "center": { "lat": 41.3915, "lng": 2.165 },
+        "radius_m": 1200,
+        "weight": 1.0,
+        "match": ["eixample"],
+        "why": "wide flat pavements, very stroller-friendly"
+      }
+    ],
+    "avoid": [
+      {
+        "name": "Raval",
+        "center": { "lat": 41.38, "lng": 2.168 },
+        "radius_m": 700,
+        "weight": -0.8,
+        "match": ["raval"],
+        "why": "pickpockets, uneven at night"
+      }
+    ]
+  }
+}
