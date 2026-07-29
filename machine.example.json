@@ -1,0 +1,21 @@
+{
+  "_comment": "Copy to machine.json and fill in. machine.json is gitignored and holds EVERY machine-specific value in this repo. No absolute path belongs anywhere else in the codebase. These are not secrets - secrets live in environment variables and are inventoried in docs/SECRETS.md.",
+
+  "repo_root": "D:\\Claude\\family-assistant",
+  "python_exe": "C:\\Users\\<user>\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+
+  "coach_db_path": "D:\\Claude\\family-assistant\\data\\coach.db",
+  "_comment_db": "Must be on a local fixed disk. NEVER inside a Drive, Dropbox or OneDrive folder - sync clients copy .db, -wal and -shm independently and corrupt WAL databases.",
+
+  "backup_staging_dir": "G:\\My Drive\\family-assistant-backups\\.staging",
+  "backup_dir": "G:\\My Drive\\family-assistant-backups",
+  "_comment_backup": "Staging MUST be on the same volume as backup_dir so the final step is an atomic rename, not a cross-volume copy a sync client can watch grow. Only encrypted archives enter these folders.",
+
+  "docs_mirror_dir": "G:\\My Drive\\family-assistant-docs",
+  "_comment_docs": "The nightly job copies docs/*.md here so any chat session can read current state without a manual export.",
+
+  "claude_cli": "claude",
+  "_comment_claude": "Resolved from PATH by default. Set an absolute path only if the S4U task cannot resolve it - see the Phase 0 discovery item on whether claude -p works under S4U at all.",
+
+  "timezone": "Asia/Yerevan"
+}
