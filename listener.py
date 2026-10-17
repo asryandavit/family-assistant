@@ -26,7 +26,7 @@ import requests
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 
-from lib import config, fmt, parse_cmd, sheets, tasks, telegram  # noqa: E402
+from lib import config, flights, fmt, parse_cmd, places, sheets, tasks, telegram  # noqa: E402
 
 SINGLETON_PORT = 48291
 POLL_TIMEOUT = 50
@@ -41,6 +41,8 @@ JOBS = {
                "ack": "\u23f3 Building digest\u2026 (2\u20136 min)"},
     "stays":  {"args": [os.path.join(ROOT, "jobs", "stays_scan.py")],
                "ack": "\u23f3 Searching stays\u2026 (2\u20134 min)"},
+    "flights": {"args": [os.path.join(ROOT, "jobs", "flights_search.py")],
+                "ack": "\u23f3 Searching flights\u2026 (1\u20133 min)"},
 }
 
 CITY_RE = re.compile(r"^[A-Za-z][A-Za-z .\-]{1,28}$")
@@ -68,7 +70,7 @@ def _safe_stays_args(cfg, text):
     if q.get("budget"):
         args.append("budget%d" % int(q["budget"]))
     label = ("\u23f3 Searching stays in <b>%s</b>\n%s \u2192 %s \u00b7 %dn%s"
-             % (telegram.esc(q["city"]), q["checkin"], q["checkout"], q["nights"],
+             % (telegram.esc(places.label(cfg, q["city"])), q["checkin"], q["checkout"], q["nights"],
                 " \u00b7 " + telegram.esc(", ".join(flags)) if flags else ""))
     return args, label
 
@@ -76,6 +78,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/scan \u2014 run the flight scan now\n"
         "/digest \u2014 scan + send the full digest\n"
         "/stays &lt;city&gt; &lt;dates&gt; [keywords] \u2014 search accommodation\n"
+        "/flights &lt;city&gt; &lt;window&gt; [nights] \u2014 search flights\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 buttons for everything\n"
         "/cancel \u2014 stop whatever is running\n"
@@ -271,6 +274,7 @@ def set_menu(tok):
     cmds = [{"command": "scan", "description": "Run the flight scan now"},
             {"command": "digest", "description": "Scan + full digest"},
             {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
+            {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
             {"command": "auto", "description": "Automation status and switches"},
             {"command": "menu", "description": "Buttons for everything"},
             {"command": "cancel", "description": "Stop the running job"},
@@ -285,6 +289,19 @@ def set_menu(tok):
 
 def handle_text(cfg, runner, text):
     cmd = text.strip().split()[0].lower().lstrip("/").split("@")[0] if text.strip() else ""
+    if cmd == "flights":
+        q = flights.parse_command(text, cfg)
+        if "error" in q:
+            return q["error"]
+        args = [q["dest"], "%s-%s" % (q["window_from"], q["window_to"])]
+        n1, n2 = q["nights"]
+        args.append("%d" % n1 if n1 == n2 else "%d-%d" % (n1, n2))
+        if not q["include_openjaw"]:
+            args.append("noopen")
+        return runner.launch("flights", args,
+                             ack="\u23f3 Searching flights to <b>%s</b>\n%s \u2192 %s"
+                                 % (telegram.esc(places.label(cfg, str(q["dest"]))),
+                                    q["window_from"], q["window_to"]))
     if cmd == "stays":
         args, msg = _safe_stays_args(cfg, text)
         if not args:
@@ -402,7 +419,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
 
     args = [city, "%s-%s" % (trip["out_date"], trip["back_date"])]
     label = ("\u23f3 Searching stays in <b>%s</b>\n%s \u2192 %s"
-             % (city, trip["out_date"], trip["back_date"]))
+             % (places.label(cfg, city), trip["out_date"], trip["back_date"]))
     return runner.launch("stays", args, ack=label)
 
 

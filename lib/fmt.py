@@ -1,6 +1,7 @@
 """Build the Telegram HTML messages. Layout only -- all numbers arrive computed."""
 from datetime import date
 
+from lib import places
 from lib.telegram import esc
 
 SYM = {"USD": "$", "EUR": "\u20ac", "AMD": "\u058f", "GBP": "\u00a3"}
@@ -27,9 +28,12 @@ def _sheet_link(cfg):
     return f'<a href="https://docs.google.com/spreadsheets/d/{sid}">\U0001f4ca Sheet</a>' if sid else ""
 
 
-def _trip_line(t):
+def _trip_line(cfg, t):
     cur = t["currency"]
-    route = esc(t["route"]) if t["kind"] == "return" else esc(t["out_city"]) + "\u21e2" + esc(t["in_city"])
+    if t["kind"] == "return":
+        route = esc(places.label(cfg, t["out_city"]))
+    else:
+        route = esc(places.label(cfg, t["out_city"])) + "\u21e2" + esc(places.label(cfg, t["in_city"]))
     wdc = f' <i>(WDC {_money(t["wdc"], cur)})</i>' if t["wdc"] not in ("", "-") else ""
     return (f'\u2022 <b>{route}</b> {_dm(t["out_date"])}\u2192{_dm(t["back_date"])} '
             f'\u00b7 {t["nights"]}n \u00b7 {esc(t["pax"])} \u2014 '
@@ -43,24 +47,24 @@ def build_alert(cfg, drops, new_routes, trip_new, trip_drops, insight=""):
            f'<i>{now.strftime("%d %b")}</i>', BAR]
 
     for d in drops:
-        city = d["d"] if d["o"] == home else d["o"]
+        code = d["d"] if d["o"] == home else d["o"]
         back = "" if d["o"] == home else " \u2190"  # inbound leg marker
         tag = " \U0001f53b <b>all-time low</b>" if d["atl"] else ""
-        out.append(f'\U0001f4c9 <b>{esc(city)}</b>{back} {_mon(d["month"])}  '
+        out.append(f'\U0001f4c9 <b>{esc(places.label(cfg, code))}</b>{back} {_mon(d["month"])}  '
                    f'${d["prev"]:g} \u2192 <b>${d["now"]:g}</b> ({d["pct"]:+g}%){tag}')
 
     for n in new_routes:
-        city = n["d"] if n["o"] == home else n["o"]
+        code = n["d"] if n["o"] == home else n["o"]
         back = "" if n["o"] == home else " \u2190"
-        out.append(f'\U0001f195 <b>{esc(city)}</b>{back} '
+        out.append(f'\U0001f195 <b>{esc(places.label(cfg, code))}</b>{back} '
                    f'from ${n["price"]:g} ({_mon(n["month"])})')
 
     if trip_new or trip_drops:
         out += ["", "\U0001f9e9 <b>Trips</b>"]
         for t in trip_drops:
-            out.append(_trip_line(t) + f'  \U0001f4c9 was ${t["prev_total"]:g}')
+            out.append(_trip_line(cfg, t) + f'  \U0001f4c9 was ${t["prev_total"]:g}')
         for t in trip_new:
-            out.append(_trip_line(t))
+            out.append(_trip_line(cfg, t))
 
     if insight:
         out += ["", f'\U0001f4a1 <i>{esc(insight)}</i>']
@@ -75,11 +79,11 @@ def build_digest(cfg, trips, cheapest_legs, insight=""):
            f'<i>{now.strftime("%d %b")}</i>', BAR]
     if trips:
         out.append("\U0001f9e9 <b>Best current trips</b>")
-        out += [_trip_line(t) for t in trips[:8]]
+        out += [_trip_line(cfg, t) for t in trips[:8]]
     if cheapest_legs:
         out += ["", "\U0001fab6 <b>Cheapest legs</b>"]
         for f in cheapest_legs[:8]:
-            arrow = f'{esc(f["origin"])}\u2192{esc(f["destination"])}'
+            arrow = f'{esc(places.label(cfg, f["origin"]))}\u2192{esc(places.label(cfg, f["destination"]))}'
             out.append(f'\u2022 {arrow} {_dm(f["out_date"])} \u2014 '
                        f'<b>{_money(f["regular"], f["currency"])}</b>')
     if insight:
@@ -148,22 +152,22 @@ def build_stays(cfg, q, city_name, ranked, links, blocked=None):
     return "\n".join(out)
 
 
-def stay_buttons(trips, limit=4):
+def stay_buttons(cfg, trips, limit=4):
     """A row of stay-search buttons per trip; open-jaw offers both cities.
 
-    callback_data must stay under Telegram's 64-byte cap, so it carries only
-    the trip id and city -- everything else is looked up from the Trips tab.
+    The button label shows the city name; callback_data still carries the bare
+    code (it must stay under Telegram's 64-byte cap and is looked up later).
     """
     rows = []
     for t in (trips or [])[:limit]:
         if t["kind"] == "openjaw":
             rows.append([
-                ("\U0001f3e8 %s" % t["out_city"], "st:%s:%s" % (t["id"], t["out_city"])),
-                ("\U0001f3e8 %s" % t["in_city"], "st:%s:%s" % (t["id"], t["in_city"])),
+                ("\U0001f3e8 %s" % places.city(cfg, t["out_city"]), "st:%s:%s" % (t["id"], t["out_city"])),
+                ("\U0001f3e8 %s" % places.city(cfg, t["in_city"]), "st:%s:%s" % (t["id"], t["in_city"])),
             ])
         else:
             rows.append([("\U0001f3e8 Stays in %s \u00b7 %s"
-                          % (t["route"], _dm(t["out_date"])),
+                          % (places.city(cfg, t["out_city"]), _dm(t["out_date"])),
                           "st:%s:%s" % (t["id"], t["out_city"]))])
     return rows
 

@@ -157,18 +157,5 @@ def search(cfg, site, city_name, q, verbose=True):
 
 def city_name_for(cfg, code):
     """IATA -> searchable city name, from areas.json then the Wizz station map."""
-    import json
-    if len(code) != 3 or not code.isalpha():
-        return code
-    try:
-        with open(os.path.join(cfg["_root"], "areas.json"), encoding="utf-8") as f:
-            a = json.load(f).get(code.upper())
-            if a and a.get("city"):
-                return a["city"]
-    except (OSError, ValueError):
-        pass
-    try:
-        from lib import stations
-        return stations.city_name(cfg, code, fallback=code)
-    except Exception:
-        return code
+    from lib import places
+    return places.city(cfg, code)

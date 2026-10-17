@@ -1,0 +1,34 @@
+{
+  "_doc": "Ground links between EVN-served airports, for open-jaw trips. Only pairs within 5 hours are listed; the days gate then decides whether a trip is long enough to justify the move. hours = realistic city-centre to city-centre time. cost_eur_pp = rough one-way ground fare per adult.",
+  "days_gate": [
+    {"max_hours": 2, "min_nights": 6},
+    {"max_hours": 4, "min_nights": 8},
+    {"max_hours": 5, "min_nights": 10}
+  ],
+  "min_nights_second_city": 3,
+  "links": [
+    {"a": "FCO", "b": "NAP", "hours": 1.2, "mode": "train", "cost_eur_pp": 25, "note": "Rome-Naples high speed"},
+    {"a": "BVA", "b": "CRL", "hours": 1.4, "mode": "train", "cost_eur_pp": 30, "note": "Paris-Brussels Thalys"},
+    {"a": "CRL", "b": "EIN", "hours": 2.0, "mode": "train", "cost_eur_pp": 30, "note": "Brussels-Eindhoven"},
+    {"a": "VCE", "b": "MXP", "hours": 2.4, "mode": "train", "cost_eur_pp": 30, "note": "Venice-Milan high speed"},
+    {"a": "EIN", "b": "DTM", "hours": 2.5, "mode": "train", "cost_eur_pp": 35, "note": "Eindhoven-Dortmund"},
+    {"a": "BUD", "b": "BTS", "hours": 2.5, "mode": "train", "cost_eur_pp": 20, "note": "Budapest-Bratislava"},
+    {"a": "CRL", "b": "DTM", "hours": 3.0, "mode": "train", "cost_eur_pp": 40, "note": "Brussels-Dortmund"},
+    {"a": "MXP", "b": "FCO", "hours": 3.0, "mode": "train", "cost_eur_pp": 45, "note": "Milan-Rome high speed"},
+    {"a": "NAP", "b": "BRI", "hours": 3.5, "mode": "train", "cost_eur_pp": 30, "note": "Naples-Bari"},
+    {"a": "BVA", "b": "EIN", "hours": 3.5, "mode": "train", "cost_eur_pp": 45, "note": "Paris-Eindhoven"},
+    {"a": "DTM", "b": "HAM", "hours": 3.5, "mode": "train", "cost_eur_pp": 45, "note": "Dortmund-Hamburg"},
+    {"a": "VCE", "b": "FCO", "hours": 3.8, "mode": "train", "cost_eur_pp": 45, "note": "Venice-Rome high speed"},
+    {"a": "FCO", "b": "BRI", "hours": 4.0, "mode": "train", "cost_eur_pp": 45, "note": "Rome-Bari"},
+    {"a": "BTS", "b": "PRG", "hours": 4.0, "mode": "train", "cost_eur_pp": 30, "note": "Bratislava-Prague"},
+    {"a": "MXP", "b": "NAP", "hours": 4.5, "mode": "train", "cost_eur_pp": 55, "note": "Milan-Naples high speed"},
+    {"a": "BVA", "b": "DTM", "hours": 5.0, "mode": "train", "cost_eur_pp": 55, "note": "Paris-Dortmund"},
+    {"a": "EIN", "b": "HAM", "hours": 5.0, "mode": "train", "cost_eur_pp": 55, "note": "Eindhoven-Hamburg"},
+    {"a": "VCE", "b": "NAP", "hours": 5.0, "mode": "train", "cost_eur_pp": 55, "note": "Venice-Naples high speed"}
+  ],
+  "_excluded_over_5h": {
+    "BUD-PRG": 6.75, "CRL-HAM": 6.5, "BVA-HAM": 7.5,
+    "PRG-FMM": 7.0, "FMM-BUD": 7.0, "VCE-BRI": 7.0
+  },
+  "_no_ground_neighbour": ["LCA", "RHO", "OTP", "LTN", "FMM"]
+}

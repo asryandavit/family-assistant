@@ -73,7 +73,7 @@ def main():
         if force_digest or not has_prior:
             note = "" if has_prior else "Baseline established - movement alerts start from the next run"
             telegram.send_html(cfg, fmt.build_digest(cfg, trips_today, fares, note),
-                               buttons=fmt.stay_buttons(trips_today))
+                               buttons=fmt.stay_buttons(cfg, trips_today))
             sheets.log_run(cfg, JOB, "ok", "digest sent (baseline)" if not has_prior else "digest sent (forced)")
         elif notable:
             payload = {"today": today, "drops": drops, "new_routes": new_routes,
@@ -83,12 +83,12 @@ def main():
             line = _insight(cfg, payload)
             telegram.send_html(cfg, fmt.build_alert(cfg, drops, new_routes,
                                                     trip_new, trip_drops, line),
-                               buttons=fmt.stay_buttons(trip_drops + trip_new))
+                               buttons=fmt.stay_buttons(cfg, trip_drops + trip_new))
             sheets.log_run(cfg, JOB, "ok", f"alert: {len(drops)}d/{len(new_routes)}n/"
                                            f"{len(trip_new)+len(trip_drops)}t")
         elif is_digest_day:
             telegram.send_html(cfg, fmt.build_digest(cfg, trips_today, fares),
-                               silent=True, buttons=fmt.stay_buttons(trips_today))
+                               silent=True, buttons=fmt.stay_buttons(cfg, trips_today))
             sheets.log_run(cfg, JOB, "ok", "digest sent")
         else:
             sheets.log_run(cfg, JOB, "ok", "quiet - no notable changes")

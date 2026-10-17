@@ -91,5 +91,13 @@
       "location": 0.25,
       "hard": 0.2
     }
+  },
+  "flights": {
+    "adults": 2,
+    "infants": 1,
+    "infant_fee_eur_per_leg": 32,
+    "default_nights": 7,
+    "headless": false,
+    "max_results": 6
   }
 }
