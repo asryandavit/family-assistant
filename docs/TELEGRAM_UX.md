@@ -98,6 +98,23 @@ Shops: 🟢 Parma · 🔴 Yerevan City.
 
 While a search runs the bot shows "typing…"; button taps answer with a short toast.
 
+### 5a. Who receives what (two people — decision 082)
+
+The bot answers two chats: Davit's (`TELEGRAM_CHAT_ID`) and Karine's (`TELEGRAM_CHAT_ID_2`),
+both Windows user environment variables, never in Git. Any other chat is ignored and logged.
+
+| Message | Goes to |
+|---|---|
+| Replies, Home and section navigation, Price check prompt | the chat that asked |
+| Results of `/price`, `/flights`, `/stays` (and Price check) | the chat that asked — the listener passes `TELEGRAM_REPLY_CHAT_ID` to the job |
+| Travel scan and digest, scheduled or via `/scan` / `/digest`; deal alerts | Davit only |
+| System and failure messages (`telegram.notify`) | Davit only |
+| **Family content** — daily plan (07:30), Sunday week plan, basket / shopping list | **both**, via `telegram.send_family()` |
+
+Each person gets the bottom keyboard on their own `/start`. No personal health data in
+any message (tracking is light by the owner's choice). New features follow this table:
+answers to a person go back to that person; family content uses `send_family()`.
+
 ## 6. Bot profile
 
 Set from `listener.set_menu()` at startup so it can't drift:

@@ -519,3 +519,14 @@ comparison built in 078 showed Yerevan City cheaper on every identical product c
 (5–18%) and usually cheapest per kg. The code never had a preference (rank and compare
 pick the cheapest); only the docs and plan wording change. Yerevan City is listed first as
 the usual winner; the basket picks per item from both.
+
+**082 — 2026-10-19 — Karine uses the bot: two allowed chats, replies to the asker.**
+The Phase 0 change scheduled in CLAUDE.md §1, done now because Karine wanted access:
+`lib/telegram.py` gained an optional per-message chat target (default unchanged),
+`allowed_chats()` (owner + `TELEGRAM_CHAT_ID_2`) and `send_family()`. The listener answers
+both chats; replies, Home navigation and the results of /price, /flights and /stays go to
+the chat that asked (the job gets `TELEGRAM_REPLY_CHAT_ID`). Travel scans, digests and
+deal alerts stay Davit's (COACH_SPEC §2; Davit confirmed), and system messages always go
+to the owner. Family content (daily plan, week plan, shopping list) goes to both through
+`send_family()`. Karine's chat id is a Windows user environment variable like the first —
+never in Git. Rules: docs/TELEGRAM_UX.md §5a.

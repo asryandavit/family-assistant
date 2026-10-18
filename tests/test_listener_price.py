@@ -11,8 +11,9 @@ class FakeRunner:
     def __init__(self):
         self.calls = []
 
-    def launch(self, name, extra_args=None, ack=None):
+    def launch(self, name, extra_args=None, ack=None, chat_id=None):
         self.calls.append((name, list(extra_args or []), ack))
+        self.chats = getattr(self, "chats", []) + [chat_id]
         return "launched " + name
 
     def cancel(self):

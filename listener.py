@@ -143,6 +143,20 @@ def log(msg):
         pass
 
 
+# Jobs whose result answers the person who asked (decision 082). Travel scans and
+# digests are the owner's alert stream and always go to the owner.
+REPLY_JOBS = {"flights", "stays", "price"}
+
+
+def job_env(name, chat_id, base=None):
+    """Environment for a launched job: carries the asker's chat for REPLY_JOBS."""
+    env = dict(os.environ if base is None else base)
+    env.pop(telegram.REPLY_CHAT_ENV, None)
+    if chat_id and name in REPLY_JOBS:
+        env[telegram.REPLY_CHAT_ENV] = str(chat_id)
+    return env
+
+
 class Runner:
     def __init__(self, cfg):
         self.cfg = cfg
@@ -152,7 +166,7 @@ class Runner:
         self.proc = None
         self.cancelled = False
 
-    def launch(self, name, extra_args=None, ack=None):
+    def launch(self, name, extra_args=None, ack=None, chat_id=None):
         job = dict(JOBS[name])
         if extra_args:
             job["args"] = job["args"] + list(extra_args)
@@ -161,14 +175,15 @@ class Runner:
                     f"(started {int(time.time() - self.started)}s ago). Queued nothing.")
         self.current, self.started = name, time.time()
         self.cancelled = False
-        threading.Thread(target=self._run, args=(name, job), daemon=True).start()
-        telegram.chat_action(self.cfg)          # "typing…" while it works
+        threading.Thread(target=self._run, args=(name, job, chat_id), daemon=True).start()
+        telegram.chat_action(self.cfg, chat_id=chat_id)   # "typing…" while it works
         return (ack or job["ack"]) + "\n<i>/cancel to stop</i>"
 
-    def _run(self, name, job):
+    def _run(self, name, job, chat_id=None):
         try:
             proc = subprocess.Popen([sys.executable, *job["args"]], cwd=ROOT,
-                                    creationflags=CREATE_NO_WINDOW)
+                                    creationflags=CREATE_NO_WINDOW,
+                                    env=job_env(name, chat_id))
             self.proc = proc
             rc = proc.wait(timeout=1800)
             log(f"job {name} finished rc={rc}")
@@ -325,13 +340,13 @@ def set_menu(tok):
             pass
 
 
-def handle_text(cfg, runner, text):
+def handle_text(cfg, runner, text, chat_id=None):
     t = (text or "").strip()
     if t == ui.KEY_HOME:
-        send_home(cfg, runner)
+        send_home(cfg, runner, chat_id)
         return None
     if t == ui.KEY_PRICE:
-        send_price_prompt(cfg)
+        send_price_prompt(cfg, chat_id)
         return None
     cmd = text.strip().split()[0].lower().lstrip("/").split("@")[0] if text.strip() else ""
     if cmd == "flights":
@@ -343,7 +358,7 @@ def handle_text(cfg, runner, text):
         args.append("%d" % n1 if n1 == n2 else "%d-%d" % (n1, n2))
         if not q["include_openjaw"]:
             args.append("noopen")
-        return runner.launch("flights", args,
+        return runner.launch("flights", args, chat_id=chat_id,
                              ack="\u23f3 Searching flights to <b>%s</b>\n%s \u2192 %s"
                                  % (telegram.esc(places.label(cfg, str(q["dest"]))),
                                     q["window_from"], q["window_to"]))
@@ -351,26 +366,28 @@ def handle_text(cfg, runner, text):
         args, msg = _safe_stays_args(cfg, text)
         if not args:
             return msg
-        return runner.launch("stays", args, ack=msg)
+        return runner.launch("stays", args, ack=msg, chat_id=chat_id)
     if cmd == "price":
         args, msg = _safe_price_args(text)
         if not args:
             return msg
-        return runner.launch("price", args, ack=msg)
+        return runner.launch("price", args, ack=msg, chat_id=chat_id)
     if cmd in JOBS:
-        return runner.launch(cmd)
+        return runner.launch(cmd, chat_id=chat_id)
     if cmd == "cancel":
         return runner.cancel()
     if cmd == "start":
-        telegram.send_html(cfg, WELCOME, silent=True, reply_keyboard=ui.BOTTOM_KEYBOARD)
-        send_home(cfg, runner)
+        telegram.send_html(cfg, WELCOME, silent=True, reply_keyboard=ui.BOTTOM_KEYBOARD,
+                           chat_id=chat_id)
+        send_home(cfg, runner, chat_id)
         return None
     if cmd == "menu":
-        send_home(cfg, runner)
+        send_home(cfg, runner, chat_id)
         return None
     if cmd == "auto":
         rows = tasks.summary()
-        telegram.send_html(cfg, fmt.auto_text(rows), buttons=fmt.auto_buttons(rows))
+        telegram.send_html(cfg, fmt.auto_text(rows), buttons=fmt.auto_buttons(rows),
+                           chat_id=chat_id)
         return None
     if cmd == "status":
         return status(cfg, runner)
@@ -416,11 +433,12 @@ def send_home(cfg, runner, chat_id=None, message_id=None):
     if chat_id and message_id:
         telegram.edit_html(cfg, chat_id, message_id, text, buttons)
     else:
-        telegram.send_html(cfg, text, silent=True, buttons=buttons)
+        telegram.send_html(cfg, text, silent=True, buttons=buttons, chat_id=chat_id)
 
 
-def send_price_prompt(cfg):
-    telegram.send_html(cfg, ui.PRICE_PROMPT, silent=True, force_reply=ui.PRICE_PLACEHOLDER)
+def send_price_prompt(cfg, chat_id=None):
+    telegram.send_html(cfg, ui.PRICE_PROMPT, silent=True, force_reply=ui.PRICE_PLACEHOLDER,
+                       chat_id=chat_id)
 
 
 def route_reply(text, reply_to_text):
@@ -450,7 +468,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
             send_home(cfg, runner, chat_id, message_id)
             return None
         if name == "price":
-            send_price_prompt(cfg)
+            send_price_prompt(cfg, chat_id)
             return None
         if name == "help":
             text, btns = HELP, [[ui.HOME_BACK]]
@@ -462,7 +480,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
         if chat_id and message_id:
             telegram.edit_html(cfg, chat_id, message_id, text, btns)
         else:
-            telegram.send_html(cfg, text, silent=True, buttons=btns)
+            telegram.send_html(cfg, text, silent=True, buttons=btns, chat_id=chat_id)
         return None
 
     if parts and parts[0] == "cmd" and len(parts) == 2:
@@ -473,10 +491,11 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
             return status(cfg, runner)
         if act == "auto":
             rows = tasks.summary()
-            telegram.send_html(cfg, fmt.auto_text(rows), buttons=fmt.auto_buttons(rows))
+            telegram.send_html(cfg, fmt.auto_text(rows), buttons=fmt.auto_buttons(rows),
+                               chat_id=chat_id)
             return None
         if act in JOBS:
-            return runner.launch(act)
+            return runner.launch(act, chat_id=chat_id)
         return "Unrecognised button."
 
     # sw:<task key>:<0 off | 1 on | r run now | v refresh>
@@ -491,7 +510,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
             # process is invisible here and could not be cancelled.
             job = {"travel": "scan", "training": "training", "meals": "meals"}.get(key)
             if job in JOBS:
-                note = runner.launch(job)
+                note = runner.launch(job, chat_id=chat_id)
             else:
                 ok, note = tasks.run_now(key)
             log("run now: %s" % key)
@@ -502,7 +521,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
         if chat_id and message_id:
             telegram.edit_html(cfg, chat_id, message_id, text, fmt.auto_buttons(rows))
         else:
-            telegram.send_html(cfg, text, buttons=fmt.auto_buttons(rows))
+            telegram.send_html(cfg, text, buttons=fmt.auto_buttons(rows), chat_id=chat_id)
         return None
 
     if len(parts) != 3 or parts[0] != "st":
@@ -524,7 +543,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
     args = [city, "%s-%s" % (trip["out_date"], trip["back_date"])]
     label = ("\u23f3 Searching stays in <b>%s</b>\n%s \u2192 %s"
              % (places.label(cfg, city), trip["out_date"], trip["back_date"]))
-    return runner.launch("stays", args, ack=label)
+    return runner.launch("stays", args, ack=label, chat_id=chat_id)
 
 
 def main():
@@ -539,7 +558,7 @@ def main():
 
     cfg = config.load()
     tok = os.environ.get(cfg["telegram"]["bot_token_env"])
-    allowed = str(os.environ.get(cfg["telegram"]["chat_id_env"]) or "")
+    allowed = set(telegram.allowed_chats(cfg))
     if not tok or not allowed:
         log("FATAL: TELEGRAM env vars not set")
         return
@@ -558,7 +577,7 @@ def main():
     except requests.RequestException:
         pass
 
-    log(f"listener online (dropped backlog, offset={offset})")
+    log(f"listener online (dropped backlog, offset={offset}, chats={len(allowed)})")
     try:
         sheets.log_run(cfg, "listener", "online", f"pid {os.getpid()}")
     except Exception:
@@ -580,7 +599,7 @@ def main():
                 cb = u.get("callback_query")
                 if cb:
                     chat_id = str(((cb.get("message") or {}).get("chat") or {}).get("id") or "")
-                    if chat_id != allowed:
+                    if chat_id not in allowed:
                         log("ignored callback from foreign chat %s" % chat_id)
                         continue
                     telegram.answer_callback(cfg, cb.get("id"))
@@ -589,7 +608,7 @@ def main():
                     reply = handle_callback(cfg, runner, cb.get("data"),
                                             chat_id, cmsg.get("message_id"))
                     if reply:
-                        telegram.send_html(cfg, reply, silent=True)
+                        telegram.send_html(cfg, reply, silent=True, chat_id=chat_id)
                     continue
 
                 msg = u.get("message") or {}
@@ -597,14 +616,14 @@ def main():
                 text = msg.get("text") or ""
                 if not text:
                     continue
-                if chat != allowed:
+                if chat not in allowed:
                     log(f"ignored message from foreign chat {chat}")
                     continue
                 text = route_reply(text, (msg.get("reply_to_message") or {}).get("text"))
                 log(f"cmd: {text[:60]}")
-                reply = handle_text(cfg, runner, text)
+                reply = handle_text(cfg, runner, text, chat)
                 if reply:
-                    telegram.send_html(cfg, reply, silent=True)
+                    telegram.send_html(cfg, reply, silent=True, chat_id=chat)
 
             if time.time() - last_hb > HEARTBEAT_SEC:
                 last_hb = time.time()
