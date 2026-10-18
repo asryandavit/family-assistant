@@ -497,3 +497,17 @@ the bot gains `/weight`-style logging, measurements move to local storage on the
 each Sheet's history is imported **once**, explicitly — a one-time migration, not the
 ongoing read-back that 032 rejects. A baseline lipid panel before the plan starts is
 recommended so the effect of the food changes can be measured.
+
+## Telegram UX
+
+**080 — 2026-10-18 — One home screen, a two-key bottom keyboard, folded messages; docs/TELEGRAM_UX.md.**
+The bot grew one feature at a time (travel, /flights, /price; daily plan and basket
+next), leaving a travel-only menu and a dozen commands to remember. Replaced by: a Home
+message edited in place with six sections (Today · Meals · Training · Shopping · Travel ·
+System), a persistent bottom keyboard with only Home and Price check, long content
+folded into expandable blockquotes, one message template, and a sound policy (alerts and
+failures notify; routine messages are silent). This supersedes the six-button layout in
+COACH_SPEC §11 (Training · Meals · Weight · Baby · Status · Settings), which predates
+travel, shopping and the plan — Weight and Baby will live inside sections when built.
+Navigation uses a new `ui:` prefix; existing prefixes stay, so buttons in old messages
+keep working. All features used are free Bot API features, verified on this bot first.

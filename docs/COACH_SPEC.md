@@ -428,6 +428,10 @@ scheduled pushes, no adherence prompts, and no plateau or streak detection.
 
 ## 11. Telegram UX
 
+> **Superseded in part (decision 080, 2026-10-18):** the menu structure, message template,
+> button conventions and sound policy now live in `docs/TELEGRAM_UX.md`. The routing
+> precedence, staleness and conversation rules below still apply.
+
 Timezone Asia/Yerevan. Allowlist of exactly two Telegram user IDs, default deny.
 
 **Menu-first.** Six top-level buttons — Training · Meals · Weight · Baby · Status ·
