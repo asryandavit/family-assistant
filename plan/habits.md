@@ -44,12 +44,13 @@ and tick it. Keeping the chain alive matters more than the dose.
 
 When one partner becomes more active, the other is far more likely to follow — the
 strongest predictor in couples studies. Use it: shared calendar, family movement time at
-18:15, Saturday weigh-in together, cheer each other's ticks.
+18:15, cheer each other's ticks.
 
 ## 6. Track lightly
 
-Weekly, not hourly: weight + waist on Saturday, sessions ticked, average steps, one line
-on how the week felt → [tracking.md](tracking.md). That's enough data to steer.
+No pressure, no schedule. Step on the scale when you feel like it and note the number
+if you want to see a trend ([tracking.md](tracking.md)). How your clothes fit and how
+much energy you have count just as much.
 
 ## 7. Sleep is part of the plan
 
@@ -58,7 +59,7 @@ wind-down and the 16:00 coffee cut-off exist for this.
 
 ## 8. The Sunday 10-minute review (both, 21:00)
 
-1. Look at the week's ticks and the Saturday numbers.
+1. Look back at the week: what was easy, what was hard.
 2. One thing that worked → keep. One thing that didn't → change one thing in the plan
    files (or ask Claude to).
 3. Pick next week's Scoolinary slot and confirm the shopping list.

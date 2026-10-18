@@ -42,7 +42,7 @@ Why these times:
 
 | When | What |
 |---|---|
-| **Saturday 08:30** | Weigh-in (both, before breakfast, after the toilet) + waist — see [tracking.md](tracking.md) |
+| **Saturday 08:30** | Optional weigh-in if you feel like it (before breakfast) — see [tracking.md](tracking.md) |
 | **Saturday morning** | Davit takes the son out (playground, long walk) → Karine's free block for her Scoolinary lesson or rest |
 | **Saturday afternoon** | Davit's **Scoolinary project** (pizza, croissants, chocolate, beer brewing — planned treat) · conditioning session from week 5 |
 | **Sunday 10:00–11:30** | **Batch cooking** (Karine) — Davit and son out at the playground/stairs = Davit's activity + quiet kitchen |

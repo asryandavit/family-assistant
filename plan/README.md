@@ -21,7 +21,7 @@ are for their doctors and physio; this plan is everyday food and movement around
 | Dish list | [meals/dishes.md](meals/dishes.md) |
 | What to buy | [meals/shopping.md](meals/shopping.md) |
 | How to keep it going | [habits.md](habits.md) |
-| What to track, where (private Sheets), how it changes the plan | [tracking.md](tracking.md) |
+| Tracking (light, optional) | [tracking.md](tracking.md) |
 | Why these numbers | [sources.md](sources.md) |
 
 ## The idea in one paragraph
@@ -31,8 +31,8 @@ from a small rotation of Mediterranean-leaning Armenian dishes, batch-cooked twi
 so Karine gets her time back. Davit breaks up sitting every 30 minutes and trains 3× a
 week at 18:15; Karine trains 3× a week during the son's nap, starting from postpartum-safe
 foundations; the son plays 3 hours a day and joins the family movement time. Portions,
-not calories. Everyone starts easy and levels up by how their body handles it. Saturday
-weigh-in, Sunday 10-minute review, Saturday Scoolinary project as the planned treat.
+not calories. Everyone starts easy and levels up by how their body handles it. Light
+tracking, Sunday 10-minute review, Saturday Scoolinary project as the planned treat.
 
 **Phone copy:** Google Drive → Family Coach → [Family plan](https://drive.google.com/drive/folders/1Qh-oM9ryLDluAf604TGJ8CJp2AXQ14ke) — read-only Google Docs mirroring these files. This GitHub folder stays the master copy.
 
@@ -50,7 +50,7 @@ weigh-in, Sunday 10-minute review, Saturday Scoolinary project as the planned tr
 
 | Stage | What | Status |
 |---|---|---|
-| **A — Manual** | These files; you follow them by hand for 2–4 weeks, log in `tracking.md` | **now** |
+| **A — Manual** | These files; you follow them by hand | **now** |
 | **B — Reminders** | The Telegram bot reads these files: morning brief, desk-break nudges, Sunday plan + priced Parma list | after A proves the routine |
 | **C — Full coach** | The `docs/COACH_SPEC.md` design (logging, progression engine, plateau rules), seeded from these libraries | later, if wanted |
 
@@ -61,4 +61,3 @@ reads these files instead of starting over.
 
 - Karine: health notes, injuries, likes/dislikes → `family/karine.md`.
 - First Scoolinary project (pizza?) → `meals/week-01.md` Saturday.
-- Baseline numbers (week 0) and a baseline blood test → your private progress Sheet (see `tracking.md`).

@@ -118,8 +118,7 @@ Shared family meals: [../meals/](../meals/). Davit's own adjustments:
 
 ## 5. Checkpoints
 
-- **Weekly:** Saturday weigh-in + waist, sessions done, average steps → [../tracking.md](../tracking.md).
-- **Week 4, 8, 12:** retest — max reps of current push-up level, sit-to-stand in 30 s,
-  plank time, resting pulse in the morning. Write them in the tracking log.
-- **Doctor:** share the plan at the next visit; re-check cholesterol after ~3 months of
-  changes.
+Light and optional — see [../tracking.md](../tracking.md):
+- Weigh yourself when you feel like it; jot it in your progress Sheet if you want a trend.
+- If a blood test happens anyway, note the cholesterol numbers there too.
+- Mention the plan to your doctor at the next normal visit.

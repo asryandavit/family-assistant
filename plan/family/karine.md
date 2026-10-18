@@ -106,6 +106,6 @@ Shared family meals: [../meals/](../meals/). Karine's own notes:
 
 ## Checkpoints
 
-- **Weekly:** Saturday weigh-in (+ waist if you want), sessions done → [../tracking.md](../tracking.md).
-- **Week 4, 8, 12:** retest — wall/counter push-ups max reps, sit-to-stand in 30 s,
-  incline plank time, and how the self-check feels.
+Light and optional — see [../tracking.md](../tracking.md): weigh in when you feel like
+it and jot it in your own progress Sheet if you want a trend. Keep watching the
+postpartum self-check for yourself.
