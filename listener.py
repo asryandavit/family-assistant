@@ -43,9 +43,13 @@ JOBS = {
                "ack": "\u23f3 Searching stays\u2026 (2\u20134 min)"},
     "flights": {"args": [os.path.join(ROOT, "jobs", "flights_search.py")],
                 "ack": "\u23f3 Searching flights\u2026 (1\u20133 min)"},
+    "price":  {"args": [os.path.join(ROOT, "jobs", "grocery_search.py"), "--send"],
+               "ack": "\u23f3 Checking prices\u2026 (10\u201320 s)"},
 }
 
 CITY_RE = re.compile(r"^[A-Za-z][A-Za-z .\-]{1,28}$")
+PRICE_RE = re.compile(r"^[\w][\w\s%.,'\"&+\-]{1,39}$")
+PRICE_SHOPS = {"parma": "parma", "yc": "yc", "yerevancity": "yc"}
 
 
 def _safe_stays_args(cfg, text):
@@ -74,11 +78,40 @@ def _safe_stays_args(cfg, text):
                 " \u00b7 " + telegram.esc(", ".join(flags)) if flags else ""))
     return args, label
 
+
+def _safe_price_args(text):
+    """Validate /price <product> [parma|yc] [match], then REBUILD the arguments.
+
+    Only words matching PRICE_RE reach the subprocess, after a "--" so nothing
+    the user types can be read as a command-line option.
+    """
+    words = text.strip().split()[1:]
+    shop, sort = None, "cheap"
+    while words and (words[-1].lower() in PRICE_SHOPS or words[-1].lower() == "match"):
+        w = words.pop().lower()
+        if w == "match":
+            sort = "match"
+        else:
+            shop = PRICE_SHOPS[w]
+    query = " ".join(words).strip().lstrip("-").strip()
+    if not query:
+        return None, ("Which product? For example:\n<code>/price lentils</code>\n"
+                      "<code>/price olive oil parma</code>\n<code>/price chicken breast</code>")
+    if not PRICE_RE.match(query):
+        return None, "Keep it to a product name, up to 40 letters \u2014 e.g. <code>/price oats</code>."
+    args = ["--sort", sort]
+    if shop:
+        args += ["--shop", shop]
+    args += ["--"] + query.split()
+    where = {"parma": "Parma", "yc": "Yerevan City"}.get(shop, "Parma + Yerevan City")
+    return args, "\u23f3 Checking prices for <b>%s</b> at %s\u2026" % (telegram.esc(query), where)
+
 HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/scan \u2014 run the flight scan now\n"
         "/digest \u2014 scan + send the full digest\n"
         "/stays &lt;city&gt; &lt;dates&gt; [keywords] \u2014 search accommodation\n"
         "/flights &lt;city&gt; &lt;window&gt; [nights] \u2014 search flights\n"
+        "/price &lt;product&gt; [parma|yc] \u2014 grocery prices + links\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 buttons for everything\n"
         "/cancel \u2014 stop whatever is running\n"
@@ -275,6 +308,7 @@ def set_menu(tok):
             {"command": "digest", "description": "Scan + full digest"},
             {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
             {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
+            {"command": "price", "description": "Grocery prices: /price lentils"},
             {"command": "auto", "description": "Automation status and switches"},
             {"command": "menu", "description": "Buttons for everything"},
             {"command": "cancel", "description": "Stop the running job"},
@@ -307,6 +341,11 @@ def handle_text(cfg, runner, text):
         if not args:
             return msg
         return runner.launch("stays", args, ack=msg)
+    if cmd == "price":
+        args, msg = _safe_price_args(text)
+        if not args:
+            return msg
+        return runner.launch("price", args, ack=msg)
     if cmd in JOBS:
         return runner.launch(cmd)
     if cmd == "cancel":
@@ -337,7 +376,9 @@ def _trip_lookup(cfg, trip_id):
 MENU_TEXT = ("\U0001f9ed <b>Menu</b>\n"
              "<i>Tap a button, or type a command directly.</i>\n\n"
              "Stays need a city and dates, so type those:\n"
-             "<code>/stays LCA 04-11.11 sea center</code>")
+             "<code>/stays LCA 04-11.11 sea center</code>\n\n"
+             "Grocery prices (Parma + Yerevan City):\n"
+             "<code>/price lentils</code> · <code>/price olive oil parma</code>")
 
 
 def menu_buttons():
