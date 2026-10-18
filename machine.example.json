@@ -14,8 +14,5 @@
   "docs_mirror_dir": "G:\\My Drive\\family-assistant-docs",
   "_comment_docs": "The nightly job copies docs/*.md here so any chat session can read current state without a manual export.",
 
-  "claude_cli": "claude",
-  "_comment_claude": "Resolved from PATH by default. Set an absolute path only if the S4U task cannot resolve it - see the Phase 0 discovery item on whether claude -p works under S4U at all.",
-
   "timezone": "Asia/Yerevan"
 }

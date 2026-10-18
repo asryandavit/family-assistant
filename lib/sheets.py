@@ -34,8 +34,6 @@ HEADERS = {
               "name", "rating", "price_night", "true_nightly", "price_total",
               "currency", "loc_score", "loc_why", "score", "url"],
     "Runs": ["timestamp", "job", "status", "note"],
-    "Training": ["date", "session", "exercise", "sets_reps", "notes"],
-    "Meals": ["date", "meal", "dish", "ingredients", "notes"],
 }
 
 _cache = {}

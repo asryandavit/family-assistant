@@ -43,9 +43,9 @@ REQUIRED = {
     "prompts": ["travel_analysis.md"],
 }
 OPTIONAL = {
-    "": ["README.md", "stations.json", "ARCHITECTURE.md"],
-    "jobs": ["training.py", "meals.py"],
-    "prompts": ["training.md", "meals.md", "ondemand_deepdive.md"],
+    "": ["README.md", "stations.json"],
+    "docs": ["ARCHITECTURE.md"],
+    "prompts": ["ondemand_deepdive.md"],
     "scheduler": ["register-listener.ps1", "register-tasks.ps1"],
 }
 
@@ -213,9 +213,7 @@ def check_tasks():
         line(WARN, "task scheduler", "not Windows, skipped")
         return
     for name, required in (("FamilyAssistant-Travel", True),
-                           ("FamilyAssistant-Listener", True),
-                           ("FamilyAssistant-Training", False),
-                           ("FamilyAssistant-Meals", False)):
+                           ("FamilyAssistant-Listener", True)):
         rc, out, _ = run(["schtasks", "/query", "/tn", name, "/fo", "LIST"])
         if rc == 0:
             status = ""

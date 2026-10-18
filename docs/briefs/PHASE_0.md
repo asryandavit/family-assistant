@@ -105,6 +105,15 @@ so move them to `tests/probes/` if you want them tracked. Prefer tracked.)
 
 ## Step 2 — Reconcile the stale skeleton
 
+> **Status: done 2026-10-18**, ahead of the rest of Phase 0 (commit "phase0: remove stale
+> training/meals skeleton, align selfcheck"). Also removed the two placeholder entries
+> from `scheduler/register-tasks.ps1`, which this step originally missed — re-running
+> that script would have registered the stale jobs. **Left for Step 7 (listener work):**
+> `lib/tasks.py` `TASKS`/`summary()` and `listener.py` (`/cancel` sweep, `sw:` run-now
+> map) still name `training`/`meals`; harmless (nothing launches them, `/auto` shows them
+> as "not registered" without buttons) and replaced by the `FamilyAssistant-Coach-*`
+> tasks there.
+
 `selfcheck.py` currently reports four files as "optional, present" that predate this
 architecture and conflict with it. Left in place, a future session will assume they are
 the target of coach work.

@@ -1,4 +1,4 @@
-# Registers three daily tasks in Windows Task Scheduler.
+# Registers the daily travel scan in Windows Task Scheduler.
 # Run in an ELEVATED PowerShell (Run as administrator).
 # Edit $Repo and $Python to match your machine, then run:  .\register-tasks.ps1
 
@@ -8,8 +8,6 @@ $Python = "C:\Users\YOU\AppData\Local\Programs\Python\Python312\python.exe"
 # job name -> "HH:mm" start time (staggered so they don't overlap)
 $Jobs = @{
   "FamilyAssistant-Travel"   = @{ Script = "jobs\travel_scan.py"; Time = "08:00" }
-  "FamilyAssistant-Training" = @{ Script = "jobs\training.py";    Time = "06:30" }
-  "FamilyAssistant-Meals"    = @{ Script = "jobs\meals.py";       Time = "07:00" }
 }
 
 foreach ($name in $Jobs.Keys) {
