@@ -511,3 +511,11 @@ COACH_SPEC §11 (Training · Meals · Weight · Baby · Status · Settings), whi
 travel, shopping and the plan — Weight and Baby will live inside sections when built.
 Navigation uses a new `ui:` prefix; existing prefixes stay, so buttons in old messages
 keep working. All features used are free Bot API features, verified on this bot first.
+
+**081 — 2026-10-18 — No "primary" shop: both are compared, cheapest wins.**
+Corrects the wording of 074, which called Parma primary on day one — a readability
+choice (English site, per-kg prices) made before any prices were compared. The
+comparison built in 078 showed Yerevan City cheaper on every identical product checked
+(5–18%) and usually cheapest per kg. The code never had a preference (rank and compare
+pick the cheapest); only the docs and plan wording change. Yerevan City is listed first as
+the usual winner; the basket picks per item from both.

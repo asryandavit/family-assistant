@@ -1,14 +1,16 @@
 # Shopping
 
 **Budget:** 80,000–100,000 AMD per month for groceries.
-**Where:** [Parma](https://parma.am/en/) is the primary shop — English site, prices per
-kg/litre, categories incl. Gluten free, Diabetic, Baby food, Organic.
-[Yerevan City](https://yerevan-city.am/shop/home) is secondary — Armenian site, has a
-"sugar-free, gluten-free and lactose-free" collection and a kids collection. Both
-deliver; you place the order.
+**Where:** both shops are always compared and the cheapest wins — neither is "primary"
+(decision 081). Both deliver; you place the order.
+- [Yerevan City](https://yerevan-city.am/shop/home) — **usually cheaper**: on 18 Oct 2026
+  it was 5–18% cheaper on every identical product we compared, and often cheapest per kg.
+  Has a "sugar-free, gluten-free and lactose-free" collection and a kids collection.
+- [Parma](https://parma.am/en/) — English site with prices per kg/litre; categories incl.
+  Gluten free, Diabetic, Baby food, Organic. Worth checking for discounts.
 
-Estimates below are rough. The exact Parma-priced cart is built per week once the menu
-is confirmed (prices change, so they are looked up fresh, not stored here).
+Estimates below are rough. The exact cart is priced per week from both shops (prices
+change, so they are looked up fresh, not stored here).
 
 **Check a price any time:** in Telegram send `/price lentils` (or `/price olive oil parma`,
 `/price chicken breast yc`). You get matching products from both shops, cheapest per kg/l
