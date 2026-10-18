@@ -3,9 +3,8 @@
 One shared timeline for the three of you, so nobody has to decide "when" every day.
 Times are **anchors, not rules** — change them here and every plan follows.
 
-**Assumptions to check and edit:** Davit works from home about 09:00–18:00; the son
-naps once after lunch; his bedtime is 20:30. If Davit works in an office, move his
-lunch walk and desk breaks to the office and keep everything else.
+**Confirmed 18 Oct 2026:** Davit works from home about 09:00–18:00; the son naps once
+after lunch; his bedtime is 20:30. If any of this changes, edit the times below.
 
 ## Weekday
 

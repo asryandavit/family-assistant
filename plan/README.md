@@ -34,6 +34,8 @@ foundations; the son plays 3 hours a day and joins the family movement time. Por
 not calories. Everyone starts easy and levels up by how their body handles it. Saturday
 weigh-in, Sunday 10-minute review, Saturday Scoolinary project as the planned treat.
 
+**Phone copy:** Google Drive → Family Coach → [Family plan](https://drive.google.com/drive/folders/1Qh-oM9ryLDluAf604TGJ8CJp2AXQ14ke) — read-only Google Docs mirroring these files. This GitHub folder stays the master copy.
+
 ## How to change things
 
 - **Small edits:** open the file on GitHub (phone or laptop) → pencil icon → edit → commit.
@@ -57,8 +59,6 @@ reads these files instead of starting over.
 
 ## Still open (fill in when you can)
 
-- Davit's real work hours and whether he works from home → adjust `daily-rhythm.md`.
-- The son's real nap and bedtime → adjust `daily-rhythm.md`.
 - Karine: health notes, injuries, likes/dislikes → `family/karine.md`.
 - First Scoolinary project (pizza?) → `meals/week-01.md` Saturday.
 - Baseline numbers (week 0) → `tracking.md`.
