@@ -7,6 +7,7 @@ notify() stays plain-text for errors/system lines (backward compatible).
 import html
 import json
 import os
+import re
 
 import requests
 
@@ -32,22 +33,57 @@ def _post(tok, payload):
 
 
 def _split(text):
+    """Split at line breaks under LIMIT. A folded <blockquote> that straddles a
+    split is closed at the end of one chunk and reopened at the start of the
+    next, so each chunk stays valid HTML (Telegram rejects unbalanced tags)."""
     if len(text) <= LIMIT:
         return [text]
-    parts, cur = [], ""
+    parts, cur, open_tag = [], "", None
     for line in text.split("\n"):
-        if len(cur) + len(line) + 1 > LIMIT:
+        if cur and len(cur) + len(line) + 1 > LIMIT - 40:   # room for a closing tag
+            if open_tag:
+                cur += "</blockquote>"
             parts.append(cur)
-            cur = line
+            cur = (open_tag + line) if open_tag else line
         else:
             cur = f"{cur}\n{line}" if cur else line
+        for tag in re.findall(r"<blockquote[^>]*>|</blockquote>", line):
+            open_tag = None if tag == "</blockquote>" else tag
     if cur:
         parts.append(cur)
     return parts
 
 
-def send_html(cfg, text, silent=False, buttons=None):
-    """buttons: list of rows, each a list of (label, callback_data) pairs."""
+def _button(label, data):
+    """Inline button: a URL opens a link, anything else is callback_data."""
+    if str(data).startswith(("https://", "http://")):
+        return {"text": label, "url": data}
+    return {"text": label, "callback_data": data}
+
+
+def reply_markup(buttons=None, reply_keyboard=None, force_reply=None):
+    """reply_markup JSON for a message, or None.
+
+    buttons:        inline rows [(label, callback_data_or_url), ...]
+    reply_keyboard: persistent bottom keyboard rows [label, ...]
+    force_reply:    placeholder text; opens a reply prompt for the next message
+    A message carries one kind; inline buttons win, then keyboard, then prompt.
+    """
+    if buttons:
+        return json.dumps({"inline_keyboard": [[_button(lab, data) for lab, data in row]
+                                               for row in buttons]})
+    if reply_keyboard:
+        return json.dumps({"keyboard": [[{"text": lab} for lab in row] for row in reply_keyboard],
+                           "is_persistent": True, "resize_keyboard": True})
+    if force_reply is not None:
+        return json.dumps({"force_reply": True, "input_field_placeholder": str(force_reply)[:64]})
+    return None
+
+
+def send_html(cfg, text, silent=False, buttons=None, reply_keyboard=None, force_reply=None):
+    """buttons: list of rows, each a list of (label, callback_data) pairs; a
+    https:// value makes a link button. reply_keyboard / force_reply: see
+    reply_markup()."""
     tok, chat = _creds(cfg)
     if not tok or not chat:
         print("Telegram env not set; skipping:", text[:80])
@@ -58,11 +94,23 @@ def send_html(cfg, text, silent=False, buttons=None):
                    "disable_web_page_preview": True,
                    "disable_notification": silent}
         # keyboard rides on the final chunk so it sits under the whole message
-        if buttons and i == len(chunks) - 1:
-            payload["reply_markup"] = json.dumps({"inline_keyboard": [
-                [{"text": lab, "callback_data": data} for lab, data in row]
-                for row in buttons]})
+        if i == len(chunks) - 1:
+            markup = reply_markup(buttons, reply_keyboard, force_reply)
+            if markup:
+                payload["reply_markup"] = markup
         _post(tok, payload)
+
+
+def chat_action(cfg, action="typing"):
+    """Show "typing…" (lasts ~5 s or until the next message)."""
+    tok, chat = _creds(cfg)
+    if not tok or not chat:
+        return
+    try:
+        requests.post("https://api.telegram.org/bot%s/sendChatAction" % tok,
+                      data={"chat_id": chat, "action": action}, timeout=10)
+    except requests.RequestException:
+        pass
 
 
 def answer_callback(cfg, callback_id, text=""):
@@ -90,9 +138,8 @@ def notify(cfg, text):
 
 
 def _markup(buttons):
-    return json.dumps({"inline_keyboard": [
-        [{"text": lab, "callback_data": data} for lab, data in row]
-        for row in buttons]})
+    return json.dumps({"inline_keyboard": [[_button(lab, data) for lab, data in row]
+                                           for row in buttons]})
 
 
 def edit_markup(cfg, chat_id, message_id, buttons):

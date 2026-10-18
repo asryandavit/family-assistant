@@ -1,0 +1,18 @@
+{
+  "_doc": "Coach-side configuration (CLAUDE.md §6: never in config.json). plan_links = the read-only Google Docs mirror of plan/ (Drive > Family Coach > Family plan). Re-syncing the mirror creates new docs, so update these ids when that happens.",
+  "plan_links": {
+    "folder":    "https://drive.google.com/drive/folders/1Qh-oM9ryLDluAf604TGJ8CJp2AXQ14ke",
+    "start":     "https://docs.google.com/document/d/1MMpvOGSAi6QkMUJFExKL5CsljgB-QJp69ilzplvDrJY/edit",
+    "rhythm":    "https://docs.google.com/document/d/1B_TtspX3QPvaEj419kp0h-ea4uJZApyqRcc9rf7sy1s/edit",
+    "davit":     "https://docs.google.com/document/d/1siiiqJJFF7jEuyN8e5g4_DFWvGVRDsK-y0AE0XCumfw/edit",
+    "karine":    "https://docs.google.com/document/d/1RMI7xF-QN0uezpluaVTIGPfgTT82GE_0p-6_EMaRfCQ/edit",
+    "son":       "https://docs.google.com/document/d/1QsfvMlzzR0HA2AFv-UmzXT6p0jc9EVZUa3bXbHXP8Ck/edit",
+    "food":      "https://docs.google.com/document/d/1pIDUwFH0rTABuTsZlOduVMzueG_kS63tmHX0L2icG3k/edit",
+    "week":      "https://docs.google.com/document/d/1cKUrjXbBK944nyCZxvDOUpoPTZ3EzhCAvU5dIKTxrMA/edit",
+    "dishes":    "https://docs.google.com/document/d/1Ufc-y-QexBKUnAxxq4j8KQCVDmdYx_VWGcmOevZjt4k/edit",
+    "shopping":  "https://docs.google.com/document/d/1ljayBXomAz09tmFAloRkmGWjV0IFuUkUFbf55tj-mk0/edit",
+    "exercises": "https://docs.google.com/document/d/1ZvEI75rzS28THAUzXyY9HnaJUMOlVtgqHAK7zS-nSiM/edit",
+    "safety":    "https://docs.google.com/document/d/1sYjxKOibTyPLk51CexbCEj0cgVzltYP2N3Qfjlpf9Cc/edit",
+    "habits":    "https://docs.google.com/document/d/1L_H_iG7i9aS8gVkR99BWBfrAKI6-bBKh3KDX-f0dw2c/edit"
+  }
+}
