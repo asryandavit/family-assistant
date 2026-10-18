@@ -10,8 +10,9 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
-from lib.fmt import BAR
 from lib.telegram import esc
+
+BAR = "━" * 12      # same divider as lib.fmt.BAR (kept separate: fmt imports ui)
 
 # Armenia has had no daylight saving since 2012, so a fixed offset is exact and
 # needs no tz database (this Windows Python has none).

@@ -5,8 +5,8 @@ depends on is touched. Shared helpers are imported from fmt.
 """
 from datetime import date
 
-from lib import places
-from lib.fmt import BAR, _dm, _sheet_link
+from lib import places, ui
+from lib.fmt import _dm, _sheet_link
 from lib.telegram import esc
 
 BOOK = ("https://www.wizzair.com/en-gb/booking/select-flight"
@@ -49,23 +49,26 @@ def _line(cfg, n, o):
     return "\n".join(out)
 
 
+SHOWN = 3   # options visible before the fold (docs/TELEGRAM_UX.md)
+
+
 def build(cfg, q, city_name, options, limit=6, note=""):
     n_min, n_max = q["nights"]
     nights = "%d" % n_min if n_min == n_max else "%d\u2013%d" % (n_min, n_max)
-    head = ("\u2708\ufe0f <b>FLIGHTS \u00b7 %s</b>\n"
-            "<i>%s\u2013%s \u00b7 %s nights \u00b7 2 adults + infant</i>"
-            % (esc(city_name), _dm(q["window_from"]), _dm(q["window_to"]), nights))
-    out = [head, BAR]
+    head = ui.header("\u2708\ufe0f", "Flights", city_name,
+                     "%s\u2013%s \u00b7 %s nights \u00b7 2 adults + infant"
+                     % (_dm(q["window_from"]), _dm(q["window_to"]), nights))
+    body = []
     if not options:
-        out.append("No combination fits that window.")
-        out.append("<i>Wizz flies most routes 2\u20133 times a week, so a short "
-                   "window often has no valid pair. Try a wider one.</i>")
-    for i, o in enumerate(options[:limit], 1):
-        out.append(_line(cfg, i, o))
-    if len(options) > limit:
-        out.append("<i>\u2026and %d more</i>" % (len(options) - limit))
+        body += ["No combination fits that window.",
+                 "<i>Wizz flies most routes 2\u20133 times a week, so a short "
+                 "window often has no valid pair. Try a wider one.</i>"]
+    body += [_line(cfg, i, o) for i, o in enumerate(options[:SHOWN], 1)]
     if note:
-        out.append("\n<i>%s</i>" % esc(note))
-    out += [BAR, "<i>Totals are seats + infant fee. Bags extra.</i>",
-            _sheet_link(cfg)]
-    return "\n".join(out)
+        body.append("<i>%s</i>" % esc(note))
+    rest = [_line(cfg, i, o) for i, o in enumerate(options[SHOWN:limit], SHOWN + 1)]
+    if len(options) > limit:
+        rest.append("<i>\u2026and %d more in the sheet</i>" % (len(options) - limit))
+    folded = ui.fold(rest, "%d more options" % len(options[SHOWN:limit]) if rest else None)
+    footer = "<i>Totals are seats + infant fee. Bags extra.</i> " + _sheet_link(cfg)
+    return ui.page(head, body, folded, footer)

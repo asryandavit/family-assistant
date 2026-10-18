@@ -1,11 +1,20 @@
-"""Telegram message for /price. Layout only -- every number arrives computed
-by lib.parse_grocery."""
-from lib.fmt import BAR
+"""Telegram message for /price, in the docs/TELEGRAM_UX.md template.
+Layout only -- every number arrives computed by lib.parse_grocery.
+
+    🛒 lentils · ոսպ                     header (+ what was searched)
+    cheapest per kg/l first · both shops  subtitle
+    ━━━━━━━━━━━━
+    ⚖️ verdict: cheapest per kg at each shop, which is cheaper
+    top 3 products
+    ▸ folded: the rest + the same product at both shops
+"""
+from lib import ui
 from lib.parse_grocery import amd
 from lib.telegram import esc
 
 SHOP_NAMES = {"parma": "Parma", "yc": "Yerevan City"}
 SHOP_DOT = {"parma": "\U0001f7e2", "yc": "\U0001f534"}   # green / red circle
+SHOWN = 3   # products visible before the fold
 
 
 def money(v):
@@ -35,69 +44,86 @@ def _line(n, i):
     return head + "\n   " + " · ".join(bits)
 
 
-def compare_block(cmp, pairs, pair_limit=4):
-    """⚖️ best price per shop + 🔁 same product at both shops. [] if neither."""
-    out = []
-    if cmp:
-        unit = cmp["unit"]
-        out.append("⚖️ <b>Compare</b> <i>(cheapest per %s at each shop)</i>" % unit)
-        for shop in ("parma", "yc"):
-            i = cmp["best"].get(shop)
-            if i:
-                out.append('%s %s: <b>%s/%s</b> — <a href="%s">%s</a>'
-                           % (SHOP_DOT[shop], SHOP_NAMES[shop], money(i["unit_price"]), unit,
-                              i["url"], esc(i["name"][:55])))
-        if cmp["cheaper"] and cmp["pct"]:
-            out.append("→ <b>%s</b> is %d%% cheaper per %s"
-                       % (SHOP_NAMES[cmp["cheaper"]], cmp["pct"], unit))
-        else:
-            out.append("→ same price per %s at both shops" % unit)
-        out.append("<i>Cheapest match at each shop — brand or quality may differ.</i>")
-    if pairs:
-        if out:
-            out.append("")
-        out.append("\U0001f501 <b>Same product, both shops</b>")
-        for p, y, diff, pct in pairs[:pair_limit]:
-            if diff < 0:
-                verdict = "Yerevan City −%s (−%d%%)" % (money(-diff), pct)
-            elif diff > 0:
-                verdict = "Parma −%s (−%d%%)" % (money(diff), pct)
-            else:
-                verdict = "same price"
-            unit = "/kg" if p["sold_by_weight"] else ""
-            out.append('• %s — %s <a href="%s">%s%s</a> · %s <a href="%s">%s%s</a> → %s'
-                       % (esc(p["name"][:45]), SHOP_DOT["parma"], p["url"], money(p["price"]), unit,
-                          SHOP_DOT["yc"], y["url"], money(y["price"]), unit, verdict))
-        if len(pairs) > pair_limit:
-            out.append("<i>…%d more products sold at both</i>" % (len(pairs) - pair_limit))
+def compare_lines(cmp):
+    """⚖️ cheapest per kg/l at each shop + the verdict. [] without a comparison."""
+    if not cmp:
+        return []
+    unit = cmp["unit"]
+    out = ["⚖️ <b>Cheapest per %s</b>" % unit]
+    for shop in sorted(cmp["best"], key=lambda s: cmp["best"][s]["unit_price"]):
+        i = cmp["best"][shop]
+        out.append('%s %s <b>%s</b> — <a href="%s">%s</a>'
+                   % (SHOP_DOT[shop], SHOP_NAMES[shop], money(i["unit_price"]), i["url"],
+                      esc(i["name"][:45])))
+    if cmp["cheaper"] and cmp["pct"]:
+        out.append("→ <b>%s is %d%% cheaper</b> per %s"
+                   % (SHOP_NAMES[cmp["cheaper"]], cmp["pct"], unit))
+    else:
+        out.append("→ same price per %s at both shops" % unit)
+    out.append("<i>Cheapest match at each shop — brand or quality may differ.</i>")
     return out
+
+
+def pair_lines(pairs, limit=6):
+    """🔁 products sold at both shops, biggest price gap first."""
+    if not pairs:
+        return []
+    out = ["\U0001f501 <b>Same product, both shops</b>"]
+    for p, y, diff, pct in pairs[:limit]:
+        if diff < 0:
+            verdict = "Yerevan City −%d%%" % pct
+        elif diff > 0:
+            verdict = "Parma −%d%%" % pct
+        else:
+            verdict = "same price"
+        unit = "/kg" if p["sold_by_weight"] else ""
+        out.append('• %s: %s <a href="%s">%s%s</a> · %s <a href="%s">%s%s</a> → %s'
+                   % (esc(p["name"][:40]), SHOP_DOT["parma"], p["url"], money(p["price"]), unit,
+                      SHOP_DOT["yc"], y["url"], money(y["price"]), unit, verdict))
+    if len(pairs) > limit:
+        out.append("<i>…%d more sold at both</i>" % (len(pairs) - limit))
+    return out
+
+
+def compare_block(cmp, pairs, pair_limit=4):
+    """Both comparison parts, separated by a blank line ([] when neither)."""
+    a, b = compare_lines(cmp), pair_lines(pairs or [], pair_limit)
+    return a + ([""] if a and b else []) + b
 
 
 def build(query, ranked, status, totals=None, sort="cheap", limit=10,
           searched=None, cmp=None, pairs=None):
     order = "cheapest per kg/l first" if sort == "cheap" else "best match first"
-    shops = [SHOP_NAMES[s] for s in status]
-    title = esc(query)
-    if searched and searched.lower() != (query or "").strip().lower():
-        title += " <i>(%s)</i>" % esc(searched)
-    out = ["\U0001f6d2 <b>PRICES · %s</b>" % title,
-           "<i>%s · %s</i>" % (order, " + ".join(shops)), BAR]
+    shops = " + ".join(SHOP_NAMES[s] for s in status)
+    context = searched if searched and searched.lower() != (query or "").strip().lower() else None
+    head = ui.header("\U0001f6d2", query, context, "%s · %s" % (order, shops))
+
+    body = []
     if not ranked:
-        out.append("Nothing matched <b>%s</b>." % esc(query))
-        out.append("<i>Try the product type first, in English or Armenian: "
-                   "<code>/price lentils</code>, <code>/price մածուն</code>, "
-                   "<code>/price chicken breast</code>.</i>")
-    block = compare_block(cmp, pairs or [])
-    if block:
-        out += block + [BAR]
-    for n, i in enumerate(ranked[:limit], 1):
-        out.append(_line(n, i))
-    if len(ranked) > limit:
-        out.append("<i>…and %d more matches</i>" % (len(ranked) - limit))
+        body += ["Nothing matched <b>%s</b>." % esc(query),
+                 "<i>Try the product type first, in English or Armenian: "
+                 "<code>/price lentils</code>, <code>/price մածուն</code>, "
+                 "<code>/price chicken breast</code>.</i>"]
+    verdict = compare_lines(cmp)
+    if verdict:
+        body += verdict + [""]
+    body += [_line(n, i) for n, i in enumerate(ranked[:SHOWN], 1)]
     for shop, st in status.items():
         if st != "ok":
-            out.append("⚠️ <i>%s unavailable this run (%s)</i>"
-                       % (SHOP_NAMES.get(shop, shop), esc(st)))
-    out += [BAR, "<i>\U0001f7e2 Parma · \U0001f534 Yerevan City · "
-                 "prices change; tap a name to check and order</i>"]
-    return "\n".join(out)
+            body.append("⚠️ <i>%s unavailable this run (%s)</i>"
+                        % (SHOP_NAMES.get(shop, shop), esc(st)))
+
+    rest = [_line(n, i) for n, i in enumerate(ranked[SHOWN:limit], SHOWN + 1)]
+    if len(ranked) > limit:
+        rest.append("<i>…and %d more matches</i>" % (len(ranked) - limit))
+    both = pair_lines(pairs or [])
+    titles = []
+    if ranked[SHOWN:limit]:
+        titles.append("%d more" % len(ranked[SHOWN:limit]))
+    if both:
+        titles.append("same product at both shops")
+    folded = ui.fold(rest + ([""] if rest and both else []) + both,
+                     " · ".join(titles).capitalize() if titles else None)
+
+    footer = "<i>\U0001f7e2 Parma · \U0001f534 Yerevan City · prices change; tap a name to order</i>"
+    return ui.page(head, body, folded, footer)

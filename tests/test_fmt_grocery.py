@@ -21,7 +21,12 @@ class Message(unittest.TestCase):
     def test_lists_cheapest_with_links_and_fits_telegram(self):
         ranked = pg.rank(_items(), "chicken breast", sort="cheap")
         msg = fmt_grocery.build("chicken breast", ranked, {"parma": "ok", "yc": "ok"})
-        self.assertIn("PRICES · chicken breast", msg)
+        self.assertTrue(msg.startswith("\U0001f6d2 <b>chicken breast</b>"))
+        # top 3 above the fold, the rest folded away
+        above, _, folded = msg.partition("<blockquote expandable>")
+        self.assertEqual(above.count('href="https://'), 3)
+        self.assertIn("4. ", folded)
+        self.assertTrue(folded.split("</blockquote>")[0])
         self.assertIn('href="https://', msg)
         self.assertIn("/kg", msg)
         self.assertLess(len(msg), 4096)

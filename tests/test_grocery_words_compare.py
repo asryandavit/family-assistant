@@ -136,9 +136,11 @@ class CompareMessage(unittest.TestCase):
         cmp, pairs = pg.compare_shops(ranked), pg.same_products(ranked, "հնդկաձավար", WORDS)
         msg = fmt_grocery.build("հնդկաձավար", ranked, {"parma": "ok", "yc": "ok"},
                                 searched="buckwheat", cmp=cmp, pairs=pairs)
-        self.assertIn("հնդկաձավար <i>(buckwheat)</i>", msg)
-        self.assertIn("Compare", msg)
-        self.assertIn("cheaper per kg", msg)
+        self.assertIn("<b>հնդկաձավար</b> · <i>buckwheat</i>", msg)
+        above, _, folded = msg.partition("<blockquote expandable>")
+        self.assertIn("Cheapest per kg", above)          # verdict before the fold
+        self.assertIn("cheaper</b> per kg", above)
+        self.assertIn("Same product, both shops", folded)  # pairs in the fold
         self.assertIn("Same product, both shops", msg)
         self.assertLess(len(msg), 4096)
 
