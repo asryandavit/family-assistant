@@ -422,3 +422,38 @@ interview, and enough on its own to run a phase three sessions long.
 **070 — 2026-07-29 — `selfcheck.py` is extended to cover coach modules, config keys and
 scheduled tasks.**
 Otherwise the green check stops meaning what it means today.
+
+## Manual family plan
+
+**071 — 2026-10-18 — A manual-first family plan runs now, ahead of the coach build.**
+Meals and training are pulled forward as hand-followed Markdown in `plan/`, without
+waiting for Phases 0–2. Owner's choice: value now, and two to four weeks of real use
+answer what design cannot (same reasoning as 068, applied earlier). The coach phases in
+`COACH_SPEC.md` §15 are not cancelled; they become stages B and C in `plan/README.md`.
+
+**072 — 2026-10-18 — Plan content lives in Markdown in Git, not a database, for now.**
+Owner wants it flexible and editable. Git keeps every hand-edit as a reviewable diff, which
+answers the concern behind 032 (a silent hand-edit becoming an input) better than an
+editable Sheet would. SQLite (005) remains the design for *measurements* once the bot
+logs them; plan content may stay in Markdown even then.
+
+**073 — 2026-10-18 — Portions, not calorie numbers, in the manual stage.**
+Plate rule for adults, ad-libitum for the son. The calculators in §6 stay the design for
+the automated stage if numbers are ever wanted. Owner's choice.
+
+**074 — 2026-10-18 — Grocery integration promoted from backlog into scope.**
+Parma (English UI, per-kg prices) primary, Yerevan City (lactose-free collection)
+secondary. Lists and fresh prices are prepared; ordering and checkout stay manual — no
+credentials, no automated cart.
+
+**075 — 2026-10-18 — Exercise and dish libraries carry stable ids from day one.**
+`plan/training/exercises.md` and `plan/meals/dishes.md` are the only places an exercise or
+dish may be defined; every plan references ids. Same allow-list principle as 054/055, so
+the manual libraries become the seed of the `exercises` and recipe tables later.
+
+**076 — 2026-10-18 — New owner health data shapes meals and training timing.**
+Davit: mild gastritis, high LDL, lactose from fresh milk only, citrus limited. Hence: no
+intermittent fasting, light dinner by 19:00, hard sessions 2–3 h after main meals, olive
+oil/fibre/fish emphasis, lactose-free milk with fermented dairy kept. Karine's postpartum
+gate (067) carries into the manual plan as a symptom self-check. The son gets a WHO-based
+play plan and remains untracked (§1). Evidence summary in `plan/sources.md`.

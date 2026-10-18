@@ -209,6 +209,9 @@ config keys and scheduled tasks is decision 070.
 
 **Built:** travel monitor, complete and verified end to end.
 **Designed, not built:** the entire coach bot. Zero coach code exists.
+**Running by hand since 2026-10-18:** the family plan in `plan/` (decisions 071–076) —
+meals, training, daily rhythm. Read `plan/README.md` before proposing coach work; its
+libraries are the intended seed data.
 
 Phase order: **0** scaffold → **1** core + full interview → **2** training →
 **GO LIVE, two weeks of real use** → **3a** recipe capture → **3b** meal generation →

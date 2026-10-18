@@ -598,6 +598,11 @@ starting level only; the first two weeks of RPE and pain flags do the real calib
 | **5** | Automation polish: Sat/Sun/monthly jobs, backups, deployment, `/report` |
 | **Backlog (not v1)** | Sheets charts, grocery ordering, baby milestone tracker, voice notes, automatic hand-off from the flight monitor into travel mode |
 
+**Update 2026-10-18 (decisions 071–076):** a manual-first family plan now runs ahead of
+these phases, as Markdown in `plan/` — meals, training for both adults, the son's play
+plan, and a daily rhythm, followed by hand. The phases below remain the design for
+automating it (stages B and C in `plan/README.md`).
+
 **Go-live after Phase 2** applies the project's own build-order rule at project scale.
 Two weeks of real use answers what design cannot: whether 21:00 is the right hour,
 whether the morning brief is short enough to read, whether the evening buttons actually
