@@ -26,7 +26,7 @@ import requests
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 
-from lib import config, flights, fmt, parse_cmd, places, sheets, tasks, telegram  # noqa: E402
+from lib import config, flights, fmt, parse_cmd, places, sheets, tasks, telegram, ui  # noqa: E402
 
 SINGLETON_PORT = 48291
 POLL_TIMEOUT = 50
@@ -107,13 +107,14 @@ def _safe_price_args(text):
     return args, "\u23f3 Checking prices for <b>%s</b> at %s\u2026" % (telegram.esc(query), where)
 
 HELP = ("\U0001f9ed <b>Commands</b>\n"
+        "<i>The \U0001f3e0 Home and \U0001f50d Price check keys below do most of this.</i>\n\n"
         "/scan \u2014 run the flight scan now\n"
         "/digest \u2014 scan + send the full digest\n"
         "/stays &lt;city&gt; &lt;dates&gt; [keywords] \u2014 search accommodation\n"
         "/flights &lt;city&gt; &lt;window&gt; [nights] \u2014 search flights\n"
         "/price &lt;product&gt; [parma|yc] \u2014 grocery prices + links\n"
         "/auto \u2014 automation status, pause/enable\n"
-        "/menu \u2014 buttons for everything\n"
+        "/menu \u2014 the Home screen\n"
         "/cancel \u2014 stop whatever is running\n"
         "/status \u2014 listener health + last runs\n"
         "/help \u2014 this message\n\n"
@@ -161,6 +162,7 @@ class Runner:
         self.current, self.started = name, time.time()
         self.cancelled = False
         threading.Thread(target=self._run, args=(name, job), daemon=True).start()
+        telegram.chat_action(self.cfg)          # "typing…" while it works
         return (ack or job["ack"]) + "\n<i>/cancel to stop</i>"
 
     def _run(self, name, job):
@@ -304,24 +306,33 @@ def status(cfg, runner):
 
 
 def set_menu(tok):
-    cmds = [{"command": "scan", "description": "Run the flight scan now"},
-            {"command": "digest", "description": "Scan + full digest"},
-            {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
-            {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
+    cmds = [{"command": "menu", "description": "Home screen"},
             {"command": "price", "description": "Grocery prices: /price lentils"},
-            {"command": "auto", "description": "Automation status and switches"},
-            {"command": "menu", "description": "Buttons for everything"},
+            {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
+            {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
+            {"command": "scan", "description": "Run the flight scan now"},
+            {"command": "digest", "description": "Scan + full digest"},
+            {"command": "status", "description": "Bot health"},
             {"command": "cancel", "description": "Stop the running job"},
-            {"command": "status", "description": "Listener health"},
-            {"command": "help", "description": "List commands"}]
-    try:
-        requests.post(f"https://api.telegram.org/bot{tok}/setMyCommands",
-                      json={"commands": cmds}, timeout=15)
-    except requests.RequestException:
-        pass
+            {"command": "help", "description": "All commands"}]
+    api = f"https://api.telegram.org/bot{tok}"
+    for method, payload in (("setMyCommands", {"commands": cmds}),
+                            ("setMyDescription", {"description": BOT_DESCRIPTION}),
+                            ("setMyShortDescription", {"short_description": BOT_SHORT_DESCRIPTION})):
+        try:
+            requests.post(f"{api}/{method}", json=payload, timeout=15)
+        except requests.RequestException:
+            pass
 
 
 def handle_text(cfg, runner, text):
+    t = (text or "").strip()
+    if t == ui.KEY_HOME:
+        send_home(cfg, runner)
+        return None
+    if t == ui.KEY_PRICE:
+        send_price_prompt(cfg)
+        return None
     cmd = text.strip().split()[0].lower().lstrip("/").split("@")[0] if text.strip() else ""
     if cmd == "flights":
         q = flights.parse_command(text, cfg)
@@ -350,8 +361,12 @@ def handle_text(cfg, runner, text):
         return runner.launch(cmd)
     if cmd == "cancel":
         return runner.cancel()
+    if cmd == "start":
+        telegram.send_html(cfg, WELCOME, silent=True, reply_keyboard=ui.BOTTOM_KEYBOARD)
+        send_home(cfg, runner)
+        return None
     if cmd == "menu":
-        telegram.send_html(cfg, MENU_TEXT, buttons=menu_buttons())
+        send_home(cfg, runner)
         return None
     if cmd == "auto":
         rows = tasks.summary()
@@ -359,7 +374,7 @@ def handle_text(cfg, runner, text):
         return None
     if cmd == "status":
         return status(cfg, runner)
-    if cmd in ("help", "start"):
+    if cmd == "help":
         return HELP
     return None  # unknown text: stay silent
 
@@ -373,27 +388,54 @@ def _trip_lookup(cfg, trip_id):
     return None
 
 
-MENU_TEXT = ("\U0001f9ed <b>Menu</b>\n"
-             "<i>Tap a button, or type a command directly.</i>\n\n"
-             "Stays need a city and dates, so type those:\n"
-             "<code>/stays LCA 04-11.11 sea center</code>\n\n"
-             "Grocery prices (Parma + Yerevan City):\n"
-             "<code>/price lentils</code> · <code>/price olive oil parma</code>")
+WELCOME = ("👋 <b>Family assistant</b>\n"
+           "<i>Two keys below work any time: %s for everything, %s to compare grocery "
+           "prices at Parma and Yerevan City.</i>" % (ui.KEY_HOME, ui.KEY_PRICE))
+
+# Bot profile (docs/TELEGRAM_UX.md sections 6-7), applied at startup by set_menu().
+BOT_DESCRIPTION = ("Family assistant for meals, training, shopping prices and travel deals. "
+                   "Tap 🏠 Home to start, or 🔍 Price check to compare Parma "
+                   "and Yerevan City.")
+BOT_SHORT_DESCRIPTION = "Meals, training, grocery prices and travel deals for the family."
 
 
-def menu_buttons():
-    return [
-        [("\u2708\ufe0f Scan flights", "cmd:scan"),
-         ("\U0001f4ca Digest", "cmd:digest")],
-        [("\U0001f3a7 Status", "cmd:status"),
-         ("\U0001f6d1 Cancel", "cmd:cancel")],
-        [("\u2699\ufe0f Automation", "cmd:auto")],
-    ]
+def _travel_next():
+    """'19.10 08:00'-style next run of the flight scan, or None."""
+    try:
+        info = tasks.query("travel")
+        if info.get("exists") and info.get("enabled"):
+            return tasks._short_dt(info.get("next_run"))
+    except Exception:
+        pass
+    return None
+
+
+def send_home(cfg, runner, chat_id=None, message_id=None):
+    """The Home message: edited in place when coming from a button, else sent."""
+    text, buttons = ui.home(ROOT, running=runner.current, travel_next=_travel_next())
+    if chat_id and message_id:
+        telegram.edit_html(cfg, chat_id, message_id, text, buttons)
+    else:
+        telegram.send_html(cfg, text, silent=True, buttons=buttons)
+
+
+def send_price_prompt(cfg):
+    telegram.send_html(cfg, ui.PRICE_PROMPT, silent=True, force_reply=ui.PRICE_PLACEHOLDER)
+
+
+def route_reply(text, reply_to_text):
+    """An answer to the Price check prompt becomes a /price command; a slash
+    command typed as a reply is left alone."""
+    t = (text or "").strip()
+    if reply_to_text and ui.PRICE_PROMPT_MARK in reply_to_text and t and not t.startswith("/"):
+        return "/price " + t
+    return text
 
 
 def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
     """Button taps.
 
+        ui:<section>      Home navigation, edits the message in place
         cmd:<action>      run a menu action
         st:TRIP:CITY      search stays for that trip, immediately
 
@@ -401,6 +443,27 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
     the Trips tab, never from the button.
     """
     parts = (data or "").split(":")
+
+    if parts and parts[0] == "ui" and len(parts) == 2:
+        name = parts[1]
+        if name == "home":
+            send_home(cfg, runner, chat_id, message_id)
+            return None
+        if name == "price":
+            send_price_prompt(cfg)
+            return None
+        if name == "help":
+            text, btns = HELP, [[ui.HOME_BACK]]
+        else:
+            sec = ui.section(name, ROOT)
+            if not sec:
+                return "Unrecognised button."
+            text, btns = sec
+        if chat_id and message_id:
+            telegram.edit_html(cfg, chat_id, message_id, text, btns)
+        else:
+            telegram.send_html(cfg, text, silent=True, buttons=btns)
+        return None
 
     if parts and parts[0] == "cmd" and len(parts) == 2:
         act = parts[1]
@@ -526,7 +589,7 @@ def main():
                     reply = handle_callback(cfg, runner, cb.get("data"),
                                             chat_id, cmsg.get("message_id"))
                     if reply:
-                        telegram.send_html(cfg, reply)
+                        telegram.send_html(cfg, reply, silent=True)
                     continue
 
                 msg = u.get("message") or {}
@@ -537,10 +600,11 @@ def main():
                 if chat != allowed:
                     log(f"ignored message from foreign chat {chat}")
                     continue
+                text = route_reply(text, (msg.get("reply_to_message") or {}).get("text"))
                 log(f"cmd: {text[:60]}")
                 reply = handle_text(cfg, runner, text)
                 if reply:
-                    telegram.send_html(cfg, reply)
+                    telegram.send_html(cfg, reply, silent=True)
 
             if time.time() - last_hb > HEARTBEAT_SEC:
                 last_hb = time.time()
