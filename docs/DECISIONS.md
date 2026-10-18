@@ -485,3 +485,15 @@ deterministic: cheapest per kg/l at each shop among the best matches (same unit 
 and "same product at both shops", paired only when brand, package size, fat % and the
 remaining descriptive words all agree — strict on purpose, because a false pairing
 ("Curd Marianna Bifido" vs "Curd Marianna") would make the comparison misleading.
+
+## Progress records
+
+**079 — 2026-10-18 — Progress numbers live in a private Google Sheet per adult, not in Git.**
+Weight, waist and blood-test results are health records; the repo holds the *plan*, not
+the measurements. Each adult owns their own Sheet (Karine copies a blank template into
+Karine's own Drive), which keeps the "own data, self only" rule of §2 and the per-file
+sharing of 033/035 without any code. No postpartum symptom column, ever (036/067). When
+the bot gains `/weight`-style logging, measurements move to local storage on the PC and
+each Sheet's history is imported **once**, explicitly — a one-time migration, not the
+ongoing read-back that 032 rejects. A baseline lipid panel before the plan starts is
+recommended so the effect of the food changes can be measured.

@@ -21,7 +21,7 @@ are for their doctors and physio; this plan is everyday food and movement around
 | Dish list | [meals/dishes.md](meals/dishes.md) |
 | What to buy | [meals/shopping.md](meals/shopping.md) |
 | How to keep it going | [habits.md](habits.md) |
-| Weekly log | [tracking.md](tracking.md) |
+| What to track, where (private Sheets), how it changes the plan | [tracking.md](tracking.md) |
 | Why these numbers | [sources.md](sources.md) |
 
 ## The idea in one paragraph
@@ -61,4 +61,4 @@ reads these files instead of starting over.
 
 - Karine: health notes, injuries, likes/dislikes → `family/karine.md`.
 - First Scoolinary project (pizza?) → `meals/week-01.md` Saturday.
-- Baseline numbers (week 0) → `tracking.md`.
+- Baseline numbers (week 0) and a baseline blood test → your private progress Sheet (see `tracking.md`).
