@@ -1,0 +1,1705 @@
+{
+ "success": true,
+ "data": {
+  "pageCount": 10,
+  "itemCount": 275,
+  "products": [
+   {
+    "id": 24003,
+    "categoryId": 0,
+    "name": "Հավի ռուլետ «Մոյա Սեմյա» կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1046252.png",
+    "price": 4090.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 200,
+    "weightStep": 200,
+    "isGrindable": false,
+    "isCuttable": true,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի ռուլետ «Մոյա Սեմյա» կգ",
+    "nameEn": "Chicken roll \"Moya Semya\" kg",
+    "nameRu": "Рулет куриный \"Моя Семья\" кг",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Ռուլետ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 925,
+    "categoryId": 0,
+    "name": "Հավի նրբերշիկ «Մոյա Սեմյա» 350գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1047021.png",
+    "price": 520.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի նրբերշիկ «Մոյա Սեմյա» 350գր",
+    "nameEn": "Chicken sausages \"Moya Semya\" 350g",
+    "nameRu": "Сосиски куриные \"Моя Семья\" 350г",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Նրբերշիկներ սառեցված",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 207508,
+      "mult": 25
+     },
+     {
+      "id": 207509,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1485,
+    "weightProductPricePerUnit": 350,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 194071,
+    "categoryId": 0,
+    "name": "Հավի ռուլետ «Միթ Ֆուդ» կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1177841.png",
+    "price": 3990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 500,
+    "weightStep": 100,
+    "isGrindable": false,
+    "isCuttable": true,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի ռուլետ «Միթ Ֆուդ» կգ",
+    "nameEn": "Chicken roll \"Meat Food\" kg",
+    "nameRu": "Рулет куриный \"Мит Фуд\" кг",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Ռուլետ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   },
+   {
+    "id": 91751,
+    "categoryId": 0,
+    "name": "Հավի նրբերշիկ «Միթ Ֆուդ» 12հտ 350գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1128689.png",
+    "price": 590.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի նրբերշիկ «Միթ Ֆուդ» 12հտ 350գր",
+    "nameEn": "Chicken sausages \"Meat Food\" 12pcs 350g",
+    "nameRu": "Сосиски куриные \"Мит Фуд\" 12шт 350г",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Նրբերշիկներ սառեցված",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208577,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1685,
+    "weightProductPricePerUnit": 350,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 10478,
+    "categoryId": 0,
+    "name": "Հավ ապխտած «Մոյա Սեմյա» 960գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1054455.png",
+    "price": 2490.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավ ապխտած «Մոյա Սեմյա» 960գր",
+    "nameEn": "Smoked chicken \"Moya Semya\" 960g",
+    "nameRu": "Курица копченая \"Моя Семья\" 960г",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Ապխտած հավամթերք, տեղական",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 83230,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2593,
+    "weightProductPricePerUnit": 960,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 91747,
+    "categoryId": 0,
+    "name": "Հավ ապխտած «Միթ Ֆուդ» հտ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1128685.png",
+    "price": 2590.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավ ապխտած «Միթ Ֆուդ» հտ",
+    "nameEn": "Smoked chicken \"Meat Food\" pc",
+    "nameRu": "Курица копченая \"Мит Фуд\" шт",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Ապխտած հավամթերք, տեղական",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 101686,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 155583,
+    "categoryId": 0,
+    "name": "Նրբերշիկ հավի «Մոյա Սեմյա» 400գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1155001.png",
+    "price": 750.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Նրբերշիկ հավի «Մոյա Սեմյա» 400գր",
+    "nameEn": "Sausage chicken \"Moya Semya\" 400g",
+    "nameRu": "Сосиски кур. \"Моя Семья\" 400г",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Նրբերշիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 177350,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1875,
+    "weightProductPricePerUnit": 400,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 8129,
+    "categoryId": 0,
+    "name": "Հավի բդիկներ եփած-ապխտած «Մոյա Սեմյա» կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1042554.png",
+    "price": 2490.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 500,
+    "weightStep": 500,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի բդիկներ եփած-ապխտած «Մոյա Սեմյա» կգ",
+    "nameEn": "Smoked chicken thighs \"Moya Semya\" kg",
+    "nameRu": "Куриные окорочка копч. \"Моя Семья\" кг",
+    "brandId": 4361,
+    "isAttributeAttached": false,
+    "categoryName": "Ապխտած հավամթերք, տեղական",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 75867,
+    "categoryId": 0,
+    "name": "Հավի թարմ ֆարշ կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/9001000.png",
+    "price": 2190.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 1000,
+    "weightStep": 1000,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի թարմ ֆարշ կգ",
+    "nameEn": "Chicken mince kg",
+    "nameRu": "Фарш куриный кг",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Խճողակ/Կուպատներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 21545,
+    "categoryId": 0,
+    "name": "Նագգեթս հավի կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/9000816.png",
+    "price": 5190.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 250,
+    "weightStep": 250,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 100,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Նագգեթս հավի կգ",
+    "nameEn": "Chicken nuggets kg",
+    "nameRu": "Наггетс куриный кг",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Ուտեստներ մսով և ծովամթերքով",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 142308,
+    "categoryId": 0,
+    "name": "Հավի թարմ ֆարշ կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1153934.png",
+    "price": 2190.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 500,
+    "weightStep": 100,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի թարմ ֆարշ կգ",
+    "nameEn": "Chicken mince kg",
+    "nameRu": "Фарш куриный другой кг",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Խճողակ/Կուպատներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   },
+   {
+    "id": 166102,
+    "categoryId": 0,
+    "name": "Հավի բուդ «Թաարմ» ափսեով 1կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1161794.png",
+    "price": 1990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի բուդ «Թաարմ» ափսեով 1կգ",
+    "nameEn": "Chicken thigh \"Taarm\" 1kg",
+    "nameRu": "Кур. окорочка \"Taarm\" тар. 1кг",
+    "brandId": 7500,
+    "isAttributeAttached": false,
+    "categoryName": "Թարմ հավի միս",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 207281,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 18759,
+    "categoryId": 0,
+    "name": "Կոտլետներ հավի «Աթենք» 420գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1101510.png",
+    "price": 1050.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կոտլետներ հավի «Աթենք» 420գր",
+    "nameEn": "Chicken cutlets \"Atenk\" 420g",
+    "nameRu": "Котлеты куриные \"Атенк\" 420г",
+    "brandId": 2390,
+    "isAttributeAttached": false,
+    "categoryName": "Կոտլետներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208547,
+      "mult": 6
+     },
+     {
+      "id": 208548,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2500,
+    "weightProductPricePerUnit": 420,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 65435,
+    "categoryId": 0,
+    "name": "Ջերկի հավի «Աթենք» 30գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1111981.png",
+    "price": 320.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Ջերկի հավի «Աթենք» 30գր",
+    "nameEn": "Chicken jerky \"Atenk\" 30g",
+    "nameRu": "Джерки из курицы \"Атенк\" 30г",
+    "brandId": 2390,
+    "isAttributeAttached": false,
+    "categoryName": "Ջերկի",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 33293,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 30,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 166267,
+    "categoryId": 0,
+    "name": "Նրբաբլիթ հավի մսով «Բեկոն» 400գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1161960.png",
+    "price": 1590.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Նրբաբլիթ հավի մսով «Բեկոն» 400գր",
+    "nameEn": "Chicken crepes \"Bacon\" 400g",
+    "nameRu": "Блинчики с куриным мясом \"Бекон\" 400г",
+    "brandId": 4354,
+    "isAttributeAttached": false,
+    "categoryName": "Նրբաբլիթներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 207592,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3975,
+    "weightProductPricePerUnit": 400,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 90336,
+    "categoryId": 0,
+    "name": "Կոտլետներ հավի «Զադոյան» 6հտ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1127338.png",
+    "price": 950.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 750.025,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կոտլետներ հավի «Զադոյան» 6հտ",
+    "nameEn": "Chicken cutlets \"Zadoyan\" 6pcs",
+    "nameRu": "Котлеты куриные \"Zadoyan\" 6шт",
+    "brandId": 5980,
+    "isAttributeAttached": false,
+    "categoryName": "Կոտլետներ",
+    "discountPercent": 21.05,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208571,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 125,
+    "weightProductPricePerUnit": 6,
+    "weightMeasure": "PC",
+    "videoLink": null
+   },
+   {
+    "id": 104846,
+    "categoryId": 0,
+    "name": "Նագեթներ հավի «Քուալիկո» 1կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1138652.png",
+    "price": 1660.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Նագեթներ հավի «Քուալիկո» 1կգ",
+    "nameEn": "Chicken nuggets \"Qualiko\" 1kg",
+    "nameRu": "Наггетсы кур. \"Qualiko\" 1кг",
+    "brandId": 375,
+    "isAttributeAttached": false,
+    "categoryName": "Նագեթներ,սնեք",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 77957,
+      "mult": 6
+     },
+     {
+      "id": 77958,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 133,
+    "categoryId": 0,
+    "name": "Նագեթներ հավի «Բեկոն» 300գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1039661.png",
+    "price": 1100.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Նագեթներ հավի «Բեկոն» 300գր",
+    "nameEn": "Chicken nuggets \"Bacon\" 300g",
+    "nameRu": "Наггетсы кур. \"Бекон\" 300г",
+    "brandId": 4354,
+    "isAttributeAttached": false,
+    "categoryName": "Նագեթներ,սնեք",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 37398,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3666,
+    "weightProductPricePerUnit": 300,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 133439,
+    "categoryId": 0,
+    "name": "Հավի աղացած միս «Բելիսսիմո» 900գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1152817.png",
+    "price": 990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի աղացած միս «Բելիսսիմո» 900գր",
+    "nameEn": "Chicken mince \"Belissimo\" 900g",
+    "nameRu": "Фарш куриный Belissimo 900г",
+    "brandId": 7204,
+    "isAttributeAttached": false,
+    "categoryName": "Խճողակ կիսաֆաբրիկատ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 74806,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1100,
+    "weightProductPricePerUnit": 900,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 65445,
+    "categoryId": 0,
+    "name": "Ձողիկներ հավի «Աթենք» 30գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1111985.png",
+    "price": 290.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Ձողիկներ հավի «Աթենք» 30գր",
+    "nameEn": "Chicken sticks \"Atenk\" 30g",
+    "nameRu": "Палочки из курицы \"Атенк\" 30г",
+    "brandId": 2390,
+    "isAttributeAttached": false,
+    "categoryName": "Մսի ձողիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 169476,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 30,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 48339,
+    "categoryId": 0,
+    "name": "Հավի ռուլետ «Աթենք» կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1061525.png",
+    "price": 3750.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 200,
+    "weightStep": 200,
+    "isGrindable": false,
+    "isCuttable": true,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի ռուլետ «Աթենք» կգ",
+    "nameEn": "Chicken roll \"Atenk\" kg",
+    "nameRu": "Рулет куриный \"Атенк\" кг",
+    "brandId": 2390,
+    "isAttributeAttached": false,
+    "categoryName": "Ռուլետ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 90330,
+    "categoryId": 0,
+    "name": "Քաբաբ հավի մսից «Զադոյան» 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1127337.png",
+    "price": 1430.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Քաբաբ հավի մսից «Զադոյան» 500գր",
+    "nameEn": "Chicken kebab \"Zadoyan\" 500g",
+    "nameRu": "Кебаб куриный \"Zadoyan\" 500г",
+    "brandId": 5980,
+    "isAttributeAttached": false,
+    "categoryName": "Քաբաբ, իքիբիր",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208570,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2860,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 64672,
+    "categoryId": 0,
+    "name": "Հավի աղացած միս «Քուալիկո» 400գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1111460.png",
+    "price": 440.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի աղացած միս «Քուալիկո» 400գր",
+    "nameEn": "Chicken mince \"Qualiko\" 400g",
+    "nameRu": "Фарш куриный \"Qualiko\" 400г",
+    "brandId": 375,
+    "isAttributeAttached": false,
+    "categoryName": "Խճողակ կիսաֆաբրիկատ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208558,
+      "mult": 20
+     },
+     {
+      "id": 208559,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1100,
+    "weightProductPricePerUnit": 400,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 169515,
+    "categoryId": 0,
+    "name": "Քաբաբ հավի մսից «Գանձասար» 530գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1163353.png",
+    "price": 1350.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Քաբաբ հավի մսից «Գանձասար» 530գր",
+    "nameEn": "Chicken kebab \"Gandzasar\" 530g",
+    "nameRu": "Кебаб куриный \"Гандзасар\" 530г",
+    "brandId": 4834,
+    "isAttributeAttached": false,
+    "categoryName": "Քաբաբ, իքիբիր",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 225866,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2547,
+    "weightProductPricePerUnit": 530,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 94412,
+    "categoryId": 0,
+    "name": "Ջերկի հավի «Բեկոն» 30գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1131129.png",
+    "price": 320.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Ջերկի հավի «Բեկոն» 30գր",
+    "nameEn": "Chicken jerky \"Bacon\" 30g",
+    "nameRu": "Джерки из курицы \"Бекон\" 30г",
+    "brandId": 4354,
+    "isAttributeAttached": false,
+    "categoryName": "Ջերկի",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 33296,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 30,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 98643,
+    "categoryId": 0,
+    "name": "Կոտլետներ հավի «Չինարի» 800գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1134118.png",
+    "price": 1670.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կոտլետներ հավի «Չինարի» 800գր",
+    "nameEn": "Chicken cutlets \"Chinari\" 800g",
+    "nameRu": "Котлеты куриные \"Чинари\" 800г",
+    "brandId": 6425,
+    "isAttributeAttached": false,
+    "categoryName": "Կոտլետներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208581,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2087,
+    "weightProductPricePerUnit": 800,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 12411,
+    "categoryId": 0,
+    "name": "Հավի աղացած միս «Արաքս» 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1038447.png",
+    "price": 570.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի աղացած միս «Արաքս» 500գր",
+    "nameEn": "Chicken mince \"Araqs\" 500g",
+    "nameRu": "Фарш куриный \"Аракс\" 500г",
+    "brandId": 2303,
+    "isAttributeAttached": false,
+    "categoryName": "Խճողակ կիսաֆաբրիկատ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 24380,
+      "mult": 20
+     },
+     {
+      "id": 24381,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1140,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 173024,
+    "categoryId": 0,
+    "name": "Քաբաբ հավի մսից «Բելիսսիմո» 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1166612.png",
+    "price": 990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Քաբաբ հավի մսից «Բելիսսիմո» 500գր",
+    "nameEn": "Chicken kebab \"Belissimo\" 500g",
+    "nameRu": "Кебаб куриный Belissimo 500г",
+    "brandId": 7204,
+    "isAttributeAttached": false,
+    "categoryName": "Քաբաբ, իքիբիր",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 234855,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1980,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 90398,
+    "categoryId": 0,
+    "name": "Կոտլետներ հավի «Գանձասար» 420գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1127392.png",
+    "price": 820.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կոտլետներ հավի «Գանձասար» 420գր",
+    "nameEn": "Chicken cutlets \"Gandzasar\" 420g",
+    "nameRu": "Котлеты куриные \"Гандзасар\" 420г",
+    "brandId": 4834,
+    "isAttributeAttached": false,
+    "categoryName": "Կոտլետներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 59953,
+      "mult": 6
+     },
+     {
+      "id": 59954,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1952,
+    "weightProductPricePerUnit": 420,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 98072,
+    "categoryId": 0,
+    "name": "Հավի նրբերշիկ «Տնակ» 370գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1133566.png",
+    "price": 590.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հավի նրբերշիկ «Տնակ» 370գր",
+    "nameEn": "Chicken sausages \"Tnak\" 370g",
+    "nameRu": "Сосиски куриные \"Тнак\" 370г",
+    "brandId": 1024,
+    "isAttributeAttached": false,
+    "categoryName": "Նրբերշիկներ սառեցված",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 59440,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1594,
+    "weightProductPricePerUnit": 370,
+    "weightMeasure": "G",
+    "videoLink": null
+   }
+  ],
+  "categories": [
+   {
+    "id": 2247,
+    "itemCount": 55,
+    "name": "Թարմ հավի միս"
+   },
+   {
+    "id": 713,
+    "itemCount": 27,
+    "name": "Ապուրներ"
+   },
+   {
+    "id": 2187,
+    "itemCount": 25,
+    "name": "Նագեթներ,սնեք"
+   },
+   {
+    "id": 2252,
+    "itemCount": 19,
+    "name": "Սառեցված հավի միս"
+   },
+   {
+    "id": 2464,
+    "itemCount": 18,
+    "name": "Կատվի կեր դոնդողային"
+   },
+   {
+    "id": 757,
+    "itemCount": 12,
+    "name": "Խառնուրդներ"
+   },
+   {
+    "id": 2378,
+    "itemCount": 9,
+    "name": "Ապխտած հավամթերք, տեղական"
+   },
+   {
+    "id": 2185,
+    "itemCount": 7,
+    "name": "Կոտլետներ"
+   },
+   {
+    "id": 2460,
+    "itemCount": 7,
+    "name": "Շան կեր դոնդողային"
+   },
+   {
+    "id": 2082,
+    "itemCount": 6,
+    "name": "Հավի միս մարինացված"
+   },
+   {
+    "id": 2465,
+    "itemCount": 6,
+    "name": "Կատվի կեր չոր"
+   },
+   {
+    "id": 515,
+    "itemCount": 5,
+    "name": "Մանկական խյուս"
+   },
+   {
+    "id": 2189,
+    "itemCount": 5,
+    "name": "Նրբերշիկներ սառեցված"
+   },
+   {
+    "id": 2382,
+    "itemCount": 5,
+    "name": "Գարեջրի նախուտեստներ հավի"
+   },
+   {
+    "id": 2461,
+    "itemCount": 5,
+    "name": "Շան կեր չոր"
+   },
+   {
+    "id": 2059,
+    "itemCount": 4,
+    "name": "Խորոված, մարինացված հավի միս"
+   },
+   {
+    "id": 2183,
+    "itemCount": 4,
+    "name": "Քաբաբ, իքիբիր"
+   },
+   {
+    "id": 2201,
+    "itemCount": 4,
+    "name": "Խճողակ կիսաֆաբրիկատ"
+   },
+   {
+    "id": 2380,
+    "itemCount": 4,
+    "name": "Ջերկի"
+   },
+   {
+    "id": 562,
+    "itemCount": 3,
+    "name": "Նրբերշիկներ"
+   },
+   {
+    "id": 753,
+    "itemCount": 3,
+    "name": "Արգանակներ"
+   },
+   {
+    "id": 916,
+    "itemCount": 3,
+    "name": "Սոուսներ մսի և ձկան համար"
+   },
+   {
+    "id": 2040,
+    "itemCount": 3,
+    "name": "Ուտեստներ մսով և ծովամթերքով"
+   },
+   {
+    "id": 2043,
+    "itemCount": 3,
+    "name": "Գրիլ"
+   },
+   {
+    "id": 2045,
+    "itemCount": 3,
+    "name": "Աղցաններ մսով և ծովամթերքով"
+   },
+   {
+    "id": 2052,
+    "itemCount": 3,
+    "name": "Սենդվիչներ"
+   },
+   {
+    "id": 2067,
+    "itemCount": 3,
+    "name": "Խճողակ/Կուպատներ"
+   },
+   {
+    "id": 2181,
+    "itemCount": 3,
+    "name": "Նրբաբլիթներ"
+   },
+   {
+    "id": 2346,
+    "itemCount": 3,
+    "name": "Ռուլետ"
+   },
+   {
+    "id": 2076,
+    "itemCount": 2,
+    "name": "Քյաբաբ"
+   },
+   {
+    "id": 2080,
+    "itemCount": 2,
+    "name": "Թթուներ և մարինադներ"
+   },
+   {
+    "id": 2188,
+    "itemCount": 2,
+    "name": "Պելեմեններ, խինկալի"
+   },
+   {
+    "id": 2297,
+    "itemCount": 2,
+    "name": "Կարտոֆիլի չիպսեր"
+   },
+   {
+    "id": 530,
+    "itemCount": 1,
+    "name": "Հում ապխտած երշիկ"
+   },
+   {
+    "id": 749,
+    "itemCount": 1,
+    "name": "Համեմունքներ քաշով"
+   },
+   {
+    "id": 755,
+    "itemCount": 1,
+    "name": "Ունիվերսալ համեմունք"
+   },
+   {
+    "id": 1639,
+    "itemCount": 1,
+    "name": "Պահածոյացված միս"
+   },
+   {
+    "id": 1984,
+    "itemCount": 1,
+    "name": "Խորտիկներ"
+   },
+   {
+    "id": 2097,
+    "itemCount": 1,
+    "name": "Բանջարեղենային աղցաններ"
+   },
+   {
+    "id": 2195,
+    "itemCount": 1,
+    "name": "Խմորից պատրաստված ապրանքներ"
+   },
+   {
+    "id": 2242,
+    "itemCount": 1,
+    "name": "Տեղական չորահացեր"
+   },
+   {
+    "id": 2381,
+    "itemCount": 1,
+    "name": "Մսի ձողիկներ"
+   },
+   {
+    "id": 2496,
+    "itemCount": 1,
+    "name": "Կենդանիներ"
+   }
+  ],
+  "searchBrands": [
+   {
+    "id": 375,
+    "itemCount": 24,
+    "name": "Քուալիկո"
+   },
+   {
+    "id": 547,
+    "itemCount": 19,
+    "name": "Միրատորգ"
+   },
+   {
+    "id": 2303,
+    "itemCount": 16,
+    "name": "Արաքս"
+   },
+   {
+    "id": 2390,
+    "itemCount": 12,
+    "name": "Աթենք"
+   },
+   {
+    "id": 2386,
+    "itemCount": 10,
+    "name": "Աշտարակ"
+   },
+   {
+    "id": 4934,
+    "itemCount": 10,
+    "name": "Կոկո"
+   },
+   {
+    "id": 4354,
+    "itemCount": 9,
+    "name": "Բեկոն Պրոդուկտ"
+   },
+   {
+    "id": 1905,
+    "itemCount": 8,
+    "name": "Դոշիրակ"
+   },
+   {
+    "id": 4361,
+    "itemCount": 8,
+    "name": "Միթ Ֆուդ"
+   },
+   {
+    "id": 7050,
+    "itemCount": 8,
+    "name": "Սպիտակի Թրչնաֆաբրիկա"
+   },
+   {
+    "id": 259,
+    "itemCount": 6,
+    "name": "Ռոլլտոն"
+   },
+   {
+    "id": 2892,
+    "itemCount": 6,
+    "name": "Մագգի"
+   },
+   {
+    "id": 3799,
+    "itemCount": 6,
+    "name": "Ֆելիքս"
+   },
+   {
+    "id": 6077,
+    "itemCount": 6,
+    "name": "Սամյանգ"
+   },
+   {
+    "id": 7204,
+    "itemCount": 6,
+    "name": "Բելիսսիմո"
+   },
+   {
+    "id": 7500,
+    "itemCount": 6,
+    "name": "Թաարմ"
+   },
+   {
+    "id": 3370,
+    "itemCount": 5,
+    "name": "Ջրառատ"
+   },
+   {
+    "id": 3898,
+    "itemCount": 5,
+    "name": "Վիսկաս"
+   },
+   {
+    "id": 7138,
+    "itemCount": 5,
+    "name": "Բրիթ"
+   },
+   {
+    "id": 5942,
+    "itemCount": 4,
+    "name": "Բիգ Լանչ"
+   },
+   {
+    "id": 4736,
+    "itemCount": 3,
+    "name": "Բաֆի"
+   },
+   {
+    "id": 4834,
+    "itemCount": 3,
+    "name": "Գանձասար"
+   },
+   {
+    "id": 5329,
+    "itemCount": 3,
+    "name": "Հոմ Մեյդ"
+   },
+   {
+    "id": 5980,
+    "itemCount": 3,
+    "name": "Զադոյան"
+   },
+   {
+    "id": 6745,
+    "itemCount": 3,
+    "name": "Ֆրուտո Նյանյա"
+   },
+   {
+    "id": 5,
+    "itemCount": 2,
+    "name": "Պիվնիկ"
+   },
+   {
+    "id": 104,
+    "itemCount": 2,
+    "name": "Պրեմիքս"
+   },
+   {
+    "id": 1024,
+    "itemCount": 2,
+    "name": "Տնակ"
+   },
+   {
+    "id": 2846,
+    "itemCount": 2,
+    "name": "Կոտանի"
+   },
+   {
+    "id": 2893,
+    "itemCount": 2,
+    "name": "Մագիա Վոստոկա"
+   },
+   {
+    "id": 3625,
+    "itemCount": 2,
+    "name": "Կիտիկետ"
+   },
+   {
+    "id": 4431,
+    "itemCount": 2,
+    "name": "Գորյաչյայա շտուչկա"
+   },
+   {
+    "id": 4492,
+    "itemCount": 2,
+    "name": "Բիգ Բոն"
+   },
+   {
+    "id": 7137,
+    "itemCount": 2,
+    "name": "Ռասքո"
+   },
+   {
+    "id": 7889,
+    "itemCount": 2,
+    "name": "Օնտարիո"
+   },
+   {
+    "id": 1,
+    "itemCount": 1,
+    "name": "3 Կոռոչկի"
+   },
+   {
+    "id": 864,
+    "itemCount": 1,
+    "name": "Նատուր Ֆուդ"
+   },
+   {
+    "id": 884,
+    "itemCount": 1,
+    "name": "Վեգետա"
+   },
+   {
+    "id": 1361,
+    "itemCount": 1,
+    "name": "Sibirskaya"
+   },
+   {
+    "id": 1760,
+    "itemCount": 1,
+    "name": "Էր-Մա"
+   },
+   {
+    "id": 2196,
+    "itemCount": 1,
+    "name": "Չինա Հաուս"
+   },
+   {
+    "id": 2382,
+    "itemCount": 1,
+    "name": "Բայազետ"
+   },
+   {
+    "id": 2720,
+    "itemCount": 1,
+    "name": "Լավկա"
+   },
+   {
+    "id": 2724,
+    "itemCount": 1,
+    "name": "Լեյս"
+   },
+   {
+    "id": 2945,
+    "itemCount": 1,
+    "name": "Մափլ Լոդջ"
+   },
+   {
+    "id": 3017,
+    "itemCount": 1,
+    "name": "Լուսակերտ"
+   },
+   {
+    "id": 3132,
+    "itemCount": 1,
+    "name": "Հիփփ"
+   },
+   {
+    "id": 3158,
+    "itemCount": 1,
+    "name": "Հայնց"
+   },
+   {
+    "id": 3274,
+    "itemCount": 1,
+    "name": "Գրեյսինգեր"
+   },
+   {
+    "id": 3693,
+    "itemCount": 1,
+    "name": "Դարլինգ"
+   }
+  ],
+  "productsInOtherCategory": []
+ },
+ "messages": [
+  {
+   "key": 1,
+   "value": "OK"
+  }
+ ],
+ "alertIcon": null
+}

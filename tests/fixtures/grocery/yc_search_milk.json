@@ -1,0 +1,1824 @@
+{
+ "success": true,
+ "data": {
+  "pageCount": 24,
+  "itemCount": 720,
+  "products": [
+   {
+    "id": 174034,
+    "categoryId": 0,
+    "name": "Լվացվելու փրփուր «Դոլչե Միլկ» բաբլ միլկ 150մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167630.png",
+    "price": 2990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Լվացվելու փրփուր «Դոլչե Միլկ» բաբլ միլկ 150մլ",
+    "nameEn": "Foam face wash \"Dolce Milk\" bubble milk 150ml",
+    "nameRu": "Пенка д/умыв. Dolce Milk бабл милк 150мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Մաքրող միջոցներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236964,
+      "mult": 8
+     },
+     {
+      "id": 236965,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 19933,
+    "weightProductPricePerUnit": 150,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 813,
+    "categoryId": 0,
+    "name": "Իրիս «Ռոշեն» Միլկի Սպլեշ կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1047635.png",
+    "price": 2770.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 200,
+    "weightStep": 200,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 2379.984,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Իրիս «Ռոշեն» Միլկի Սպլեշ կգ",
+    "nameEn": "Toffee \"Roshen\" Milky Splash kg",
+    "nameRu": "Ирис Roshen Милки Сплеш кг",
+    "brandId": 244,
+    "isAttributeAttached": false,
+    "categoryName": "Իրիս",
+    "discountPercent": 14.08,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 17706,
+    "categoryId": 0,
+    "name": "Պաղպաղակ «Միլկա» Էսկիմո վանիլ-կաթ.շոկոլադով 62գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1099803.png",
+    "price": 1390.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պաղպաղակ «Միլկա» Էսկիմո վանիլ-կաթ.շոկոլադով 62գր",
+    "nameEn": "Ice cream \"Milka\" Escimo vanilla, milk chocolate 62g",
+    "nameRu": "Мороженое \"Милка\" эск. ван.мол.шок. 62г",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Պաղպաղակ Էսկիմո",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 184391,
+      "mult": 27
+     },
+     {
+      "id": 184392,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 22419,
+    "weightProductPricePerUnit": 62,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 159917,
+    "categoryId": 0,
+    "name": "Կաթնային կոկտեյլ «Միլկա» շոկոլադ 220մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1157588.png",
+    "price": 990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կաթնային կոկտեյլ «Միլկա» շոկոլադ 220մլ",
+    "nameEn": "Milk shake \"Milka\" chocolate 220ml",
+    "nameRu": "Мол. кокт. Milka шоколад 220мл",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Կաթնային կոկտեյլ, ըմպելիք",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 188935,
+      "mult": 10
+     },
+     {
+      "id": 188936,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Special ",
+     "backgroundColor": "#1a2975",
+     "textColor": "#ffffff",
+     "id": 21,
+     "icon": null,
+     "type": 0
+    },
+    "productPricePerUnit": 4500,
+    "weightProductPricePerUnit": 220,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 159919,
+    "categoryId": 0,
+    "name": "Կաթնային կոկտեյլ «Միլկա» Նոյսիթ 220մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1157590.png",
+    "price": 990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կաթնային կոկտեյլ «Միլկա» Նոյսիթ 220մլ",
+    "nameEn": "Milk shake \"Milka\" Noisette 220ml",
+    "nameRu": "Мол. кокт. Milka Noisette 220мл",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Կաթնային կոկտեյլ, ըմպելիք",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 188939,
+      "mult": 10
+     },
+     {
+      "id": 188940,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 4500,
+    "weightProductPricePerUnit": 220,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 26792,
+    "categoryId": 0,
+    "name": "Տորթ «Դան Դեսերտ» Միլկա 1500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1088845.png",
+    "price": 5150.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Տորթ «Դան Դեսերտ» Միլկա 1500գր",
+    "nameEn": "Cake \"Dan Dessert\" Milka 1500g",
+    "nameRu": "Торт \"Dan Dessert\" Милка 1500г",
+    "brandId": 4304,
+    "isAttributeAttached": false,
+    "categoryName": "Տորթ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 76413,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3433,
+    "weightProductPricePerUnit": 1500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 69313,
+    "categoryId": 0,
+    "name": "Շոկոլադե կրեմ «Միլկա» ա/տ 350գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1113839.png",
+    "price": 1990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Շոկոլադե կրեմ «Միլկա» ա/տ 350գր",
+    "nameEn": "Chocolate cream \"Milka\" g/b 350g",
+    "nameRu": "Шок крем \"Милка\" с/б 350г",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Շոկոլադե և ընկույզի կրեմներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 31184,
+      "mult": 12
+     },
+     {
+      "id": 31185,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 5685,
+    "weightProductPricePerUnit": 350,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 2235,
+    "categoryId": 0,
+    "name": "Կարամել «Ռոշեն» Բաթեր միլք կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1094529.png",
+    "price": 1750.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 200,
+    "weightStep": 200,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կարամել «Ռոշեն» Բաթեր միլք կգ",
+    "nameEn": "Caramel \"Roshen\" Butter milk kg",
+    "nameRu": "Карамель Roshen Баттер милк кг",
+    "brandId": 244,
+    "isAttributeAttached": false,
+    "categoryName": "Կարամել",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 28773,
+    "categoryId": 0,
+    "name": "Թխվածքաբլիթ «Օրեո» Միլկ Չոկ 246գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1078049.png",
+    "price": 1690.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 1289.977,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Թխվածքաբլիթ «Օրեո» Միլկ Չոկ 246գր",
+    "nameEn": "Cookies \"Oreo\" Milk Choc 246g",
+    "nameRu": "Печенье \"Oreo\" Milk Choc 246г",
+    "brandId": 731,
+    "isAttributeAttached": false,
+    "categoryName": "Թխվածքաբլիթ",
+    "discountPercent": 23.67,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 33985,
+      "mult": 10
+     },
+     {
+      "id": 33986,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 5243,
+    "weightProductPricePerUnit": 246,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 174042,
+    "categoryId": 0,
+    "name": "Մարմնի կաթիկ «Դոլչե Միլկ» ելակ 200մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167638.png",
+    "price": 2890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Մարմնի կաթիկ «Դոլչե Միլկ» ելակ 200մլ",
+    "nameEn": "Body milk \"Dolce Milk\" strawberry 200ml",
+    "nameRu": "Молочко д/т Dolce Milk клубника 200мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Մարմնի կաթ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236980,
+      "mult": 12
+     },
+     {
+      "id": 236981,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 14450,
+    "weightProductPricePerUnit": 200,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 174033,
+    "categoryId": 0,
+    "name": "Միցելային վարդագույն ջուր «Դոլչե Միլկ» 200մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167619.png",
+    "price": 1990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Միցելային վարդագույն ջուր «Դոլչե Միլկ» 200մլ",
+    "nameEn": "Micellar rose water \"Dolce Milk\" 200ml",
+    "nameRu": "Мицел.роз.вода Dolce Milk 200мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Մաքրող միջոցներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236962,
+      "mult": 10
+     },
+     {
+      "id": 236963,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 9950,
+    "weightProductPricePerUnit": 200,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 98588,
+    "categoryId": 0,
+    "name": "Բատոնչիկ «Միլկի Վեյ» 52գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1134061.png",
+    "price": 290.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Բատոնչիկ «Միլկի Վեյ» 52գր",
+    "nameEn": "Bar \"Milky Way\" 52g",
+    "nameRu": "Батончик Milky Way 52г",
+    "brandId": 610,
+    "isAttributeAttached": false,
+    "categoryName": "Շոկոլադե բատոններ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 56200,
+      "mult": 18
+     },
+     {
+      "id": 56201,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 5576,
+    "weightProductPricePerUnit": 52,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 13127,
+    "categoryId": 0,
+    "name": "Բատոնչիկ «Միլկի Վեյ» 26գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1044136.png",
+    "price": 225.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Բատոնչիկ «Միլկի Վեյ» 26գր",
+    "nameEn": "Bar \"Milky Way\" 26g",
+    "nameRu": "Батончик Milky Way 26г",
+    "brandId": 610,
+    "isAttributeAttached": false,
+    "categoryName": "Շոկոլադե բատոններ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 56162,
+      "mult": 1
+     },
+     {
+      "id": 56163,
+      "mult": 36
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 26,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 90455,
+    "categoryId": 0,
+    "name": "Պաղպաղակ «Միլկա» Էսկիմո սերուցք-անտ.hատապտ. 64գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1127452.png",
+    "price": 1390.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պաղպաղակ «Միլկա» Էսկիմո սերուցք-անտ.hատապտ. 64գր",
+    "nameEn": "Ice cream \"Milka\" Escimo, cream and forest berries 64g",
+    "nameRu": "Мороженое Милка эск. слив.и лес.яг. 64г",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Պաղպաղակ Էսկիմո",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 184395,
+      "mult": 27
+     },
+     {
+      "id": 184396,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 21718,
+    "weightProductPricePerUnit": 64,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 174045,
+    "categoryId": 0,
+    "name": "Գնդիկավոր հոտազերծիչ «Դոլչե Միլկ» ելակ 50մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167641.png",
+    "price": 1890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Գնդիկավոր հոտազերծիչ «Դոլչե Միլկ» ելակ 50մլ",
+    "nameEn": "Roll-on deodorant \"Dolce Milk\" strawberry 50ml",
+    "nameRu": "Шарик Dolce Milk клубника 50мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Դեզոդորանտ հակաքրտինքային միջոց",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236986,
+      "mult": 12
+     },
+     {
+      "id": 236987,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 50,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 158663,
+    "categoryId": 0,
+    "name": "Կաթ «Միլկին» 2.5% ա/գ 950մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1156301.png",
+    "price": 600.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Կաթ «Միլկին» 2.5% ա/գ 950մլ",
+    "nameEn": "Milk \"Milkin\" 2.5% gluten free 950ml",
+    "nameRu": "Молоко \"Милкин\" 2.5% б/г 950мл",
+    "brandId": 7336,
+    "isAttributeAttached": false,
+    "categoryName": "Կաթ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 186155,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Gluten free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 13,
+     "icon": "https://media.yerevan-city.am/api/Image/Resize/ProductTag/gggwww-639247317159653777.png",
+     "type": 0
+    },
+    "productPricePerUnit": 631,
+    "weightProductPricePerUnit": 950,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 174035,
+    "categoryId": 0,
+    "name": "Շպար մաքրող դոնդող-կաթիկ «Դոլչե Միլկ» 3/1 200մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167631.png",
+    "price": 2490.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Շպար մաքրող դոնդող-կաթիկ «Դոլչե Միլկ» 3/1 200մլ",
+    "nameEn": "Milk-jelly for cleansing face \"Dolce Milk\" 3in 1 200ml",
+    "nameRu": "Мол-желе д/сн.мак. Dolce Milk 3в1 200мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Մաքրող միջոցներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236966,
+      "mult": 10
+     },
+     {
+      "id": 236967,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 12450,
+    "weightProductPricePerUnit": 200,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 102264,
+    "categoryId": 0,
+    "name": "Պուդինգ «Միլկոս» բրնձով 165գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1137155.png",
+    "price": 440.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պուդինգ «Միլկոս» բրնձով 165գր",
+    "nameEn": "Rice pudding \"Milko's\" 165g",
+    "nameRu": "Пудинг \"Милкос\" с рисом 165г",
+    "brandId": 7743,
+    "isAttributeAttached": false,
+    "categoryName": "Յոգուրտային արտադրանք, աղանդեր, պուդինգ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 230601,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2666,
+    "weightProductPricePerUnit": 165,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 174041,
+    "categoryId": 0,
+    "name": "Մարմնի կաթիկ «Դոլչե Միլկ» շոկո-չոկո 200մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167637.png",
+    "price": 2890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Մարմնի կաթիկ «Դոլչե Միլկ» շոկո-չոկո 200մլ",
+    "nameEn": "Body milk \"Dolce Milk\" shoko-choco 200ml",
+    "nameRu": "Молочко д/т Dolce Milk шоко-чоко 200мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Մարմնի կաթ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236978,
+      "mult": 12
+     },
+     {
+      "id": 236979,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 14450,
+    "weightProductPricePerUnit": 200,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 174026,
+    "categoryId": 0,
+    "name": "Լոգանքի գել «Դոլչե Միլկ» ելակ 460մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167612.png",
+    "price": 2890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Լոգանքի գել «Դոլչե Միլկ» ելակ 460մլ",
+    "nameEn": "Shower gel \"Dolce Milk\" strawberry 460ml",
+    "nameRu": "Гель д/д Dolce Milk клубника 460мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Լոգանքի գել կանացի",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236947,
+      "mult": 6
+     },
+     {
+      "id": 236948,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 6282,
+    "weightProductPricePerUnit": 460,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 174030,
+    "categoryId": 0,
+    "name": "Ձեռքերի քսուք «Դոլչե Միլկ» ելակ 75մլ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1167616.png",
+    "price": 1790.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Ձեռքերի քսուք «Դոլչե Միլկ» ելակ 75մլ",
+    "nameEn": "Shower gel \"Dolce Milk\" strawberry 75ml",
+    "nameRu": "Крем д/рук Dolce Milk клубника 75мл",
+    "brandId": 7764,
+    "isAttributeAttached": false,
+    "categoryName": "Կրեմներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236956,
+      "mult": 24
+     },
+     {
+      "id": 236957,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 23866,
+    "weightProductPricePerUnit": 75,
+    "weightMeasure": "ML",
+    "videoLink": null
+   },
+   {
+    "id": 68318,
+    "categoryId": 0,
+    "name": "Շոկ.սալիկ «Միլկա» կաթ.շոկ․ ծակոտկեն 90գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1113162.png",
+    "price": 750.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Շոկ.սալիկ «Միլկա» կաթ.շոկ․ ծակոտկեն 90գր",
+    "nameEn": "Chocolate bar \"Milka\" milk chocolate bubbles 90g",
+    "nameRu": "Плитка \"Milka\" мол.пористый шоколад 90г",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Շոկոլադե սալիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 1177,
+      "mult": 14
+     },
+     {
+      "id": 1178,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 8333,
+    "weightProductPricePerUnit": 90,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 8977,
+    "categoryId": 0,
+    "name": "Թխվածքաբլիթ «Միլկա» կաթ և շոկոլադ 150գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1078044.png",
+    "price": 890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 690.017,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Թխվածքաբլիթ «Միլկա» կաթ և շոկոլադ 150գր",
+    "nameEn": "Cookies \"Milka\" milk and chocolate 150g",
+    "nameRu": "Печенье \"Milka\" мол.и шок. 150г",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Թխվածքաբլիթ",
+    "discountPercent": 22.47,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 75772,
+      "mult": 16
+     },
+     {
+      "id": 75773,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 4600,
+    "weightProductPricePerUnit": 150,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 53815,
+    "categoryId": 0,
+    "name": "Պանիր լիբանանյան «Միլկոս» Հալլում կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1108323.png",
+    "price": 5990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 500,
+    "weightStep": 500,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պանիր լիբանանյան «Միլկոս» Հալլում կգ",
+    "nameEn": "Lebanon cheese \"Milkos\" Halloum kg",
+    "nameRu": "Сыр ливийский \"Милкос\" Халлум кг",
+    "brandId": 7743,
+    "isAttributeAttached": false,
+    "categoryName": "Պանիր ֆետա, աղաջրային, բրինզա, մոցարելլա",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   },
+   {
+    "id": 53812,
+    "categoryId": 0,
+    "name": "Պանիր լիբանանյան «Միլկոս» Նաբուլսի կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1108324.png",
+    "price": 5990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 400,
+    "weightStep": 400,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պանիր լիբանանյան «Միլկոս» Նաբուլսի կգ",
+    "nameEn": "Lebanon cheese \"Milkos\" Nabulsi kg",
+    "nameRu": "Сыр ливийский \"Милкос\" Набулси кг",
+    "brandId": 7743,
+    "isAttributeAttached": false,
+    "categoryName": "Պանիր ֆետա, աղաջրային, բրինզա, մոցարելլա",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   },
+   {
+    "id": 69322,
+    "categoryId": 0,
+    "name": "Շոկ.սալիկ «Միլկա» կաթ.շոկ-յոգուրտ 100գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1113863.png",
+    "price": 750.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Շոկ.սալիկ «Միլկա» կաթ.շոկ-յոգուրտ 100գր",
+    "nameEn": "Chocolate bar \"Milka\" milk chocolate and joghurt 100g",
+    "nameRu": "Плитка \"Milka\" мол.шок.и йогурт 100г",
+    "brandId": 608,
+    "isAttributeAttached": false,
+    "categoryName": "Շոկոլադե սալիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 168987,
+      "mult": 23
+     },
+     {
+      "id": 168988,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 7500,
+    "weightProductPricePerUnit": 100,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 14407,
+    "categoryId": 0,
+    "name": "Բատոնչիկ «Միլկի Վեյ» Մինիս 176գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1051204.png",
+    "price": 1110.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Բատոնչիկ «Միլկի Վեյ» Մինիս 176գր",
+    "nameEn": "Bar \"Milky Way\" Minis 176g",
+    "nameRu": "Батончик Milky Way Minis 176г",
+    "brandId": 610,
+    "isAttributeAttached": false,
+    "categoryName": "Շոկոլադե բատոններ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 56166,
+      "mult": 9
+     },
+     {
+      "id": 56167,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 6306,
+    "weightProductPricePerUnit": 176,
+    "weightMeasure": "G",
+    "videoLink": "https://erp-media.innodream.com/Medias/597531bf7bc840cc99034ce565fb918a.mp4"
+   },
+   {
+    "id": 94656,
+    "categoryId": 0,
+    "name": "Տաք շոկոլադ «Միլկի Վեյ» 140գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1131269.png",
+    "price": 1990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Տաք շոկոլադ «Միլկի Վեյ» 140գր",
+    "nameEn": "Hot chocolate \"Milky Way\" 140g",
+    "nameRu": "Горячий шок. Milky Way 140г",
+    "brandId": 610,
+    "isAttributeAttached": false,
+    "categoryName": "Տաք շոկոլադ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 56292,
+      "mult": 6
+     },
+     {
+      "id": 56293,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 14214,
+    "weightProductPricePerUnit": 140,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 102266,
+    "categoryId": 0,
+    "name": "Քամած մածուն լաբնի «Միլկոս» 450գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1137157.png",
+    "price": 1090.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Քամած մածուն լաբնի «Միլկոս» 450գր",
+    "nameEn": "Strained matsun labneh \"Milko's\" 450g",
+    "nameRu": "Мацони сцеженный лабни \"Милкос\" 450г",
+    "brandId": 7743,
+    "isAttributeAttached": false,
+    "categoryName": "Քամած մածուն",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 270082,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2422,
+    "weightProductPricePerUnit": 450,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 53804,
+    "categoryId": 0,
+    "name": "Պանիր լիբանանյան «Միլկոս» Սուրքի կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1108321.png",
+    "price": 4790.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 500,
+    "weightStep": 500,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պանիր լիբանանյան «Միլկոս» Սուրքի կգ",
+    "nameEn": "Lebanon cheese \"Milko's\" Sourki kg",
+    "nameRu": "Сыр ливийский \"Милкос\" Сурки кг",
+    "brandId": 7743,
+    "isAttributeAttached": false,
+    "categoryName": "Պանիր ֆետա, աղաջրային, բրինզա, մոցարելլա",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   }
+  ],
+  "categories": [
+   {
+    "id": 354,
+    "itemCount": 82,
+    "name": "Շոկոլադե սալիկներ"
+   },
+   {
+    "id": 478,
+    "itemCount": 53,
+    "name": "Կաթ"
+   },
+   {
+    "id": 412,
+    "itemCount": 42,
+    "name": "Թխվածքաբլիթ"
+   },
+   {
+    "id": 460,
+    "itemCount": 39,
+    "name": "Կաթնային կոկտեյլ, ըմպելիք"
+   },
+   {
+    "id": 444,
+    "itemCount": 31,
+    "name": "Խտացրած կաթ"
+   },
+   {
+    "id": 408,
+    "itemCount": 30,
+    "name": "Վաֆլի"
+   },
+   {
+    "id": 474,
+    "itemCount": 29,
+    "name": "Կաթնաթթվային մթերք"
+   },
+   {
+    "id": 562,
+    "itemCount": 16,
+    "name": "Նրբերշիկներ"
+   },
+   {
+    "id": 653,
+    "itemCount": 15,
+    "name": "Բիսքվիթներ"
+   },
+   {
+    "id": 2278,
+    "itemCount": 15,
+    "name": "Հեղուկ օճառ"
+   },
+   {
+    "id": 2279,
+    "itemCount": 14,
+    "name": "Չոր օճառ"
+   },
+   {
+    "id": 477,
+    "itemCount": 13,
+    "name": "Կաթնաշոռային արտադրանք"
+   },
+   {
+    "id": 2285,
+    "itemCount": 13,
+    "name": "Լոգանքի գել կանացի"
+   },
+   {
+    "id": 648,
+    "itemCount": 12,
+    "name": "Կոնֆետների հավաքածուներ"
+   },
+   {
+    "id": 755,
+    "itemCount": 12,
+    "name": "Ունիվերսալ համեմունք"
+   },
+   {
+    "id": 2390,
+    "itemCount": 12,
+    "name": "Լաթեր"
+   },
+   {
+    "id": 517,
+    "itemCount": 10,
+    "name": "Կաթնային խառնուրդ"
+   },
+   {
+    "id": 425,
+    "itemCount": 9,
+    "name": "Շոկոլադե կոնֆետներ"
+   },
+   {
+    "id": 472,
+    "itemCount": 9,
+    "name": "Թթվասերային արտադրանք"
+   },
+   {
+    "id": 554,
+    "itemCount": 9,
+    "name": "Եփած երշիկ"
+   },
+   {
+    "id": 2696,
+    "itemCount": 9,
+    "name": "Ըմպելի յոգուրտ"
+   },
+   {
+    "id": 519,
+    "itemCount": 8,
+    "name": "Կաթնային շիլա"
+   },
+   {
+    "id": 2328,
+    "itemCount": 8,
+    "name": "Կրեմներ"
+   },
+   {
+    "id": 421,
+    "itemCount": 7,
+    "name": "Կոնֆետներ դրաժե"
+   },
+   {
+    "id": 446,
+    "itemCount": 7,
+    "name": "Յոգուրտ"
+   },
+   {
+    "id": 936,
+    "itemCount": 7,
+    "name": "Պաղպաղակ Ընտանեկան"
+   },
+   {
+    "id": 2332,
+    "itemCount": 7,
+    "name": "Մարմնի կաթ"
+   },
+   {
+    "id": 2334,
+    "itemCount": 7,
+    "name": "Մաքրող միջոցներ"
+   },
+   {
+    "id": 395,
+    "itemCount": 6,
+    "name": "Դրաժե"
+   },
+   {
+    "id": 505,
+    "itemCount": 6,
+    "name": "Դիաբետիկ քաղցրավենիք"
+   },
+   {
+    "id": 882,
+    "itemCount": 6,
+    "name": "Սառը սուրճ"
+   },
+   {
+    "id": 1497,
+    "itemCount": 6,
+    "name": "Առանց գլյուտեն քաղցրավենիք"
+   },
+   {
+    "id": 371,
+    "itemCount": 5,
+    "name": "Շոկոլադե բատոններ"
+   },
+   {
+    "id": 455,
+    "itemCount": 5,
+    "name": "Պանիր ֆետա, աղաջրային, բրինզա, մոցարելլա"
+   },
+   {
+    "id": 530,
+    "itemCount": 5,
+    "name": "Հում ապխտած երշիկ"
+   },
+   {
+    "id": 926,
+    "itemCount": 5,
+    "name": "Մածուն"
+   },
+   {
+    "id": 946,
+    "itemCount": 5,
+    "name": "Պահածոյացված մրգեր"
+   },
+   {
+    "id": 993,
+    "itemCount": 5,
+    "name": "Աղ"
+   },
+   {
+    "id": 2019,
+    "itemCount": 5,
+    "name": "Տորթ"
+   },
+   {
+    "id": 2153,
+    "itemCount": 5,
+    "name": "Կաթ և կաթնային կոկտեյլ ա/լ"
+   },
+   {
+    "id": 448,
+    "itemCount": 4,
+    "name": "Պանիր Լոռի"
+   },
+   {
+    "id": 1032,
+    "itemCount": 4,
+    "name": "Շիլա"
+   },
+   {
+    "id": 1384,
+    "itemCount": 4,
+    "name": "Կանացի գուլպաներ"
+   },
+   {
+    "id": 2244,
+    "itemCount": 4,
+    "name": "Քաղցր եգիպտացորեն"
+   },
+   {
+    "id": 2325,
+    "itemCount": 4,
+    "name": "Դեզոդորանտ հակաքրտինքային միջոց"
+   },
+   {
+    "id": 2479,
+    "itemCount": 4,
+    "name": "Տիկնիկներ"
+   },
+   {
+    "id": 409,
+    "itemCount": 3,
+    "name": "Վաֆլե ձողիկներ"
+   },
+   {
+    "id": 419,
+    "itemCount": 3,
+    "name": "Իրիս"
+   },
+   {
+    "id": 441,
+    "itemCount": 3,
+    "name": "Շոկոլադե և ընկույզի կրեմներ"
+   },
+   {
+    "id": 471,
+    "itemCount": 3,
+    "name": "Թթվասեր"
+   }
+  ],
+  "searchBrands": [
+   {
+    "id": 608,
+    "itemCount": 44,
+    "name": "Միլկա"
+   },
+   {
+    "id": 7336,
+    "itemCount": 22,
+    "name": "Միլկին"
+   },
+   {
+    "id": 3190,
+    "itemCount": 20,
+    "name": "Գրանդ Քենդի"
+   },
+   {
+    "id": 195,
+    "itemCount": 14,
+    "name": "Պարմալատ"
+   },
+   {
+    "id": 244,
+    "itemCount": 13,
+    "name": "Ռոշեն"
+   },
+   {
+    "id": 114,
+    "itemCount": 12,
+    "name": "Պանացեա"
+   },
+   {
+    "id": 7764,
+    "itemCount": 12,
+    "name": "Դոլչե Միլկ"
+   },
+   {
+    "id": 135,
+    "itemCount": 11,
+    "name": "Փալմոլիվ"
+   },
+   {
+    "id": 2928,
+    "itemCount": 11,
+    "name": "Մարիաննա"
+   },
+   {
+    "id": 833,
+    "itemCount": 10,
+    "name": "Նեսթլե"
+   },
+   {
+    "id": 1614,
+    "itemCount": 10,
+    "name": "Տեո"
+   },
+   {
+    "id": 3132,
+    "itemCount": 10,
+    "name": "Հիփփ"
+   },
+   {
+    "id": 2765,
+    "itemCount": 9,
+    "name": "Կինդեր"
+   },
+   {
+    "id": 7600,
+    "itemCount": 9,
+    "name": "Պաստուխով"
+   },
+   {
+    "id": 7746,
+    "itemCount": 9,
+    "name": "ՄիլկԱրտ"
+   },
+   {
+    "id": 8038,
+    "itemCount": 9,
+    "name": "ՖԵՌԱՐԻՆԻ ԲԲԸ"
+   },
+   {
+    "id": 844,
+    "itemCount": 8,
+    "name": "Նիդրա"
+   },
+   {
+    "id": 2196,
+    "itemCount": 8,
+    "name": "Չինա Հաուս"
+   },
+   {
+    "id": 2846,
+    "itemCount": 8,
+    "name": "Կոտանի"
+   },
+   {
+    "id": 3640,
+    "itemCount": 8,
+    "name": "Կորովկա իզ Կորենովկի"
+   },
+   {
+    "id": 6897,
+    "itemCount": 8,
+    "name": "Էքսպոնենտա"
+   },
+   {
+    "id": 7962,
+    "itemCount": 8,
+    "name": "Պերֆե"
+   },
+   {
+    "id": 610,
+    "itemCount": 7,
+    "name": "Միլկի Վեյ"
+   },
+   {
+    "id": 1204,
+    "itemCount": 7,
+    "name": "Յաշկինո"
+   },
+   {
+    "id": 3007,
+    "itemCount": 7,
+    "name": "Լինդթ"
+   },
+   {
+    "id": 4137,
+    "itemCount": 7,
+    "name": "Զայա"
+   },
+   {
+    "id": 5923,
+    "itemCount": 7,
+    "name": "Իմունելե"
+   },
+   {
+    "id": 6981,
+    "itemCount": 7,
+    "name": "Այգ"
+   },
+   {
+    "id": 7743,
+    "itemCount": 7,
+    "name": "Միկոս"
+   },
+   {
+    "id": 8120,
+    "itemCount": 7,
+    "name": "Սեմպեր"
+   },
+   {
+    "id": 5112,
+    "itemCount": 6,
+    "name": "Ռիթր Սպորտ"
+   },
+   {
+    "id": 7840,
+    "itemCount": 6,
+    "name": "Բերգեն"
+   },
+   {
+    "id": 78,
+    "itemCount": 5,
+    "name": "Պրոստոկվաշինո"
+   },
+   {
+    "id": 831,
+    "itemCount": 5,
+    "name": "Նեսքուիկ"
+   },
+   {
+    "id": 2520,
+    "itemCount": 5,
+    "name": "Դարոյնք"
+   },
+   {
+    "id": 2905,
+    "itemCount": 5,
+    "name": "ՄարիՄոլոկո"
+   },
+   {
+    "id": 3418,
+    "itemCount": 5,
+    "name": "Իգիթ"
+   },
+   {
+    "id": 3585,
+    "itemCount": 5,
+    "name": "Էմ ընդ Էմս"
+   },
+   {
+    "id": 3925,
+    "itemCount": 5,
+    "name": "Երեմյան Փրոդաքթս"
+   },
+   {
+    "id": 4361,
+    "itemCount": 5,
+    "name": "Միթ Ֆուդ"
+   },
+   {
+    "id": 4600,
+    "itemCount": 5,
+    "name": "Արմ Սպունգ"
+   },
+   {
+    "id": 5001,
+    "itemCount": 5,
+    "name": "Դրիմ"
+   },
+   {
+    "id": 6745,
+    "itemCount": 5,
+    "name": "Ֆրուտո Նյանյա"
+   },
+   {
+    "id": 8133,
+    "itemCount": 5,
+    "name": "Կելլեքտիվա"
+   },
+   {
+    "id": 852,
+    "itemCount": 4,
+    "name": "Նարինե"
+   },
+   {
+    "id": 1406,
+    "itemCount": 4,
+    "name": "Սլադոնեժ"
+   },
+   {
+    "id": 1557,
+    "itemCount": 4,
+    "name": "Թամարա"
+   },
+   {
+    "id": 2285,
+    "itemCount": 4,
+    "name": "Բոնիլատ"
+   },
+   {
+    "id": 2328,
+    "itemCount": 4,
+    "name": "Անի"
+   },
+   {
+    "id": 2342,
+    "itemCount": 4,
+    "name": "Ալեքսեևսկոյե"
+   }
+  ],
+  "productsInOtherCategory": []
+ },
+ "messages": [
+  {
+   "key": 1,
+   "value": "OK"
+  }
+ ],
+ "alertIcon": null
+}

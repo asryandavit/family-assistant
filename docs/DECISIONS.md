@@ -457,3 +457,18 @@ intermittent fasting, light dinner by 19:00, hard sessions 2–3 h after main me
 oil/fibre/fish emphasis, lactose-free milk with fermented dairy kept. Karine's postpartum
 gate (067) carries into the manual plan as a symptom self-check. The son gets a WHO-based
 play plan and remains untracked (§1). Evidence summary in `plan/sources.md`.
+
+## Grocery prices
+
+**077 — 2026-10-18 — Grocery price lookup over plain HTTP; each shop independent.**
+Discovery (fixtures in `tests/fixtures/grocery/`): Parma renders search results
+server-side (`/en/product/search?text=…&page=N`, 60 per page); Yerevan City has a public
+JSON search API (`apishopv2…/api/Product/Search`) that answers without the browser's
+anonymous token, with English names. So no Playwright: faster and far less fragile than
+the travel scrapers. Parsing is stdlib regex like `parse_stays` — no BeautifulSoup
+dependency. Every item is normalised to one shape with a **unit price per kg/l**, because
+Parma shows weight items at the price of the *minimum* amount (0.5 kg) and comparing
+that against a 1 kg pack would be off by 2×. Both shops rank loosely ("milk" returns
+face wash), so results are filtered locally: whole-word, plural-tolerant matching, with
+names that lead with the product type ranked first. Prices are always looked up fresh,
+never stored as truth. A shop failure is reported in the message, never hidden.
