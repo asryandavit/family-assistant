@@ -1,11 +1,12 @@
 """Build the Telegram HTML messages. Layout only -- all numbers arrive computed."""
 from datetime import date
 
-from lib import places
+from lib import places, ui
 from lib.telegram import esc
 
 SYM = {"USD": "$", "EUR": "\u20ac", "AMD": "\u058f", "GBP": "\u00a3"}
 BAR = "\u2501" * 12
+SHOWN = 3   # items visible before the fold (docs/TELEGRAM_UX.md)
 
 
 def _money(v, cur):
@@ -42,54 +43,49 @@ def _trip_line(cfg, t):
 
 def build_alert(cfg, drops, new_routes, trip_new, trip_drops, insight=""):
     home = cfg["wizz"].get("origin_code", "EVN")
-    now = date.today()
-    out = [f'\u2708\ufe0f <b>TRAVEL \u00b7 Deals</b>',
-           f'<i>{now.strftime("%d %b")}</i>', BAR]
-
+    body = []
     for d in drops:
         code = d["d"] if d["o"] == home else d["o"]
         back = "" if d["o"] == home else " \u2190"  # inbound leg marker
         tag = " \U0001f53b <b>all-time low</b>" if d["atl"] else ""
-        out.append(f'\U0001f4c9 <b>{esc(places.label(cfg, code))}</b>{back} {_mon(d["month"])}  '
-                   f'${d["prev"]:g} \u2192 <b>${d["now"]:g}</b> ({d["pct"]:+g}%){tag}')
+        body.append(f'\U0001f4c9 <b>{esc(places.label(cfg, code))}</b>{back} {_mon(d["month"])}  '
+                    f'${d["prev"]:g} \u2192 <b>${d["now"]:g}</b> ({d["pct"]:+g}%){tag}')
 
     for n in new_routes:
         code = n["d"] if n["o"] == home else n["o"]
         back = "" if n["o"] == home else " \u2190"
-        out.append(f'\U0001f195 <b>{esc(places.label(cfg, code))}</b>{back} '
-                   f'from ${n["price"]:g} ({_mon(n["month"])})')
+        body.append(f'\U0001f195 <b>{esc(places.label(cfg, code))}</b>{back} '
+                    f'from ${n["price"]:g} ({_mon(n["month"])})')
 
-    if trip_new or trip_drops:
-        out += ["", "\U0001f9e9 <b>Trips</b>"]
-        for t in trip_drops:
-            out.append(_trip_line(cfg, t) + f'  \U0001f4c9 was ${t["prev_total"]:g}')
-        for t in trip_new:
-            out.append(_trip_line(cfg, t))
-
+    trips = ([_trip_line(cfg, t) + f'  \U0001f4c9 was ${t["prev_total"]:g}' for t in trip_drops]
+             + [_trip_line(cfg, t) for t in trip_new])
+    if trips:
+        body += ["", "\U0001f9e9 <b>Trips</b>"] + trips[:SHOWN]
     if insight:
-        out += ["", f'\U0001f4a1 <i>{esc(insight)}</i>']
-
-    out += [BAR, _sheet_link(cfg)]
-    return "\n".join(x for x in out if x is not None)
+        body += ["", f'\U0001f4a1 <i>{esc(insight)}</i>']
+    rest = trips[SHOWN:]
+    folded = ui.fold(rest, "%d more trips" % len(rest) if rest else None)
+    return ui.page(ui.header("\u2708\ufe0f", "Travel deals", ui.day_label()),
+                   body, folded, _sheet_link(cfg))
 
 
 def build_digest(cfg, trips, cheapest_legs, insight=""):
-    now = date.today()
-    out = [f'\u2708\ufe0f <b>TRAVEL \u00b7 Weekly digest</b>',
-           f'<i>{now.strftime("%d %b")}</i>', BAR]
-    if trips:
-        out.append("\U0001f9e9 <b>Best current trips</b>")
-        out += [_trip_line(cfg, t) for t in trips[:8]]
-    if cheapest_legs:
-        out += ["", "\U0001fab6 <b>Cheapest legs</b>"]
-        for f in cheapest_legs[:8]:
-            arrow = f'{esc(places.label(cfg, f["origin"]))}\u2192{esc(places.label(cfg, f["destination"]))}'
-            out.append(f'\u2022 {arrow} {_dm(f["out_date"])} \u2014 '
-                       f'<b>{_money(f["regular"], f["currency"])}</b>')
+    lines = [_trip_line(cfg, t) for t in trips[:8]]
+    body = []
+    if lines:
+        body += ["\U0001f9e9 <b>Best current trips</b>"] + lines[:SHOWN]
     if insight:
-        out += ["", f'\U0001f4a1 <i>{esc(insight)}</i>']
-    out += [BAR, _sheet_link(cfg)]
-    return "\n".join(out)
+        body += ["", f'\U0001f4a1 <i>{esc(insight)}</i>']
+    legs = [f'\u2022 {esc(places.label(cfg, f["origin"]))}\u2192{esc(places.label(cfg, f["destination"]))} '
+            f'{_dm(f["out_date"])} \u2014 <b>{_money(f["regular"], f["currency"])}</b>'
+            for f in cheapest_legs[:8]]
+    more = lines[SHOWN:]
+    fold_lines = more + ([""] if more and legs else []) + (
+        ["\U0001fab6 <b>Cheapest legs</b>"] + legs if legs else [])
+    titles = (["%d more trips" % len(more)] if more else []) + (["cheapest legs"] if legs else [])
+    folded = ui.fold(fold_lines, " \u00b7 ".join(titles).capitalize() if titles else None)
+    return ui.page(ui.header("\u2708\ufe0f", "Weekly digest", ui.day_label()),
+                   body, folded, _sheet_link(cfg))
 
 
 def links_line(links):
@@ -129,27 +125,27 @@ def _stay_line(i, r):
 
 def build_stays(cfg, q, city_name, ranked, links, blocked=None):
     n = (cfg.get("stays") or {}).get("max_results", 6)
-    ci = date.fromisoformat(q["checkin"]); co = date.fromisoformat(q["checkout"])
     who = "2 adults + infant" if q["child_age"] < 2 else "2 adults + child"
-    head = ("\U0001f3e8 <b>STAYS \u00b7 %s</b>\n<i>%s\u2013%s \u00b7 %dn \u00b7 %s</i>"
-            % (esc(city_name), _dm(q["checkin"]), _dm(q["checkout"]), q["nights"], who))
+    sub = "%s\u2013%s \u00b7 %dn \u00b7 %s" % (_dm(q["checkin"]), _dm(q["checkout"]), q["nights"], who)
     if q.get("flags") or q.get("budget"):
         bits = list(q.get("flags") or [])
         if q.get("budget"):
             bits.append("budget %d" % q["budget"])
-        head += "\n<i>filters: %s</i>" % esc(", ".join(bits))
-    out = [head, BAR]
+        sub += " \u00b7 " + ", ".join(bits)
+    body = []
     if not ranked:
-        out.append("Nothing matched the filters. Try loosening them.")
-    for i, r in enumerate(ranked[:n], 1):
-        out.append(_stay_line(i, r))
-    if len(ranked) > n:
-        out.append("<i>\u2026and %d more in the sheet</i>" % (len(ranked) - n))
+        body.append("Nothing matched the filters. Try loosening them.")
+    lines = [_stay_line(i, r) for i, r in enumerate(ranked[:n], 1)]
+    body += lines[:SHOWN]
     if blocked:
-        out.append("\u26a0\ufe0f <i>%s unavailable this run \u2014 open the link to check manually</i>"
-                   % esc(", ".join(b.capitalize() for b in blocked)))
-    out += [BAR, links_line(links) + " \u00b7 " + _sheet_link(cfg)]
-    return "\n".join(out)
+        body.append("\u26a0\ufe0f <i>%s unavailable this run \u2014 open the link to check manually</i>"
+                    % esc(", ".join(b.capitalize() for b in blocked)))
+    rest = lines[SHOWN:]
+    if len(ranked) > n:
+        rest.append("<i>\u2026and %d more in the sheet</i>" % (len(ranked) - n))
+    folded = ui.fold(rest, "%d more stays" % len(lines[SHOWN:]) if lines[SHOWN:] else None)
+    return ui.page(ui.header("\U0001f3e8", "Stays", city_name, sub), body, folded,
+                   links_line(links) + " \u00b7 " + _sheet_link(cfg))
 
 
 def stay_buttons(cfg, trips, limit=4):

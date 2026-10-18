@@ -54,7 +54,11 @@ def header(icon, title, context=None, subtitle=None):
 def fold(lines, title=None):
     """Lines folded into an expandable blockquote ('' when there are none).
     Lines may contain HTML (links, bold); they are not escaped here."""
-    lines = [ln for ln in (lines or []) if ln]
+    lines = [ln for ln in (lines or []) if ln is not None]
+    while lines and not lines[0]:
+        lines.pop(0)                       # blank separators only between items
+    while lines and not lines[-1]:
+        lines.pop()
     if not lines:
         return ""
     head = "<b>%s</b>\n" % title if title else ""
