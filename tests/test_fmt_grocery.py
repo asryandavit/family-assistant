@@ -65,3 +65,30 @@ class Message(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AppLinks(unittest.TestCase):
+    """Yerevan City lines carry an extra iPhone-app link (decision 083)."""
+
+    def test_yc_items_have_app_url_parma_none(self):
+        items = _items()
+        yc = [i for i in items if i["shop"] == "yc"]
+        parma = [i for i in items if i["shop"] == "parma"]
+        self.assertTrue(all(i["app_url"] == "https://yerevan-city.am/shop/product-detail/" + i["id"]
+                            for i in yc))
+        self.assertTrue(all(i["url"].endswith("/product-details/" + i["id"]) for i in yc))
+        self.assertTrue(all(i["app_url"] is None for i in parma))
+
+    def test_line_shows_app_link_for_yc_only(self):
+        items = _items()
+        y = next(i for i in items if i["shop"] == "yc")
+        p = next(i for i in items if i["shop"] == "parma")
+        self.assertIn('<a href="%s">\U0001f4f1 app</a>' % y["app_url"], fmt_grocery._line(1, y))
+        self.assertIn('href="%s"' % y["url"], fmt_grocery._line(1, y))   # web link kept
+        self.assertNotIn("\U0001f4f1", fmt_grocery._line(1, p))
+
+    def test_message_with_app_links_fits(self):
+        ranked = pg.rank(_items(), "chicken", sort="cheap")
+        msg = fmt_grocery.build("chicken", ranked, {"parma": "ok", "yc": "ok"})
+        self.assertIn("\U0001f4f1 app", msg)
+        self.assertLess(len(msg), 4096)

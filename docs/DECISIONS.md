@@ -530,3 +530,12 @@ deal alerts stay Davit's (COACH_SPEC §2; Davit confirmed), and system messages 
 to the owner. Family content (daily plan, week plan, shopping list) goes to both through
 `send_family()`. Karine's chat id is a Windows user environment variable like the first —
 never in Git. Rules: docs/TELEGRAM_UX.md §5a.
+
+**083 — 2026-10-19 — Yerevan City products get an extra "📱 app" link for iPhone.**
+Both adults use iPhones. Yerevan City's apple-app-site-association lets the iPhone app
+open only `/shop/home` and `/shop/product-detail/*` (singular), while the website's real
+product pages are `/shop/product-details/*` (plural; the singular path redirects to the
+shop home on the web — verified). So each Yerevan City product keeps its normal web link
+and gains a small "📱 app" link with the singular path; tapped on an iPhone with the app
+installed (and Telegram set to open links in Safari) it opens the app. Parma publishes no
+app association, so no app link. /price now shrinks its folded part to stay one message.

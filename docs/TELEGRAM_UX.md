@@ -85,7 +85,7 @@ Buttons in old messages must keep working — prefixes are never renamed or reus
 | Running | ⏳ | | Warning | ⚠️ |
 | Compare | ⚖️ | | Deal / drop | 📉 |
 
-Shops: 🟢 Parma · 🔴 Yerevan City.
+Shops: 🟢 Parma · 🔴 Yerevan City. Yerevan City products also carry a small **📱 app** link that opens the iPhone app (decision 083); messages listing products should keep it.
 
 ## 5. Notifications
 

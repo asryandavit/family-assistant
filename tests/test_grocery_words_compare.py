@@ -150,3 +150,17 @@ class CompareMessage(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OneMessage(unittest.TestCase):
+    def test_long_results_shrink_to_one_message_keeping_verdict_and_top3(self):
+        items = _parma("parma_search_buckwheat.html") + _yc("yc_search_buckwheat.json")
+        ranked = pg.rank(items, "buckwheat", sort="cheap", words=WORDS)
+        msg = fmt_grocery.build("buckwheat", ranked, {"parma": "ok", "yc": "ok"},
+                                cmp=pg.compare_shops(ranked),
+                                pairs=pg.same_products(ranked, "buckwheat", WORDS))
+        self.assertLessEqual(len(msg), fmt_grocery.MAX_CHARS)
+        above = msg.partition("<blockquote expandable>")[0]
+        self.assertIn("Cheapest per kg", above)
+        for n in ("1. ", "2. ", "3. "):
+            self.assertIn(n, above)

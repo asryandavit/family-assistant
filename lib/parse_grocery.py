@@ -32,6 +32,11 @@ from decimal import ROUND_HALF_UP, Decimal
 
 PARMA_BASE = "https://parma.am"
 YC_PRODUCT_URL = "https://yerevan-city.am/shop/product-details/%s"
+# The address the Yerevan City iPhone app claims (apple-app-site-association lists
+# "/shop/product-detail/*", singular). Tapped on an iPhone with the app installed it
+# opens the app; on the web it only lands on the shop home page, so it is offered
+# as an extra link next to the normal one, never instead of it (decision 083).
+YC_APP_URL = "https://yerevan-city.am/shop/product-detail/%s"
 
 _SIZE_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*(kg|gr|g|ml|l)\b", re.I)
 _UNIT_TEXT_RE = re.compile(r"1\s*(kg|l|pcs)\s*/\s*([\d.,]+)", re.I)
@@ -143,6 +148,7 @@ def parse_parma(page_html):
             "unit_price": unit_price,
             "unit": unit,
             "url": PARMA_BASE + html.unescape(href),
+            "app_url": None,
             "image": image,
             "category": None,
             "available": True,
@@ -196,6 +202,7 @@ def parse_yc(payload):
             "unit_price": unit_price,
             "unit": unit,
             "url": YC_PRODUCT_URL % p.get("id"),
+            "app_url": YC_APP_URL % p.get("id"),
             "image": p.get("photo"),
             "category": p.get("categoryName"),
             "available": bool(p.get("isOnline", True)),

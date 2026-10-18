@@ -40,8 +40,15 @@ def _line(n, i):
     bits = [_price_part(i)]
     if i["unit_price"] is not None and not (i["sold_by_weight"] and i["unit"] == "kg"):
         bits.append("%s/%s" % (money(i["unit_price"]), i["unit"]))
-    bits.append(SHOP_NAMES.get(i["shop"], i["shop"]))
+    bits.append(SHOP_NAMES.get(i["shop"], i["shop"]) + _app(i))
     return head + "\n   " + " · ".join(bits)
+
+
+def _app(i):
+    """' · 📱 app' link that opens the shop's iPhone app (Yerevan City only)."""
+    if not i.get("app_url"):
+        return ""
+    return ' · <a href="%s">\U0001f4f1 app</a>' % i["app_url"]
 
 
 def compare_lines(cmp):
@@ -52,9 +59,9 @@ def compare_lines(cmp):
     out = ["⚖️ <b>Cheapest per %s</b>" % unit]
     for shop in sorted(cmp["best"], key=lambda s: cmp["best"][s]["unit_price"]):
         i = cmp["best"][shop]
-        out.append('%s %s <b>%s</b> — <a href="%s">%s</a>'
+        out.append('%s %s <b>%s</b> — <a href="%s">%s</a>%s'
                    % (SHOP_DOT[shop], SHOP_NAMES[shop], money(i["unit_price"]), i["url"],
-                      esc(i["name"][:45])))
+                      esc(i["name"][:45]), _app(i)))
     if cmp["cheaper"] and cmp["pct"]:
         out.append("→ <b>%s is %d%% cheaper</b> per %s"
                    % (SHOP_NAMES[cmp["cheaper"]], cmp["pct"], unit))
@@ -77,9 +84,10 @@ def pair_lines(pairs, limit=6):
         else:
             verdict = "same price"
         unit = "/kg" if p["sold_by_weight"] else ""
-        out.append('• %s: %s <a href="%s">%s%s</a> · %s <a href="%s">%s%s</a> → %s'
+        app = (' <a href="%s">\U0001f4f1</a>' % y["app_url"]) if y.get("app_url") else ""
+        out.append('• %s: %s <a href="%s">%s%s</a> · %s <a href="%s">%s%s</a>%s → %s'
                    % (esc(p["name"][:40]), SHOP_DOT["parma"], p["url"], money(p["price"]), unit,
-                      SHOP_DOT["yc"], y["url"], money(y["price"]), unit, verdict))
+                      SHOP_DOT["yc"], y["url"], money(y["price"]), unit, app, verdict))
     if len(pairs) > limit:
         out.append("<i>…%d more sold at both</i>" % (len(pairs) - limit))
     return out
@@ -91,8 +99,27 @@ def compare_block(cmp, pairs, pair_limit=4):
     return a + ([""] if a and b else []) + b
 
 
+MAX_CHARS = 3900   # one Telegram message (4096) with headroom
+
+
 def build(query, ranked, status, totals=None, sort="cheap", limit=10,
           searched=None, cmp=None, pairs=None):
+    """The /price message, kept to ONE Telegram message: if it's too long, fewer
+    extra products and pairs are folded in -- the verdict and top 3 always stay."""
+    pair_limit = 6
+    while True:
+        msg = _build(query, ranked, status, sort, limit, searched, cmp, pairs, pair_limit)
+        if len(msg) <= MAX_CHARS:
+            return msg
+        if limit > SHOWN:
+            limit -= 1
+        elif pair_limit > 0:
+            pair_limit -= 1
+        else:
+            return msg            # still long: lib.telegram splits it safely
+
+
+def _build(query, ranked, status, sort, limit, searched, cmp, pairs, pair_limit):
     order = "cheapest per kg/l first" if sort == "cheap" else "best match first"
     shops = " + ".join(SHOP_NAMES[s] for s in status)
     context = searched if searched and searched.lower() != (query or "").strip().lower() else None
@@ -116,7 +143,7 @@ def build(query, ranked, status, totals=None, sort="cheap", limit=10,
     rest = [_line(n, i) for n, i in enumerate(ranked[SHOWN:limit], SHOWN + 1)]
     if len(ranked) > limit:
         rest.append("<i>…and %d more matches</i>" % (len(ranked) - limit))
-    both = pair_lines(pairs or [])
+    both = pair_lines(pairs or [], pair_limit) if pair_limit else []
     titles = []
     if ranked[SHOWN:limit]:
         titles.append("%d more" % len(ranked[SHOWN:limit]))
