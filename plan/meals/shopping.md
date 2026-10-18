@@ -10,6 +10,11 @@ deliver; you place the order.
 Estimates below are rough. The exact Parma-priced cart is built per week once the menu
 is confirmed (prices change, so they are looked up fresh, not stored here).
 
+**Check a price any time:** in Telegram send `/price lentils` (or `/price olive oil parma`,
+`/price chicken breast yc`). You get matching products from both shops, cheapest per kg/l
+first, with discounts and a link to each product. From a computer:
+`python jobs/grocery_search.py lentils`.
+
 ## Monthly staples (buy once a month) — ≈ 25,000–30,000 AMD
 
 | Item | Approx. amount | Notes |
