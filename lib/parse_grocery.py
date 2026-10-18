@@ -134,6 +134,7 @@ def parse_parma(page_html):
             "shop": "parma",
             "id": str(pid),
             "name": name,
+            "name_hy": None,
             "price": price,
             "old_price": old,
             "discount_pct": _discount_pct(price, old),
@@ -185,6 +186,7 @@ def parse_yc(payload):
             "shop": "yc",
             "id": str(p.get("id")),
             "name": name,
+            "name_hy": (p.get("nameArm") or "").strip() or None,
             "price": price,
             "old_price": old,
             "discount_pct": _discount_pct(price, old),
@@ -214,9 +216,16 @@ DESCRIPTORS = {"fresh", "frozen", "chilled", "boneless", "skinless", "organic", 
                "whole", "large", "small", "baby", "young", "premium", "extra", "virgin",
                "lactose", "free", "low", "fat", "light", "local", "armenian", "farm"}
 
+# Latin, Armenian and Cyrillic letters, digits, %
+_TOKEN_RE = re.compile(r"[a-z0-9%Ա-ևЀ-ӿ]+")
+
 
 def _tokens(text):
-    return [t for t in re.findall(r"[a-z0-9%]+", (text or "").lower()) if len(t) >= 2]
+    return [t for t in _TOKEN_RE.findall((text or "").lower()) if len(t) >= 2]
+
+
+def _is_latin(tokens):
+    return all(t.isascii() for t in tokens)
 
 
 def _same_word(q, w):
@@ -230,37 +239,126 @@ def _same_word(q, w):
     return False
 
 
-def match_score(name, query):
-    """0 = the name starts with the query (names lead with the product type:
-    'Milk "Milkin" 2.5% 950ml'); 1 = every query word is somewhere in the
-    name; None = not a match."""
-    qs, ws = _tokens(query), _tokens(name)
-    if not qs:
-        return 1
-    if not all(any(_same_word(q, w) for w in ws) for q in qs):
+# ---- word list: Armenian / transliterated words -> what the shops call it
+
+def parse_word_list(md_text):
+    """Rows of the Markdown table in plan/meals/grocery-words.md:
+
+        | You can type | Search shops for | Product names to match |
+        | ոսպ, vosp, lentil | lentils | lentil |
+
+    -> [{"aliases": [[tokens], ...], "search": "lentils", "match": [[tokens], ...]}]
+    Header, separator and malformed rows are skipped.
+    """
+    rows = []
+    for line in (md_text or "").splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 3 or not cells[0] or set(cells[0]) <= set("-: "):
+            continue
+        if cells[0].lower().startswith("you can type"):
+            continue
+        aliases = [_tokens(a) for a in cells[0].split(",") if _tokens(a)]
+        match = [_tokens(m) for m in cells[2].split(",") if _tokens(m)]
+        search = re.sub(r"[✓✔*]", "", cells[1]).strip()   # drop ✓ marks
+        if aliases and match and search:
+            rows.append({"aliases": aliases, "search": search, "match": match})
+    return rows
+
+
+def expand_query(query, words=None):
+    """Query -> (text to send to the shops, groups to match names against).
+
+    A group is a list of alternative phrases (each a token list); a name must
+    satisfy every group. Words found in the word list are replaced by what the
+    shops call them ("vosp" -> search "lentils", match "lentil"); other words
+    stay as they are. Longest alias wins ("chicken breast" before "chicken").
+    """
+    qt = _tokens(query)
+    aliases = sorted(((a, r) for r in (words or []) for a in r["aliases"]),
+                     key=lambda ar: -len(ar[0]))
+    groups, search, i = [], [], 0
+    while i < len(qt):
+        for alias, row in aliases:
+            if qt[i:i + len(alias)] == alias:
+                groups.append(row["match"])
+                search.append(row["search"])
+                i += len(alias)
+                break
+        else:
+            groups.append([[qt[i]]])
+            search.append(qt[i])
+            i += 1
+    return (" ".join(search) if search else (query or "").strip()), groups
+
+
+def _phrase_in(phrase, ws):
+    return all(any(_same_word(t, w) for w in ws) for t in phrase)
+
+
+def _phrase_at(phrase, ws, pos):
+    seg = ws[pos:pos + len(phrase)]
+    return len(seg) == len(phrase) and all(_same_word(t, w) for t, w in zip(phrase, seg))
+
+
+def _score_tokens(ws, groups):
+    if not all(any(_phrase_in(ph, ws) for ph in g) for g in groups):
         return None
-    # "Fresh chicken breast", "Frozen chicken breast fillet": descriptors in
-    # front of the product type don't make it a weaker match
-    rest = ws
-    while rest and rest[0] in DESCRIPTORS and not any(_same_word(q, rest[0]) for q in qs):
-        rest = rest[1:]
-    lead = rest[:len(qs)]
-    if len(lead) == len(qs) and all(_same_word(q, w) for q, w in zip(qs, lead)):
-        return 0
-    return 1
+    # descriptors in front of the product type ("Fresh chicken breast") don't
+    # make it a weaker match -- unless the descriptor is what was asked for
+    pos = 0
+    while pos < len(ws) and ws[pos] in DESCRIPTORS and not any(
+            _phrase_at(ph, ws, pos) for g in groups for ph in g):
+        pos += 1
+    for g in groups:
+        ph = next((ph for ph in g if _phrase_at(ph, ws, pos)), None)
+        if ph is None:
+            return 1
+        pos += len(ph)
+    return 0
 
 
-def matches(name, query):
-    """True when every query word appears in the name as a whole word.
+def match_score(name, query, words=None, name_hy=None):
+    """0 = the name starts with the product asked for (names lead with the
+    type: 'Milk "Milkin" 2.5% 950ml'); 1 = everything asked for is somewhere in
+    the name; None = not a match.
+
+    Armenian queries are matched against the shop's Armenian name when it has
+    one (Yerevan City). Parma's English site has no Armenian names, so words
+    that can't be read there are left to the shop's own search.
+    """
+    _, groups = expand_query(query, words)
+    if not groups:
+        return 1
+    best = None
+    for text in (name, name_hy):
+        if not text:
+            continue
+        ws = _tokens(text)
+        usable = groups
+        if text is name and name_hy is None:
+            # English-only name: drop groups it cannot express (Armenian word
+            # not in the word list) and trust the shop for those
+            usable = [g for g in groups if any(_is_latin(ph) for ph in g)]
+            if not usable:
+                return 1
+        sc = _score_tokens(ws, usable)
+        if sc is not None and (best is None or sc < best):
+            best = sc
+    return best
+
+
+def matches(name, query, words=None, name_hy=None):
+    """True when everything asked for appears in the name as whole words.
 
     Both shops return loose matches (a "milk" search brings face wash and ice
     cream); this keeps results that actually name what was asked for.
     """
-    return match_score(name, query) is not None
+    return match_score(name, query, words, name_hy) is not None
 
 
-def rank(items, query, sort="relevance", only_available=True):
-    """Filter to real matches and order them.
+def rank(items, query, sort="relevance", only_available=True, words=None):
+    """Filter to real matches and order them; each kept item gets "match"
+    (0 = leads with the product, 1 = contains it).
 
     Names that start with the query come first. Within that, sort="relevance"
     keeps each shop's own order and interleaves the shops; sort="cheap" orders
@@ -268,9 +366,10 @@ def rank(items, query, sort="relevance", only_available=True):
     """
     scored = []
     for n, i in enumerate(items):
-        sc = match_score(i["name"], query)
+        sc = match_score(i["name"], query, words, i.get("name_hy"))
         if sc is None or (only_available and not i["available"]):
             continue
+        i["match"] = sc
         scored.append((sc, n, i))
     if sort == "cheap":
         scored.sort(key=lambda t: (t[0], t[2]["unit_price"] is None,
@@ -287,4 +386,101 @@ def rank(items, query, sort="relevance", only_available=True):
             for lane in lanes:
                 if lane:
                     out.append(lane.pop(0))
+    return out
+
+
+# ---------------------------------------------------------------- comparison
+
+def pct_cheaper(low, high):
+    """How much cheaper `low` is than `high`, in whole percent (half up)."""
+    if not low or not high or low >= high:
+        return 0
+    return amd((high - low) / high * 100.0)
+
+
+def compare_shops(ranked):
+    """Cheapest unit price per shop among the best matches.
+
+    Uses only items that lead with the product (match 0) when there are any,
+    and only one unit (the most common: kg vs l vs pcs never get compared).
+    Returns None when fewer than two shops have a comparable item, else
+    {"unit", "best": {shop: item}, "cheaper": shop|None, "pct": int}.
+    """
+    pool = [i for i in ranked if i.get("match") == 0] or list(ranked)
+    pool = [i for i in pool if i.get("unit_price")]
+    if not pool:
+        return None
+    units = {}
+    for i in pool:
+        units[i["unit"]] = units.get(i["unit"], 0) + 1
+    unit = max(units, key=lambda u: (units[u], u == "kg"))
+    best = {}
+    for i in pool:
+        if i["unit"] != unit:
+            continue
+        cur = best.get(i["shop"])
+        if cur is None or i["unit_price"] < cur["unit_price"]:
+            best[i["shop"]] = i
+    if len(best) < 2:
+        return None
+    lo = min(best.values(), key=lambda i: i["unit_price"])
+    hi = max(best.values(), key=lambda i: i["unit_price"])
+    cheaper = lo["shop"] if lo["unit_price"] < hi["unit_price"] else None
+    return {"unit": unit, "best": best, "cheaper": cheaper,
+            "pct": pct_cheaper(lo["unit_price"], hi["unit_price"])}
+
+
+_BRAND_RE = re.compile(r'["«“]([^"»”]+)["»”]')
+_PCT_RE = re.compile(r"(\d+(?:[.,․]\d+)?)\s*%")
+_NOISE = {"kg", "gr", "ml", "pcs", "pc", "sh", "gb", "pack", "with", "and", "in", "the"}
+
+
+def product_key(name, type_words=()):
+    """Identity of a product across shops, or None when it can't be told.
+
+    brand (quoted) + package size + fat % + the remaining descriptive words,
+    with the product-type words removed (shops name the type differently:
+    "Curd" vs "Cottage cheese", "Matzoon" vs "Matsun"). Deliberately strict:
+    "Curd Marianna Bifido 9% 180g" and "Curd Marianna 9% 180g" are different.
+    """
+    b = _BRAND_RE.search(name or "")
+    size = size_from_name(name)
+    if not b or not size:
+        return None
+    pct = _PCT_RE.search(name)
+    pct = pct.group(1).replace(",", ".").replace("․", ".") if pct else None
+    brand = tuple(_tokens(b.group(1)))
+    rest = _BRAND_RE.sub(" ", name)
+    words = set()
+    for t in _tokens(rest):
+        if t in _NOISE or t in brand or _SIZE_RE.fullmatch(t) or t.replace(".", "").isdigit():
+            continue
+        if t.endswith("%") or any(_same_word(t, w) for w in type_words):
+            continue
+        words.add(t[:-1] if t.endswith("s") and len(t) > 3 else t)
+    return brand, (round(size[0], 3), size[1]), pct, frozenset(words)
+
+
+def same_products(items, query, words=None):
+    """Products sold at both shops: [(parma_item, yc_item, diff, pct)], where
+    diff = yc price - parma price (negative = Yerevan City cheaper) and pct is
+    how much cheaper the cheaper shop is. Cheapest copy per shop is used."""
+    _, groups = expand_query(query, words)
+    type_words = {t for g in groups for ph in g for t in ph}
+    by_key = {}
+    for i in items:
+        k = product_key(i["name"], type_words)
+        if k is None:
+            continue
+        cur = by_key.setdefault(k, {}).get(i["shop"])
+        if cur is None or i["price"] < cur["price"]:
+            by_key[k][i["shop"]] = i
+    out = []
+    for shops in by_key.values():
+        if "parma" in shops and "yc" in shops:
+            p, y = shops["parma"], shops["yc"]
+            diff = y["price"] - p["price"]
+            out.append((p, y, diff, pct_cheaper(min(p["price"], y["price"]),
+                                                max(p["price"], y["price"]))))
+    out.sort(key=lambda t: -abs(t[2]))
     return out

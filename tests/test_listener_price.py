@@ -44,6 +44,13 @@ class Price(unittest.TestCase):
         _, (_, args, _) = self._launch("/price chicken breast yc match")
         self.assertEqual(args, ["--sort", "match", "--shop", "yc", "--", "chicken", "breast"])
 
+    def test_armenian_query_is_accepted(self):
+        out, call = self._launch("/price ոսպ")
+        self.assertEqual(out, "launched price")
+        self.assertEqual(call[1], ["--sort", "cheap", "--", "ոսպ"])
+        _, (_, args, _) = self._launch("/price հավի կրծքամիս yc")
+        self.assertEqual(args, ["--sort", "cheap", "--shop", "yc", "--", "հավի", "կրծքամիս"])
+
     def test_empty_query_asks_instead_of_launching(self):
         out, call = self._launch("/price")
         self.assertIsNone(call)

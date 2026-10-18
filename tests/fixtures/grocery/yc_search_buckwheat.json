@@ -1,0 +1,2015 @@
+{
+ "success": true,
+ "data": {
+  "pageCount": 1,
+  "itemCount": 39,
+  "products": [
+   {
+    "id": 64911,
+    "categoryId": 0,
+    "name": "Հնդկաձավար 1կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1111640.png",
+    "price": 410.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար 1կգ",
+    "nameEn": "Buckwheat 1kg",
+    "nameRu": "Крупа гречневая 1кг",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 38673,
+      "mult": 9
+     },
+     {
+      "id": 38674,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 64910,
+    "categoryId": 0,
+    "name": "Հնդկաձավար 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1111639.png",
+    "price": 210.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար 500գր",
+    "nameEn": "Buckwheat 500g",
+    "nameRu": "Крупа гречневая 500г",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 236317,
+      "mult": 12
+     },
+     {
+      "id": 236318,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 420,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 16994,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Միստրալ» 900գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1038544.png",
+    "price": 890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Միստրալ» 900գր",
+    "nameEn": "Buckwheat \"Mistral\" 900g",
+    "nameRu": "Крупа гречневая \"Мистраль\" 900г",
+    "brandId": 477,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 81786,
+      "mult": 12
+     },
+     {
+      "id": 81787,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 988,
+    "weightProductPricePerUnit": 900,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 11591,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Մակֆա» 800գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1038536.png",
+    "price": 870.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Մակֆա» 800գր",
+    "nameEn": "Buckwheat \"Makfa\" 800g",
+    "nameRu": "Крупа гречневая \"Макфа\" 800г",
+    "brandId": 2864,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 191432,
+      "mult": 6
+     },
+     {
+      "id": 191433,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1087,
+    "weightProductPricePerUnit": 800,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 78866,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Յարմարկա» 700գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1121167.png",
+    "price": 950.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Յարմարկա» 700գր",
+    "nameEn": "Buckwheat \"Yarmarka\" 700g",
+    "nameRu": "Крупа гречневая \"Ярмарка\" ядрица 700г",
+    "brandId": 1205,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 226811,
+      "mult": 10
+     },
+     {
+      "id": 226812,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1357,
+    "weightProductPricePerUnit": 700,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 3958,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Մառանիկ» 1կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1050742.png",
+    "price": 1640.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Մառանիկ» 1կգ",
+    "nameEn": "Buckwheat \"Maranik\" 1kg",
+    "nameRu": "Крупа гречневая \"Мараник\" 1кг",
+    "brandId": 2949,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 226762,
+      "mult": 10
+     },
+     {
+      "id": 226763,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 11336,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Մալտագլիատի» 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1087276.png",
+    "price": 650.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Մալտագլիատի» 500գր",
+    "nameEn": "Buckwheat \"Maltagliati\" 500g",
+    "nameRu": "Крупа гречневая \"Maltagliati\" 500г",
+    "brandId": 2870,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 176940,
+      "mult": 20
+     },
+     {
+      "id": 176941,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1300,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 11832,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Մառանիկ» 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1036186.png",
+    "price": 830.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Մառանիկ» 500գր",
+    "nameEn": "Buckwheat \"Maranik\" 500g",
+    "nameRu": "Крупа гречневая \"Мараник\" 500г",
+    "brandId": 2949,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 18904,
+      "mult": 20
+     },
+     {
+      "id": 18905,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1660,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 177707,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Սաննի» 800գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1171369.png",
+    "price": 1190.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Սաննի» 800գր",
+    "nameEn": "Buckwheat \"Sunny\" 800g",
+    "nameRu": "Крупа гречневая \"Санни\" 800г",
+    "brandId": 7883,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 242782,
+      "mult": 6
+     },
+     {
+      "id": 242783,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   },
+   {
+    "id": 18308,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Միստրալ» 5x80գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1081575.png",
+    "price": 860.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Միստրալ» 5x80գր",
+    "nameEn": "Buckwheat \"Mistral\" 5x80g",
+    "nameRu": "Крупа гречневая \"Мистраль\" 5x80г",
+    "brandId": 477,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 83074,
+      "mult": 12
+     },
+     {
+      "id": 83075,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2150,
+    "weightProductPricePerUnit": 400,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 53469,
+    "categoryId": 0,
+    "name": "Հաց հնկաձավարի 350գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/9000897.png",
+    "price": 360.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հաց հնկաձավարի 350գր",
+    "nameEn": "Buckwheat bread 350g",
+    "nameRu": "Хлеб гречневый 350г",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Հաց ֆրանսիական",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 84596,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1028,
+    "weightProductPricePerUnit": 350,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 233,
+    "categoryId": 0,
+    "name": "Փլավ հնդկաձավարից կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/9000139.png",
+    "price": 1290.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": true,
+    "minimumWeight": 250,
+    "weightStep": 250,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 100,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Փլավ հնդկաձավարից կգ",
+    "nameEn": "Buckwheat pilaf kg",
+    "nameRu": "Плов из гречки кг",
+    "brandId": null,
+    "isAttributeAttached": false,
+    "categoryName": "Փլավ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": null,
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 90110,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Օտ Գուրմանա» 450գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1127310.png",
+    "price": 290.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Օտ Գուրմանա» 450գր",
+    "nameEn": "Buckwheat \"Ot Gurmana\" 450g",
+    "nameRu": "Крупа гречневая \"От Гурмана\" 450г",
+    "brandId": 5346,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 227941,
+      "mult": 20
+     },
+     {
+      "id": 227942,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 644,
+    "weightProductPricePerUnit": 450,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 7148,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Ոսկե Ջրաղաց» 1կգ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1048683.png",
+    "price": 1490.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Ոսկե Ջրաղաց» 1կգ",
+    "nameEn": "Buckwheat \"Zolotaya Melnica\" 1kg",
+    "nameRu": "Крупа гречневая \"Золотая Мельница\" 1кг",
+    "brandId": 3213,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 186947,
+      "mult": 10
+     },
+     {
+      "id": 186948,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": 1000,
+    "weightMeasure": "NO",
+    "videoLink": null
+   },
+   {
+    "id": 157683,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Կանաչ Ֆերմա» 800գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1155346.png",
+    "price": 890.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Կանաչ Ֆերմա» 800գր",
+    "nameEn": "Buckwheat \"Green Farm\" 800g",
+    "nameRu": "Крупа гречневая Зеленая Ферма 800г",
+    "brandId": 7283,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 183977,
+      "mult": 10
+     },
+     {
+      "id": 183978,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1112,
+    "weightProductPricePerUnit": 800,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 4141,
+    "categoryId": 0,
+    "name": "Հնդկաձավար «Ոսկե Ջրաղաց» 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1049244.png",
+    "price": 820.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավար «Ոսկե Ջրաղաց» 500գր",
+    "nameEn": "Buckwheat \"Zolotaya Melnica\" 500g",
+    "nameRu": "Крупа гречневая \"Золотая Мельница\" 500г",
+    "brandId": 3213,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավար",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 186949,
+      "mult": 20
+     },
+     {
+      "id": 186950,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1640,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 13028,
+    "categoryId": 0,
+    "name": "Ալյուր «Գարնեց» հնդկաձավարի 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1075508.png",
+    "price": 810.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Ալյուր «Գարնեց» հնդկաձավարի 500գր",
+    "nameEn": "Buckwheat flour \"Garnec\" 500g",
+    "nameRu": "Мука \"Garnec\" гречневая 500г",
+    "brandId": 2055,
+    "isAttributeAttached": false,
+    "categoryName": "Հնդկաձավարի ալյուր",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 165292,
+      "mult": 6
+     },
+     {
+      "id": 165293,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1620,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 64533,
+    "categoryId": 0,
+    "name": "Չորահացեր հնդկաձավարի «Յամունա» 80գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1111432.png",
+    "price": 330.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 240.009,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Չորահացեր հնդկաձավարի «Յամունա» 80գր",
+    "nameEn": "Buckwheat crispbread \"Yamuna\" 80g",
+    "nameRu": "Хлебцы гречневые \"Ямуна\" 80г",
+    "brandId": 1280,
+    "isAttributeAttached": false,
+    "categoryName": "Առանց գլյուտեն  հաց, հացիկ",
+    "discountPercent": 27.27,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 39652,
+      "mult": 18
+     },
+     {
+      "id": 39653,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Gluten free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 13,
+     "icon": "https://media.yerevan-city.am/api/Image/Resize/ProductTag/gggwww-639247317159653777.png",
+     "type": 0
+    },
+    "productPricePerUnit": 3000,
+    "weightProductPricePerUnit": 80,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 43043,
+    "categoryId": 0,
+    "name": "Հնդկաձավարի փաթիլներ «Նորդիկ» 550գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1072316.png",
+    "price": 1380.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավարի փաթիլներ «Նորդիկ» 550գր",
+    "nameEn": "Buckwheat flakes \"Nordic\" 550g",
+    "nameRu": "Хлопья греч. Nordic 550г",
+    "brandId": 701,
+    "isAttributeAttached": false,
+    "categoryName": "Վարսակի փաթիլներ, Հերկուլես",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 13978,
+      "mult": 12
+     },
+     {
+      "id": 13979,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2509,
+    "weightProductPricePerUnit": 550,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 917,
+    "categoryId": 0,
+    "name": "Չորահաց հնդկաձավարի «Դր.Քորներ» 90գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1094242.png",
+    "price": 720.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 540.0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Չորահաց հնդկաձավարի «Դր.Քորներ» 90գր",
+    "nameEn": "Buckwheat crispbread \"Dr. Korner\" 90g",
+    "nameRu": "Хлебцы гречневые \"Dr.Korner\" 90г",
+    "brandId": 1864,
+    "isAttributeAttached": false,
+    "categoryName": "Դիաբետիկ հացիկներ",
+    "discountPercent": 25.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 73977,
+      "mult": 20
+     },
+     {
+      "id": 73978,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 5999,
+    "weightProductPricePerUnit": 90,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 7951,
+    "categoryId": 0,
+    "name": "Հնդկաձավարի փաթիլներ «Յասնո սոլնիշկո» 375գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1053499.png",
+    "price": 980.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավարի փաթիլներ «Յասնո սոլնիշկո» 375գր",
+    "nameEn": "Buckwheat flakes \"Yasno solnishko\" 375g",
+    "nameRu": "Хлопья греч. Ясно солнышко 375г",
+    "brandId": 1203,
+    "isAttributeAttached": false,
+    "categoryName": "Վարսակի փաթիլներ, Հերկուլես",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 83037,
+      "mult": 9
+     },
+     {
+      "id": 83038,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2613,
+    "weightProductPricePerUnit": 375,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 11604,
+    "categoryId": 0,
+    "name": "Հնդկաձավարի փաթիլներ «Կրուպնո» առանց եփելու 400գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1049585.png",
+    "price": 880.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավարի փաթիլներ «Կրուպնո» առանց եփելու 400գր",
+    "nameEn": "Buckwheat flakes \"Crupno\" without cooking 400g",
+    "nameRu": "Хлопья греч. Крупно не треб.вар. 400г",
+    "brandId": 2621,
+    "isAttributeAttached": false,
+    "categoryName": "Վարսակի փաթիլներ, Հերկուլես",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 83005,
+      "mult": 14
+     },
+     {
+      "id": 83006,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2200,
+    "weightProductPricePerUnit": 400,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 51211,
+    "categoryId": 0,
+    "name": "Լապշա հնդկաձավարի «Իմպերիալ Քուզին» Սոբա 400գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1101409.png",
+    "price": 550.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Լապշա հնդկաձավարի «Իմպերիալ Քուզին» Սոբա 400գր",
+    "nameEn": "Buckwheat noodles \"Imperial Cuisine\" Soba 400g",
+    "nameRu": "Лапша греч. Imperial Cuisine Соба 400г",
+    "brandId": 5731,
+    "isAttributeAttached": false,
+    "categoryName": "Մակարոններ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 224863,
+      "mult": 20
+     },
+     {
+      "id": 224864,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1375,
+    "weightProductPricePerUnit": 400,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 170274,
+    "categoryId": 0,
+    "name": "Չորահաց հնդկաձավարի «Մր.Կատտո» ա/գ 90գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1164011.png",
+    "price": 390.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Չորահաց հնդկաձավարի «Մր.Կատտո» ա/գ 90գր",
+    "nameEn": "Buckwheat crispbread \"Mr.Katto\" gluten free 90g",
+    "nameRu": "Хлебцы гречневые Mr.Katto б/г 90г",
+    "brandId": 7587,
+    "isAttributeAttached": false,
+    "categoryName": "Դիաբետիկ հացիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 228369,
+      "mult": 12
+     },
+     {
+      "id": 228370,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Gluten free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 13,
+     "icon": "https://media.yerevan-city.am/api/Image/Resize/ProductTag/gggwww-639247317159653777.png",
+     "type": 0
+    },
+    "productPricePerUnit": 4333,
+    "weightProductPricePerUnit": 90,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 91470,
+    "categoryId": 0,
+    "name": "Չորահացեր հնդկաձավար-գարի «Խլեբցի-Մոլոդցի» 110գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1052056.png",
+    "price": 350.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Չորահացեր հնդկաձավար-գարի «Խլեբցի-Մոլոդցի» 110գր",
+    "nameEn": "Buckwheat-rye crispbread \"Khlebci-Molodci\" 110g",
+    "nameRu": "Xлебцы греч-ржаные Xлебцы-Молодцы 110г",
+    "brandId": 2777,
+    "isAttributeAttached": false,
+    "categoryName": "Դիաբետիկ հացիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 81487,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3181,
+    "weightProductPricePerUnit": 110,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 131798,
+    "categoryId": 0,
+    "name": "Թեփ հնդկաձավարի «Յոգա» առանց գլյուտեն 150գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1151332.png",
+    "price": 990.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Թեփ հնդկաձավարի «Յոգա» առանց գլյուտեն 150գր",
+    "nameEn": "Buckwheat bran \"Yoga\" gluten free 150g",
+    "nameRu": "Отруби гречневые Yoga б/г 150г",
+    "brandId": 1139,
+    "isAttributeAttached": false,
+    "categoryName": "Առանց գլյուտեն նպարեղեն",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 67527,
+      "mult": 8
+     },
+     {
+      "id": 67528,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Gluten free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 13,
+     "icon": "https://media.yerevan-city.am/api/Image/Resize/ProductTag/gggwww-639247317159653777.png",
+     "type": 0
+    },
+    "productPricePerUnit": 6600,
+    "weightProductPricePerUnit": 150,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 159039,
+    "categoryId": 0,
+    "name": "Չորահաց հնդկաձավարի «Մր.Կատտո» Մինի ա/գ 70գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1156699.png",
+    "price": 350.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Չորահաց հնդկաձավարի «Մր.Կատտո» Մինի ա/գ 70գր",
+    "nameEn": "Buckwheat crispbread \"Mr.Katto\" Mini, gluten free 70g",
+    "nameRu": "Хлебцы гречневые Mr.Katto Mini б/г 70г",
+    "brandId": 7587,
+    "isAttributeAttached": false,
+    "categoryName": "Առանց գլյուտեն  հաց, հացիկ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 187002,
+      "mult": 16
+     },
+     {
+      "id": 187003,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Gluten free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 13,
+     "icon": "https://media.yerevan-city.am/api/Image/Resize/ProductTag/gggwww-639247317159653777.png",
+     "type": 0
+    },
+    "productPricePerUnit": 5000,
+    "weightProductPricePerUnit": 70,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 4979,
+    "categoryId": 0,
+    "name": "Լապշա հնդկաձավարի «Սեն Սոյ» Պրեմիում Սոբա 300գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1054368.png",
+    "price": 1120.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Լապշա հնդկաձավարի «Սեն Սոյ» Պրեմիում Սոբա 300գր",
+    "nameEn": "Buckwheat noodles \"Sen Soy\" Premium Soba 300g",
+    "nameRu": "Лапша греч. Sen Soy Премиум Soba 300г",
+    "brandId": 1521,
+    "isAttributeAttached": false,
+    "categoryName": "Մակարոններ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 83039,
+      "mult": 24
+     },
+     {
+      "id": 83040,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3733,
+    "weightProductPricePerUnit": 300,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 51212,
+    "categoryId": 0,
+    "name": "Հնդկաձ․ և եգիպտ․փաթ. «Զդորովոյե Մենյու» թեփ 200գ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1101405.png",
+    "price": 670.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձ․ և եգիպտ․փաթ. «Զդորովոյե Մենյու» թեփ 200գ",
+    "nameEn": "Buckwheat-corn flakes \"Zdorovoe Menu\" with bran 200g",
+    "nameRu": "Хлопья греч.-кук. Здоровое Меню отр.200г",
+    "brandId": 5693,
+    "isAttributeAttached": false,
+    "categoryName": "Դիաբետիկ նպարեղեն",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 167861,
+      "mult": 12
+     },
+     {
+      "id": 167862,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3350,
+    "weightProductPricePerUnit": 200,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 55348,
+    "categoryId": 0,
+    "name": "Ալյուր հնդկաձավարի «Գարնեց» ամբողջահատ․ ա/գ 500գ",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1109433.png",
+    "price": 1270.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Ալյուր հնդկաձավարի «Գարնեց» ամբողջահատ․ ա/գ 500գ",
+    "nameEn": "Buckwheat flour \"Garnec\" whole grain, gluten free 500g",
+    "nameRu": "Мука \"Garnec\" гречневая цельн․ б/г 500г",
+    "brandId": 2055,
+    "isAttributeAttached": false,
+    "categoryName": "Առանց գլյուտեն նպարեղեն",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 165462,
+      "mult": 6
+     },
+     {
+      "id": 165463,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2540,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 9399,
+    "categoryId": 0,
+    "name": "Սպագետտի «Մակֆա» հնդկաձավարի 500գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1082857.png",
+    "price": 620.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Սպագետտի «Մակֆա» հնդկաձավարի 500գր",
+    "nameEn": "Spaghetti \"Makfa\" buckwheat 500g",
+    "nameRu": "Спагетти \"Макфа\" гречневые 500г",
+    "brandId": 2864,
+    "isAttributeAttached": false,
+    "categoryName": "Մակարոններ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 188483,
+      "mult": 20
+     },
+     {
+      "id": 188484,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 1240,
+    "weightProductPricePerUnit": 500,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 158060,
+    "categoryId": 0,
+    "name": "Հնդկաձավարի կաթ.շիլա «Հիփփ» ա/գ/շ 6ամս. 250գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1051323.png",
+    "price": 2170.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկաձավարի կաթ.շիլա «Հիփփ» ա/գ/շ 6ամս. 250գր",
+    "nameEn": "Buckwheat milk porridge \"Hipp\" gluten and sugar free 6m 250g",
+    "nameRu": "Каша мол.греч. Hipp б/г/с 6м 250г 2917",
+    "brandId": 3132,
+    "isAttributeAttached": false,
+    "categoryName": "Կաթնային շիլա",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 184944,
+      "mult": 6
+     },
+     {
+      "id": 184945,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Gluten free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 13,
+     "icon": "https://media.yerevan-city.am/api/Image/Resize/ProductTag/gggwww-639247317159653777.png",
+     "type": 0
+    },
+    "productPricePerUnit": 8680,
+    "weightProductPricePerUnit": 250,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 193868,
+    "categoryId": 0,
+    "name": "Հնդկ.կաթ.շիլա «Սեմպեր» սալ-խնձ. ա/շ/գ 5ամս.180գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1177642.png",
+    "price": 3850.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հնդկ.կաթ.շիլա «Սեմպեր» սալ-խնձ. ա/շ/գ 5ամս.180գր",
+    "nameEn": "Buckwheat milk porridge \"Semper\" prunes and apple,sugar and gluten free",
+    "nameRu": "Каша мл.греч.Semper чер-ябл.б/с/г 5м180г",
+    "brandId": 8120,
+    "isAttributeAttached": false,
+    "categoryName": "Կաթնային շիլա",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 265135,
+      "mult": 8
+     },
+     {
+      "id": 265136,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": null,
+    "weightProductPricePerUnit": null,
+    "weightMeasure": null,
+    "videoLink": null
+   },
+   {
+    "id": 166788,
+    "categoryId": 0,
+    "name": "Չորահաց ցորենի-հնդկաձավարի «Յամունա» 75գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1162403.png",
+    "price": 280.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Չորահաց ցորենի-հնդկաձավարի «Յամունա» 75գր",
+    "nameEn": "Wheat-buckwheat crispbread \"Yamuna\" 75g",
+    "nameRu": "Хлебцы пшен-гречневые \"Ямуна\" 75г",
+    "brandId": 1280,
+    "isAttributeAttached": false,
+    "categoryName": "Դիաբետիկ հացիկներ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 208693,
+      "mult": 20
+     },
+     {
+      "id": 208694,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 3733,
+    "weightProductPricePerUnit": 75,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 5552,
+    "categoryId": 0,
+    "name": "Հաց «Արմել» ցորենի և հնդկացորենի 360±10գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1043961.png",
+    "price": 260.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հաց «Արմել» ցորենի և հնդկացորենի 360±10գր",
+    "nameEn": "Wheat and buckwheat bread \"Armel\" 360±10g",
+    "nameRu": "Хлеб \"Armel\" пшен. греч. 360г",
+    "brandId": 4597,
+    "isAttributeAttached": false,
+    "categoryName": "Հաց դիետիկ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 85454,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 722,
+    "weightProductPricePerUnit": 360,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 11637,
+    "categoryId": 0,
+    "name": "Հաց «Գեղամա» ցորենի և հնդկաձավարի կտր.350±10գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1063224.png",
+    "price": 335.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Հաց «Գեղամա» ցորենի և հնդկաձավարի կտր.350±10գր",
+    "nameEn": "Wheat and buckwheat bread \"Geghama\" sliced 350±10g",
+    "nameRu": "Хлеб \"Geghama\" пшеница и гречка нар.350г",
+    "brandId": 4397,
+    "isAttributeAttached": false,
+    "categoryName": "Հաց դիետիկ",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 98599,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 957,
+    "weightProductPricePerUnit": 350,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 110816,
+    "categoryId": 0,
+    "name": "Խյուս «Ֆրուտո Նյանյա» տավարի միս և հնդկաձավար, առանց աղ 8ամս. 100գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1141826.png",
+    "price": 660.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Խյուս «Ֆրուտո Նյանյա» տավարի միս և հնդկաձավար, առանց աղ 8ամս. 100գր",
+    "nameEn": "Puree \"Fruto Nyanya\" beef and buckwheat, salt free 8m 100g",
+    "nameRu": "Пюре Ф.Няня говядина-гречка б/с 100г",
+    "brandId": 6745,
+    "isAttributeAttached": false,
+    "categoryName": "Մանկական խյուս",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 8819,
+      "mult": 6
+     },
+     {
+      "id": 8820,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Salt free",
+     "backgroundColor": "#46822c",
+     "textColor": "#ffffff",
+     "id": 27,
+     "icon": null,
+     "type": 0
+    },
+    "productPricePerUnit": 6600,
+    "weightProductPricePerUnit": 100,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 169329,
+    "categoryId": 0,
+    "name": "Թխվածքաբլիթ պրոտ. «Ռեքս» հնդկ.-կակաո ա/շ/գ 200գր",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1163205.png",
+    "price": 1850.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Թխվածքաբլիթ պրոտ. «Ռեքս» հնդկ.-կակաո ա/շ/գ 200գր",
+    "nameEn": "Protein cookie \"Rex\" with buckwheat flour and cocoa, sugar and gluten",
+    "nameRu": "Печ.прот.Rex греч.мука какао б/с/г 200г",
+    "brandId": 6776,
+    "isAttributeAttached": false,
+    "categoryName": "Դիաբետիկ քաղցրավենիք",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 225248,
+      "mult": 6
+     },
+     {
+      "id": 225249,
+      "mult": 1
+     }
+    ],
+    "productTag": {
+     "name": "Sugar free",
+     "backgroundColor": "#46822c",
+     "textColor": "#faf9f9",
+     "id": 18,
+     "icon": null,
+     "type": 0
+    },
+    "productPricePerUnit": 9250,
+    "weightProductPricePerUnit": 200,
+    "weightMeasure": "G",
+    "videoLink": null
+   },
+   {
+    "id": 131660,
+    "categoryId": 0,
+    "name": "Պահածո շների համար «Բրիթ» Պրեմիում, գառան մսով, հնդկաձավարով և խնձորով",
+    "photo": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1151189.png",
+    "price": 2190.0,
+    "priority": 0,
+    "unitOfMeasure": 0,
+    "unitOfMeasureValue": 0,
+    "isFavorite": false,
+    "isOnline": true,
+    "isKilogram": false,
+    "minimumWeight": null,
+    "weightStep": null,
+    "isGrindable": false,
+    "isCuttable": false,
+    "visiblePrice": 1000,
+    "discountedPrice": 0,
+    "count": 0,
+    "weight": 0,
+    "stockDetails": null,
+    "nameArm": "Պահածո շների համար «Բրիթ» Պրեմիում, գառան մսով, հնդկաձավարով և խնձորով",
+    "nameEn": "Pate for dogs \"Brit\" Premium, lamb with buckwheat and apple (can) 800g",
+    "nameRu": "Конс д/с Brit Pr. с ягн.и греч. ж/б 800г",
+    "brandId": 7138,
+    "isAttributeAttached": false,
+    "categoryName": "Շան կեր պահածոյացված",
+    "discountPercent": 0.0,
+    "isAdult": false,
+    "productUOMDtos": [
+     {
+      "id": 67370,
+      "mult": 6
+     },
+     {
+      "id": 67371,
+      "mult": 1
+     }
+    ],
+    "productTag": null,
+    "productPricePerUnit": 2737,
+    "weightProductPricePerUnit": 800,
+    "weightMeasure": "G",
+    "videoLink": null
+   }
+  ],
+  "categories": [
+   {
+    "id": 724,
+    "itemCount": 14,
+    "name": "Հնդկաձավար"
+   },
+   {
+    "id": 507,
+    "itemCount": 4,
+    "name": "Դիաբետիկ հացիկներ"
+   },
+   {
+    "id": 714,
+    "itemCount": 3,
+    "name": "Մակարոններ"
+   },
+   {
+    "id": 1031,
+    "itemCount": 3,
+    "name": "Վարսակի փաթիլներ, Հերկուլես"
+   },
+   {
+    "id": 519,
+    "itemCount": 2,
+    "name": "Կաթնային շիլա"
+   },
+   {
+    "id": 1496,
+    "itemCount": 2,
+    "name": "Առանց գլյուտեն նպարեղեն"
+   },
+   {
+    "id": 1498,
+    "itemCount": 2,
+    "name": "Առանց գլյուտեն  հաց, հացիկ"
+   },
+   {
+    "id": 2031,
+    "itemCount": 2,
+    "name": "Հաց դիետիկ"
+   },
+   {
+    "id": 480,
+    "itemCount": 1,
+    "name": "Դիաբետիկ նպարեղեն"
+   },
+   {
+    "id": 505,
+    "itemCount": 1,
+    "name": "Դիաբետիկ քաղցրավենիք"
+   },
+   {
+    "id": 515,
+    "itemCount": 1,
+    "name": "Մանկական խյուս"
+   },
+   {
+    "id": 1983,
+    "itemCount": 1,
+    "name": "Հաց ֆրանսիական"
+   },
+   {
+    "id": 2041,
+    "itemCount": 1,
+    "name": "Փլավ"
+   },
+   {
+    "id": 2462,
+    "itemCount": 1,
+    "name": "Շան կեր պահածոյացված"
+   },
+   {
+    "id": 2630,
+    "itemCount": 1,
+    "name": "Հնդկաձավարի ալյուր"
+   }
+  ],
+  "searchBrands": [
+   {
+    "id": 477,
+    "itemCount": 2,
+    "name": "Միստրալ"
+   },
+   {
+    "id": 1280,
+    "itemCount": 2,
+    "name": "Յամունա"
+   },
+   {
+    "id": 2055,
+    "itemCount": 2,
+    "name": "Գարնեց"
+   },
+   {
+    "id": 2864,
+    "itemCount": 2,
+    "name": "Մակֆա"
+   },
+   {
+    "id": 2949,
+    "itemCount": 2,
+    "name": "Մառանիկ"
+   },
+   {
+    "id": 3213,
+    "itemCount": 2,
+    "name": "Ոսկե Ջրաղաց"
+   },
+   {
+    "id": 7587,
+    "itemCount": 2,
+    "name": "Մր.Կատտո"
+   },
+   {
+    "id": 701,
+    "itemCount": 1,
+    "name": "Նորդիկ"
+   },
+   {
+    "id": 1139,
+    "itemCount": 1,
+    "name": "Յոգա"
+   },
+   {
+    "id": 1203,
+    "itemCount": 1,
+    "name": "Յասնո սոլնիշկո"
+   },
+   {
+    "id": 1205,
+    "itemCount": 1,
+    "name": "Յարմարկա"
+   },
+   {
+    "id": 1521,
+    "itemCount": 1,
+    "name": "Սեն Սոյ"
+   },
+   {
+    "id": 1864,
+    "itemCount": 1,
+    "name": "Դր.Քորներ"
+   },
+   {
+    "id": 2621,
+    "itemCount": 1,
+    "name": "Կրուպնո"
+   },
+   {
+    "id": 2777,
+    "itemCount": 1,
+    "name": "Խլեբցի-Մոլոդցի"
+   },
+   {
+    "id": 2870,
+    "itemCount": 1,
+    "name": "Մալտագլիատի"
+   },
+   {
+    "id": 3132,
+    "itemCount": 1,
+    "name": "Հիփփ"
+   },
+   {
+    "id": 4397,
+    "itemCount": 1,
+    "name": "Գեղամա"
+   },
+   {
+    "id": 4597,
+    "itemCount": 1,
+    "name": "Արմել"
+   },
+   {
+    "id": 5346,
+    "itemCount": 1,
+    "name": "Օտ Գուրմանա"
+   },
+   {
+    "id": 5693,
+    "itemCount": 1,
+    "name": "Զդորովոե Մենյու"
+   },
+   {
+    "id": 5731,
+    "itemCount": 1,
+    "name": "Իմպերիալ Քուզին"
+   },
+   {
+    "id": 6745,
+    "itemCount": 1,
+    "name": "Ֆրուտո Նյանյա"
+   },
+   {
+    "id": 6776,
+    "itemCount": 1,
+    "name": "Ռեքս"
+   },
+   {
+    "id": 7138,
+    "itemCount": 1,
+    "name": "Բրիթ"
+   },
+   {
+    "id": 7283,
+    "itemCount": 1,
+    "name": "Կանաչ Ֆերմա"
+   },
+   {
+    "id": 7883,
+    "itemCount": 1,
+    "name": "Սաննի"
+   },
+   {
+    "id": 8120,
+    "itemCount": 1,
+    "name": "Սեմպեր"
+   }
+  ],
+  "productsInOtherCategory": []
+ },
+ "messages": [
+  {
+   "key": 1,
+   "value": "OK"
+  }
+ ],
+ "alertIcon": null
+}

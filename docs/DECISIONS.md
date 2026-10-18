@@ -472,3 +472,16 @@ that against a 1 kg pack would be off by 2×. Both shops rank loosely ("milk" re
 face wash), so results are filtered locally: whole-word, plural-tolerant matching, with
 names that lead with the product type ranked first. Prices are always looked up fresh,
 never stored as truth. A shop failure is reported in the message, never hidden.
+
+**078 — 2026-10-18 — Armenian queries via an editable word list; strict cross-shop comparison.**
+Both shops' search engines already understand Armenian script and transliteration
+(tested: ոսպ, մածուն, կաթնաշոռ, matsun, katnashor, tvorog, lavash, hercules), but the
+local match filter only read English, so it discarded e.g. Parma's "Matzoon" for
+"matsun". `plan/meals/grocery-words.md` (Markdown, editable — decision 072) maps what the
+family types to the search term and the product-name words each shop uses; Yerevan City's
+Armenian product names are matched directly; for an Armenian word not in the list,
+Parma's English results are left to the shop's own search. Comparison is two-part and
+deterministic: cheapest per kg/l at each shop among the best matches (same unit only),
+and "same product at both shops", paired only when brand, package size, fat % and the
+remaining descriptive words all agree — strict on purpose, because a false pairing
+("Curd Marianna Bifido" vs "Curd Marianna") would make the comparison misleading.
