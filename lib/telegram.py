@@ -18,10 +18,30 @@ def esc(s):
     return html.escape(str(s), quote=False)
 
 
-def _creds(cfg):
+# Set by the listener for a job it launches on someone's behalf (/price, /flights,
+# /stays), so the job's own messages go back to the person who asked. Unset for
+# scheduled jobs, which keep sending to the owner's chat exactly as before.
+REPLY_CHAT_ENV = "TELEGRAM_REPLY_CHAT_ID"
+
+
+def _creds(cfg, reply=True):
+    """(token, chat). reply=False always means the owner's chat (system messages)."""
     tok = os.environ.get(cfg["telegram"]["bot_token_env"])
-    chat = os.environ.get(cfg["telegram"]["chat_id_env"])
+    owner = os.environ.get(cfg["telegram"]["chat_id_env"])
+    chat = (os.environ.get(REPLY_CHAT_ENV) or owner) if reply else owner
     return tok, chat
+
+
+def allowed_chats(cfg):
+    """Chats the bot answers: the owner's, plus the second family member's when
+    its environment variable is set (decision 082). Owner first, no duplicates."""
+    tg = cfg["telegram"]
+    out = []
+    for env in (tg["chat_id_env"], tg.get("chat_id_2_env", "TELEGRAM_CHAT_ID_2")):
+        v = str(os.environ.get(env) or "").strip()
+        if v and v not in out:
+            out.append(v)
+    return out
 
 
 def _post(tok, payload):
@@ -80,11 +100,13 @@ def reply_markup(buttons=None, reply_keyboard=None, force_reply=None):
     return None
 
 
-def send_html(cfg, text, silent=False, buttons=None, reply_keyboard=None, force_reply=None):
+def send_html(cfg, text, silent=False, buttons=None, reply_keyboard=None, force_reply=None,
+              chat_id=None):
     """buttons: list of rows, each a list of (label, callback_data) pairs; a
     https:// value makes a link button. reply_keyboard / force_reply: see
-    reply_markup()."""
+    reply_markup(). chat_id: send to this chat instead of the default."""
     tok, chat = _creds(cfg)
+    chat = chat_id or chat
     if not tok or not chat:
         print("Telegram env not set; skipping:", text[:80])
         return
@@ -101,9 +123,16 @@ def send_html(cfg, text, silent=False, buttons=None, reply_keyboard=None, force_
         _post(tok, payload)
 
 
-def chat_action(cfg, action="typing"):
+def send_family(cfg, text, **kw):
+    """Send to every allowed chat (family content: daily plan, shopping list)."""
+    for chat in allowed_chats(cfg):
+        send_html(cfg, text, chat_id=chat, **kw)
+
+
+def chat_action(cfg, action="typing", chat_id=None):
     """Show "typing…" (lasts ~5 s or until the next message)."""
     tok, chat = _creds(cfg)
+    chat = chat_id or chat
     if not tok or not chat:
         return
     try:
@@ -127,8 +156,9 @@ def answer_callback(cfg, callback_id, text=""):
 
 
 def notify(cfg, text):
-    """Plain-text send, kept for system/error messages and old callers."""
-    tok, chat = _creds(cfg)
+    """Plain-text send, kept for system/error messages and old callers.
+    Always the owner's chat: system problems are for the owner only."""
+    tok, chat = _creds(cfg, reply=False)
     if not tok or not chat:
         print("Telegram env not set; skipping notify:", text[:80])
         return
