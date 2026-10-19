@@ -151,9 +151,10 @@ never raw lab values — and returns a diff against the last approved brief. The
 the diff in plain words and approves or rejects. Planners (daily plan, basket) read only
 `status = approved`; nothing else in the bot can read the health Sheet.
 
-**Open question for the owner:** in today's manual stage the plan lives in `plan/*.md`.
-Does an approved brief (a) only show as "pending plan changes" that Davit then asks Claude
-to apply to `plan/`, or (b) get read by the daily-plan job and shown as notes? Default (a).
+**Decided (owner, 2026-10-19): pending change, applied on request.** An approved brief
+shows in the person's own chat as "plan changes pending"; the `plan/*.md` files change only
+when Davit asks Claude to apply them (light-tracking preference: the plan changes only when
+asked). The daily-plan job does not read health briefs.
 
 ## 7. Consent, people, roles
 
@@ -162,9 +163,12 @@ to apply to `plan/`, or (b) get read by the daily-plan job and shown as notes? D
 - Consent: first `/health` explains in three sentences what is stored, where, who can see
   it (including the honest limit in §3), then asks for yes; `record_consent()` stores the
   date. No consent → nothing is saved, nothing is read.
-- **Guardian role only for minors (the son):** the record is the son's; **open question:**
-  which chat(s) hold guardian access — Davit's, Karine's, or both? Guardians see only the
-  minor's record, never each other's. Default: ask.
+- **Guardian role only for minors (the son):** the record is the son's. **Decided (owner,
+  2026-10-19): both parents' chats are guardians** — each can open the son's record, never
+  the other parent's. The son's Sheet lives in Davit's Drive, shared with the service
+  account; consent for it is given by a guardian. In `/health`, a guardian chooses whose
+  record to open (own / son) with a button; the tool server is then started for that one
+  record only.
 - Karine's record is Karine's: created from Karine's chat, in Karine's Drive, with Karine's
   consent. Davit's chat cannot reach it.
 
