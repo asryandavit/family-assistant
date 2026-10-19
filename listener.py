@@ -45,7 +45,16 @@ JOBS = {
                 "ack": "\u23f3 Searching flights\u2026 (1\u20133 min)"},
     "price":  {"args": [os.path.join(ROOT, "jobs", "grocery_search.py"), "--send"],
                "ack": "\u23f3 Checking prices\u2026 (10\u201320 s)"},
+    # Family content: the job sends its result to both chats itself (send_family),
+    # so it is deliberately not in REPLY_JOBS; only the ack goes to the asker.
+    "basket": {"args": [os.path.join(ROOT, "jobs", "grocery_basket.py"), "--send"],
+               "ack": "\u23f3 Pricing this week's basket at both shops\u2026 (~2 min)\n"
+                      "<i>The list goes to both of you and to the checklist.</i>"},
 }
+
+BASKET_KINDS = {"weekly": ("--weekly", "this week's basket"),
+                "monthly": ("--monthly", "the monthly staples"),
+                "all": ("--all", "the weekly and monthly lists")}
 
 CITY_RE = re.compile(r"^[A-Za-z][A-Za-z .\-]{1,28}$")
 PRICE_RE = re.compile(r"^[\w][\w\s%.,'\"&+\-]{1,39}$")
@@ -106,6 +115,19 @@ def _safe_price_args(text):
     where = {"parma": "Parma", "yc": "Yerevan City"}.get(shop, "Parma + Yerevan City")
     return args, "\u23f3 Checking prices for <b>%s</b> at %s\u2026" % (telegram.esc(query), where)
 
+def _safe_basket_args(text):
+    """/basket [weekly|monthly|all] -> (args, ack) or (None, error). Only fixed
+    flags reach the subprocess; any other word is refused."""
+    words = [w.lower() for w in text.strip().split()[1:]]
+    kind = words[0] if words else "weekly"
+    if len(words) > 1 or kind not in BASKET_KINDS:
+        return None, "Use <code>/basket</code>, <code>/basket monthly</code> or <code>/basket all</code>."
+    flag, label = BASKET_KINDS[kind]
+    return [flag], ("⏳ Pricing %s at both shops… (~%d min)\n"
+                    "<i>The list goes to both of you and to the checklist.</i>"
+                    % (label, 4 if kind == "all" else 2))
+
+
 HELP = ("\U0001f9ed <b>Commands</b>\n"
         "<i>The \U0001f3e0 Home and \U0001f50d Price check keys below do most of this.</i>\n\n"
         "/scan \u2014 run the flight scan now\n"
@@ -113,6 +135,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/stays &lt;city&gt; &lt;dates&gt; [keywords] \u2014 search accommodation\n"
         "/flights &lt;city&gt; &lt;window&gt; [nights] \u2014 search flights\n"
         "/price &lt;product&gt; [parma|yc] \u2014 grocery prices + links\n"
+        "/basket [monthly|all] \u2014 price the shopping list, fill the checklist\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 the Home screen\n"
         "/cancel \u2014 stop whatever is running\n"
@@ -323,6 +346,7 @@ def status(cfg, runner):
 def set_menu(tok):
     cmds = [{"command": "menu", "description": "Home screen"},
             {"command": "price", "description": "Grocery prices: /price lentils"},
+            {"command": "basket", "description": "Price the shopping list + checklist"},
             {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
             {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
             {"command": "scan", "description": "Run the flight scan now"},
@@ -372,6 +396,11 @@ def handle_text(cfg, runner, text, chat_id=None):
         if not args:
             return msg
         return runner.launch("price", args, ack=msg, chat_id=chat_id)
+    if cmd == "basket":
+        args, msg = _safe_basket_args(text)
+        if not args:
+            return msg
+        return runner.launch("basket", args, ack=msg, chat_id=chat_id)
     if cmd in JOBS:
         return runner.launch(cmd, chat_id=chat_id)
     if cmd == "cancel":

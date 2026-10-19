@@ -16,7 +16,7 @@ Bottom keyboard (always visible)      [ 🏠 Home ] [ 🔍 Price check ]
  ├─ 📅 Today      today's meals + sessions          (until the daily-plan job exists:
  ├─ 🍽 Meals      week menu, dishes, food rules       links to the plan docs in Drive)
  ├─ 🏃 Training   per-person plans, exercise library
- ├─ 🛒 Shopping   price check, shopping list, basket (when built)
+ ├─ 🛒 Shopping   price check, 🧺 basket, 📋 checklist (Sheet), shopping plan
  ├─ ✈️ Travel     scan, digest, flights/stays how-to, automation
  └─ ⚙️ System     status, automation, cancel, help
 ```
@@ -67,7 +67,7 @@ Rules:
 | Prefix | Meaning | Status |
 |---|---|---|
 | `ui:<section>` | navigation: `ui:home`, `ui:today`, `ui:meals`, `ui:training`, `ui:shop`, `ui:travel`, `ui:system` | new |
-| `cmd:<action>` | run a menu action (`scan`, `digest`, `status`, `cancel`, `auto`) | existing, kept |
+| `cmd:<action>` | run a menu action (`scan`, `digest`, `status`, `cancel`, `auto`, `basket`) | existing, kept |
 | `st:` `o:` `g:` | stays search / filter panel | existing, kept |
 | `sw:` | automation switches | existing, kept |
 | `co:` | reserved for coach actions (COACH_SPEC §11) | reserved |
@@ -107,19 +107,32 @@ both Windows user environment variables, never in Git. Any other chat is ignored
 |---|---|
 | Replies, Home and section navigation, Price check prompt | the chat that asked |
 | Results of `/price`, `/flights`, `/stays` (and Price check) | the chat that asked — the listener passes `TELEGRAM_REPLY_CHAT_ID` to the job |
+| "Running…" acks, incl. 🧺 Basket / `/basket` | the chat that asked |
 | Travel scan and digest, scheduled or via `/scan` / `/digest`; deal alerts | Davit only |
 | System and failure messages (`telegram.notify`) | Davit only |
-| **Family content** — daily plan (07:30), Sunday week plan, basket / shopping list | **both**, via `telegram.send_family()` |
+| **Family content** — daily plan (07:30), Sunday week plan, basket / shopping list | **both**, via `telegram.send_family()` (the basket job sends it itself; `basket` is not in `listener.REPLY_JOBS`) |
 
 Each person gets the bottom keyboard on their own `/start`. No personal health data in
 any message (tracking is light by the owner's choice). New features follow this table:
 answers to a person go back to that person; family content uses `send_family()`.
 
+### 5b. Basket (decision 084)
+
+🛒 Shopping shows `🔍 Price check` · `🧺 Basket` (`cmd:basket`, weekly) and link buttons
+`📋 Checklist` (the Shopping list Sheet, `shopping_sheet_id` in config_coach.json) and
+`📄 Shopping plan`. `/basket [weekly|monthly|all]` is the typed shortcut. The result is one
+silent message to both chats: header `🧺 Basket · weekly|monthly`, total and per-shop
+totals, the month vs the budget, one-shop-only vs cheapest-of-each (items found at both
+shops), then one fold per shop (Yerevan City first) and a "Not priced" fold, with a
+`📋 Open checklist` link button. Each item line is the product link with the amount, line
+cost and the 📱 app link for Yerevan City; product names are dropped before the message
+would split (they stay in the Sheet).
+
 ## 6. Bot profile
 
 Set from `listener.set_menu()` at startup so it can't drift:
 - **Description** (start screen) and **short description** (profile page) — §7 text.
-- **Command list** — grouped, short: `menu`, `price`, `flights`, `stays`, `scan`, `digest`,
+- **Command list** — grouped, short: `menu`, `price`, `basket`, `flights`, `stays`, `scan`, `digest`,
   `status`, `cancel`, `help`.
 - Profile photo: BotFather only (not settable by a bot).
 
