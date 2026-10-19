@@ -156,6 +156,66 @@ shows in the person's own chat as "plan changes pending"; the `plan/*.md` files 
 when Davit asks Claude to apply them (light-tracking preference: the plan changes only when
 asked). The daily-plan job does not read health briefs.
 
+### 6.1 Wellness brief — derived in code (owner's choice, 2026-10-19)
+
+The owner supplied a wellness-brief prompt (schema + derivation rules). Decided: **keep the
+schema and targets, derive them with a tested Python rule table** (`lib/health_brief.py`),
+not with the model — same record in, same brief out (CLAUDE.md §2). The model only phrases
+the diff for the person. Output is validated against the schema and the policy below
+before `propose_brief()` returns it.
+
+**Inputs → conditions (code, from validated rows only):** a condition holds when the
+latest saved value of the analyte is above `ref_high` (or below `ref_low`) of its own panel;
+no reference range → the condition is "unknown" and its rules are not applied.
+
+| Condition (code) | Derived keys |
+|---|---|
+| ALT / AST / GGT above range, or HOMA_IR / GLU / HBA1C above range | `alcohol: none`, `added_sugar_g_max: 25`, `ssb_and_juice: none`, `fibre_g_min: 30`, `training.aerobic_min_week: 150`, `training.resistance_sessions_week: [2,3]`, `training.post_meal_walk_min: [10,15]`; `weight_loss_rate_pct_week: [0.5,1.0]` only for adults |
+| LDL, NON_HDL or APOB above range | `sat_fat_pct_max: 7`, `dietary_cholesterol_mg_max: 300`, `nuts_g_day: 30`, `oily_fish_per_week: 2`, `soluble_fibre_daily: true`, `plant_sterols_g_optional: 2`, `coffee: filtered, unsweetened` |
+| TG above range | `alcohol: none`, `refined_carbs: minimal`, `oily_fish_per_week: 2` |
+| HOMA_IR or INSULIN above range | `protein_g_per_kg_goal_weight: [1.2,1.6]` (adults), `carbs_from: legumes, whole grains`, `training.post_meal_walk_min: [10,15]`, `break_sitting_min: [30,60]` |
+| VIT_D below range | `supplements_note: ["vitamin D as agreed with doctor"]` (no dose) |
+| CREA within range | `protein_upper_ok: true` |
+| `appointments` / notes with a recheck date | `check_ins[]` as calendar items only |
+
+Fixed for everyone (from the base plan, never overridden by a brief): `primary_fat:
+extra_virgin_olive_oil`, `legumes_per_week_min: 4`, `ultra_processed: minimise`,
+`red_flags_stop_training: [chest pain, fainting, severe breathlessness, dark urine with
+muscle pain, yellowing of eyes or skin, severe abdominal pain]`.
+
+**Amendments to the owner's prompt (all decided):**
+1. **No eating window** — `eating_window_hours_optional` is never emitted (decision 076: no
+   intermittent fasting with gastritis).
+2. **`last_meal_hours_before_bed: 3`** minimum (plan uses 3–4 h for gastritis), not 2.
+3. **No kcal for planners** — `energy_deficit_kcal` is not emitted while the plan uses
+   portions, not calories (decision 073); the protein range stays informational.
+4. **Training keys respect the base plan:** progression by tolerance (no
+   `progression_aerobic_pct_week_max`), no gym-style `hard_sets_per_muscle_week`, no
+   interval start week — the 12-week no-equipment plan in `plan/family/*.md` governs.
+5. **Neutral goal labels** in `goals_priority`: `heart_health`, `blood_sugar`,
+   `body_composition`, `aerobic_fitness`, `strength`, `digestion` — never condition-like
+   labels such as `liver_fat` or `insulin_sensitivity`, because briefs can reach plan files
+   and shared messages.
+6. **Medication flags only from the record of what a clinician said:** `medication_flags`
+   (`daily_tablet`, `supplements_avoid`, `antacid_spacing_hours`,
+   `muscle_symptom_check_weekly`) are set only from `notes(kind="doctor_said")` or the
+   medications tab's `note` field as stated by the person, phrased "as advised by your
+   doctor or pharmacist"; the rule table never infers them from a drug name. No drug names
+   or purposes in the brief.
+7. **Minors guard:** for the son's record no deficit, weight-loss, fasting, protein-per-kg or
+   training keys are emitted — only food-quality keys that suit a toddler (no added sugar,
+   no sweet drinks, oily fish, legumes) and `check_ins`; the brief says so.
+8. **Code sets** `person_id`, `version` (previous + 1), `created_at` (`today_local`) and
+   `valid_until` (+120 days); an expired brief makes planners show "ask the person to
+   update their record".
+9. **Validation before return:** only keys in the schema; values within fixed bounds; no lab
+   values, test names, diagnoses or drug names anywhere in the JSON (string scan against
+   the analyte enum and the medications tab) — a failure means no brief is proposed and the
+   person is told why.
+
+Tests: one fixture record per condition, the minors guard, the forbidden-strings scan, the
+version/date arithmetic, and "unknown reference range → rule not applied".
+
 ## 7. Consent, people, roles
 
 - Allowed people = the two bot chats (decision 082). A record is created **only from the
