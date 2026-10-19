@@ -83,6 +83,19 @@ def plan_links(root):
         return {}
 
 
+BASKET_BUTTON = "\U0001f9fa Basket"
+
+
+def checklist_url(root):
+    """The shared Shopping list Sheet (config_coach.json shopping_sheet_id), or None."""
+    try:
+        with open(os.path.join(root, "config_coach.json"), encoding="utf-8") as f:
+            sid = json.load(f).get("shopping_sheet_id")
+    except (OSError, ValueError):
+        return None
+    return "https://docs.google.com/spreadsheets/d/%s/edit" % sid if sid else None
+
+
 def _links(links, pairs):
     """Rows of link buttons for the pairs whose link exists, two per row."""
     btns = [(label, links[key]) for label, key in pairs if links.get(key)]
@@ -135,8 +148,12 @@ def section(name, root):
         text = page(header("\U0001f6d2", "Shopping"),
                     ["Prices from \U0001f7e2 Parma and \U0001f534 Yerevan City, cheapest per kg/l "
                      "first, with a comparison and product links.",
-                     "English or Armenian works: lentils, ոսպ, katnashor."])
-        rows = [[(KEY_PRICE, "ui:price")]] + _links(links, [("\U0001f4cb Shopping list", "shopping")])
+                     "English or Armenian works: lentils, ոսպ, katnashor.",
+                     "\U0001f9fa <b>Basket</b> prices this week's list at both shops (~2 min), fills "
+                     "the shared checklist and sends the list to both of you."])
+        rows = ([[(KEY_PRICE, "ui:price"), (BASKET_BUTTON, "cmd:basket")]]
+                + _links(dict(links, checklist=checklist_url(root)),
+                         [("\U0001f4cb Checklist", "checklist"), ("\U0001f4c4 Shopping plan", "shopping")]))
     elif name == "travel":
         text = page(header("✈️", "Travel"),
                     ["Daily scan at 08:00; deals arrive by themselves.",
