@@ -1,0 +1,46 @@
+{
+"query": "bell pepper",
+"captured_utc": "2026-10-19T13:17:27+00:00",
+"status": {
+"parma": "ok",
+"yc": "ok"
+},
+"items": [
+{
+"shop": "yc",
+"id": "130809",
+"name": "Bell pepper caviar \"Kubanochka\" 350g",
+"name_hy": "Բուլղարական պղպեղի խավիար «Կուբանոչկա» 350գր",
+"price": 740.0,
+"old_price": null,
+"discount_pct": null,
+"sold_by_weight": false,
+"min_qty": null,
+"unit_price": 2114.0,
+"unit": "kg",
+"url": "https://yerevan-city.am/shop/product-details/130809",
+"app_url": "https://yerevan-city.am/shop/product-detail/130809",
+"image": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1150384.png",
+"category": "Բանջարեղենային խավիար",
+"available": true
+},
+{
+"shop": "yc",
+"id": "89360",
+"name": "Red chili pepper bell 90g",
+"name_hy": "Կարմիր պղպեղ չիլի Զանգակ 90գր",
+"price": 395.0,
+"old_price": null,
+"discount_pct": null,
+"sold_by_weight": false,
+"min_qty": null,
+"unit_price": 4388.0,
+"unit": "kg",
+"url": "https://yerevan-city.am/shop/product-details/89360",
+"app_url": "https://yerevan-city.am/shop/product-detail/89360",
+"image": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1126787.png",
+"category": "Բանջարեղեն",
+"available": true
+}
+]
+}

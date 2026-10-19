@@ -17,6 +17,14 @@ change, so they are looked up fresh, not stored here).
 first, with discounts and a link to each product. From a computer:
 `python jobs/grocery_search.py lentils`.
 
+**The basket and the checklist:** in Telegram tap 🏠 Home → 🛒 Shopping → 🧺 **Basket**
+(or send `/basket`, `/basket monthly`, `/basket all`). The bot prices this list at both
+shops, picks the cheaper shop per item and sends the list to both of us; it also fills the
+**Shopping list** Google Sheet (Drive → Family Coach, 📋 Checklist button) — tick items off
+on the phone as they go into the cart, tapping a product to open it in the shop (📱 opens the
+Yerevan City app). How each row below is read (amounts, search words) is in
+[basket.md](basket.md); edit it there. The bot never orders — you add to the cart yourself.
+
 ## Monthly staples (buy once a month) — ≈ 25,000–30,000 AMD
 
 | Item | Approx. amount | Notes |

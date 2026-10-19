@@ -1,0 +1,46 @@
+{
+"query": "frozen broccoli",
+"captured_utc": "2026-10-19T13:15:55+00:00",
+"status": {
+"parma": "ok",
+"yc": "ok"
+},
+"items": [
+{
+"shop": "parma",
+"id": "20933",
+"name": "Broccoli \"Planeta Vitaminov\" frozen 400g",
+"name_hy": null,
+"price": 1250.0,
+"old_price": null,
+"discount_pct": null,
+"sold_by_weight": false,
+"min_qty": null,
+"unit_price": 3125.0,
+"unit": "kg",
+"url": "https://parma.am/en/product/product?slug=broccoli-%60planeta-vitaminov%60-frozen-400g_95567",
+"app_url": null,
+"image": "https://static.parma.am/cache/product/95567/thumb_95567.jpg?v=11792400137",
+"category": null,
+"available": true
+},
+{
+"shop": "yc",
+"id": "132376",
+"name": "Frozen broccoli \"Planeta vitaminov\" 400g",
+"name_hy": "Բրոկկոլի սառեցված «Պլանետա վիտամինով» 400գր",
+"price": 1230.0,
+"old_price": null,
+"discount_pct": null,
+"sold_by_weight": false,
+"min_qty": null,
+"unit_price": 3075.0,
+"unit": "kg",
+"url": "https://yerevan-city.am/shop/product-details/132376",
+"app_url": "https://yerevan-city.am/shop/product-detail/132376",
+"image": "https://media.yerevan-city.am/api/Image/Resize/ProductPhoto/1151834.png",
+"category": "Սառեցված բանջարեղեն և կանաչիներ",
+"available": true
+}
+]
+}

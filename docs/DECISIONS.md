@@ -539,3 +539,31 @@ shop home on the web — verified). So each Yerevan City product keeps its norma
 and gains a small "📱 app" link with the singular path; tapped on an iPhone with the app
 installed (and Telegram set to open links in Safari) it opens the app. Parma publishes no
 app association, so no app link. /price now shrinks its folded part to stay one message.
+
+**084 — 2026-10-19 — Basket: the shopping list priced at both shops, delivered as a shared Google Sheet checklist.**
+The family wanted the weekly list as something to tick off on two iPhones. Google Keep has
+no API for personal Gmail accounts, so the checklist is a Google Sheet ("Shopping list",
+Drive → Family Coach) with real checkboxes (data validation BOOLEAN), shared as Editor with
+both adults and with the service account that already writes the travel Sheet; it is
+written by a new additive module, `lib/sheets_checklist.py` (whole-tab rewrite: values,
+checkboxes, links), leaving `lib/sheets.py` unchanged. `jobs/grocery_basket.py` reads
+`plan/meals/basket.md` — an explicit mapping of every `shopping.md` row to a shop search,
+match words, a number + unit (kg / l / pcs / pack) and exclusion words — instead of
+guess-parsing free-text amounts ("3–4 kg", "as needed"); "as needed" and "per recipe" rows
+are listed as skipped. Each distinct search runs once at both shops, sequentially with a
+1.5 s pause. Arithmetic is deterministic and tested (`lib/basket.py`): items sold by weight
+cost kg × price with the shop's minimum order respected; packages are counted up to whole
+packages (a pack up to 10% under the amount counts); pieces come from "10pcs" in the name;
+the cheapest line cost per shop wins and the cheaper shop wins per item (Yerevan City on a
+tie, decision 081). A product only counts when the item's type is among the first two words
+of its name — whole-word matching alone priced shampoo as olive oil and cat food as trout on
+the captured data. No match → "no match", out of the totals, run marked partial; a price is
+never guessed. Output: the Sheet (tabs "This week" / "Monthly staples", grouped by shop,
+Yerevan City first, 📱 app links, totals, budget check, a not-priced block) and one silent
+Telegram message to both chats (`send_family`, docs/TELEGRAM_UX.md §5a) with totals, the
+month at these prices (weekly × 52/12 + staples) against the 80–100k budget, one-shop-only
+vs cheapest-of-each over items found at both shops, and a 📋 checklist button. The message
+is sent before the Sheet is written, so a Sheets outage can't swallow it; a failed Sheet
+write tells the owner. Run from 🛒 Shopping → 🧺 Basket or `/basket [monthly|all]`; the
+bot never logs in to a shop, never touches a cart, never orders. On the first capture the
+month came to ≈112k AMD — over budget, mostly staples (lactose-free milk, olive oil, fish).
