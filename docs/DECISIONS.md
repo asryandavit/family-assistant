@@ -567,3 +567,32 @@ is sent before the Sheet is written, so a Sheets outage can't swallow it; a fail
 write tells the owner. Run from 🛒 Shopping → 🧺 Basket or `/basket [monthly|all]`; the
 bot never logs in to a shop, never touches a cart, never orders. On the first capture the
 month came to ≈112k AMD — over budget, mostly staples (lactose-free milk, olive oil, fish).
+
+**085 — 2026-10-21 — The plan lives in the bot: Today / Meals / Training templated from plan/, a 07:30 message and a Sunday menu.**
+Roadmap stage B starts. The Home sections Today, Meals and Training stop being links to the
+Drive copy and show the plan itself, read from the Markdown files by their stable ids
+(`coach/plan_view.py`) and laid out in code (`coach/plan_text.py`) — no model call, no
+invented dish, exercise or number, portions not calories (CLAUDE.md §2, decisions 054/055/
+073). The plan week is computed from `plan_start_local` in `config_coach.json` — Monday
+19 Oct 2026, the owner's answer — and the Yerevan date; a missing `week-NN.md` falls back to
+the latest file and says so; an unknown id is shown with a note instead of failing. The
+Drive docs stay as secondary link buttons, and a plan that can't be read falls back to them.
+Two silent pushes to both chats (`send_family`, decision 082) come from a new job,
+`jobs/coach_brief.py`: 07:30 daily (today's meals, prep, both sessions or "no session
+today · walk", one habit nudge from `habits.md`; cues and videos folded) and Sunday 18:00
+(next week's menu + a pointer to 🧺 Basket). Pushes carry a validity window in code
+(morning until 10:00, week until 22:00, COACH_SPEC §12): late ones are dropped and logged.
+Tasks `FamilyAssistant-Coach-Morning` / `-Week` use the travel task's logon setup
+(`scheduler/register-coach.ps1`). `/today` is a typed shortcut. **Link rule (owner):** a
+URL appears only if a job verified it (exercise videos from `jobs/exercise_videos.py`), it
+is a hand-checked `ref` in `dishes.md` on an allowlisted free recipe site (BBC Good Food,
+Armenian Institute, The Armenian Kitchen — four added, each opened and confirmed), or it is
+built from a fixed search template; tested across every day of the plan. Videos never
+change the exercise; an exercise's first day in a person's 12-week plan is marked *(new)*
+with "watch the video before your first set; start with the lightest option." Plan text
+avoids patient/condition/disease/illness/diagnosis/treatment, and Training plus the
+morning message carry one folded safety line. No check-in, no kcal or macros, no adherence
+prompts (the owner's light-tracking choice). Health briefs are not read; the §6.2
+muscle-symptom question plugs into `plan_text.today_extras()` later. Messages stay one
+message: on the heaviest days cues shrink from 3 to 2 (then 1) rather than splitting.
+Rules: docs/TELEGRAM_UX.md §5c.

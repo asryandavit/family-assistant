@@ -11,7 +11,7 @@ are for their doctors and physio; this plan is everyday food and movement around
 
 | If you want… | Open |
 |---|---|
-| **What do I do today?** | [daily-rhythm.md](daily-rhythm.md) + this week's menu [meals/week-01.md](meals/week-01.md) |
+| **What do I do today?** | the bot: 🏠 Home → 📅 Today, or `/today` · or [daily-rhythm.md](daily-rhythm.md) + this week's menu [meals/week-01.md](meals/week-01.md) |
 | Davit's full plan | [family/davit.md](family/davit.md) |
 | Karine's full plan | [family/karine.md](family/karine.md) |
 | The son's plan | [family/son.md](family/son.md) |
@@ -44,14 +44,16 @@ tracking, Sunday 10-minute review, Saturday Scoolinary project as the planned tr
 - **Rules that keep it flexible:** exercises live only in `training/exercises.md` and
   dishes only in `meals/dishes.md`, referenced by id everywhere else. Add a new one there
   first, then use it. Times live only in `daily-rhythm.md`.
-- **Each new week:** copy `meals/week-01.md` to `week-02.md` and adjust.
+- **Each new week:** copy `meals/week-01.md` to `week-02.md` and adjust. Week 1 started
+  Mon 19 Oct 2026 (`plan_start_local` in `config_coach.json`); until a week's file exists
+  the bot shows the latest one and says so.
 
 ## Roadmap
 
 | Stage | What | Status |
 |---|---|---|
 | **A — Manual** | These files; you follow them by hand | **now** |
-| **B — Reminders** | The Telegram bot reads these files: morning brief, desk-break nudges, Sunday plan + priced Parma list | after A proves the routine |
+| **B — Reminders** | The Telegram bot reads these files: Today / Meals / Training in 🏠 Home and `/today`, a 07:30 morning message and the Sunday 18:00 menu to both of you (decision 085); 🧺 Basket prices the list. Desk-break nudges not yet | **in progress** |
 | **C — Full coach** | The `docs/COACH_SPEC.md` design (logging, progression engine, plateau rules), seeded from these libraries | later, if wanted |
 
 The ids in the libraries are deliberately the same shape the bot will use, so stage B/C

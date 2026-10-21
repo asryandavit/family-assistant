@@ -22,7 +22,7 @@ commit (CLAUDE.md §1/§10).
 | 8 | `.browser/wizz`, `.browser/stays_*` | Playwright browser profiles (gitignored) | this PC | Wizz fare scan, Booking/Airbnb stays | yes for travel | recreated automatically on first run; first scans may meet a cookie/verification page — run once by hand with `headless: false` |
 | 9 | `secrets/health_sheets.json` | file (gitignored) — *planned* | — | /health (docs/briefs/HEALTH_RECORDS.md) | when built | written by the health-records setup |
 | 10 | `machine.json` | file (gitignored) — *planned* | — | machine-specific paths (COACH_SPEC §6) | when built | copy `machine.example.json` and fill in |
-| 11 | Scheduled tasks `FamilyAssistant-*` | Windows Task Scheduler | this PC | listener (always on), daily travel scan, coach jobs | **yes** | `scheduler/register-listener.ps1`, `scheduler/register-tasks.ps1` (elevated PowerShell); coach tasks per their scripts |
+| 11 | Scheduled tasks `FamilyAssistant-*` | Windows Task Scheduler | this PC | listener (always on), daily travel scan, plan messages `FamilyAssistant-Coach-Morning` (07:30) and `FamilyAssistant-Coach-Week` (Sun 18:00) | **yes** | `scheduler/register-listener.ps1`, `scheduler/register-tasks.ps1`, `scheduler/register-coach.ps1` (elevated PowerShell) |
 
 Not secrets, already in Git: spreadsheet ids, Drive links (`config.json`, `config_coach.json`).
 
