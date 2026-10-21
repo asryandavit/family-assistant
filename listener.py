@@ -138,6 +138,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/basket [monthly|all] \u2014 price the shopping list, fill the checklist\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 the Home screen\n"
+        "/today \u2014 today's meals and both sessions\n"
         "/cancel \u2014 stop whatever is running\n"
         "/status \u2014 listener health + last runs\n"
         "/help \u2014 this message\n\n"
@@ -345,6 +346,7 @@ def status(cfg, runner):
 
 def set_menu(tok):
     cmds = [{"command": "menu", "description": "Home screen"},
+            {"command": "today", "description": "Today's meals and training"},
             {"command": "price", "description": "Grocery prices: /price lentils"},
             {"command": "basket", "description": "Price the shopping list + checklist"},
             {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
@@ -412,6 +414,10 @@ def handle_text(cfg, runner, text, chat_id=None):
         return None
     if cmd == "menu":
         send_home(cfg, runner, chat_id)
+        return None
+    if cmd == "today":
+        text, btns = ui.section("today", ROOT, chat_id=chat_id)
+        telegram.send_html(cfg, text, silent=True, buttons=btns, chat_id=chat_id)
         return None
     if cmd == "auto":
         rows = tasks.summary()
@@ -502,7 +508,7 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
         if name == "help":
             text, btns = HELP, [[ui.HOME_BACK]]
         else:
-            sec = ui.section(name, ROOT)
+            sec = ui.section(name, ROOT, chat_id=chat_id)
             if not sec:
                 return "Unrecognised button."
             text, btns = sec
