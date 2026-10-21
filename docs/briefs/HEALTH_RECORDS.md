@@ -216,6 +216,19 @@ muscle pain, yellowing of eyes or skin, severe abdominal pain]`.
 Tests: one fixture record per condition, the minors guard, the forbidden-strings scan, the
 version/date arithmetic, and "unknown reference range → rule not applied".
 
+### 6.2 The one thing the daily plan reads from a brief (owner, 2026-10-21)
+
+From the owner's planner prompt: the only brief key the daily-plan code reads is
+`medication_flags.muscle_symptom_check_weekly` of that person's **approved, unexpired**
+brief (a boolean — nothing else from the health Sheet). When true, that person's Today
+section (on demand — never a push) shows once per week: *"Any unusual muscle pain or
+weakness not explained by training, or dark urine?"* with Yes / No buttons. Yes → the reply
+says "Please contact your doctor before your next session" and that person's next 3 days
+of training show as easy walking only (a local, gitignored per-person override with an end
+date — not a plan-file change). No answer is fine; nothing is chased or logged beyond the
+override. Build this in step 7 alongside propose/approve. Plan and chat text never uses
+the words patient, condition, disease, illness, diagnosis or treatment.
+
 ## 7. Consent, people, roles
 
 - Allowed people = the two bot chats (decision 082). A record is created **only from the
