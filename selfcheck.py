@@ -175,6 +175,14 @@ def check_secrets(cfg):
         line(OK if v else BAD, "env %s" % var,
              "set (%d chars)" % len(v) if v else "NOT SET")
 
+    # optional: features work without them, but they are part of the full setup
+    # (inventory and how to recreate each one: docs/SECRETS.md)
+    for var, what in (("TELEGRAM_CHAT_ID_2", "Karine's chat (decision 082)"),
+                      ("YOUTUBE_API_KEY", "exercise video library job")):
+        v = os.environ.get(var)
+        line(OK if v else WARN, "env %s" % var,
+             "set (%d chars)" % len(v) if v else "not set - needed for %s" % what)
+
     if os.environ.get("ANTHROPIC_API_KEY"):
         line(WARN, "env ANTHROPIC_API_KEY",
              "SET - claude -p may bill the metered API instead of your plan")
