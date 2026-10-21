@@ -4,7 +4,8 @@
     fold()    long content in an expandable blockquote -- tap to open
     page()    header, divider, body, folded part, footer
     home() / section()  the Home message and its six sections, each returning
-              (text, inline_buttons) so the listener can send or edit in place
+              (text, inline_buttons) so the listener can send or edit in place;
+              Today / Meals / Training are live from plan/ (coach/plan_text.py)
 """
 import json
 import os
@@ -119,28 +120,40 @@ def home(root, running=None, travel_next=None):
     return text, buttons
 
 
-def section(name, root):
-    """(text, buttons) for a Home section, or None for an unknown name."""
+def _live_plan(name, root, chat_id=None):
+    """Live Today / Meals / Training text from plan/ (coach/plan_text.py, decision 085),
+    or None if the plan can't be read -- the caller then shows the Drive links only."""
+    try:
+        from coach import plan_text, plan_view
+        plan = plan_view.load_plan(root)
+        day = now_local().date()
+        if name == "today":
+            return plan_text.today_text(plan, day, chat_id=chat_id)
+        if name == "meals":
+            return plan_text.meals_text(plan, day)
+        return plan_text.training_text(plan, day)
+    except Exception as e:                       # a broken plan file must not break Home
+        print("plan view failed:", e)
+        return None
+
+
+PLAN_UNREADABLE = "<i>⚠️ The plan files couldn't be read just now — the Drive copy is below.</i>"
+
+
+def section(name, root, chat_id=None):
+    """(text, buttons) for a Home section, or None for an unknown name. chat_id: who is
+    looking (Today's per-person hook, docs/briefs/HEALTH_RECORDS.md §6.2)."""
     links = plan_links(root)
     if name == "today":
-        text = page(header("\U0001f4c5", "Today", day_label()),
-                    ["Breakfast is one of the anchors: eggs, hercules or katnashor.",
-                     "Lunch and dinner come from this week's menu; training times are in the "
-                     "daily rhythm.",
-                     "<i>Until the daily plan is sent here each morning, open it in Drive:</i>"])
+        text = _live_plan(name, root, chat_id) or page(
+            header("\U0001f4c5", "Today", day_label()), [PLAN_UNREADABLE])
         rows = _links(links, [("\U0001f4c5 Daily rhythm", "rhythm"), ("\U0001f37d This week's menu", "week")])
     elif name == "meals":
-        text = page(header("\U0001f37d", "Meals"),
-                    ["Breakfast anchors: eggs · hercules · katnashor",
-                     "Batch cooking: Sunday ~90 min, Wednesday ~45 min",
-                     "Dinner light, by 19:00 · portions, not calories"])
+        text = _live_plan(name, root) or page(header("\U0001f37d", "Meals"), [PLAN_UNREADABLE])
         rows = _links(links, [("\U0001f4c5 Week menu", "week"), ("\U0001f372 Dish list", "dishes"),
                               ("\U0001f4d6 Food rules", "food"), ("\U0001f4cb Shopping list", "shopping")])
     elif name == "training":
-        text = page(header("\U0001f3c3", "Training"),
-                    ["Davit: strength Mon / Wed / Fri at 18:15, desk break every 30 min",
-                     "Karine: short sessions in nap time, foundations first",
-                     "Everyone: a daily walk and 5–10 min of mobility"])
+        text = _live_plan(name, root) or page(header("\U0001f3c3", "Training"), [PLAN_UNREADABLE])
         rows = _links(links, [("\U0001f468 Davit", "davit"), ("\U0001f469 Karine", "karine"),
                               ("\U0001f476 Son", "son"), ("\U0001f4da Exercises", "exercises"),
                               ("\U0001f6e1 Safety rules", "safety")])
