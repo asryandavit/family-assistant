@@ -6,6 +6,9 @@ Starter list — replace or edit with the dishes you actually like.
 
 **Effort:** active minutes = hands-on time (oven time doesn't count).
 **Batch:** how many meals one cook covers. **Freezes:** ok for the freezer compartment.
+**ref** (optional): one free recipe page for technique only — the dish, portions and
+family rules stay ours. Only sites on the allowlist in `docs/TELEGRAM_UX.md` §5c, and
+only after the page was opened and checked to be that dish (decision 085).
 
 ## Breakfasts (anchors)
 
@@ -18,18 +21,18 @@ Starter list — replace or edit with the dishes you actually like.
 
 ## Lunches (main meal, batch)
 
-| id | dish | active | batch | freezes | notes |
-|---|---|---|---|---|---|
-| `ln-lentil-soup` | Red lentil soup (with carrot, onion, cumin) | 20 min | 3–4 meals | yes | Cheap, filling, LDL-friendly, gentle on the stomach. Blend half for the son. |
-| `ln-chicken-tray` | Oven tray: chicken + vegetables (potato, carrot, pepper, zucchini) | 15 min | 2–3 meals | yes | One tray = lunch + dinner. Skinless chicken for the adults. |
-| `ln-buckwheat` | Buckwheat (pot) | 5 min | 3 meals | yes | Side for chicken/stews. |
-| `ln-bulgur` | Bulgur pilaf with vegetables | 15 min | 3 meals | yes | |
-| `ln-lobi` | Bean stew (lobi) with herbs | 20 min | 3 meals | yes | Soak beans overnight or use canned (rinse). |
-| `ln-chickpea` | Chickpea and vegetable stew | 20 min | 3 meals | yes | |
-| `ln-chicken-plov` | Chicken–buckwheat plov | 15 min | 2 meals | yes | Quick from leftover tray chicken. |
-| `ln-fish-bake` | Baked trout or mackerel + vegetables | 10 min | 1–2 meals | no | Fish day, 1–2×/week. Check bones for the son. |
-| `ln-dolma-lean` | Lean dolma (chicken/turkey mince, rice, herbs) | 40 min | 3 meals | yes | Weekend dish. |
-| `ln-veg-stew` | Vegetable stew (ajapsandal-style, baked not fried) | 20 min | 3 meals | yes | |
+| id | dish | active | batch | freezes | notes | ref |
+|---|---|---|---|---|---|---|
+| `ln-lentil-soup` | Red lentil soup (with carrot, onion, cumin) | 20 min | 3–4 meals | yes | Cheap, filling, LDL-friendly, gentle on the stomach. Blend half for the son. | https://www.bbcgoodfood.com/recipes/spiced-carrot-lentil-soup |
+| `ln-chicken-tray` | Oven tray: chicken + vegetables (potato, carrot, pepper, zucchini) | 15 min | 2–3 meals | yes | One tray = lunch + dinner. Skinless chicken for the adults. |  |
+| `ln-buckwheat` | Buckwheat (pot) | 5 min | 3 meals | yes | Side for chicken/stews. | https://www.bbcgoodfood.com/howto/guide/how-cook-buckwheat |
+| `ln-bulgur` | Bulgur pilaf with vegetables | 15 min | 3 meals | yes | | https://thearmeniankitchen.com/bulgur-pilaf-with-onions-and-tomato/ |
+| `ln-lobi` | Bean stew (lobi) with herbs | 20 min | 3 meals | yes | Soak beans overnight or use canned (rinse). |  |
+| `ln-chickpea` | Chickpea and vegetable stew | 20 min | 3 meals | yes | |  |
+| `ln-chicken-plov` | Chicken–buckwheat plov | 15 min | 2 meals | yes | Quick from leftover tray chicken. |  |
+| `ln-fish-bake` | Baked trout or mackerel + vegetables | 10 min | 1–2 meals | no | Fish day, 1–2×/week. Check bones for the son. |  |
+| `ln-dolma-lean` | Lean dolma (chicken/turkey mince, rice, herbs) | 40 min | 3 meals | yes | Weekend dish. |  |
+| `ln-veg-stew` | Vegetable stew (ajapsandal-style, baked not fried) | 20 min | 3 meals | yes | | https://www.armenianinstitute.org.uk/food/ajabsandal |
 
 ## Dinners (light, mostly assembled)
 

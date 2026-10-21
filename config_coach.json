@@ -1,5 +1,6 @@
 {
-  "_doc": "Coach-side configuration (CLAUDE.md §6: never in config.json). plan_links = the read-only Google Docs mirror of plan/ (Drive > Family Coach > Family plan). Re-syncing the mirror creates new docs, so update these ids when that happens. shopping_sheet_id = the Shopping list Sheet the basket job rewrites (Drive > Family Coach; shared with the service account as Editor). grocery_budget_amd = monthly grocery budget [low, high] for the basket check.",
+  "_doc": "Coach-side configuration (CLAUDE.md §6: never in config.json). plan_links = the read-only Google Docs mirror of plan/ (Drive > Family Coach > Family plan). Re-syncing the mirror creates new docs, so update these ids when that happens. shopping_sheet_id = the Shopping list Sheet the basket job rewrites (Drive > Family Coach; shared with the service account as Editor). grocery_budget_amd = monthly grocery budget [low, high] for the basket check. plan_start_local = Monday of plan week 1 (Yerevan date; owner, 2026-10-21) -- the bot computes the current plan week from it.",
+  "plan_start_local": "2026-10-19",
   "shopping_sheet_id": "1zfGS7jRCldRO_ERtNLUMbF80dU-HL9qsRf41VnUeXLg",
   "grocery_budget_amd": [80000, 100000],
   "plan_links": {
