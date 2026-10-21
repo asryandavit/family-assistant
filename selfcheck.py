@@ -189,6 +189,23 @@ def check_secrets(cfg):
     else:
         line(OK, "env ANTHROPIC_API_KEY", "unset (correct: uses the subscription)")
 
+    # The claude CLI login expires silently (docs/SECRETS.md #7). Check it the way the
+    # bot runs it: without the variables a Claude Code / Desktop session injects, but
+    # keeping a long-lived CLAUDE_CODE_OAUTH_TOKEN if one is set.
+    env = {k: v for k, v in os.environ.items()
+           if not (k.startswith(("CLAUDE", "ANTHROPIC")) and k != "CLAUDE_CODE_OAUTH_TOKEN")}
+    try:
+        p = subprocess.run([(cfg or {}).get("claude_cmd", "claude"), "auth", "status"],
+                           capture_output=True, text=True, timeout=60, env=env)
+        st = json.loads(p.stdout or "{}")
+        if st.get("loggedIn"):
+            line(OK, "claude CLI login", "logged in (%s)" % st.get("authMethod", "?"))
+        else:
+            line(BAD, "claude CLI login",
+                 "NOT logged in - run `claude auth login` (docs/SECRETS.md #7)")
+    except Exception as e:
+        line(WARN, "claude CLI login", "could not check: %s" % str(e)[:60])
+
 
 def check_gitignore():
     header("GITIGNORE COVERAGE")
