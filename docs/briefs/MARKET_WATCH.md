@@ -82,7 +82,7 @@ The bot only reads prices. It never logs in with your password, adds to cart or 
 
 AMD per kg · days exactly as the forwarder publishes them. "—" = no such route.
 EasyTrans (owner's screenshot of its tariff table, 2026-10-29) lists **only two routes**:
-China truck and Poland air, quoted in *calendar* days ("օրաց. օր"), counted **from
+China truck and Poland air, its page says "calendar days" ("օրաց. օր") but the owner's experience (~1.5 months) means **working days**, counted **from
 dispatch out of the warehouse** (its footnote). Other cells marked P0 are re-checked there.
 
 | Origin | Mode | Onex | Globbing | BuyForYou | EasyTrans |
@@ -94,11 +94,11 @@ dispatch out of the warehouse** (its footnote). Other cells marked P0 are re-che
 | **Germany** | truck | 4,000 | 4,000 · 15–20 wd | — | P0 |
 | **Italy** | truck (only mode) | 4,500 | 4,500 · 7–13 wd | — | P0 |
 | China | air | 8,000 (≤1 kg: 6,900) | 8,000 · 5–11 wd | 4,900 · *P0* | P0 |
-| China | truck | 3,500 | 3,500 · ~45 wd | — | 1,500, min 1,500 · ≤35 **calendar** days |
+| China | truck | 3,500 | 3,500 · ~45 wd | — | 1,500, min 1,500 · ≤35 wd from truck departure |
 | China | sea | 1,500 | 1,500 · ~2.5–3.5 months | 1,100, min 11,000 | P0 |
 | Russia | air | 2,000 | 2,000 · 2–4 wd | — | P0 |
 | Russia | truck | 1,000 | 1,000, min 4,000 · 9–17 wd | — | P0 |
-| Poland | air | — (Onex: truck 3,000) | — | — | 3,000, min 300 · ≤20 **calendar** days |
+| Poland | air | — (Onex: truck 3,000) | — | — | 3,000, min 300 · ≤20 wd |
 
 BuyForYou has **USA and China warehouses only** (its calculator and its "Places" page list
 only those two), so for Germany, Italy and UK the report offers Onex and Globbing (and
@@ -109,7 +109,7 @@ calculator; P0 looks for them on its pages, otherwise they are entered by hand w
 ### Delivery time (in the unit each forwarder uses)
 
 Every route stores its time exactly as the forwarder states it: `min`, `max`, and the
-**unit** — `working` days (Globbing, BuyForYou), `calendar` days (EasyTrans), or `months`
+**unit** — `working` days (Globbing, BuyForYou), `calendar` days (none so far), or `months`
 (sea) — plus **from when** it counts (`arrival` at the warehouse, or `dispatch` from it, as
 EasyTrans says). Working days skip weekends and holidays; calendar days don't; the report
 writes the unit next to the range so the two are never mixed up.
@@ -237,7 +237,7 @@ pages (1–2 MB each) are kept out of Git until P1 trims them to the needed part
 | Onex | `GET https://onex.am/en/tariff` → JSON list: country, type, `estimated_day_from/to`, `mini`/`standard` (AMD per 100 g, `min_cost`, `max_weight`, `is_v_weight`, `rounding`) | `onex_tariff_en.json` | working ("working days" label on its page) | 15 routes. ≤1 kg *mini* band confirmed. Calculator (`POST /calculator/cost`) captured for 70 weight × route answers → `onex_calculator.json`, the test oracle |
 | Globbing | `let shippingConditions = {…}` in `https://am.globbing.com/en` | `globbing_home_en.html` | text `≈ 5-10 աշխ. օր` = working; `≈ 3,5 ամիս` = months | warehouse id → country from the page's `<option>` list (Armenian names); also `customsLimitConverted` = 81,600 AMD (€200 × 408), `customsWeightLimit` = 30 |
 | BuyForYou | `const usdPrice / cnyPrice` + sea constants in `calculateShipping()` on `https://www.buyforyou.am/` | `buyforyou_home_hy.html`, `buyforyou_places_hy.html` | working ("աշխատանքային օր", 7–10 for USA air) | USA + China only; volume ÷6000 only when a side > 60 cm |
-| EasyTrans | `GET https://api.easytrans.am/address/all-available-simple` → JSON per country/method: `transportationPrice`, `minimalWeight`, `minimalPrice`, `expectedArrivalDay`, `isSale` | `easytrans_address_all-available-simple.json` | **conflict**: page text says calendar ("օրաց․ օր"), the site's own key is `expectedUntilWorkingDay` → treated as **calendar** until the owner confirms | China ground, Poland air only. `common/all-page-configuration` carries the **next truck departure** ("The truck will depart on October 31"; days count from departure) — shown as text, not parsed. `common/delivery-rate` = home delivery tiers (not used) |
+| EasyTrans | `GET https://api.easytrans.am/address/all-available-simple` → JSON per country/method: `transportationPrice`, `minimalWeight`, `minimalPrice`, `expectedArrivalDay`, `isSale` | `easytrans_address_all-available-simple.json` | working, from truck departure (owner, §9 end; the page text says "calendar") | China ground, Poland air only. `common/all-page-configuration` carries the **next truck departure** ("The truck will depart on October 31"; days count from departure) — shown as text, not parsed. `common/delivery-rate` = home delivery tiers (not used) |
 | CBA rates | SOAP `ExchangeRatesLatest` at `https://api.cba.am/exchangerates.asmx` | `cba_latest.xml` | — | rate ÷ `Amount` |
 
 ### Customs — answered by the forwarders themselves
@@ -264,5 +264,12 @@ Exact product links for **Amazon UK / DE / IT and vega.am**, all four forwarders
 CBA rates, working/calendar-day arrival dates. Amazon US, Wildberries and Ozon are **not**
 in P1; each comes back only via a way that doesn't involve the bot passing a bot check.
 
-Needed from the owner before P1: the **postcode** of your Onex/Globbing warehouses in the UK,
-Germany and Italy (shown in your forwarder account) so Amazon quotes delivery to them.
+Owner's forwarder warehouse postcodes (2026-10-29), set as the delivery location in the
+store profile so prices and in-store shipping are quoted to the warehouse — not secrets,
+kept in `market/stores.md`: USA 19720 (Delaware, no sales tax) · UK E17 4SX · Germany
+82152 (Munich) · Italy 70122 (Bari) · Greece 10437 (Athens) · Spain 08016 (Barcelona).
+
+EasyTrans days — owner (2026-10-29): the China truck takes "about 1.5 months" in practice.
+35 calendar days is ~1.2 months, 35 working days ~1.6 months, so its number is read as
+**working days counted from the truck's departure** (matching its own key
+`expectedUntilWorkingDay`); the page's "calendar" wording is treated as a site typo.
