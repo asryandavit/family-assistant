@@ -58,7 +58,21 @@ class Screens(unittest.TestCase):
                 if data.startswith("https://"):
                     continue
                 self.assertLessEqual(len(data.encode("utf-8")), 64, (name, data))
-                self.assertRegex(data, r"^(ui|cmd):[a-z]+$", (name, data))
+                self.assertRegex(data, r"^(ui|cmd|mk):[a-z]+$", (name, data))
+
+    def test_market_on_home_between_shopping_and_travel(self):
+        _, rows = ui.home(ROOT)
+        self.assertEqual(rows[2], [("\U0001f30d Market", "ui:market"), ("✈️ Travel", "ui:travel")])
+        text, rows = ui.section("market", ROOT)
+        self.assertIn("Market watch", text)
+        self.assertIn(("\U0001f504 Check now", "cmd:market"), rows[0])
+
+    def test_market_failure_does_not_break_home(self):
+        from unittest import mock
+        with mock.patch("market.bot.section", side_effect=RuntimeError("boom")):
+            text, rows = ui.section("market", ROOT)
+        self.assertIn(ui.MARKET_UNREADABLE, text)
+        self.assertEqual(rows, [[ui.HOME_BACK]])
 
     def test_plan_sections_link_to_drive(self):
         _, rows = ui.section("meals", ROOT)

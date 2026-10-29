@@ -17,6 +17,7 @@ Bottom keyboard (always visible)      [ 🏠 Home ] [ 🔍 Price check ]
  ├─ 🍽 Meals      this week's menu, one fold per day, recipe references
  ├─ 🏃 Training   today's session per adult: cues, videos, safety
  ├─ 🛒 Shopping   price check, 🧺 basket, 📋 checklist (Sheet), shopping plan
+ ├─ 🌍 Market     watch list, check now, add (§5d; /watch)
  ├─ ✈️ Travel     scan, digest, flights/stays how-to, automation
  └─ ⚙️ System     status, automation, cancel, help
 ```
@@ -66,8 +67,9 @@ Rules:
 
 | Prefix | Meaning | Status |
 |---|---|---|
-| `ui:<section>` | navigation: `ui:home`, `ui:today`, `ui:meals`, `ui:training`, `ui:shop`, `ui:travel`, `ui:system` | new |
-| `cmd:<action>` | run a menu action (`scan`, `digest`, `status`, `cancel`, `auto`, `basket`) | existing, kept |
+| `ui:<section>` | navigation: `ui:home`, `ui:today`, `ui:meals`, `ui:training`, `ui:shop`, `ui:market`, `ui:travel`, `ui:system` | new |
+| `cmd:<action>` | run a menu action (`scan`, `digest`, `status`, `cancel`, `auto`, `basket`, `market`) | existing, kept |
+| `mk:<action>` | Market watch actions (`mk:add` starts the add dialog) | new (decision 087) |
 | `st:` `o:` `g:` | stays search / filter panel | existing, kept |
 | `sw:` | automation switches | existing, kept |
 | `co:` | reserved for coach actions (COACH_SPEC §11) | reserved |
@@ -183,12 +185,41 @@ no kcal or macros, no adherence prompts. Health briefs are not read here;
 that would arrive after 10:00 (week plan after 22:00) is dropped and logged to `Runs`; a
 failure tells the owner and sends nothing to the family.
 
+### 5d. Market watch (decision 087)
+
+🌍 Market (Home, between Shopping and Travel) shows the watch list — number, name, stores,
+the latest best total with its route and date, ⚖️ when a weight is missing — with
+`🔄 Check now` (`cmd:market`, the nightly job run now), `➕ Add` (`mk:add`) and a
+`📄 Watch list Sheet` link button once `config_market.json watch_sheet_id` is set.
+Typed shortcuts: `/watch`, `/watch add`, `/watch bought|remove <n>`,
+`/watch price <n> <amount> [store]`, `/watch weight <n> <kg> [LxWxH]`, `/watch check`.
+
+**Add dialog** — four force-reply prompts headed `🌍 Market · add` (the listener routes an
+answer to one into `/watch answer …`; a slash command typed as a reply is left alone):
+1/4 name · 2/4 link(s), one per store, only stores in `market/stores.md` · 3/4 quantity ·
+4/4 weight and box size (`2.4 kg 40x30x20`, or `skip`: the nightly run then takes them
+from the Amazon page when it shows them, marked "page"). A rejected answer says why and
+asks the same question again; `stop` ends it. China items without a weight get the fixed
+Chinese seller message (code, not AI).
+
+**Nightly report** (~01:30, silent, both chats via `send_family()`): header
+`🌍 Market watch · <day>`, one line per item — best total in AMD with store, route and
+arrival dates, `📉/📈 ±N% vs yesterday`, `⚠️` when that price was not re-read tonight,
+"excl. store delivery" when the store's delivery cost is unknown — and the per-store
+details folded: price in the store's currency, delivery to the warehouse, every forwarder
+× mode (AMD/kg, chargeable kg, "(by volume)", total, days in the forwarder's own unit,
+arrival dates), customs estimate (⚠️ within 10% of €200). Then one `🚫 <store> blocked
+tonight` line per blocked store, and the footer: CBA rates with their date, tariff date,
+customs rule. **Alerts with sound** (both chats): best total down ≥ 10% vs yesterday from a
+fresh read, or back in stock. After 3 blocked nights in a row the owner alone gets one
+message (open the link yourself or `/watch price`).
+
 ## 6. Bot profile
 
 Set from `listener.set_menu()` at startup so it can't drift:
 - **Description** (start screen) and **short description** (profile page) — §7 text.
-- **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `flights`, `stays`, `scan`, `digest`,
-  `status`, `cancel`, `help`.
+- **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `watch`, `flights`, `stays`, `scan`,
+  `digest`, `status`, `cancel`, `help`.
 - Profile photo: BotFather only (not settable by a bot).
 
 ## 7. Copy

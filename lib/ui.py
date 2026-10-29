@@ -3,7 +3,7 @@
     header()  one-line title (+ optional grey subtitle)
     fold()    long content in an expandable blockquote -- tap to open
     page()    header, divider, body, folded part, footer
-    home() / section()  the Home message and its six sections, each returning
+    home() / section()  the Home message and its seven sections, each returning
               (text, inline_buttons) so the listener can send or edit in place;
               Today / Meals / Training are live from plan/ (coach/plan_text.py)
 """
@@ -31,7 +31,7 @@ PRICE_PROMPT = ("\U0001f50d <b>%s</b>\n<i>Type it below, in English or Armenian:
 PRICE_PLACEHOLDER = "lentils, ոսպ, olive oil"
 
 HOME_BACK = ("⬅️ Home", "ui:home")
-SECTIONS = ("today", "meals", "training", "shop", "travel", "system")
+SECTIONS = ("today", "meals", "training", "shop", "market", "travel", "system")
 
 
 def now_local():
@@ -116,8 +116,23 @@ def home(root, running=None, travel_next=None):
     text = page(header("\U0001f3e0", "Family assistant", day_label()), body)
     buttons = [[("\U0001f4c5 Today", "ui:today"), ("\U0001f37d Meals", "ui:meals")],
                [("\U0001f3c3 Training", "ui:training"), ("\U0001f6d2 Shopping", "ui:shop")],
-               [("✈️ Travel", "ui:travel"), ("⚙️ System", "ui:system")]]
+               [("\U0001f30d Market", "ui:market"), ("✈️ Travel", "ui:travel")],
+               [("⚙️ System", "ui:system")]]
     return text, buttons
+
+
+MARKET_UNREADABLE = "<i>⚠️ The watch list couldn't be read just now — try /watch.</i>"
+
+
+def _market(root):
+    """Home -> 🌍 Market from market/bot.py (docs/briefs/MARKET_WATCH.md), or a plain
+    page if the market code fails -- a broken watch list must not break Home."""
+    try:
+        from market import bot
+        return bot.section(root)
+    except Exception as e:
+        print("market section failed:", e)
+        return page(header("\U0001f30d", "Market watch"), [MARKET_UNREADABLE]), []
 
 
 def _live_plan(name, root, chat_id=None):
@@ -167,6 +182,8 @@ def section(name, root, chat_id=None):
         rows = ([[(KEY_PRICE, "ui:price"), (BASKET_BUTTON, "cmd:basket")]]
                 + _links(dict(links, checklist=checklist_url(root)),
                          [("\U0001f4cb Checklist", "checklist"), ("\U0001f4c4 Shopping plan", "shopping")]))
+    elif name == "market":
+        text, rows = _market(root)
     elif name == "travel":
         text = page(header("✈️", "Travel"),
                     ["Daily scan at 08:00; deals arrive by themselves.",
