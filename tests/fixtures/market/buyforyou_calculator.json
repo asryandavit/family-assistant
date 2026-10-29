@@ -1,0 +1,2212 @@
+{
+ "_meta": {
+  "captured": "2026-10-29",
+  "how": "node oracle_calculators.js (forwarders' own JS, no network)"
+ },
+ "answers": {
+  "USA|air|0.05||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1400,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "USA|air|0.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1400,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "USA|air|0.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|0.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|0.1||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1400,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "USA|air|0.1|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1400,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "USA|air|0.1|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|0.1|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|0.3||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.3,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1400,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "USA|air|0.3|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.3,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1400,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "USA|air|0.3|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.3,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|0.3|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.3,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|0.5||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.5,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 2100,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "USA|air|0.5|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.5,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 2100,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "USA|air|0.5|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.5,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|0.5|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 0.5,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|1||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 4100,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "USA|air|1|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 4100,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "USA|air|1|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|1|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|1.05||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 4400,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "USA|air|1.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 4400,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "USA|air|1.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|1.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 1.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|2.4||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 9900,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "USA|air|2.4||USD|200": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 200
+   },
+   "shipping": 9900,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "USA|air|2.4||USD|400": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 400
+   },
+   "shipping": 9900,
+   "customs": 9974.63,
+   "chargeable_kg": 2.4
+  },
+  "USA|air|2.4||Yuan|3000": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "Yuan",
+    "price": 3000
+   },
+   "shipping": 9900,
+   "customs": 12485.83,
+   "chargeable_kg": 2.4
+  },
+  "USA|air|2.4|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 9900,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "USA|air|2.4|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 50100,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|air|2.4|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 2.4,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|air|20||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 20,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 82000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "USA|air|20|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 20,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 82000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "USA|air|20|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 20,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 82000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "USA|air|20|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "air",
+    "weight": 20,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 136700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|0.05||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "USA|sea|0.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "USA|sea|0.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|0.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|0.1||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "USA|sea|0.1|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "USA|sea|0.1|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|0.1|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|0.3||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "USA|sea|0.3|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "USA|sea|0.3|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|0.3|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|0.5||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "USA|sea|0.5|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "USA|sea|0.5|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|0.5|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|1||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "USA|sea|1|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "USA|sea|1|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|1|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|1.05||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "USA|sea|1.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "USA|sea|1.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|1.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|2.4||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "USA|sea|2.4||USD|200": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 200
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "USA|sea|2.4||USD|400": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 400
+   },
+   "shipping": 11000,
+   "customs": 9974.63,
+   "chargeable_kg": 2.4
+  },
+  "USA|sea|2.4||Yuan|3000": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "Yuan",
+    "price": 3000
+   },
+   "shipping": 11000,
+   "customs": 12485.83,
+   "chargeable_kg": 2.4
+  },
+  "USA|sea|2.4|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "USA|sea|2.4|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "USA|sea|2.4|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "USA|sea|20||AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 20,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 22000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "USA|sea|20|60x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 20,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 22000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "USA|sea|20|61x40x30|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 20,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 22000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "USA|sea|20|100x50x40|AMD|0": {
+   "input": {
+    "country": "USA",
+    "method": "sea",
+    "weight": 20,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|0.05||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 490,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "China|air|0.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 490,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "China|air|0.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|0.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|0.1||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 490,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "China|air|0.1|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 490,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "China|air|0.1|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|0.1|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|0.3||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.3,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1500,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "China|air|0.3|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.3,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 1500,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "China|air|0.3|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.3,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|0.3|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.3,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|0.5||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.5,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 2500,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "China|air|0.5|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.5,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 2500,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "China|air|0.5|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.5,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|0.5|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 0.5,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|1||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 4900,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "China|air|1|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 4900,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "China|air|1|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|1|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|1.05||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 5200,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "China|air|1.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 5200,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "China|air|1.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|1.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 1.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|2.4||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11800,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "China|air|2.4||USD|200": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 200
+   },
+   "shipping": 11800,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "China|air|2.4||USD|400": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 400
+   },
+   "shipping": 11800,
+   "customs": 9974.63,
+   "chargeable_kg": 2.4
+  },
+  "China|air|2.4||Yuan|3000": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "Yuan",
+    "price": 3000
+   },
+   "shipping": 11800,
+   "customs": 12485.83,
+   "chargeable_kg": 2.4
+  },
+  "China|air|2.4|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11800,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "China|air|2.4|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 59800,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|air|2.4|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 2.4,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|air|20||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 20,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 98000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "China|air|20|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 20,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 98000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "China|air|20|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 20,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 98000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "China|air|20|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "air",
+    "weight": 20,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 163400,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|0.05||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "China|sea|0.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.05
+  },
+  "China|sea|0.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|0.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|0.1||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "China|sea|0.1|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.1
+  },
+  "China|sea|0.1|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|0.1|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|0.3||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "China|sea|0.3|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.3
+  },
+  "China|sea|0.3|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|0.3|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.3,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|0.5||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "China|sea|0.5|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 0.5
+  },
+  "China|sea|0.5|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|0.5|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 0.5,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|1||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "China|sea|1|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1
+  },
+  "China|sea|1|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|1|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|1.05||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "China|sea|1.05|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 1.05
+  },
+  "China|sea|1.05|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|1.05|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 1.05,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|2.4||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "China|sea|2.4||USD|200": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 200
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "China|sea|2.4||USD|400": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "USD",
+    "price": 400
+   },
+   "shipping": 11000,
+   "customs": 9974.63,
+   "chargeable_kg": 2.4
+  },
+  "China|sea|2.4||Yuan|3000": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": null,
+    "currency": "Yuan",
+    "price": 3000
+   },
+   "shipping": 11000,
+   "customs": 12485.83,
+   "chargeable_kg": 2.4
+  },
+  "China|sea|2.4|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 11000,
+   "customs": 0,
+   "chargeable_kg": 2.4
+  },
+  "China|sea|2.4|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 13500,
+   "customs": 0,
+   "chargeable_kg": 12.2
+  },
+  "China|sea|2.4|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 2.4,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  },
+  "China|sea|20||AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 20,
+    "dims": null,
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 22000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "China|sea|20|60x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 20,
+    "dims": [
+     60,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 22000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "China|sea|20|61x40x30|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 20,
+    "dims": [
+     61,
+     40,
+     30
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 22000,
+   "customs": 0,
+   "chargeable_kg": 20
+  },
+  "China|sea|20|100x50x40|AMD|0": {
+   "input": {
+    "country": "China",
+    "method": "sea",
+    "weight": 20,
+    "dims": [
+     100,
+     50,
+     40
+    ],
+    "currency": "AMD",
+    "price": 0
+   },
+   "shipping": 36700,
+   "customs": 0,
+   "chargeable_kg": 33.333333333333336
+  }
+ }
+}

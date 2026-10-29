@@ -1,0 +1,200 @@
+{
+ "_meta": {
+  "captured": "2026-10-29",
+  "how": "POST https://api.easytrans.am/common/calculate-price?fromCountryId=<c>&transportationMethodId=<m> body {weight, packageDimensions} (its public delivery calculator); key = country|method|kg|LxWxH"
+ },
+ "answers": {
+  "2|2|0.5|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 1500.0
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "2|2|1.0|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 1500
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "2|2|1.05|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 1575
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "2|2|1.04|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 1560
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "2|2|2.4|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 3600
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "2|2|20|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 30000
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|0.05|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 300.0
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|0.5|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 1500
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|1.0|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 3000
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|1.05|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 3150
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|1.04|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 3120
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|2.4|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 7200
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|20|": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 60000
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "2|2|2.4|60x40x30": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 3600
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|2.4|60x40x30": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 7200
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  },
+  "4|1|0.5|30x20x10": {
+   "data": {
+    "weight": null,
+    "volumetricWeight": null,
+    "weightPrice": 1500
+   },
+   "isSuccess": true,
+   "message": {
+    "code": "None",
+    "text": ""
+   }
+  }
+ }
+}
