@@ -1,6 +1,6 @@
 # MARKET_WATCH.md — watch items on foreign and Armenian marketplaces (brief, not built)
 
-Status: **confirmed 2026-10-29; P0 discovery done (§9)**. P1 not started.
+Status: **confirmed 2026-10-29; P0 discovery done (§9)**; Wildberries/Ozon in P1 with the store fallback (§9). P1 not started.
 Facts below were seen on 2026-10-29 from this PC (Armenian IP); research notes with sources:
 discovery step P0 re-captures them as fixtures before any parser is written (CLAUDE.md §8).
 
@@ -253,15 +253,32 @@ Onex FAQ, Globbing's calculator and BuyForYou's calculator all apply: **duty-fre
 |---|---|---|
 | Amazon UK / DE / IT | **readable** (18–54 products, `data-asin`, `a-offscreen` price) | DE and UK showed **USD** and "delivery to United States" (Amazon's converter + default address); IT showed €. P1 sets the profile's currency to the local one and the delivery postcode to your forwarder's warehouse, so price and in-store shipping are the real ones |
 | Amazon US | **product pages readable** (re-test 2026-10-29 after the owner opened the profile: no check was shown; `/dp/<ASIN>` gave title, price, delivery date to the warehouse, "Delivering to New Castle 19720", Package Dimensions in inches). **Search** redirects to `/checkpoint/continue` — a normal page of other products, not a challenge — so search is not usable | P1 (exact links); search revisited in P2 |
-| Wildberries | **anti-bot wall** ("suspicious activity", still blocked after 75 s) | not in P1; revisit (e.g. your own login session in the profile) |
-| Ozon | **blocked** ("no connection — turn off VPN") | not in P1 |
+| Wildberries | **anti-bot wall** in the bot's browser ("suspicious activity" + CAPTCHA; also with the installed Google Chrome, re-test 2026-10-29). Opens normally in the owner's own Chrome, no login. Owner: likely a temporary block of a few hours | **in P1, treated as readable**, with the fallback below |
+| Ozon | **blocked** in the bot's browser ("no connection — turn off VPN"; same at `am.ozon.com`, the Armenian site ozon.ru redirects to). Opens normally in the owner's own Chrome, no login | **in P1 via `am.ozon.com`**, with the fallback below |
 | vega.am | **readable** (`/en/index.php?route=product/search&search=`, prices in ֏) | P1 |
 | yerevanmobile.am | loads (`/en/catalogsearch/result/?q=`), no Philips items — re-test with a real item | P1 if a real item reads |
 
 ### What this means for P1
 
-Exact product links for **Amazon US / UK / DE / IT and vega.am**, all four forwarders, customs,
-CBA rates, working/calendar-day arrival dates. Wildberries and Ozon are **not** in P1; each comes back only via a way that doesn't involve the bot passing a bot check.
+Exact product links for **Amazon US / UK / DE / IT, Wildberries, Ozon (`am.ozon.com`) and
+vega.am**, all four forwarders, customs, CBA rates, working/calendar-day arrival dates.
+
+**Fallback — every store, not only WB/Ozon** (owner, 2026-10-29). The bot never tries to
+pass a bot check, CAPTCHA or block itself; when a page can't be read the run degrades,
+it doesn't fail:
+
+1. One attempt per link per night; a check/block page is recognised and the store is
+   skipped for the rest of that run (no retry loop, no hammering).
+2. The item keeps its **last read price**, shown with its date and ⚠️ "not re-read
+   tonight"; shipping, customs and totals are still computed from it. No drop or
+   back-in-stock alert is raised from a stale price.
+3. The report has one line per blocked store ("Wildberries blocked tonight — 3 items on
+   last price"). After **3 nights in a row** the owner gets one message: open the link
+   yourself, or send the price.
+4. **Owner's price**: `/watch price <item> <amount>` stores a price typed by the owner
+   (marked "owner, <date>") and is used exactly like a read one.
+5. An item that has never been read and has no owner's price shows the link only, with
+   "no price yet" — never a guessed number.
 
 Owner's forwarder warehouse postcodes (2026-10-29), set as the delivery location in the
 store profile so prices and in-store shipping are quoted to the warehouse — not secrets,
