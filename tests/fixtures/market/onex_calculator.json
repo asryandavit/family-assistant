@@ -1,0 +1,1757 @@
+{
+ "usa|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 2450,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 3000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 4900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 5390,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 11760,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 14400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 98000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 120000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|ground|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "usa|sea|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 15000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|sea|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 15000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|sea|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 15000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|sea|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 15000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "usa|sea|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 30000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "russia|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 950,
+     "image": "/images/tariff/mini.svg",
+     "rate": 190,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 1000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 200,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "russia|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 1900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 190,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 2000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 200,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "russia|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 2090,
+     "image": "/images/tariff/mini.svg",
+     "rate": 190,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 2200,
+     "image": "/images/tariff/standard.svg",
+     "rate": 200,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "russia|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 4560,
+     "image": "/images/tariff/mini.svg",
+     "rate": 190,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 4800,
+     "image": "/images/tariff/standard.svg",
+     "rate": 200,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "russia|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 38000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 190,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 40000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 200,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "russia|ground|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "russia|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "uk|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 2450,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 3000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uk|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 4900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uk|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 5390,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uk|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 11760,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 14400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uk|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 98000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 120000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uk|ground|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "uk|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "germany|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 2450,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 3000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 4900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 5390,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 11760,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 14400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 98000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 120000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|ground|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 2000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|ground|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|ground|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|ground|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 9600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|ground|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 80000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "germany|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "china|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 3450,
+     "image": "/images/tariff/mini.svg",
+     "rate": 690,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 4000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 800,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 6900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 690,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 8000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 800,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 7590,
+     "image": "/images/tariff/mini.svg",
+     "rate": 690,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 8800,
+     "image": "/images/tariff/standard.svg",
+     "rate": 800,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 16560,
+     "image": "/images/tariff/mini.svg",
+     "rate": 690,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 19200,
+     "image": "/images/tariff/standard.svg",
+     "rate": 800,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 138000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 690,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 160000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 800,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|ground|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 1750,
+     "image": "/images/tariff/standard.svg",
+     "rate": 350,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|ground|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 3500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 350,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|ground|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 3850,
+     "image": "/images/tariff/standard.svg",
+     "rate": 350,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|ground|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 8400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 350,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|ground|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 70000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 350,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|sea|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 1500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|sea|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 1500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|sea|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 1650,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|sea|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 3600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "china|sea|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 30000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 150,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uae|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 2450,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 2500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 500,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uae|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 4900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 5000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 500,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uae|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 5390,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 5500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 500,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uae|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 11760,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 12000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 500,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uae|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 98000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 100000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 500,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "uae|ground|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "uae|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "greece|air|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "greece|ground|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 2000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "greece|ground|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "greece|ground|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "greece|ground|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 9600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "greece|ground|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 80000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 400,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "greece|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "italy|air|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "italy|ground|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 2250,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "italy|ground|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "italy|ground|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4950,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "italy|ground|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 10800,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "italy|ground|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 90000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "italy|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "spain|air|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 2450,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 3000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|air|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "mini",
+   "tariffs": {
+    "mini": {
+     "cost": 4900,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|air|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 5390,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 6600,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|air|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 11760,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 14400,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|air|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "mini": {
+     "cost": 98000,
+     "image": "/images/tariff/mini.svg",
+     "rate": 490,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    },
+    "standard": {
+     "cost": 120000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 600,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|ground|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 2250,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|ground|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|ground|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 4950,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|ground|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 10800,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|ground|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 90000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 450,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "spain|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "poland|air|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ },
+ "poland|ground|0.5": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 1500,
+     "image": "/images/tariff/standard.svg",
+     "rate": 300,
+     "weight": 0.5,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "poland|ground|1.0": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 3000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 300,
+     "weight": 1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "poland|ground|1.05": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 3300,
+     "image": "/images/tariff/standard.svg",
+     "rate": 300,
+     "weight": 1.1,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "poland|ground|2.4": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 7200,
+     "image": "/images/tariff/standard.svg",
+     "rate": 300,
+     "weight": 2.4,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "poland|ground|20": {
+  "status": 1,
+  "msg": "ok",
+  "data": {
+   "current_tariff": "standard",
+   "tariffs": {
+    "standard": {
+     "cost": 60000,
+     "image": "/images/tariff/standard.svg",
+     "rate": 300,
+     "weight": 20,
+     "v_weight": 0,
+     "is_v_weight": false,
+     "volume_reason_id": null
+    }
+   }
+  }
+ },
+ "poland|sea|0.5": {
+  "status": 0,
+  "msg": {
+   "cost": "Warehouse dispatch not allowed"
+  }
+ }
+}

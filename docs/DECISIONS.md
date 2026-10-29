@@ -596,3 +596,21 @@ prompts (the owner's light-tracking choice). Health briefs are not read; the §6
 muscle-symptom question plugs into `plan_text.today_extras()` later. Messages stay one
 message: on the heaviest days cues shrink from 3 to 2 (then 1) rather than splitting.
 Rules: docs/TELEGRAM_UX.md §5c.
+
+## Market watch
+
+**086 — 2026-10-29 — Market watch: a shared nightly watch list priced to Yerevan; P0 discovery done.**
+The owner wants items from foreign and Armenian marketplaces watched daily, with the cost
+to bring each to Yerevan per forwarder and mode. Interviewed decisions: one shared list
+(Davit and Karine), Telegram dialog plus an editable Sheet, full report every night at
+~01:30, alerts on a ≥10% drop and back in stock, exact-or-similar per item (similar = code
+rules + a Claude shortlist ranking, phase 2), weight and size asked once per item (Chinese
+seller message for China items), up to ~20 items, original currency and AMD both shown.
+Forwarders are data (Onex, Globbing, EasyTrans, BuyForYou — the owner's accounts), their
+tariffs refreshed weekly, not daily. Delivery times keep each forwarder's own unit
+(working / calendar days / months) and starting point (arrival vs dispatch). P0 found a
+machine-readable tariff source for all four forwarders and the CBA rates; customs default
+is the rule the forwarders apply (€200 duty-free, 15% above); Amazon UK/DE/IT and vega.am
+read in a browser profile, Amazon US / Wildberries / Ozon do not (bot checks — the bot never
+passes one itself), so P1 covers exact links on the readable stores. The bot only reads:
+no login with the owner's password, no cart, no orders. Brief: docs/briefs/MARKET_WATCH.md.

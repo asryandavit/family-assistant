@@ -1,0 +1,1200 @@
+
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="1HpA7N3ivtswbkNoO1U9YMtC1gJ5VQGxlMv5xJesBY4" />
+    <title>Մեր Սրահները</title>
+    
+    <link rel="stylesheet" href="/font/stylesheet.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Override hover effect from style.css for sidebar links but keep active styling */
+        .dashboard-sidebar .dashboard-link:not(.active):hover {
+        background-color: transparent !important;
+        color: inherit !important;
+        }
+
+        .dashboard-sidebar .dashboard-link.active {
+        font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="flex items-center bg-white lg:h-[82px] h-[50px]">
+        <div class="row flex items-center justify-between flex-[1] mx-auto px-[1rem] ">
+            <a class="logo flex items-center text-2xl font-bold tracking-tight border-none" href="/">
+                <img src="/images/logo.svg" alt="" class="h-[20px] lg:h-[40px]">
+            </a>
+
+            
+
+    <nav class="nav-text flex items-center gap-[16px] lg:flex hidden">
+        <a class="button button-link" href="/Home/About"><span>Մեր մասին</span></a>        
+        <a class="button button-link" href="/Home/Shops"><span>Խանութներ</span></a>
+        <a class="button button-link" href="/Home/Places"><span>Սրահներ</span></a>
+    </nav>
+    <nav class="flex items-center gap-2">
+
+        <button class="button button-icon" onclick="toggleCalculator(true)">
+            <div class="icon">
+                <img src="/images/calc.svg" alt="Calculator">
+            </div>
+        </button>
+
+        <div class="button button-icon flex relative group cursor-pointer" onclick="toggleLoggedOutLangDropdown(event)">
+            <div class="icon">
+                <img src="/images/planet.svg" alt="Planet">
+            </div>
+
+            <div id="loggedOutLangDropdown" class="popover absolute top-full mt-[12px] right-0 opacity-0 invisible -translate-y-2 lg:group-hover:opacity-100 lg:group-hover:visible lg:group-hover:translate-y-0 transition-all duration-200 ease-in-out" style="z-index: 100;">
+                <div class="popover-content">
+                    <p class="cursor-pointer" onclick="window.location.href='/Account/SetLanguage?culture=hy&amp;returnUrl=%2FHome%2FPlaces'">
+                        <span class="w-[14px] h-[14px] lg:w-[18px] lg:h-[18px]"><img src="/images/flag-am.svg" alt="Flag AM"></span><span>Հայերեն</span>
+                    </p>
+                    <p class="cursor-pointer" onclick="window.location.href='/Account/SetLanguage?culture=en&amp;returnUrl=%2FHome%2FPlaces'">
+                        <span class="w-[14px] h-[14px] lg:w-[18px] lg:h-[18px]"><img src="/images/flag-us.svg" alt="Flag US"></span><span>English</span>
+                    </p>
+                    <p class="cursor-pointer" onclick="window.location.href='/Account/SetLanguage?culture=ru&amp;returnUrl=%2FHome%2FPlaces'">
+                        <span class="w-[14px] h-[14px] lg:w-[18px] lg:h-[18px]"><img src="/images/flag-ru.svg" alt="Flag RU"></span><span>Русский</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <a class="button button-text lg:flex hidden gap-[8px] px-[16px]" href="/Identity/Account/Register">
+            <span class="flex">Գրանցվել</span>
+        </a>
+
+        <a class="button button-text-primary lg:flex hidden gap-[8px] px-[16px]" href="/Identity/Account/Login">
+            <span class="flex">Մուտք</span>
+        </a>
+
+        <div class="menu button button-icon border-none lg:hidden flex cursor-pointer" onclick="toggleMobileMenu(true)">
+            <div class="icon">
+                <img src="/images/menu.svg" alt="arrow">
+            </div>
+        </div>
+
+        <div id="mobileMenuWrapper" class="menu-right-wrapper lg:hidden z-[9999]" style="display: none;">
+            <div class="menu-right">
+
+                <div class="menu-header px-[16px] py-[24px] flex items-center justify-between ">
+                    <div class="logo">
+                        <img src="/images/logo-sm.svg" alt="" class="h-[20px]">
+                    </div>
+                    <div class="close cursor-pointer" onclick="toggleMobileMenu(false)">
+                        <img src="/images/close.svg" alt="Close">
+                    </div>
+                </div>
+
+                <div class="menu-body">
+                    
+                    <a style="display: block; padding: 0; background: transparent; text-decoration: none;" href="/Home/About">
+                        <div class="button button-link w-full"><span>Մեր մասին</span></div>
+                    </a>
+                    <a style="display: block; padding: 0; background: transparent; text-decoration: none;" href="/Home/Shops">
+                        <div class="button button-link w-full"><span>Խանութներ</span></div>
+                    </a>
+                    <a style="display: block; padding: 0; background: transparent; text-decoration: none;" href="/Home/Places">
+                        <div class="button button-link w-full"><span>Սրահներ</span></div>
+                    </a>
+                </div>
+
+                <div class="menu-footer gap-[16px] p-[16px] flex flex-col">
+                    <a style="display: block; padding: 0; background: transparent; text-decoration: none;" href="/Identity/Account/Register">
+                        <div class="button button-text gap-[8px] px-[16px] w-full">
+                            <span class="flex">Գրանցվել</span>
+                        </div>
+                    </a>
+
+                    <a style="display: block; padding: 0; background: transparent; text-decoration: none;" href="/Identity/Account/Login">
+                        <div class="button button-text-primary gap-[8px] px-[16px] w-full">
+                            <span class="flex">Մուտք</span>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </nav>
+
+<script>
+// Global function to toggle Calculator.cshtml pop up
+window.toggleCalculator = function (show) {
+    const calcPopup = document.querySelector('.pop_up_calculator');
+    if (calcPopup) {
+        if (show) {
+            calcPopup.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Block body scroll
+        } else {
+            calcPopup.style.display = 'none';
+            document.body.style.overflow = ''; // Restore body scroll
+        }
+    }
+};
+
+// Global function to show/hide the mobile menu overriding inline styles
+window.toggleMobileMenu = function (show) {
+    const menuWrapper = document.getElementById('mobileMenuWrapper');
+    if (menuWrapper) {
+        menuWrapper.style.display = show ? 'block' : 'none';
+        
+        // Block body scrolling when menu is open
+        document.body.style.overflow = show ? 'hidden' : '';
+    }
+};
+
+// Global function to toggle submenus inside the mobile side menu
+window.toggleMobileSubmenu = function (menuId, arrowId, parentId) {
+    const menu = document.getElementById(menuId);
+    const arrow = document.getElementById(arrowId);
+    
+    if (menu && arrow) {
+        const isHidden = menu.style.display === 'none';
+        
+        if (isHidden) {
+            menu.style.display = 'block';
+            arrow.classList.add('rotate-180');
+            
+            // Re-apply the .expanded class dynamically, so the label color changes properly matching the standard CSS rules
+            if (parentId) {
+                document.getElementById(parentId).classList.add('expanded');
+            }
+        } else {
+            menu.style.display = 'none';
+            arrow.classList.remove('rotate-180');
+
+            if (parentId) {
+                document.getElementById(parentId).classList.remove('expanded');
+            }
+        }
+    }
+};
+
+// Global function to toggle the mobile language dropdown cleanly via classes
+window.toggleMobileLangDropdown = function (e) {
+    if (e) e.stopPropagation();
+    const dropdown = document.getElementById('mobileLangDropdown');
+    if (dropdown) {
+        if (dropdown.classList.contains('opacity-0')) {
+            dropdown.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+            dropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
+        } else {
+            dropdown.classList.add('opacity-0', 'invisible', 'translate-y-2');
+            dropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+        }
+    }
+};
+
+// Global function to toggle the logged-out language dropdown cleanly via classes
+window.toggleLoggedOutLangDropdown = function (e) {
+    if (e) e.stopPropagation();
+    const dropdown = document.getElementById('loggedOutLangDropdown');
+    if (dropdown) {
+        if (dropdown.classList.contains('opacity-0')) {
+            dropdown.classList.remove('opacity-0', 'invisible', '-translate-y-2');
+            dropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
+        } else {
+            dropdown.classList.add('opacity-0', 'invisible', '-translate-y-2');
+            dropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+        }
+    }
+};
+
+    // Global function to toggle the balance dropdown via classes ONLY on mobile
+    window.toggleBalanceDropdown = function (e) {
+        if (window.innerWidth >= 1024) return; // Use normal CSS hover on desktop
+
+        if (e) e.stopPropagation();
+        const dropdown = document.getElementById('balanceDropdown');
+        const arrow = document.getElementById('balanceArrow');
+        const btn = document.getElementById('balanceButton');
+
+        if (dropdown) {
+            if (dropdown.classList.contains('opacity-0')) {
+
+                // Retain card aesthetic, limiting to 320px width at most cases while keeping it responsive
+                dropdown.style.width = '320px';
+                dropdown.style.maxWidth = 'calc(100vw - 32px)';
+
+                // Calculate right offset to keep a 16px margin from the right edge of the screen
+                if (btn) {
+                    const rect = btn.getBoundingClientRect();
+                    const distanceToRight = window.innerWidth - rect.right;
+                    dropdown.style.right = `-${distanceToRight - 16}px`;
+                }
+
+                dropdown.classList.remove('opacity-0', 'invisible', '-translate-y-2');
+                dropdown.classList.add('opacity-100', 'visible', 'translate-y-0');
+                if (arrow) arrow.classList.add('rotate-180');
+            } else {
+
+                dropdown.classList.add('opacity-0', 'invisible', '-translate-y-2');
+                dropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                if (arrow) arrow.classList.remove('rotate-180');
+                
+                // Delay cleaning up appended mobile layout logic until the fade out finishes (200ms)
+                // This prevents the element from snapping out of shape while closing.
+                setTimeout(() => {
+                    if (dropdown.classList.contains('opacity-0')) {
+                        dropdown.style.right = '';
+                        dropdown.style.width = '';
+                        dropdown.style.maxWidth = '';
+                    }
+                }, 200);
+            }
+        }
+    };
+
+// Close dropdowns if user clicks outside of them
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('mobileLangDropdown');
+    if (dropdown && dropdown.classList.contains('opacity-100')) {
+        const button = dropdown.closest('.button');
+        if (button && !button.contains(e.target)) {
+            dropdown.classList.add('opacity-0', 'invisible', 'translate-y-2');
+            dropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+        }
+    }
+
+    const outDropdown = document.getElementById('loggedOutLangDropdown');
+    if (outDropdown && outDropdown.classList.contains('opacity-100')) {
+        const button = outDropdown.closest('.button');
+        if (button && !button.contains(e.target)) {
+            outDropdown.classList.add('opacity-0', 'invisible', '-translate-y-2');
+            outDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+        }
+    }
+
+    const balanceDropdown = document.getElementById('balanceDropdown');
+    if (balanceDropdown && balanceDropdown.classList.contains('opacity-100')) {
+        // Also ensure out-click handling is only run on mobile view logic
+        if (window.innerWidth < 1024) {
+            const button = balanceDropdown.closest('.balance');
+            if (button && !button.contains(e.target)) {
+
+                balanceDropdown.classList.add('opacity-0', 'invisible', '-translate-y-2');
+                balanceDropdown.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                const arrow = document.getElementById('balanceArrow');
+                if (arrow) arrow.classList.remove('rotate-180');
+                
+                setTimeout(() => {
+                    if (balanceDropdown.classList.contains('opacity-0')) {
+                        // Delay clean up on out-click closing
+                        balanceDropdown.style.right = '';
+                        balanceDropdown.style.width = '';
+                        balanceDropdown.style.maxWidth = '';
+                    }
+                }, 200);
+            }
+        }
+    }
+
+    // Close mobile menu if clicked outside
+    const mobileMenuWrapper = document.getElementById('mobileMenuWrapper');
+    if (mobileMenuWrapper && mobileMenuWrapper.style.display === 'block') {
+        const menuRight = mobileMenuWrapper.querySelector('.menu-right');
+        // Prevent closing immediately when clicking the hamburger button to open it
+        const isHamburgerOpenBtn = e.target.closest('.menu.button-icon.lg\\:hidden');
+        
+        if (menuRight && !menuRight.contains(e.target) && !isHamburgerOpenBtn) {
+            window.toggleMobileMenu(false);
+        }
+    }
+});
+
+(function () {
+  // We execute this immediately, without waiting for DOMContentLoaded.
+  // Because the script is below the HTML elements, they already exist in the DOM parsing tree.
+  const amountEl = document.getElementById('balanceAmount');
+  const dropdownEl = document.getElementById('balanceDropdownAmount');
+  const btn = document.getElementById('balanceButton');
+  const notifCountEl = document.getElementById('notificationCount');
+
+  if (!amountEl) return;
+
+  const userId = btn?.dataset?.userId || 'anonymous';
+  const dataKey = 'bf_header_' + userId; // Combined storage key
+
+  function formatValue(v) {
+    return Number(v || 0).toFixed(2) + ' ֏';
+  }
+
+  function updateUI(balance, notifCount) {
+    // Only update DOM if the numbers are valid
+    if (!Number.isNaN(balance)) {
+      const formatted = formatValue(balance);
+      if (amountEl.textContent !== formatted) {
+        amountEl.textContent = formatted;
+        if (dropdownEl) dropdownEl.textContent = formatted;
+        if (btn) btn.setAttribute('aria-label', `Balance: ${balance.toFixed(2)} dram`);
+      }
+    }
+
+    if (notifCountEl && !Number.isNaN(notifCount)) {
+      if (notifCount > 0) {
+        if (notifCountEl.textContent !== String(notifCount)) {
+            notifCountEl.textContent = notifCount;
+        }
+        notifCountEl.style.display = 'flex'; 
+      } else {
+        notifCountEl.style.display = 'none';
+      }
+    }
+  }
+
+  // 1. INSTANT CACHE LOAD: Prevents UI flicker
+  try {
+    const cachedData = localStorage.getItem(dataKey);
+    if (cachedData) {
+      const parsed = JSON.parse(cachedData);
+      updateUI(parsed.balance, parsed.unreadCount);
+    }
+  } catch (e) { }
+
+  // 2. BACKGROUND FETCH: Wait for the page to finish loading so it doesn't freeze image/CSS loading
+  window.addEventListener('load', function () {
+      
+    // Use requestIdleCallback if available, otherwise fallback to setTimeout
+    const delayFetch = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
+
+    delayFetch(() => {
+      fetch('/Account/HeaderData', { credentials: 'same-origin' })
+        .then(res => {
+          if (!res.ok) throw new Error('Network error');
+          return res.json();
+        })
+        .then(data => {
+          const remoteBal = Number(data.balance || 0);
+          const remoteNotif = Number(data.unreadCount || 0);
+
+          updateUI(remoteBal, remoteNotif);
+
+          // Save to cache for the next page load
+          try {
+            localStorage.setItem(dataKey, JSON.stringify({
+              balance: remoteBal, 
+              unreadCount: remoteNotif
+            }));
+          } catch (e) {}
+        })
+        .catch(() => { });
+    });
+  });
+})();
+</script>
+
+        </div>
+    </header>
+
+
+
+<main class="homepage places flex flex-col bg-[--color-blue-50]">
+
+    <section class="hero row flex flex-col items-center justify-center w-full mx-auto px-[1rem] pt-[28px]">
+        <div class="hero-images">
+            <img src="/images/hero-img2.png" alt="Hero Image 1" class="hero-img lg:flex hidden">
+            <img src="/images/hero-img2-mob.png" alt="Hero Image 1" class="hero-img-mob lg:hidden flex">
+        </div>
+    </section>
+
+    <section class="section1 row flex flex-col lg:items-center justify-center w-full mx-auto px-[1rem] lg:py-[48px] py-[24px]">
+        <h1 class="text-center text-[24px] lg:text-[44px]">Մեր Սրահները</h1>
+        <p class="text-center text-[16px] lg:text-[24px] mt-[16px]">Այցելեք BuyForYou-ի ֆիզիկական սրահը և ստացեք ձեր պատվերները տեղում</p>
+
+    </section>
+
+    <section class="section5 row flex flex-col w-full mx-auto px-[1rem] gap-[24px] lg:gap-[48px] lg:pt-[64px] lg:pb-[120px] pt-[24px] pb-[48px]">
+        <h2>Պատվերների ստացման կետեր</h2>
+
+        <div class="text-banner flex flex-col-reverse lg:flex-row items-stretch lg:items-center p-[16px] lg:p-[24px] gap-[24px] lg:gap-[0px]">
+
+            <div class="flex-1 lg:py-[24px] lg:pr-[24px]">
+                <img src="/images/place-img.png" alt="Place">
+            </div>
+
+            <div class="flex flex-1 flex-col items-start py-[8px] lg:p-[24px] gap-[24px] lg:gap-[36px]">
+
+                <h2>BuyForYou – Կիևյան սրահ</h2>
+
+                <div class="flex gap-[16px]">
+                    <div class="icon-place py-[4px]"><img src="/images/icon-warehouse.svg" alt="Warehouse"></div>
+                    <div class="flex flex-col gap-[14px]">
+                        <p class="text-[14px] lg:text-[24px] leading-[120%]">Հայաստան, 0033, Երևան<br>Կիևյան փողոց 30 շենք</p>
+                        <p class="text-[14px] lg:text-[24px] leading-[120%]">Արաբկիր վարչական շրջան</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-[16px]">
+                    <div class="icon-place py-[4px]"><img src="/images/icon-clock.svg" alt="Clock"></div>
+                    <div class="flex flex-col gap-[14px]">
+                        <p class="text-[14px] lg:text-[24px] leading-[120%]">Երկ–Շաբ 10:00 – 18:00, Կիր 10։00 – 16:00</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <section class="section7 row flex flex-col lg:items-center justify-center w-full mx-auto px-[1rem] lg:pt-[24px] lg:pb-[120px] pt-[24px] pb-[48px] gap-[24px] lg:gap-[100px]">
+
+        <div class="services">
+            <div class="service flex flex-col-reverse lg:flex-row gap-[8px] lg:gap-[100px]">
+                <div class="flex flex-1 flex-col gap-[8px] lg:gap-[24px] lg:p-[24px]">
+                    <h3>«Տուն Առաքում» ծառայություն</h3>
+                    <p>Մենք հոգ ենք տանում, որպեսզի ձեր պատվերը հասնի ձեզ հարմար ձևով, ապահովելով հարմարավետ և վստահելի սպասարկում յուրաքանչյուր փուլում։</p>
+                </div>
+
+                <div class="flex-1">
+                    <img src="/images/order-img.png" alt="Order Image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+
+    <footer class="flex justify-center bg-[--color-blue-100] border-[2px] border-[--color-blue-300]">
+        <div class="footer_block w-[100%] row flex 2xl:flex-row gap-[24px]  flex-col  justify-between    xl:py-[5rem] mx-[24px]   py-[16px]">
+            <div class="logo_footer flex xl:justify-start justify-center xl:order-first order-last">
+                <div class="flex flex-col items-center xl:items-start">
+                    <img src="/images/logo.svg" alt="" class=" h-[20px] xl:h-[52px]">
+                    <a href="javascript:void(0)" class="open-terms-link mt-[8px] text-[--color-gray-900] font-medium xl:text-[0.875rem] text-[0.75rem] underline decoration-1 underline-offset-2">Դրույթներ և պայմաններ</a>
+                </div>
+            </div>
+
+            <div class="flex xl:flex-1 xl:flex-row xl:justify-center flex-col xl:gap-[80px] gap-[24px]">
+
+
+                <div class="contact">
+                    <h3 class="text-[--color-gray-900] font-bold xl:text-[1.25rem] text-[0.875rem] xl:mb-[32px] mb-[8px]">Հետադարձ կապ</h3>
+                    <ul class="flex flex-col xl:gap-[8px] gap-[4px]">
+                        <li class="flex flex-row items-center xl:gap-[16px] gap-[8px]">
+                            <img src="/images/map_icon.svg" alt="" class="xl:w-[24px] xl:h-[24px] w-[18px] h-[18px]">
+                            <span class="text-[--color-gray-900] font-medium xl:text-[1.25rem] text-[0.875rem]">Հայաստան, 0033, Երևան Կիևյան փող., 30 շենք</span>
+                        </li>
+                        <li>
+                            <a href="tel:+37412880388" class="flex flex-row items-center xl:gap-[16px] gap-[8px]">
+                                <img src="/images/phone_icon.svg" alt="" class="xl:w-[24px] xl:h-[24px] w-[18px] h-[18px]">
+                                <span class="text-[--color-gray-900] font-medium xl:text-[1.25rem] text-[0.875rem]">+374 12 88 03 88</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:info@buyforyou.am" class="flex flex-row items-center xl:gap-[16px] gap-[8px]">
+                                <img src="/images/mail_icon.svg" alt="" class="xl:w-[24px] xl:h-[24px] w-[18px] h-[18px]">
+                                <span class="text-[--color-gray-900] font-medium xl:text-[1.25rem] text-[0.875rem]">info@buyforyou.am</span>
+                            </a>
+                        </li>
+                        <li class="flex gap-[10px]">
+<a href="https://www.facebook.com/share/1DCzX3sgVP/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+    <span class="[&amp;>svg]:h-7 [&amp;>svg]:w-7 [&amp;>svg]:fill-[#1877f2]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" aria-hidden="true">
+            <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z" />
+        </svg>
+    </span>
+</a>
+<a href="https://www.instagram.com/buyforyou.am?igsh=MWNwdm16bTBoaGlydA%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+    <span class="[&amp;>svg]:h-7 [&amp;>svg]:w-7 [&amp;>svg]:fill-[#c13584]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true">
+            <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+        </svg>
+    </span>
+</a>
+<a href="https://wa.me/37444080388" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <span class="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#128c7e]">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512" aria-hidden="true">
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+        </svg>
+    </span>
+</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="payment">
+                    <h3 class="text-[--color-gray-900] font-bold xl:text-[1.25rem] text-[0.875rem] xl:mb-[32px] mb-[8px]">Վճարման եղանակներ</h3>
+                    <ul class="flex flex-row gap-[16px]">
+                        <li class="xl:w-[48px] xl:h-[48px] w-[32px] h-[32px]" aria-hidden="true">
+                            <img src="/images/visa_icon.png" alt="">
+                        </li>
+                        <li class="xl:w-[48px] xl:h-[48px] w-[32px] h-[32px]" aria-hidden="true">
+                            <img src="/images/master_icon.png" alt="">
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+            <div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Render terms modal so .open-terms-link handlers can be attached -->
+    <style>
+    /* Overlay */
+    #termsOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+
+        /* hidden state */
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 240ms ease;
+    }
+    #termsOverlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Dialog box animation: subtle pop + lift */
+    #termsBox {
+        background: #fff;
+        max-width: 900px;
+        width: calc(100% - 40px);
+        max-height: 80vh;
+        overflow: auto;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+        transform: translateY(10px) scale(0.98);
+        opacity: 0;
+        transition:
+            transform 260ms cubic-bezier(.2,.9,.2,1),
+            opacity 200ms ease;
+
+        /* allow absolutely positioned close button inside */
+        position: relative;
+    }
+    #termsOverlay.open #termsBox {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    #termsHeader {
+        display:flex;
+        align-items:center;
+        gap:12px;
+        /* remove bottom margin so the close button sits in the top-right corner */
+        margin-bottom:0;
+    }
+    #termsContent {
+        white-space: pre-wrap;
+        font-size:0.95rem;
+        line-height:1.4;
+        margin-top: 8px;
+        min-height: 4rem; /* reserve space for loader */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #termsCloseBtn {
+        background: transparent;
+        border: none;
+        font-size: 1.25rem;
+        cursor: pointer;
+
+        /* place the close button in the top-right corner of the dialog */
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        line-height: 1;
+        padding: 6px;
+    }
+
+    /* Loader styles */
+    .terms-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px 0;
+    }
+    .spinner {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 4px solid rgba(0,0,0,0.08);
+        border-top-color: var(--color-blue-300, #0097B2);
+        animation: spin 900ms linear infinite;
+    }
+    .loader-text {
+        color: var(--color-gray-700, #374151);
+        font-size: 0.95rem;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Small reduce motion preference respect */
+    @media (prefers-reduced-motion: reduce) {
+        #termsOverlay,
+        #termsBox,
+        .spinner {
+            transition-duration: 0ms !important;
+            animation-duration: 1ms !important;
+            animation: none !important;
+        }
+    }
+</style>
+
+<div id="termsOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div id="termsBox" role="document" aria-label="Terms and conditions">
+        <div id="termsHeader">
+            <button id="termsCloseBtn" aria-label="Close">&times;</button>
+        </div>
+        <div id="termsContent" aria-live="polite" aria-busy="false"></div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const overlay = document.getElementById('termsOverlay');
+        const content = document.getElementById('termsContent');
+        const closeBtn = document.getElementById('termsCloseBtn');
+        const openLinks = document.querySelectorAll('.open-terms-link');
+        let lastActiveElement = null;
+
+        const spinnerHtml = '<div class="terms-loader" role="status" aria-hidden="false"><div class="spinner" aria-hidden="true"></div><div class="loader-text">Loading...</div></div>';
+
+        function setLoading(loading) {
+            if (loading) {
+                content.setAttribute('aria-busy', 'true');
+                // show spinner while fetching
+                content.innerHTML = spinnerHtml;
+            } else {
+                content.setAttribute('aria-busy', 'false');
+            }
+        }
+
+        function openModal() {
+            lastActiveElement = document.activeElement;
+            overlay.classList.add('open');
+            overlay.setAttribute('aria-hidden', 'false');
+
+            setLoading(true);
+
+            // fetch terms from the Razor Page handler
+            fetch('/Identity/Account/Register?handler=Terms', { credentials: 'same-origin' })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network error');
+                    return response.text();
+                })
+                .then(txt => {
+                    // insert text safely as textContent to avoid injecting HTML
+                    content.textContent = txt || '';
+                })
+                .catch(() => {
+                    content.textContent = 'Unable to load terms. Please try again later.';
+                })
+                .finally(() => {
+                    setLoading(false);
+                    // move focus into modal for accessibility
+                    closeBtn.focus();
+                });
+        }
+
+        function closeModal() {
+            overlay.classList.remove('open');
+            overlay.setAttribute('aria-hidden', 'true');
+
+            // return focus to the element that opened the dialog
+            if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
+                lastActiveElement.focus();
+            } else {
+                // if none, focus the first visible open link (if any)
+                const visible = Array.from(openLinks).find(el => el.offsetParent !== null);
+                if (visible && typeof visible.focus === 'function') visible.focus();
+            }
+
+            // clear content for next open to ensure loader shows again
+            content.innerHTML = '';
+            content.setAttribute('aria-busy', 'false');
+        }
+
+        // attach click handlers to all open links
+        if (openLinks && openLinks.length) {
+            openLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) closeModal();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+            if (e.key === 'Tab' && overlay.classList.contains('open')) {
+                e.preventDefault();
+                closeBtn.focus();
+            }
+        });
+    })();
+</script>
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
+
+    <script src=/_content/NToastNotify/toastr.js?8.0.0.0 type="text/javascript"></script>
+<script>
+    if (nToastNotify) {
+        nToastNotify.init({
+            firstLoadEvent: 'DOMContentLoaded',
+            messages: [],
+            responseHeaderKey: 'X-NToastNotify-Messages',
+            requestHeaderKey: 'X-Requested-With',
+            libraryDetails:{"varName":"toastr","scriptSrc":"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js","styleHref":"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css","options":{"positionClass":"toast-top-right","timeOut":5000,"progressBar":true,"type":"success"}},
+            disableAjaxToasts:false
+        });
+    };
+</script>
+    
+
+    
+<div class="pop_up pop_up_calculator p-[16px] fixed top-0 left-0 w-[100%] h-[100%] bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-[10000]" style="display: none;" onclick="toggleCalculator(false)">
+    <div class="pop_up_content overflow-y-auto max-h-full w-full lg:w-[640px] min-w-[320px] lg:h-fit bg-[#F8F8F8] border-[1px] border-[--color-blue-200] rounded-[10px]" onclick="event.stopPropagation()">
+
+        <div class="pop_up_title flex items-center justify-between p-[16px] lg:p-[24px] bg-[--color-blue-100]">
+            <h3 class="lg:text-[20px] text-[16px] text-[--color-neutral-900]">Հաշվիչ</h3>
+            <div class="close_btn w-[16px] h-[16px] cursor-pointer" onclick="toggleCalculator(false)">
+                <img src="/images/close_icon.svg" alt="">
+            </div>
+        </div>
+        
+        <div class="pop_up_content lg:py-[32px] lg:px-[24px] p-[16px] flex flex-col lg:gap-[16px] gap-[14px]">
+
+            <form action="" class="flex flex-col gap-[14px] lg:gap-[20px]">
+                        
+                <div class="flex gap-[20px]">
+                    <div class="relative flex flex-[1] flex-col gap-[6px]">
+                        <span class="input_title">Երկիր</span>
+                        <div class="relative w-full">
+                            <div id="calc-country-toggle" class="login_iput flex items-center justify-between w-full h-[36px] cursor-pointer bg-white" onclick="toggleCalcDropdown(event, 'calc-country')">
+                                <div class="flex items-center gap-[8px] w-full">
+                                    <img src="/images/flag-us.svg" alt="" id="calc-country-flag" class="w-[16px] h-[16px]">
+                                    <input type="hidden" id="calc-country-value" value="USA" />
+                                    <input type="text" value="ԱՄՆ" class="w-full cursor-pointer pointer-events-none bg-transparent outline-none text-[--color-neutral-500] text-[0.875rem]" id="calc-country-input" readonly>
+                                </div>
+                                <img src="/images/icon-dropdown-collapsed.svg" alt="" class="w-[16px] h-[16px] transition-transform duration-200" id="calc-country-icon">
+                            </div>
+                            <div class="select-options hidden absolute z-10 w-full bg-white border border-[--color-gray-300] rounded-[8px] shadow-lg top-[calc(100%+4px)] max-h-[200px] overflow-y-auto" id="calc-country-menu">
+                                <div class="option flex items-center gap-[8px] cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcCountry('USA', 'ԱՄՆ', '/images/flag-us.svg')">
+                                    <img src="/images/flag-us.svg" class="w-[16px] h-[16px]" alt="">
+                                    ԱՄՆ
+                                </div>
+                                <div class="option flex items-center gap-[8px] cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcCountry('China', 'Չինաստան', '/images/flag-cn.svg')">
+                                    <img src="/images/flag-cn.svg" class="w-[16px] h-[16px]" alt="">
+                                    Չինաստան
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-[1] flex-col gap-[6px]">
+                        <span class="input_title">Առաքման եղանակ</span>
+                        <div class="relative w-full">
+                            <div id="calc-shipping-method-toggle" class="login_iput flex items-center justify-between w-full h-[36px] cursor-pointer bg-white" onclick="toggleCalcDropdown(event, 'calc-shipping-method')">
+                                <input type="hidden" id="calc-shipping-method-value" value="air" />
+                                <input type="text" value="Օդային" class="w-full cursor-pointer pointer-events-none bg-transparent outline-none text-[--color-neutral-500] text-[0.875rem]" id="calc-shipping-method-input" readonly>
+                                <img src="/images/icon-dropdown-collapsed.svg" alt="" class="w-[16px] h-[16px] transition-transform duration-200" id="calc-shipping-method-icon">
+                            </div>
+                            <div class="select-options hidden absolute z-10 w-full bg-white border border-[--color-gray-300] rounded-[8px] shadow-lg top-[calc(100%+4px)] max-h-[200px] overflow-y-auto" id="calc-shipping-method-menu">
+                                <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-shipping-method', 'air', 'Օդային')">Օդային</div>
+                                <div id="calc-shipping-method-sea-option" class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-shipping-method', 'sea', 'Ծովային')">Ծովային</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-[20px]">
+                    <div class="flex flex-[1] flex-col gap-[6px]">
+                        <span class="input_title">Քաշ</span>
+                        <div class="flex flex-row h-[36px]">
+                            <input type="text" id="calc-weight-val" placeholder="Փաստացի քաշ" oninput="formatDecimal(this); calculateShipping();" class="border border-[--color-gray-400] bg-[--color-gray-50] rounded-tl-[8px] rounded-bl-[8px] w-[100%] py-[10px] px-[14px] text-[--color-gray-900]">
+                            <div class="relative w-[65px] lg:w-[110px] shrink-0">
+                                <div id="calc-weight-toggle" class="cursor-pointer flex items-center justify-between w-full px-[8px] lg:px-[12px] py-[10px] h-[36px] text-[--color-gray-900] rounded-tr-[8px] rounded-br-[8px] bg-[--color-gray-50] border-[1px] border-[--color-gray-400] border-l-0" onclick="toggleCalcDropdown(event, 'calc-weight')">
+                                    <input type="hidden" id="calc-weight-value" value="kg" />
+                                    <input type="text" value="կգ" class="w-full cursor-pointer pointer-events-none bg-transparent outline-none text-[--color-neutral-500] text-[0.875rem]" id="calc-weight-input" readonly>
+                                    <img src="/images/arrow_icon.svg" alt="" class="w-[12px] h-[12px] transition-transform duration-200" id="calc-weight-icon">
+                                </div>
+                                <div class="select-options hidden absolute z-10 w-full bg-white border border-[--color-gray-300] rounded-[8px] shadow-lg top-[calc(100%+4px)] left-0 max-h-[200px] overflow-y-auto" id="calc-weight-menu">
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-weight', 'kg', 'կգ')">կգ</div>
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-weight', 'pound', 'ֆունտ')">ֆունտ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              
+                    <div class="flex flex-[1] flex-col gap-[6px]">
+                        <span class="input_title">Արժեք</span>
+                        <div class="flex flex-row h-[36px]">
+                            <input type="text" id="calc-price-val" placeholder="0.00" oninput="formatDecimal(this); calculateShipping();" class="border border-[--color-gray-400] bg-[--color-gray-50] rounded-tl-[8px] rounded-bl-[8px] w-[100%] py-[10px] px-[14px] text-[--color-gray-900]">
+                            <div class="relative w-[65px] lg:w-[110px] shrink-0">
+                                <div id="calc-price-toggle" class="cursor-pointer flex items-center justify-between w-full px-[8px] lg:px-[12px] py-[10px] h-[36px] text-[--color-gray-900] rounded-tr-[8px] rounded-br-[8px] bg-[--color-gray-50] border-[1px] border-[--color-gray-400] border-l-0" onclick="toggleCalcDropdown(event, 'calc-price')">
+                                    <input type="hidden" id="calc-price-value" value="AMD" />
+                                    <input type="text" value="AMD" class="w-full cursor-pointer pointer-events-none bg-transparent outline-none text-[--color-neutral-500] text-[0.875rem]" id="calc-price-input" readonly>
+                                    <img src="/images/arrow_icon.svg" alt="" class="w-[12px] h-[12px] transition-transform duration-200" id="calc-price-icon">
+                                </div>
+                                <div class="select-options hidden absolute z-10 w-full bg-white border border-[--color-gray-300] rounded-[8px] shadow-lg top-[calc(100%+4px)] left-0 max-h-[200px] overflow-y-auto" id="calc-price-menu">
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-price', 'AMD', 'AMD')">AMD</div>
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-price', 'USD', 'USD')">USD</div>
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-price', 'Yuan', 'Yuan')">Yuan</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <div class="flex items-center gap-[8px]">
+                        <input type="checkbox" id="volumetricWeightCheckbox" class="login_checkbox" onchange="toggleDimensions(this.checked)">
+                        <label for="volumetricWeightCheckbox" class="pop_up_list lg:text-[16px] text-[12px] text-[--color-gray-900] cursor-pointer mb-0">Գերծավալային քաշ</label>
+                    </div>
+                </div>
+
+                <div id="dimensionsBlock" class="flex flex-col lg:flex-row lg:gap-[20px]" style="display: none;">
+                    <div class="flex gap-[20px]">
+                        <div class="flex flex-[1] flex-col gap-[6px]">
+                            <span class="input_title">Բարձրություն</span>
+                            <input type="text" id="calc-height-val" placeholder="" oninput="formatDecimal(this); calculateShipping();" class="login_iput w-full h-[36px]">
+                        </div>
+
+                        <div class="flex flex-[1] flex-col gap-[6px]">
+                            <span class="input_title">Լայնություն</span>
+                            <input type="text" id="calc-width-val" placeholder="" oninput="formatDecimal(this); calculateShipping();" class="login_iput w-full h-[36px]">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-[20px]">
+                        <div class="flex flex-[1] flex-col gap-[6px]">
+                            <span class="input_title">Երկարություն</span>
+                            <input type="text" id="calc-length-val" placeholder="" oninput="formatDecimal(this); calculateShipping();" class="login_iput w-full h-[36px]">
+                        </div>
+                
+                        <div class="relative flex flex-[1] flex-col gap-[6px]">
+                            <span class="input_title">&nbsp;</span>
+                            <div class="relative w-full">
+                                <div id="calc-dim-toggle" class="login_iput flex items-center justify-between w-full h-[36px] cursor-pointer bg-white" onclick="toggleCalcDropdown(event, 'calc-dim')">
+                                    <input type="hidden" id="calc-dim-value" value="cm" />
+                                    <input type="text" value="սմ" class="w-full cursor-pointer pointer-events-none bg-transparent outline-none text-[--color-neutral-500] text-[0.875rem]" id="calc-dim-input" readonly>
+                                    <img src="/images/icon-dropdown-collapsed.svg" alt="" class="w-[16px] h-[16px] transition-transform duration-200" id="calc-dim-icon">
+                                </div>
+                                <div class="select-options hidden absolute z-10 w-full bg-white border border-[--color-gray-300] rounded-[8px] shadow-lg top-[calc(100%+4px)] max-h-[200px] overflow-y-auto" id="calc-dim-menu">
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-dim', 'cm', 'սմ')">սմ</div>
+                                    <div class="option cursor-pointer p-[8px] text-[0.875rem] text-[--color-neutral-700] hover:bg-[--color-gray-100]" onclick="selectCalcOption('calc-dim', 'inches', 'դյույմ')">դյույմ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <div id="calc-warning-wrapper" class="warning-wrapper flex items-center gap-[16px] bg-[--color-red-50] text-[red] p-[10px] rounded-[8px]" style="display: none;">
+                <img src="/images/warning-badge.svg" alt="">
+                <p class="m-0"><strong class="text-[12px] lg:text-[16px]">Պատվերը կարող է ենթարկվել լրացուցիչ մաքսային վճարների</strong></p>
+            </div>
+
+            <div class="info-wrapper flex flex-col gap-[8px]">
+                <div id="calculatorExtraDetails" style="display: none;" class="flex flex-col gap-[8px] mb-[8px]">
+                    <p class="flex justify-between text-[--color-gray-800] m-0"><strong class="text-[12px] lg:text-[18px]">Առաքում</strong><strong id="calc-shipping-cost" class="text-[14px] lg:text-[20px]">0.00</strong></p>
+                    <p class="flex justify-between text-[--color-gray-800] m-0"><strong class="text-[12px] lg:text-[18px]">Մաքսավճար</strong><strong id="calc-customs-fee" class="text-[14px] lg:text-[20px]">0.00</strong></p>
+                </div>
+                <p class="flex justify-between text-[--color-gray-800] m-0"><strong class="text-[14px] lg:text-[20px]">Վճարման ընդհանուր գումար</strong><strong id="calc-total-cost" class="text-[--color-blue-500] text-[16px] lg:text-[26px]">0.00</strong></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // Extract the ViewBag values directly into standard JS variables
+    const usdPrice = 4100;
+    const cnyPrice = 4900;
+
+    // Currency API URL (EUR base)
+    const currencyApiUrl = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json';
+    // container for fetched rates (data.eur)
+    let eurRates = null;
+
+    async function loadEurRates() {
+        try {
+            const resp = await fetch(currencyApiUrl, { cache: "no-cache" });
+            if (!resp.ok) throw new Error('Network error');
+            const data = await resp.json();
+            if (data && data.eur) {
+                eurRates = data.eur;
+            }
+        } catch (e) {
+            // fallback to reasonable defaults if fetch fails
+            eurRates = {
+                amd: 428.15618417,
+                usd: 1.16343548,
+                cny: 7.89449673,
+                cnh: 7.89561968
+            };
+        } finally {
+            // recalculate once rates are available or fallback is set
+            calculateShipping();
+        }
+    }
+
+    // Close all dropdowns when clicking anywhere outside
+    document.addEventListener('click', function (e) {
+        // Ignore clicks that are made directly on the toggle wrappers or inside the menus
+        if (e.target.closest('[id$="-toggle"]') || e.target.closest('[id$="-menu"]')) {
+            return;
+        }
+
+        const dropdownPrefixes = ['calc-country', 'calc-shipping-method', 'calc-weight', 'calc-price', 'calc-dim'];
+        dropdownPrefixes.forEach(prefix => {
+            const menu = document.getElementById(`${prefix}-menu`);
+            const icon = document.getElementById(`${prefix}-icon`);
+            
+            if (menu && !menu.classList.contains("hidden")) {
+                menu.classList.add("hidden");
+                if (icon) {
+                    icon.style.transform = "rotate(0deg)";
+                }
+            }
+        });
+    }, true);
+
+    function formatDecimal(input) {
+        let val = input.value.replace(/,/g, '.');
+        val = val.replace(/[^0-9.]/g, '');
+        let match = val.match(/^\d*\.?\d{0,2}/);
+        input.value = match ? match[0] : '';
+    }
+
+    // New generalized dropdown handlers used in the custom selects above
+    function toggleCalcDropdown(e, prefix) {
+        e.stopPropagation();
+
+        // Close all other dropdowns before toggling the current one
+        const dropdownPrefixes = ['calc-country', 'calc-shipping-method', 'calc-weight', 'calc-price', 'calc-dim'];
+        dropdownPrefixes.forEach(p => {
+            if (p !== prefix) {
+                const otherMenu = document.getElementById(`${p}-menu`);
+                const otherIcon = document.getElementById(`${p}-icon`);
+                if (otherMenu && !otherMenu.classList.contains("hidden")) {
+                    otherMenu.classList.add("hidden");
+                    if (otherIcon) {
+                        otherIcon.style.transform = "rotate(0deg)";
+                    }
+                }
+            }
+        });
+        
+        const menu = document.getElementById(`${prefix}-menu`);
+        const icon = document.getElementById(`${prefix}-icon`);
+        
+        if (menu) {
+            menu.classList.toggle("hidden");
+            const isClosed = menu.classList.contains("hidden");
+            if (icon) {
+                icon.style.transform = isClosed ? "rotate(0deg)" : "rotate(180deg)";
+            }
+        }
+    }
+    
+    function calculateShipping() {
+        const country = document.getElementById('calc-country-value')?.value || 'USA';
+        const weightUnit = document.getElementById('calc-weight-value')?.value || 'kg';
+        const dimUnit = document.getElementById('calc-dim-value')?.value || 'cm';
+        const priceCurrency = document.getElementById('calc-price-value')?.value || 'AMD';
+        const shippingMethod = document.getElementById('calc-shipping-method-value')?.value || 'air';
+        
+        const weightRaw = parseFloat(document.getElementById('calc-weight-val')?.value) || 0;
+        const heightRaw = parseFloat(document.getElementById('calc-height-val')?.value) || 0;
+        const widthRaw  = parseFloat(document.getElementById('calc-width-val')?.value) || 0;
+        const lengthRaw = parseFloat(document.getElementById('calc-length-val')?.value) || 0;
+        const priceRaw = parseFloat(document.getElementById('calc-price-val')?.value) || 0;
+        const hasDims = document.getElementById('volumetricWeightCheckbox')?.checked;
+
+        // 1. Convert weight to kg if necessary
+        let actualWeightKg = weightUnit === 'pound' ? (weightRaw * 0.453592) : weightRaw;
+        let chargeableWeight = actualWeightKg;
+
+        // 2. Validate and handle volumetric weight
+        if (hasDims) {
+            let h = heightRaw, w = widthRaw, l = lengthRaw;
+            
+            if (dimUnit === 'inches') {
+                h *= 2.54; w *= 2.54; l *= 2.54;
+            }
+
+            if (h > 60 || w > 60 || l > 60) {
+                const volWeight = (h * w * l) / 6000;
+                if (volWeight > actualWeightKg) {
+                    chargeableWeight = volWeight;
+                }
+            }
+        }
+
+        // 3. Price per kg and minimum shipping price
+        const isSeaShipping = shippingMethod === 'sea';
+        const ratePerKg = isSeaShipping
+            ? 1100
+            : (country === 'USA' ? usdPrice : cnyPrice);
+        const minimumShippingCost = isSeaShipping
+            ? 11000
+            : (country === 'USA' ? 1400 : 490);
+
+        let shippingCost = chargeableWeight * ratePerKg;
+
+        if (chargeableWeight > 0) {
+            shippingCost = shippingCost <= minimumShippingCost
+                ? minimumShippingCost
+                : Math.ceil(shippingCost / 100) * 100;
+        }
+
+        // 4. Determine threshold and exchange rate using fetched EUR-based rates.
+        // Thresholds are set to "200 EUR equivalent" in the chosen currency (eur.json values * 200).
+        // exchangeRateToAmd converts 1 unit of selected currency into AMD (so we can show customs fee in AMD).
+        let threshold = 90000;
+        let exchangeRateToAmd = 1;
+
+        if (eurRates) {
+            const amdRate = eurRates['amd'] || eurRates['AMD'] || null;
+            const usdRate = eurRates['usd'] || eurRates['USD'] || null;
+            const cnyRate = eurRates['cny'] || eurRates['cnh'] || eurRates['CNY'] || null;
+
+            if (priceCurrency === 'AMD') {
+                if (amdRate != null) {
+                    threshold = Math.round((amdRate * 200) * 100) / 100; // 200 EUR in AMD
+                    exchangeRateToAmd = 1;
+                }
+            } else if (priceCurrency === 'USD') {
+                if (usdRate != null && amdRate != null) {
+                    threshold = Math.round((usdRate * 200) * 100) / 100; // 200 EUR in USD
+                    exchangeRateToAmd = amdRate / usdRate; // 1 USD = (AMD per EUR) / (USD per EUR)
+                }
+            } else if (priceCurrency === 'Yuan') {
+                if (cnyRate != null && amdRate != null) {
+                    threshold = Math.round((cnyRate * 200) * 100) / 100; // 200 EUR in CNY
+                    exchangeRateToAmd = amdRate / cnyRate; // 1 CNY in AMD
+                }
+            }
+        } else {
+            // eurRates not loaded yet - keep previous hard-coded behavior as fallback
+            if (priceCurrency === 'USD') {
+                threshold = 250;
+                exchangeRateToAmd = 360;
+            } else if (priceCurrency === 'Yuan') {
+                threshold = 1500;
+                exchangeRateToAmd = 60;
+            } else {
+                threshold = 90000;
+                exchangeRateToAmd = 1;
+            }
+        }
+
+        let customsFee = 0;
+        if (priceRaw > threshold) {
+            const extraAmount = priceRaw - threshold;
+            const feeInCurrency = extraAmount * 0.162; // 16.2%
+            customsFee = feeInCurrency * exchangeRateToAmd;
+            customsFee = Math.round(customsFee * 100) / 100;
+        }
+
+        // 5. Toggle warning and additional details block
+        const warningWrapper = document.getElementById('calc-warning-wrapper');
+        if (warningWrapper) {
+            warningWrapper.style.display = customsFee > 0 ? 'flex' : 'none';
+        }
+
+        const extraDetailsBlock = document.getElementById('calculatorExtraDetails');
+        if (extraDetailsBlock) {
+            // Show shipping & customs breakdown if checkbox is checked OR customs fee > 0
+            extraDetailsBlock.style.display = (hasDims || customsFee > 0) ? 'block' : 'none';
+        }
+
+        // 6. Total & Formatting
+        const total = shippingCost + customsFee;
+        const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('calc-shipping-cost').textContent = formatter.format(shippingCost);
+        document.getElementById('calc-customs-fee').textContent = formatter.format(customsFee);
+        document.getElementById('calc-total-cost').textContent = formatter.format(total);
+    }
+
+    function selectCalcCountry(value, displayText, flagSrc) {
+        const inputDisplay = document.getElementById('calc-country-input');
+        const inputValue = document.getElementById('calc-country-value');
+        const flag = document.getElementById('calc-country-flag');
+        const menu = document.getElementById('calc-country-menu');
+        const icon = document.getElementById('calc-country-icon');
+        const seaOption = document.getElementById('calc-shipping-method-sea-option');
+        const shippingMethodDisplay = document.getElementById('calc-shipping-method-input');
+        const shippingMethodValue = document.getElementById('calc-shipping-method-value');
+
+        if (inputDisplay) inputDisplay.value = displayText;
+        if (inputValue) inputValue.value = value;
+        if (flag) flag.src = flagSrc;
+
+        if (seaOption) {
+            seaOption.style.display = value === 'USA' ? 'block' : 'none';
+        }
+
+        if (value !== 'USA' && shippingMethodValue?.value === 'sea') {
+            shippingMethodValue.value = 'air';
+
+            if (shippingMethodDisplay) {
+                shippingMethodDisplay.value = 'Օդային';
+            }
+        }
+
+        if (menu) menu.classList.add("hidden");
+        if (icon) icon.style.transform = "rotate(0deg)";
+        calculateShipping();
+    }
+
+    function selectCalcOption(prefix, value, displayText) {
+        const inputDisplay = document.getElementById(`${prefix}-input`);
+        const inputValue = document.getElementById(`${prefix}-value`);
+        const menu = document.getElementById(`${prefix}-menu`);
+        const icon = document.getElementById(`${prefix}-icon`);
+        
+        if (inputDisplay) inputDisplay.value = displayText || value;
+        if (inputValue) inputValue.value = value;
+
+        if (menu) menu.classList.add("hidden");
+        if (icon) icon.style.transform = "rotate(0deg)";
+        calculateShipping();
+    }
+
+    function toggleDimensions(isChecked) {
+        const dimensionsBlock = document.getElementById('dimensionsBlock');
+        if (dimensionsBlock) dimensionsBlock.style.display = isChecked ? 'flex' : 'none';
+        calculateShipping();
+    }
+
+    // Load rates on DOM ready, then run calculation once rates are set.
+    document.addEventListener('DOMContentLoaded', function () {
+        loadEurRates();
+        // initial calculation; loadEurRates will call calculateShipping again after fetching
+        calculateShipping();
+    });
+</script>
+
+</body>
+</html>

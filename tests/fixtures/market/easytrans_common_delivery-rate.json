@@ -1,0 +1,1 @@
+{"data":[{"fromKg":0.0,"toKg":10.0,"price":1000.0},{"fromKg":10.0,"toKg":20.0,"price":2000.0},{"fromKg":20.0,"toKg":30.0,"price":3000.0},{"fromKg":30.0,"toKg":80.0,"price":10000.0},{"fromKg":80.0,"toKg":null,"price":100000.0}],"isSuccess":true,"message":null}
