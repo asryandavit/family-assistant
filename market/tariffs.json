@@ -1,0 +1,1234 @@
+{
+ "refreshed_utc": "2026-10-29T16:35:28+00:00",
+ "sources": {
+  "onex": {
+   "url": "https://onex.am/en/tariff",
+   "ok": true,
+   "read_utc": "2026-10-29T16:35:28+00:00",
+   "routes": 15
+  },
+  "globbing": {
+   "url": "https://am.globbing.com/en",
+   "ok": true,
+   "read_utc": "2026-10-29T16:35:28+00:00",
+   "routes": 15
+  },
+  "buyforyou": {
+   "url": "https://www.buyforyou.am/",
+   "ok": true,
+   "read_utc": "2026-10-29T16:35:28+00:00",
+   "routes": 3
+  },
+  "easytrans": {
+   "url": "https://api.easytrans.am/address/all-available-simple",
+   "ok": true,
+   "read_utc": "2026-10-29T16:35:28+00:00",
+   "routes": 2
+  }
+ },
+ "routes": [
+  {
+   "forwarder": "onex",
+   "origin": "usa",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "1",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 490.0,
+     "min_cost": 490.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 600.0,
+     "min_cost": 600.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 4,
+    "max": 9,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "usa",
+   "mode": "sea",
+   "calc": "onex",
+   "dispatch_id": "2",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 150.0,
+     "min_cost": 15000.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": true,
+   "divisor": 5000,
+   "days": {
+    "min": 30,
+    "max": 60,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "china",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "6",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 690.0,
+     "min_cost": 690.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 800.0,
+     "min_cost": 800.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 5,
+    "max": 11,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "china",
+   "mode": "sea",
+   "calc": "onex",
+   "dispatch_id": "7",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 150.0,
+     "min_cost": 1500.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": true,
+   "divisor": 5000,
+   "days": {
+    "min": 50,
+    "max": 70,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "china",
+   "mode": "truck",
+   "calc": "onex",
+   "dispatch_id": "8",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 350.0,
+     "min_cost": 350.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 30,
+    "max": 45,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "greece",
+   "mode": "truck",
+   "calc": "onex",
+   "dispatch_id": "10",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 400.0,
+     "min_cost": 400.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 6,
+    "max": 12,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "italy",
+   "mode": "truck",
+   "calc": "onex",
+   "dispatch_id": "13",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 450.0,
+     "min_cost": 450.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 8,
+    "max": 13,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "spain",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "14",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 490.0,
+     "min_cost": 490.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 600.0,
+     "min_cost": 600.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 7,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "spain",
+   "mode": "truck",
+   "calc": "onex",
+   "dispatch_id": "15",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 450.0,
+     "min_cost": 450.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 10,
+    "max": 15,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "poland",
+   "mode": "truck",
+   "calc": "onex",
+   "dispatch_id": "17",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 300.0,
+     "min_cost": 300.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 15,
+    "max": 20,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "uk",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "4",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 490.0,
+     "min_cost": 490.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 600.0,
+     "min_cost": 600.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 4,
+    "max": 9,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "germany",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "5",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 490.0,
+     "min_cost": 490.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 600.0,
+     "min_cost": 600.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 5,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "germany",
+   "mode": "truck",
+   "calc": "onex",
+   "dispatch_id": "18",
+   "bands": [
+    {
+     "name": "standard",
+     "per_100g": 400.0,
+     "min_cost": 400.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 15,
+    "max": 20,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "russia",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "3",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 190.0,
+     "min_cost": 190.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 200.0,
+     "min_cost": 200.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 2,
+    "max": 4,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "onex",
+   "origin": "uae",
+   "mode": "air",
+   "calc": "onex",
+   "dispatch_id": "9",
+   "bands": [
+    {
+     "name": "mini",
+     "per_100g": 490.0,
+     "min_cost": 490.0,
+     "max_kg": 1.0
+    },
+    {
+     "name": "standard",
+     "per_100g": 500.0,
+     "min_cost": 500.0,
+     "max_kg": null
+    }
+   ],
+   "rounding_g": 100,
+   "volume": false,
+   "divisor": 5000,
+   "days": {
+    "min": 5,
+    "max": 13,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "russia",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 9,
+   "warehouse_id": 211,
+   "price_per_kg": 2000,
+   "min_price": 200,
+   "min_weight": 0.1,
+   "divider": 0.007,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 2000,
+   "compare_gross_and_dimensions": 1,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 2,
+    "max": 4,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "none"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "russia",
+   "mode": "truck",
+   "calc": "globbing",
+   "condition_id": 74,
+   "warehouse_id": 211,
+   "price_per_kg": 1000,
+   "min_price": 4000,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 0,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 9,
+    "max": 17,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "none"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "uk",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 44,
+   "warehouse_id": 214,
+   "price_per_kg": 6000,
+   "min_price": 600,
+   "min_weight": 0.1,
+   "divider": 0.007,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 6000,
+   "compare_gross_and_dimensions": 1,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 5,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "uae",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 45,
+   "warehouse_id": 215,
+   "price_per_kg": 5000,
+   "min_price": 500,
+   "min_weight": 0.1,
+   "divider": 0.007,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 5000,
+   "compare_gross_and_dimensions": 1,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 5,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "italy",
+   "mode": "truck",
+   "calc": "globbing",
+   "condition_id": 71,
+   "warehouse_id": 216,
+   "price_per_kg": 4500,
+   "min_price": 450,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 0,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 7,
+    "max": 13,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "usa",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 49,
+   "warehouse_id": 2291,
+   "price_per_kg": 6000,
+   "min_price": 600,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 6000,
+   "compare_gross_and_dimensions": 1,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 3,
+    "max": 9,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "usa",
+   "mode": "sea",
+   "calc": "globbing",
+   "condition_id": 48,
+   "warehouse_id": 2291,
+   "price_per_kg": 1500,
+   "min_price": 15000,
+   "min_weight": 0.1,
+   "divider": 0.007,
+   "step": 0.1,
+   "chargeable_weight_type": 2,
+   "over_dimensional": 0,
+   "dimensions_sum": null,
+   "greater_weight": null,
+   "over_dimensional_price_per_kg": null,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 3.5,
+    "max": 3.5,
+    "unit": "months",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "greece",
+   "mode": "truck",
+   "calc": "globbing",
+   "condition_id": 72,
+   "warehouse_id": 22283,
+   "price_per_kg": 4000,
+   "min_price": 400,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 0,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 7,
+    "max": 11,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "germany",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 63,
+   "warehouse_id": 36832,
+   "price_per_kg": 6000,
+   "min_price": 600,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 6000,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 5,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "germany",
+   "mode": "truck",
+   "calc": "globbing",
+   "condition_id": 123,
+   "warehouse_id": 36832,
+   "price_per_kg": 4000,
+   "min_price": 400,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 0,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 15,
+    "max": 20,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "spain",
+   "mode": "truck",
+   "calc": "globbing",
+   "condition_id": 81,
+   "warehouse_id": 46761,
+   "price_per_kg": 4500,
+   "min_price": 450,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 0,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 7,
+    "max": 12,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "china",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 105,
+   "warehouse_id": 56015,
+   "price_per_kg": 8000,
+   "min_price": 690,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 8000,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 5,
+    "max": 11,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "china",
+   "mode": "sea",
+   "calc": "globbing",
+   "condition_id": 107,
+   "warehouse_id": 56015,
+   "price_per_kg": 1500,
+   "min_price": 1500,
+   "min_weight": 0.1,
+   "divider": 0.007,
+   "step": 0.1,
+   "chargeable_weight_type": 2,
+   "over_dimensional": 0,
+   "dimensions_sum": null,
+   "greater_weight": null,
+   "over_dimensional_price_per_kg": null,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 2.5,
+    "max": 3.5,
+    "unit": "months",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "china",
+   "mode": "truck",
+   "calc": "globbing",
+   "condition_id": 106,
+   "warehouse_id": 56015,
+   "price_per_kg": 3500,
+   "min_price": 350,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 0,
+   "compare_gross_and_dimensions": 0,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 45,
+    "max": 45,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "globbing",
+   "origin": "korea",
+   "mode": "air",
+   "calc": "globbing",
+   "condition_id": 119,
+   "warehouse_id": 62362,
+   "price_per_kg": 6000,
+   "min_price": 600,
+   "min_weight": 0.1,
+   "divider": 0.003,
+   "step": 0.1,
+   "chargeable_weight_type": 1,
+   "over_dimensional": 0,
+   "dimensions_sum": 150,
+   "greater_weight": 2,
+   "over_dimensional_price_per_kg": 6000,
+   "compare_gross_and_dimensions": 1,
+   "extra_fee": null,
+   "additional_configs": null,
+   "days": {
+    "min": 7,
+    "max": 12,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 30.0,
+    "per_kg_eur": 2.0,
+    "combine": "max"
+   },
+   "site_limit_amd": 81600.01,
+   "site_eur_rate": 408,
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "buyforyou",
+   "calc": "buyforyou",
+   "divisor": 6000.0,
+   "side_over_cm": 60.0,
+   "customs": {
+    "pct": 16.2,
+    "limit_eur": 200.0,
+    "weight_limit_kg": null,
+    "per_kg_eur": 0.0,
+    "combine": "onex"
+   },
+   "origin": "usa",
+   "mode": "air",
+   "rate": 4100.0,
+   "min_cost": 1400.0,
+   "days": {
+    "min": 7,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "buyforyou",
+   "calc": "buyforyou",
+   "divisor": 6000.0,
+   "side_over_cm": 60.0,
+   "customs": {
+    "pct": 16.2,
+    "limit_eur": 200.0,
+    "weight_limit_kg": null,
+    "per_kg_eur": 0.0,
+    "combine": "onex"
+   },
+   "origin": "usa",
+   "mode": "sea",
+   "rate": 1100.0,
+   "min_cost": 11000.0,
+   "days": {
+    "min": 1.5,
+    "max": 3,
+    "unit": "months",
+    "from": "arrival"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "buyforyou",
+   "calc": "buyforyou",
+   "divisor": 6000.0,
+   "side_over_cm": 60.0,
+   "customs": {
+    "pct": 16.2,
+    "limit_eur": 200.0,
+    "weight_limit_kg": null,
+    "per_kg_eur": 0.0,
+    "combine": "onex"
+   },
+   "origin": "china",
+   "mode": "air",
+   "rate": 4900.0,
+   "min_cost": 490.0,
+   "days": {
+    "min": 7,
+    "max": 10,
+    "unit": "working",
+    "from": "arrival"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "easytrans",
+   "origin": "china",
+   "mode": "truck",
+   "calc": "easytrans",
+   "country_id": 2,
+   "method_id": 2,
+   "rate": 1500.0,
+   "min_weight": 1.0,
+   "min_cost": 1500.0,
+   "on_sale": false,
+   "days": {
+    "min": 35,
+    "max": 35,
+    "unit": "working",
+    "from": "dispatch",
+    "up_to": true
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  },
+  {
+   "forwarder": "easytrans",
+   "origin": "poland",
+   "mode": "air",
+   "calc": "easytrans",
+   "country_id": 4,
+   "method_id": 1,
+   "rate": 3000.0,
+   "min_weight": 0.1,
+   "min_cost": 300.0,
+   "on_sale": false,
+   "days": {
+    "min": 20,
+    "max": 20,
+    "unit": "working",
+    "from": "dispatch",
+    "up_to": true
+   },
+   "customs": {
+    "pct": 15.0,
+    "limit_eur": 200.0,
+    "weight_limit_kg": 31.0,
+    "per_kg_eur": 2.0,
+    "combine": "onex"
+   },
+   "read_utc": "2026-10-29T16:35:28+00:00"
+  }
+ ]
+}
