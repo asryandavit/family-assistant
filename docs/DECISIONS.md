@@ -614,3 +614,40 @@ is the rule the forwarders apply (€200 duty-free, 15% above); Amazon UK/DE/IT 
 read in a browser profile, Amazon US / Wildberries / Ozon do not (bot checks — the bot never
 passes one itself), so P1 covers exact links on the readable stores. The bot only reads:
 no login with the owner's password, no cart, no orders. Brief: docs/briefs/MARKET_WATCH.md.
+
+**087 — 2026-10-29 — Market watch P1: exact links priced to Yerevan nightly, maths proven against each forwarder's own calculator, every store degrades instead of failing.**
+Built `market/` (pure Python, no `lib/` change for the maths) and two jobs. **Numbers are code,
+tested against the forwarders themselves**: Onex 90 calculator answers (P0), and three new
+oracles captured today — Globbing's and BuyForYou's own calculator JavaScript run unchanged by
+`tests/fixtures/market/oracle_calculators.js` (600 + 140 answers) and EasyTrans's
+calculate-price API (16 answers); every answer is checked. Findings that changed the plan:
+Globbing's `divider` is a rounding tolerance (a remainder under 3 g / 7 g rounds down to the
+100 g step); Globbing charges by volume on USA/UK/UAE/Russia/Korea **air** too
+(`compare_gross_and_dimensions`); Globbing's customs is the *larger* of 15% over €200 and €2/kg
+over 30 kg, none from Russia; BuyForYou's calculator uses **16.2%**, not 15%, and has **no China
+sea** (the brief's 1,100 AMD cell was wrong); EasyTrans has no weight step and ignores size.
+Customs default stays the forwarders' rule per forwarder, EAEU 2026 a switch in
+`market/customs.md`. Working days skip weekends and `market/holidays.md`; each route keeps its
+own unit and start (EasyTrans from the truck's departure → "after dispatch").
+**Tariffs** refresh weekly (`jobs/market_tariffs.py`, Sunday 01:00): a source that fails keeps
+last week's routes with their date and is named in the report (first live read: 35 routes,
+identical to the fixtures). **Stores**: Amazon US/UK/DE/IT and vega.am read in the bot's own
+headed profile `.browser/market`, delivery set to the warehouses (19720, E17 4SX, 82152, 70122)
+and local currencies; parsers written on real captures (price to pay, not the per-unit price;
+delivery to the warehouse; "free on your first order" counts as **unknown**, never free;
+dates; stock; weight/size). Wildberries ("checking browser") and Ozon ("no connection — turn off
+VPN") showed the bot block pages again, so only their **detection** is built — no price parser
+until a real product page is captured (the nightly run saves one if it ever opens). **Fallback
+for every store**: one attempt per link per night, a block skips the store for the run, items
+keep their last price marked ⚠️ with its date and raise no alert, one report line per blocked
+store, one owner message after 3 blocked nights, `/watch price` for an owner's price, "no price
+yet" otherwise — never a guessed number. **Nightly job** `jobs/market_watch.py` (01:30,
+`scheduler/register-market.ps1`): one silent report to both chats, alerts with sound for a ≥10%
+drop (fresh reads only) or back in stock; the report is sent before anything is saved. List in
+`.browser/market_data/` (one writer per file) mirrored to the "Watch list" Sheet
+(items/offers/history via `lib/sheets_checklist.write_tab`; phone edits merged, bad values
+rejected whole); the Sheet id is empty until the owner creates and shares it. **Telegram**:
+`/watch` + add dialog (`market/bot.py`), 🌍 Market on Home — `lib/ui.py` and `listener.py`
+changed in their own additive commits with the full suite as the regression check (no
+`docs/ARCHITECTURE.md` exists; docs/TELEGRAM_UX.md §5d carries the UI). Rules:
+docs/briefs/MARKET_WATCH.md §10, docs/TELEGRAM_UX.md §5d.

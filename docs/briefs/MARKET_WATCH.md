@@ -1,6 +1,8 @@
 # MARKET_WATCH.md — watch items on foreign and Armenian marketplaces (brief, not built)
 
-Status: **confirmed 2026-10-29; P0 discovery done (§9)**; Wildberries/Ozon in P1 with the store fallback (§9). P1 not started.
+Status: **confirmed 2026-10-29; P0 discovery done (§9); P1 built 2026-10-29 (§10, decision 087)** —
+code, tests and a live run done; waiting for the owner's Sheet, scheduler registration and the
+phone demo with 3 real items. Wildberries/Ozon: detection + fallback only (block pages again).
 Facts below were seen on 2026-10-29 from this PC (Armenian IP); research notes with sources:
 discovery step P0 re-captures them as fixtures before any parser is written (CLAUDE.md §8).
 
@@ -95,7 +97,7 @@ dispatch out of the warehouse** (its footnote). Other cells marked P0 are re-che
 | **Italy** | truck (only mode) | 4,500 | 4,500 · 7–13 wd | — | P0 |
 | China | air | 8,000 (≤1 kg: 6,900) | 8,000 · 5–11 wd | 4,900 · *P0* | P0 |
 | China | truck | 3,500 | 3,500 · ~45 wd | — | 1,500, min 1,500 · ≤35 wd from truck departure |
-| China | sea | 1,500 | 1,500 · ~2.5–3.5 months | 1,100, min 11,000 | P0 |
+| China | sea | 1,500 | 1,500 · ~2.5–3.5 months | — (P1: the page hides sea for China) | P0 |
 | Russia | air | 2,000 | 2,000 · 2–4 wd | — | P0 |
 | Russia | truck | 1,000 | 1,000, min 4,000 · 9–17 wd | — | P0 |
 | Poland | air | — (Onex: truck 3,000) | — | — | 3,000, min 300 · ≤20 wd |
@@ -289,3 +291,56 @@ EasyTrans days — owner (2026-10-29): the China truck takes "about 1.5 months" 
 35 calendar days is ~1.2 months, 35 working days ~1.6 months, so its number is read as
 **working days counted from the truck's departure** (matching its own key
 `expectedUntilWorkingDay`); the page's "calendar" wording is treated as a site typo.
+
+## 10. P1 results (2026-10-29, decision 087)
+
+### What was built
+
+| Part | Files | Proven by |
+|---|---|---|
+| Shipping, customs, working days | `market/shipping.py`, `customs.py`, `workdays.py`, `holidays.md` | every captured calculator answer: Onex 90, Globbing 600, BuyForYou 140, EasyTrans 16 (`tests/test_market_shipping.py`) |
+| Tariff refresh (weekly, Sunday 01:00) | `jobs/market_tariffs.py` → `market/tariffs.json`, parsers in `market/tariffs.py` | fixtures + live read (35 routes, same as fixtures) |
+| Store readers | `scrapers/market.py` (browser, block detection, `--setup`, `--capture`), `market/readers.py` | real pages: Amazon US/UK/DE/IT, vega.am, Amazon "not found", WB and Ozon block pages |
+| Pricing, fallback, report, alerts | `market/pricing.py`, `report.py`, `state.py`, `stores.py`, `rates.py`, `jobs/market_watch.py` | `tests/test_market_watch.py` (offline on the captures) + one live run in the bot's browser |
+| Watch list Sheet | `market/sheet.py`, `config_market.json watch_sheet_id` | `tests/test_market_sheet.py` (merge, rejection, formula guard) |
+| Telegram | `market/bot.py`; `lib/ui.py` and `listener.py` (own commits) | `tests/test_market_bot.py`, `test_listener_market.py`, `test_ui_telegram.py` |
+| Data rows | `market/stores.md`, `forwarders.md`, `customs.md` | read by the code |
+
+### Corrections to §3a / §8 found while building
+
+- BuyForYou: **no China sea**; customs factor **16.2%** in its own calculator.
+- Globbing: charges by volume (L×W×H/5000) on USA, UK, UAE, Russia and Korea **air**; weight
+  rounds to 100 g with a 3 g / 7 g tolerance; customs = the larger of 15% over €200 and
+  €2/kg over 30 kg; none on Russia routes.
+- EasyTrans: no weight step, no volume, minimum price; time = "up to N working days" from the
+  truck's departure.
+- Amazon DE/IT show "FREE delivery … on your first order" to the warehouse postcode: the real
+  delivery cost is **unknown** (totals say "excl. store delivery"), never taken as free.
+
+### Not done in P1 (on purpose)
+
+- Wildberries / Ozon **price parsers**: both showed the bot a block page again on 2026-10-29
+  ("Проверяем браузер" / "Похоже, нет соединения"). Detection + fallback are built; if a night
+  ever opens a real page, it is saved under `.browser/market_data/captures/` for the parser.
+- Reading the product page **during** the add dialog (the listener would block while a browser
+  opens): instead the nightly run fills a missing weight/size from the Amazon page, marked "page".
+- `lib/tasks.py` does not list the two market tasks in `/auto` yet (a separate platform change).
+
+### Phone demo (P1 done when this passes)
+
+Once: create a Google Sheet named "Watch list", share it with the service account as Editor,
+put its id in `config_market.json` (`watch_sheet_id`); restart the listener; run
+`.\scheduler\register-market.ps1` in an elevated PowerShell.
+
+1. 🏠 Home → **🌍 Market** → the empty list with `🔄 Check now` · `➕ Add` · `📄 Watch list Sheet`.
+2. **➕ Add** → name → paste an Amazon link (e.g. amazon.de/dp/…) → `1` → `2.4 kg 40x30x20`
+   → "✅ Added 1. …". Repeat for two more real items (one Amazon US/UK/IT, one vega.am or a
+   Wildberries/Ozon link to see the fallback).
+3. Open **📄 Watch list Sheet** → the three items are on the `items` tab.
+4. **🔄 Check now** → "⏳ Reading the watch list's stores…" → both phones get
+   `🌍 Market watch · <day>`: one line per item with the best total, folds per store with every
+   forwarder × mode, customs, arrival dates; a blocked store gets one `🚫` line.
+5. For a blocked store: `/watch price <n> <amount>` → "✍️ … (owner, <date>)"; **Check now**
+   again → that item now has totals, marked "owner".
+6. `/watch bought <n>` → it leaves the list and the Sheet shows `bought`.
+7. Next morning: the 01:30 report is in both chats (silent).
