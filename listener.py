@@ -50,6 +50,10 @@ JOBS = {
     "basket": {"args": [os.path.join(ROOT, "jobs", "grocery_basket.py"), "--send"],
                "ack": "\u23f3 Pricing this week's basket at both shops\u2026 (~2 min)\n"
                       "<i>The list goes to both of you and to the checklist.</i>"},
+    # Family content too: the market job sends its report to both chats itself.
+    "market": {"args": [os.path.join(ROOT, "jobs", "market_watch.py"), "--send"],
+               "ack": "\u23f3 Reading the watch list's stores\u2026 (~1 min per store)\n"
+                      "<i>The report goes to both of you.</i>"},
 }
 
 BASKET_KINDS = {"weekly": ("--weekly", "this week's basket"),
@@ -136,6 +140,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/flights &lt;city&gt; &lt;window&gt; [nights] \u2014 search flights\n"
         "/price &lt;product&gt; [parma|yc] \u2014 grocery prices + links\n"
         "/basket [monthly|all] \u2014 price the shopping list, fill the checklist\n"
+        "/watch [add|check|price] \u2014 market watch: items priced to Yerevan\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 the Home screen\n"
         "/today \u2014 today's meals and both sessions\n"
@@ -349,6 +354,7 @@ def set_menu(tok):
             {"command": "today", "description": "Today's meals and training"},
             {"command": "price", "description": "Grocery prices: /price lentils"},
             {"command": "basket", "description": "Price the shopping list + checklist"},
+            {"command": "watch", "description": "Market watch: items priced to Yerevan"},
             {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
             {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
             {"command": "scan", "description": "Run the flight scan now"},
@@ -403,6 +409,11 @@ def handle_text(cfg, runner, text, chat_id=None):
         if not args:
             return msg
         return runner.launch("basket", args, ack=msg, chat_id=chat_id)
+    if cmd == "watch":
+        sub = text.strip().split()[1:2]
+        if sub and sub[0].lower() == "check":
+            return runner.launch("market", chat_id=chat_id)
+        return _market("handle", cfg, ROOT, text, chat_id)
     if cmd in JOBS:
         return runner.launch(cmd, chat_id=chat_id)
     if cmd == "cancel":
@@ -476,12 +487,26 @@ def send_price_prompt(cfg, chat_id=None):
                        chat_id=chat_id)
 
 
+def _market(fn, *args):
+    """Call market/bot.py lazily: a fault in the market code answers with a short
+    message instead of taking the listener (and every other command) down."""
+    try:
+        from market import bot
+        return getattr(bot, fn)(*args)
+    except Exception as e:
+        log("market %s failed: %s" % (fn, str(e)[:120]))
+        return "⚠️ Market watch is unavailable right now (%s)." % telegram.esc(str(e)[:80])
+
+
 def route_reply(text, reply_to_text):
-    """An answer to the Price check prompt becomes a /price command; a slash
-    command typed as a reply is left alone."""
+    """An answer to the Price check prompt becomes a /price command, an answer to a
+    Market add prompt becomes /watch answer; a slash command typed as a reply is left
+    alone."""
     t = (text or "").strip()
     if reply_to_text and ui.PRICE_PROMPT_MARK in reply_to_text and t and not t.startswith("/"):
         return "/price " + t
+    if reply_to_text and "Market · add" in reply_to_text and t and not t.startswith("/"):
+        return "/watch answer " + t
     return text
 
 
@@ -531,6 +556,12 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
             return None
         if act in JOBS:
             return runner.launch(act, chat_id=chat_id)
+        return "Unrecognised button."
+
+    # mk:<action> -- Market watch (docs/TELEGRAM_UX.md §5d)
+    if parts and parts[0] == "mk" and len(parts) == 2:
+        if parts[1] == "add":
+            return _market("start_add", cfg, ROOT, chat_id)
         return "Unrecognised button."
 
     # sw:<task key>:<0 off | 1 on | r run now | v refresh>
