@@ -1,0 +1,4 @@
+{
+  "_doc": "Market watch (docs/briefs/MARKET_WATCH.md). watch_sheet_id: the shared 'Watch list' Google Sheet (tabs items/offers/history), shared with the service account as Editor; null = no Sheet yet, the bot keeps the list locally and says so in the report.",
+  "watch_sheet_id": null
+}

@@ -13,7 +13,7 @@ A route (market/tariffs.json) carries `calc` naming the formula and the numbers 
                exceeds 60 cm; at or under the minimum -> minimum, else rounded up to 100 AMD.
     easytrans  its calculate-price API: max(rate × kg, minimal price); no step, no volume.
 
-quote(route, actual_kg, dims_cm) -> {"chargeable_kg", "cost_amd", "band", "volume_kg"}.
+quote(route, actual_kg, dims_cm) -> {"chargeable_kg", "cost_amd", "band", "volume_kg", "by_volume"}.
 actual_kg None -> None (the caller shows the rate per kg and "weight needed").
 """
 import math
@@ -46,7 +46,7 @@ def onex(route, actual_kg, dims_cm=None):
     cost = Decimal(str(band["per_100g"])) * weight * 10
     cost = max(cost, Decimal(str(band.get("min_cost") or 0)))
     return {"chargeable_kg": float(weight), "cost_amd": float(cost), "band": band["name"],
-            "volume_kg": round(vol, 3)}
+            "volume_kg": round(vol, 3), "by_volume": vol > actual_kg}
 
 
 def onex_band(route, name, actual_kg, dims_cm=None):
@@ -70,6 +70,7 @@ def globbing(route, actual_kg, dims_cm=None):
                 and (width + height + length) >= c["dimensions_sum"]
                 and weight > 0 and (dim / weight) > (c.get("greater_weight") or 0))
         use_dim = over or c.get("compare_gross_and_dimensions") == 1
+    by_volume = use_dim and dim > weight
     if use_dim:
         weight = weight if weight > dim else dim
     weight = c["min_weight"] if weight < c["min_weight"] else weight
@@ -87,7 +88,7 @@ def globbing(route, actual_kg, dims_cm=None):
         price += c["extra_fee"]
     price = _js_round(price * 100) / 100
     return {"chargeable_kg": grams / 1000, "cost_amd": price, "band": "over-dimensional" if over else "",
-            "volume_kg": round(dim, 3)}
+            "volume_kg": round(dim, 3), "by_volume": by_volume}
 
 
 def _price_per_kg(c, grams):
@@ -110,13 +111,15 @@ def buyforyou(route, actual_kg, dims_cm=None):
     cost = kg * route["rate"]
     if kg > 0:
         cost = route["min_cost"] if cost <= route["min_cost"] else math.ceil(cost / 100) * 100
-    return {"chargeable_kg": kg, "cost_amd": float(cost), "band": "", "volume_kg": round(vol, 3)}
+    return {"chargeable_kg": kg, "cost_amd": float(cost), "band": "", "volume_kg": round(vol, 3),
+            "by_volume": vol > float(actual_kg)}
 
 
 def easytrans(route, actual_kg, dims_cm=None):
     kg = max(float(actual_kg), route.get("min_weight") or 0.0)
     cost = max(route["rate"] * kg, route["min_cost"])
-    return {"chargeable_kg": kg, "cost_amd": float(cost), "band": "", "volume_kg": 0.0}
+    return {"chargeable_kg": kg, "cost_amd": float(cost), "band": "", "volume_kg": 0.0,
+            "by_volume": False}
 
 
 FORMULAS = {"onex": onex, "globbing": globbing, "buyforyou": buyforyou, "easytrans": easytrans}

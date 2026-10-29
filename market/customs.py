@@ -55,4 +55,4 @@ def estimate(value_eur, kg, route_rule=None, which="default"):
         eur = RULES[which](value_eur, kg)
     limit = dict(DEFAULT, **(route_rule or {}))["limit_eur"]
     near = (1 - NEAR) * limit <= value_eur <= (1 + NEAR) * limit
-    return {"eur": round(eur, 2), "near_limit": near, "rule": which}
+    return {"eur": eur, "near_limit": near, "rule": which}      # unrounded: AMD is derived from it
