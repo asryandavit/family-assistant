@@ -252,7 +252,7 @@ Onex FAQ, Globbing's calculator and BuyForYou's calculator all apply: **duty-fre
 | Store | Result | P1 plan |
 |---|---|---|
 | Amazon UK / DE / IT | **readable** (18–54 products, `data-asin`, `a-offscreen` price) | DE and UK showed **USD** and "delivery to United States" (Amazon's converter + default address); IT showed €. P1 sets the profile's currency to the local one and the delivery postcode to your forwarder's warehouse, so price and in-store shipping are the real ones |
-| Amazon US | **bot check** (`/checkpoint/continue`) | The bot never passes a bot check itself. Option: you open the profile once and pass it yourself; if it keeps returning → Keepa later, or skip |
+| Amazon US | **product pages readable** (re-test 2026-10-29 after the owner opened the profile: no check was shown; `/dp/<ASIN>` gave title, price, delivery date to the warehouse, "Delivering to New Castle 19720", Package Dimensions in inches). **Search** redirects to `/checkpoint/continue` — a normal page of other products, not a challenge — so search is not usable | P1 (exact links); search revisited in P2 |
 | Wildberries | **anti-bot wall** ("suspicious activity", still blocked after 75 s) | not in P1; revisit (e.g. your own login session in the profile) |
 | Ozon | **blocked** ("no connection — turn off VPN") | not in P1 |
 | vega.am | **readable** (`/en/index.php?route=product/search&search=`, prices in ֏) | P1 |
@@ -260,9 +260,8 @@ Onex FAQ, Globbing's calculator and BuyForYou's calculator all apply: **duty-fre
 
 ### What this means for P1
 
-Exact product links for **Amazon UK / DE / IT and vega.am**, all four forwarders, customs,
-CBA rates, working/calendar-day arrival dates. Amazon US, Wildberries and Ozon are **not**
-in P1; each comes back only via a way that doesn't involve the bot passing a bot check.
+Exact product links for **Amazon US / UK / DE / IT and vega.am**, all four forwarders, customs,
+CBA rates, working/calendar-day arrival dates. Wildberries and Ozon are **not** in P1; each comes back only via a way that doesn't involve the bot passing a bot check.
 
 Owner's forwarder warehouse postcodes (2026-10-29), set as the delivery location in the
 store profile so prices and in-store shipping are quoted to the warehouse — not secrets,
