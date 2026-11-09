@@ -80,6 +80,10 @@ def price_line(p):
             "list": "", "unknown": ""}.get(p.get("price_kind") or "", "")
     s = "%s%s → %s AMD · %s" % (cny(p["price"], p.get("currency")), (" " + kind) if kind else "",
                                 amd(p["price_amd"]), usd(p["price_usd"]))
+    if p.get("promo"):
+        s += "<br>⚠️ %s — the normal price is higher; not used for the 🏆 pick" % esc(p["promo"])
+    if p["site"] == "pinduoduo" and not p.get("variant"):
+        s += "<br>⚠️ Listing price — may be a cheaper variant than the one you want."
     if p["site"] == "pinduoduo" and p.get("single_price") is None:
         s += "<br><i>Group price; the single-buy price is only in the PDD app.</i>"
     elif p.get("single_price") is not None:
@@ -185,6 +189,8 @@ def pick_lines(pick, reason, n):
 def site_status_line(s, query):
     st = s.get("status")
     if st == "ok":
+        if s.get("notice"):
+            return "ℹ️ %s: <i>%s</i>" % (SITE_NAME[s["site"]], esc(short(s["notice"], 160)))
         return None
     line = STATUS_TEXT.get(st, STATUS_TEXT["error"]) % SITE_NAME[s["site"]]
     if s.get("notice"):
@@ -245,9 +251,10 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
             continue
         rows = ["<tr><th>#</th><th>Item</th><th>Seller</th><th align=\"right\">Total AMD</th></tr>"]
         for p in ranked:
-            rows.append("<tr><td>%d</td><td>%s</td><td>%s</td><td align=\"right\">%s%s</td></tr>" % (
+            rows.append("<tr><td>%d</td><td>%s</td><td>%s</td><td align=\"right\">%s%s%s</td></tr>" % (
                 num[id(p)], esc(short(p["title_en"], 34)), parse.LABEL[p["seller"]].split(" ")[0],
-                amd(p["total_amd"]), "*" if p["weight_assumed"] and p["total_amd"] is not None else ""))
+                amd(p["total_amd"]), "*" if p["weight_assumed"] and p["total_amd"] is not None else "",
+                " promo" if p.get("promo") else ""))
         R.append('<table bordered striped compact><caption>%s %s</caption>%s</table>' % (
             SITE_ICON[s["site"]], SITE_NAME[s["site"]], "".join(rows)))
         for p in ranked:

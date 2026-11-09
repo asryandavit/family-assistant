@@ -50,6 +50,16 @@ class Prices(unittest.TestCase):
         self.assertEqual((parse.cny(s["after_coupon"]), parse.cny(s["before_coupon"])), (189.0, 229.0))
 
 
+class Promo(unittest.TestCase):
+    def test_marks(self):
+        self.assertEqual(parse.promo("新人价CN¥3.90起"), "new-buyer price")   # live run 2026-11-09
+        self.assertEqual(parse.promo("首件¥89.9"), "first-item price")
+        self.assertEqual(parse.promo("$6.03 ~ $6.78"), "price range")
+        self.assertEqual(parse.promo("¥14.5起"), "'from' price")
+        self.assertEqual(parse.promo("券后¥189"), "")
+        self.assertEqual(parse.promo(None), "")
+
+
 class Counts(unittest.TestCase):
     def test_forms(self):
         self.assertEqual(parse.count("全店总售523万+"), 5230000)

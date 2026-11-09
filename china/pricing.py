@@ -7,7 +7,8 @@ Per result:
                   so only "free" is taken from it)
     weight        from the page; none -> config assumed_kg (1 kg) and weight_assumed=True
     routes        config routes only (forwarder x mode), each with shipping, customs, total
-Ranking: per site by the cheapest total (unpriced last), top N. The best pick is the
+Ranking: per site by the cheapest total (unpriced last), top N. Promo prices (new-buyer,
+first-item, 'from', ranges — parse.promo) are shown with their reason but never picked. The best pick is the
 cheapest total from an official / authorised seller when it is within trusted_within_pct of
 the overall cheapest, else the overall cheapest; the reason names which rule chose it.
 """
@@ -87,6 +88,7 @@ def price_result(r, routes, rates, today, cfg):
         "total_amd": best["total_amd"] if best else None,
         "total_usd": (best["total_amd"] / usd_rate) if best and usd_rate else None,
         "value_eur": q["value_eur"] if q else None,
+        "promo": parse.promo(r.get("price_text")) or ("first-item price" if r.get("price_kind") == "first_item" else ""),
         "seller": cls, "seller_evidence": evidence,
         "sales": parse.count(r.get("sales_text")), "reviews": parse.count(r.get("review_count_text")),
         "flags": flags, "link": parse.link(r["site"], r["id"]),
@@ -102,7 +104,7 @@ def rank(priced, top_n):
 
 def best_pick(priced, within_pct):
     """(result, reason) or (None, '')."""
-    have = [p for p in priced if p["total_amd"] is not None]
+    have = [p for p in priced if p["total_amd"] is not None and not p.get("promo")]
     if not have:
         return None, ""
     cheapest = min(have, key=lambda p: p["total_amd"])

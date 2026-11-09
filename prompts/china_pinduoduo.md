@@ -17,6 +17,13 @@ SITE: Pinduoduo (mobile web, logged in).
    Do not confirm anything; navigate away to close it.
    PDD web shows only the group price (拼单): price_kind "after_coupon" or "group";
    single_price_text null.
+   IF the product page hides the price ("前往APP查看价格", a price like "1??.??", no buy bar
+   or no picker): this is NOT a check page — do not stop. Open at most one more product page
+   to confirm, then stop opening product pages and answer status "ok" with results built
+   from the SEARCH LISTINGS: price_text = the listing's shown price with its prefix (e.g.
+   "券后¥109"), price_kind "list", variant null, marks from the listing tags, sales_text
+   from salesTip, reviews_read false, and why = "listing price — may be a cheaper variant;
+   the product page shows prices only in the PDD app". Put the notice text in "notice".
 4. Reviews (first {reviews} chosen ids): navigate to
    https://mobile.yangkeduo.com/goods_comments.html?goods_id=<id> and read
    document.body.innerText.slice(0,950) and, after one scroll, slice(950,1900). Reviews show

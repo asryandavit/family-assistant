@@ -61,7 +61,8 @@ def usage(wrapper):
     u = wrapper.get("usage") or {}
     return {"ms": wrapper.get("duration_ms"), "turns": wrapper.get("num_turns"),
             "cache_read": u.get("cache_read_input_tokens"), "cache_new": u.get("cache_creation_input_tokens"),
-            "out": u.get("output_tokens"), "list_usd": round(wrapper.get("total_cost_usd") or 0, 2)}
+            "out": u.get("output_tokens"), "list_usd": round(wrapper.get("total_cost_usd") or 0, 2),
+            "repaired": wrapper.get("repaired") or ""}
 
 
 def _validated(cfg, wrapper, check, model, timeout, run):
@@ -75,8 +76,20 @@ def _validated(cfg, wrapper, check, model, timeout, run):
         raise ValueError(why)
     fix = ("Your JSON answer was rejected: %s. Do not browse again. Reply with the corrected "
            "JSON object only, using only what you already read." % why)
+    print("china: reply rejected (%s); asking once to repair" % why[:160])
     w2 = call(cfg, fix, chrome=False, model=model, timeout=min(timeout, 180), resume=sid, run=run)
-    return check(validate.extract_json(w2.get("result"))), w2
+    return check(validate.extract_json(w2.get("result"))), merge(wrapper, w2, why)
+
+
+def merge(w1, w2, why=""):
+    """Usage of a run and its repair together (the repair alone would hide the real cost)."""
+    u1, u2 = w1.get("usage") or {}, w2.get("usage") or {}
+    keys = ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens")
+    return dict(w2, usage={k: (u1.get(k) or 0) + (u2.get(k) or 0) for k in keys},
+                duration_ms=(w1.get("duration_ms") or 0) + (w2.get("duration_ms") or 0),
+                num_turns=(w1.get("num_turns") or 0) + (w2.get("num_turns") or 0),
+                total_cost_usd=(w1.get("total_cost_usd") or 0) + (w2.get("total_cost_usd") or 0),
+                repaired=why[:160])
 
 
 def plan(cfg, ccfg, description, run=subprocess.run):

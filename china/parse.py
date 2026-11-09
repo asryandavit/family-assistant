@@ -51,6 +51,22 @@ def money(text):
     return (v, "CNY") if v is not None else (None, None)
 
 
+PROMO_MARKS = (("新人价", "new-buyer price"), ("新客", "new-buyer price"), ("首单", "first-order price"),
+               ("首件", "first-item price"), ("限1件", "price for 1 item only"), ("起", "'from' price"),
+               ("~", "price range"), ("～", "price range"))
+
+
+def promo(text):
+    """Why a shown price is not a normal price (new-buyer / first-item / 'from' / range), or ''.
+    Such prices are shown with the reason and never chosen as the best pick (P1 live run:
+    1688 '新人价CN¥3.90起' for a 65W charger)."""
+    s = str(text or "")
+    for mark, why in PROMO_MARKS:
+        if mark in s:
+            return why
+    return ""
+
+
 COUNT_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(万|千)?")
 
 

@@ -113,8 +113,16 @@ class Ranking(unittest.TestCase):
         for x in p:
             x["seller"] = parse.UNMARKED
         pick, why = pricing.best_pick(p, 25)
-        self.assertEqual(pick["total_amd"], min(x["total_amd"] for x in p))
+        self.assertEqual(pick["total_amd"], min(x["total_amd"] for x in p if not x["promo"]))
         self.assertIn("no official or authorised", why)
+
+    def test_promo_prices_never_picked(self):
+        first_item = next(x for x in self.p if x["id"] == "987289867285")   # 首件¥89.9
+        self.assertEqual(first_item["promo"], "first-item price")
+        self.assertIsNot(pricing.best_pick(self.p, 25)[0], first_item)
+        self.assertIs(pricing.rank(self.p, 5)[0], first_item)               # still shown, cheapest
+        only_promo = [dict(first_item)]
+        self.assertEqual(pricing.best_pick(only_promo, 25), (None, ""))
 
     def test_trusted_too_expensive_loses(self):
         a = dict(self.p[0], total_amd=10000.0, seller=parse.UNMARKED)
