@@ -75,7 +75,10 @@ def _split(text):
 
 
 def _button(label, data):
-    """Inline button: a URL opens a link, anything else is callback_data."""
+    """Inline button: a URL opens a link, {"web_app": url} opens the Mini App at
+    that https URL inside Telegram, anything else is callback_data."""
+    if isinstance(data, dict) and "web_app" in data:
+        return {"text": label, "web_app": {"url": str(data["web_app"])}}
     if str(data).startswith(("https://", "http://")):
         return {"text": label, "url": data}
     return {"text": label, "callback_data": data}
@@ -84,7 +87,7 @@ def _button(label, data):
 def reply_markup(buttons=None, reply_keyboard=None, force_reply=None):
     """reply_markup JSON for a message, or None.
 
-    buttons:        inline rows [(label, callback_data_or_url), ...]
+    buttons:        inline rows [(label, callback_data_or_url_or_{"web_app": url}), ...]
     reply_keyboard: persistent bottom keyboard rows [label, ...]
     force_reply:    placeholder text; opens a reply prompt for the next message
     A message carries one kind; inline buttons win, then keyboard, then prompt.

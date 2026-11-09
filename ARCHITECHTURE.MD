@@ -26,5 +26,11 @@ Non-negotiable conventions (rationale in the doc):
 - Never bypass a CAPTCHA or bot wall. Stop, log it, hand me a prefilled link.
 - Secrets in Windows environment variables and gitignored files, never in the repo.
 
+Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
+- `lib/telegram.py` inline buttons take three kinds: callback data (any string), a link
+  (`https://…`), and `{"web_app": url}`, which opens the Mini App at that https URL inside
+  Telegram (2026-11-10, Mini App step 0, for step 1's "📱 Open" buttons). Existing buttons
+  are unchanged.
+
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.
