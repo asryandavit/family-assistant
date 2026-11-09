@@ -66,6 +66,9 @@ def load_last(root, chat_id, keep_hours=24):
 
 def read_site(cfg, ccfg, site, description, query_cn, log=print):
     """Validated answer dict for one site (status ok/login/check/error) + usage."""
+    if site == "taobao" and ccfg.get("taobao_mode", "link") == "link":
+        return {"site": "taobao", "status": "link", "notice": None, "category": "other",
+                "brand_guidance": None, "search_ids": [], "results": []}, {}
     if site == "taobao":
         t = taobao.read(query_cn, max_pages=ccfg.get("reviews_top", 3), log=log)
         if t["status"] != "ok":
@@ -140,7 +143,8 @@ def run_search(job, cfg, root, tg, today, log=print, read=read_site, plan_fn=run
         answers.append(a)
         usage[s] = u
         log("%s: %s %s" % (s, a["status"], u))
-        tg.send_html(cfg, report.progress(s, i, len(sites), a["status"]), silent=True, chat_id=chat)
+        if a["status"] != "link":            # a link-only site takes no time: no progress line
+            tg.send_html(cfg, report.progress(s, i, len(sites), a["status"]), silent=True, chat_id=chat)
     routes, tariffs_date = load_routes(root)
     rates = rates_get(root, today)
     sites_out, pick, reason, groups, category, guidance = assemble(answers, ccfg, routes, rates, today)

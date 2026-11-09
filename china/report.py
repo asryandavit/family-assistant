@@ -26,6 +26,7 @@ STATUS_TEXT = {
     "check": "🚫 %s showed a check page — not bypassed; open it yourself",
     "error": "⚠️ %s could not be read this time",
     "skipped": "⏭ %s not searched",
+    "link": "🔗 %s is not read automatically (its sign-in check blocks the bot)",
 }
 
 
@@ -197,7 +198,8 @@ def site_status_line(s, query):
         line += " <i>(%s)</i>" % esc(short(s["notice"], 120))
     link = parse.search_link(s["site"], query)
     if link:
-        line += ' · <a href="%s">search it yourself</a>' % attr(link)
+        line += ' · <a href="%s">%s</a>' % (attr(link), "open this search on Taobao" if st == "link"
+                                             else "search it yourself")
     return line
 
 

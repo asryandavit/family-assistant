@@ -52,7 +52,8 @@ def start_search(cfg, root, chat_id, description, sites=None, plan=None, answers
     if answers:
         job["answers"] = answers
     wait = _enqueue(cfg, root, chat_id, job)
-    mins = sum(MINUTES[s] for s in sites)
+    link_only = search.load_cfg(root).get("taobao_mode", "link") == "link"
+    mins = sum(0 if (s == "taobao" and link_only) else MINUTES[s] for s in sites) or 1
     return ("⏳ Searching %s for <b>%s</b>… (~%d min; I'll post progress)%s"
             % (", ".join(NAMES[s] for s in sites), ESC(description), mins, wait))
 

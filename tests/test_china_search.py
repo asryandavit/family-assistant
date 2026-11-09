@@ -101,6 +101,26 @@ class Search(unittest.TestCase):
                                       plan={"query_cn": "氮化镓充电器 65W", "vague": False,
                                             "questions": [], "category": "electronics"}), "rich")
 
+    def test_taobao_link_mode(self):
+        cfg = json.load(open(os.path.join(self.root, "config_china.json"), encoding="utf-8"))
+        cfg["taobao_mode"] = "link"
+        json.dump(cfg, open(os.path.join(self.root, "config_china.json"), "w", encoding="utf-8"))
+        called = []
+
+        def reader(c, cc, site, d, q, log=print):
+            called.append(site)
+            return search.read_site(c, cc, site, d, q, log) if site == "taobao" else self.reader(c, cc, site, d, q)
+        tg = TG()
+        search.run_search({"job": "j1", "chat_id": "222", "description": "GaN 65W",
+                           "sites": ["pinduoduo", "taobao"]}, {}, self.root, tg, date(2026, 11, 9),
+                          log=lambda m: None, read=reader, plan_fn=self.plan(),
+                          rates_get=lambda r, d: RATES)
+        rich = tg.sent[-1][2]
+        self.assertIn("Taobao is not read automatically", rich)
+        self.assertIn("open this search on Taobao", rich)
+        self.assertIn("https://s.taobao.com/search?q=", rich)
+        self.assertEqual(len([1 for k, *_ in tg.sent if k == "html"]), 1)   # progress for PDD only
+
     def test_only_one_site(self):
         tg = TG()
         self.run_job(tg, sites=["pinduoduo"])
