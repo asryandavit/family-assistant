@@ -147,7 +147,34 @@ The seller message is a **fixed Chinese template in code** (extends the one in
   `cn:q:<answer>` for the vague-request questions). Old buttons keep working.
 - Replies to the asking chat, silent; the 🔑 login problem is with sound to both chats.
 
-Result layout (illustrative — numbers below are placeholders, not computed):
+### 5.1 Rich Messages from day one (owner, 2026-11-09)
+
+Results are sent as a Telegram **Rich Message** (`sendRichMessage`, Bot API 10.1 of
+2026-06-11; tables and media 10.2; in-message buttons, compact tables and expandable
+quotes 10.3 of 2026-08-24 — read on core.telegram.org/bots/api 2026-11-09):
+
+- `InputRichMessage.html` (exactly one of `html` / `markdown` / `blocks`): `<table compact>`
+  for the top 5 per site (site · seller mark · total AMD · USD · cheapest route), one
+  `<details><summary>` per site and per result for the long parts (every forwarder × mode,
+  reviews, specs, seller message), `<tg-slideshow>` of product photos (HTTP(S) URLs only;
+  a media element is its own block), `<tg-button>` rows for 🔁 / 💬 / 👁 (callback_data).
+- Limits checked in code before sending: ≤ 32,768 characters, ≤ 500 blocks (rows, list
+  items and details count), ≤ 16 nesting levels, ≤ 50 media, ≤ 20 table columns.
+- Edited with `editMessageText(rich_message=…)` (e.g. progress → final result);
+  `reply_markup` inline keyboards remain available.
+- **Fallback**: if `sendRichMessage` fails (error, older client report, limit hit) the same
+  result goes out through today's `send()` as plain HTML with `<blockquote expandable>`
+  folds (TELEGRAM_UX.md §2). Never no answer.
+- The new send helper in `lib/telegram.py` (`send_rich(html, chat_id, buttons=None)`) is its
+  **own additive commit** with the regression check (CLAUDE.md §1); existing `send()` is
+  untouched.
+- P0 sends one real rich test message to the owner's chat (with his OK) and saves the
+  returned `Message` JSON to `tests/fixtures/china/telegram_rich_sent.json` before any
+  code relies on the format; the owner says how it renders on his iPhone and Karine's
+  phone.
+
+Result layout (illustrative — numbers below are placeholders, not computed; in the rich
+version the numbered lines are a table and the folds are `<details>`):
 
 ```
 🇨🇳 China search · GaN charger 65W, EU plug
@@ -170,10 +197,11 @@ Result layout (illustrative — numbers below are placeholders, not computed):
 
 | Phase | Content | Done when |
 |---|---|---|
-| **P0 Discovery** | In the owner's Chrome (he clicks the extension's per-site "Allow"), capture to `tests/fixtures/china/`, per site: a search result page, a product page with variants (SKU prices; PDD group vs single), the reviews section, shop / official marks (官方旗舰店, 品牌授权, 源头工厂, 实力商家), the logged-in marker, a login/check page if one appears, and the image-search entry point. Repeat one search **headlessly** (`claude -p --chrome`) per site and time a full 3-site + 9-review run. | A table: site → what is readable, the field names, time and quota per run, whether headless needs a permission click |
+| **P0 Discovery** | In the owner's Chrome (he clicks the extension's per-site "Allow"), capture to `tests/fixtures/china/`, per site: a search result page, a product page with variants (SKU prices; PDD group vs single), the reviews section, shop / official marks (官方旗舰店, 品牌授权, 源头工厂, 实力商家), the logged-in marker, a login/check page if one appears, and the image-search entry point. Repeat one search **headlessly** (`claude -p --chrome`) per site and time a full 3-site + 9-review run. Send one Rich Message test (§5.1) and capture the response | A table: site → what is readable, the field names, time and quota per run, whether headless needs a permission click; the rich test renders on both phones |
 | **P1 Text search** | `china/` (bot, queue, validate, pricing, report), `prompts/china_site.md`, `jobs/china_search.py`; vague-request buttons; reviews for top 3 per site; seller classes + official/dealer lookup; restrictions; parcel customs; progress messages; `💬 Reviews`, `🔁 Only <site>`, `👁 Watch`, `/china last`. `listener.py` / `lib/ui.py` changes in their own additive commits | A real `/china` from both phones answered with all three sites; tests green |
 | **P2 Keep logged in** | Logon script with the three tabs, 09:00 login check through the queue, both-chat 🔑 message, staleness line at listener startup | Logging out of one site produces the 🔑 message at the next check |
 | **P3 Photo search** | Photo + caption → Taobao and Pinduoduo image search (extension upload tool, found in P0) → the same answer | A photo of a real item finds it on both sites |
+| **Later: Mini App** | Full-screen Telegram Mini App for results: photos, sort, filters (owner wants it; not now). Opened from a `web_app` button on the result; reads the saved `last_<chat>.json`. Hosting and data access designed when it is scheduled | — |
 
 Each phase ends with a decision entry (088+), a doc update and a phone demo.
 
@@ -186,3 +214,5 @@ Each phase ends with a decision entry (088+), a doc update and a phone demo.
 3. **Karine's searches** run in your Chrome on the PC while you may be using it (tabs open
    in their own group and close at the end). OK?
 4. **Exchange to USD**: CBA AMD/USD rate (same source as AMD) — OK?
+5. **Rich test message** in P0: OK to send one test Rich Message from the bot to your chat
+   (and Karine's, to see it on her phone)?
