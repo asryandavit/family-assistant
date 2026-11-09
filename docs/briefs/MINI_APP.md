@@ -2,7 +2,7 @@
 
 Status: **direction approved by the owner 2026-11-09 ("go with C"): our own small app, React +
 Vite + Telegram UI + Telegram's official script, Python API on the PC. This brief covers step 0
-only.** Open questions in §10 need answers before the build starts. Direction and later screens:
+only. §10 answered 2026-11-10 — ready to build.** Direction and later screens:
 `docs/VISION.md` §4, `docs/ROADMAP.md`.
 
 ---
@@ -11,7 +11,7 @@ only.** Open questions in §10 need answers before the build starts. Direction a
 
 A working, secure, **empty** Mini App:
 
-- A **📱 App** button in Davit's and Karine's chats (the chat menu button) opens the app inside
+- A **🏠 Family** button in Davit's and Karine's chats (the chat menu button) opens the app inside
   Telegram.
 - The app knows who opened it: "Signed in as Davit · owner". It checks this on the server against
   Telegram's signature, not by trusting the phone.
@@ -37,7 +37,7 @@ buys nothing. We take the parts that are good:
 ## 3. Shape
 
 ```
-Telegram chat ── 📱 App (menu button) ──► https://<app-host>/            (public HTTPS)
+Telegram chat ── 🏠 Family (menu button) ──► https://<app-host>/            (public HTTPS)
                                                │  tunnel (§5), no open port on the PC
                                                ▼
                          PC: miniapp server on 127.0.0.1:<port>  (Python, own process)
@@ -66,18 +66,19 @@ Telegram chat ── 📱 App (menu button) ──► https://<app-host>/       
 | `miniapp/__init__.py`, `miniapp/server.py` | stdlib `ThreadingHTTPServer`: static files + JSON API; security headers; no request bodies in step 0 (GET only) |
 | `miniapp/auth.py` | initData check (§6): pure functions, no I/O |
 | `miniapp/people.py` | who may enter and with which role. Step 0 reads the two existing chat ids. This is the seed for Users and roles. |
-| `miniapp/setup_bot.py` | one-off: sets the 📱 App menu button for the allowed chats (`setChatMenuButton`), and clears it with `--remove` |
+| `miniapp/setup_bot.py` | one-off: sets the 🏠 Family menu button for the allowed chats (`setChatMenuButton`), and clears it with `--remove` |
 | `miniapp/web/` | React + Vite + TypeScript app. `package.json` and `package-lock.json` are committed with exact versions. `dist/` is gitignored and built on the PC. |
 | `config_miniapp.json` | port, public URL, max initData age, tab list |
-| `scheduler/register-miniapp.ps1` | builds the web app (`npm ci && npm run build`), registers the logon task |
+| `scheduler/register-miniapp.ps1` | builds the web app with the PC's Windows Node (`npm ci && npm run build`), registers the logon task |
 | `tests/test_miniapp_auth.py`, `tests/test_miniapp_server.py` | §8 |
 | `lib/telegram.py` (own commit, §7) | additive: `web_app` inline buttons |
 
 ## 5. Tunnel: public HTTPS without opening the PC
 
 Telegram needs an HTTPS URL that stays the same: the menu button stores it. Quick tunnels with
-random URLs that change on every restart don't qualify. There are two ways, and the owner picks one
-in §10 Q1:
+random URLs that change on every restart don't qualify. **Chosen: B, Tailscale Funnel** (owner,
+2026-11-10). Tailscale is installed and running on the PC; Funnel is not configured yet. The
+options as compared:
 
 | | A. Cloudflare Tunnel (named) | B. Tailscale Funnel |
 |---|---|---|
@@ -86,8 +87,17 @@ in §10 Q1:
 | Later | Cloudflare Access, a static "PC is off" page, moves to a server easily | simplest; ties the URL to this PC's name |
 | Recommendation | ✅ if you have or will buy a domain | ✅ otherwise |
 
-- Either one runs as a Windows service that `register-miniapp.ps1` checks but does not install. The
-  owner installs it once by following a step list in `docs/SECRETS.md`.
+- Tailscale already runs as a Windows service. Setup, once, by the owner, following a step list
+  in `docs/SECRETS.md`:
+  1. In the Tailscale admin console, enable HTTPS certificates and allow Funnel for this device
+     (the `funnel` node attribute in the tailnet policy).
+  2. Run `tailscale funnel --bg <port>`. This publishes `https://<pc-name>.<tailnet>.ts.net/` on
+     port 443 and forwards it to `127.0.0.1:<port>`.
+- `register-miniapp.ps1` checks `tailscale funnel status` and does not change it.
+- The public hostname is machine-specific. It lives in `machine.json` (`miniapp_public_url`), not
+  in Git.
+- Funnel hostnames show up in public certificate logs. That reveals the PC and tailnet name, not
+  any data. Every request is still checked as in §6.
 - The tunnel credentials are a secret. They go in SECRETS.md, never in Git.
 - Check the current terms of both services when building. This table reflects what we know, not a
   re-check made today.
@@ -166,11 +176,11 @@ here so step 1's "📱 Open" buttons under China answers aren't a mid-phase surp
     set;
   - the phone demo below works for Davit and Karine;
   - DECISIONS entry;
-  - docs updated: SECRETS.md (tunnel), TELEGRAM_UX.md (📱 App button), `ARCHITECHTURE.MD`
+  - docs updated: SECRETS.md (tunnel), TELEGRAM_UX.md (🏠 Family button), `ARCHITECHTURE.MD`
     (process and tunnel), ROADMAP, and VISION §4 (hosting line).
 
 **Phone demo:**
-1. Open the bot chat. **📱 App** sits beside the message field.
+1. Open the bot chat. **🏠 Family** sits beside the message field.
 2. Tap it. The app opens with "Signed in as Davit · owner" and the five tabs.
 3. Switch the phone to dark mode, and the app follows.
 4. Tap through the tabs and use the back button.
@@ -188,15 +198,16 @@ here so step 1's "📱 Open" buttons under China answers aren't a mid-phase surp
 - Payments, other households, a cloud backend.
 - Iframes of store pages (not possible usefully; VISION §4).
 
-## 10. Questions for the owner
+## 10. Owner answers (2026-11-10)
 
-1. **Tunnel:** do you have a domain, or will you buy one, for Cloudflare (A)? Or use Tailscale
-   Funnel, free with no domain (B)?
-2. **Node.js on the PC:** OK to install Node LTS to build the app? It is used only at build time;
-   the running server is Python.
-3. **Button label:** "📱 App", or another name (e.g. "🏠 Family")?
-4. **Who:** Davit = owner, Karine = adult in step 0 (both see everything, as agreed for `/china`).
-   Correct?
+1. **Tunnel:** Tailscale Funnel (B). Tailscale is installed and running; Funnel still needs the
+   one-time setup in §5.
+2. **Node.js:** the owner offered WSL. The PC already has **Windows Node 24** (via nvm4w), and WSL
+   Ubuntu also has Node 22/24 (nvm). **Windows Node is used.** It builds on the same filesystem
+   the server reads, with no `/mnt/d` slowdown and no Linux-only native packages in
+   `node_modules`. WSL stays a fallback. Either way Node is used at build time only.
+3. **Button label:** "🏠 Family".
+4. **Who:** Davit = owner, Karine = adult; both see everything.
 
 ## 11. Effort
 
