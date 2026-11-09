@@ -5,3 +5,11 @@ __pycache__/
 *.pyc
 .env
 *.log
+# machine-specific values (docs/SECRETS.md #10); machine.example.json is committed
+machine.json
+# Mini App: built on the PC, never committed (docs/briefs/MINI_APP.md §4)
+miniapp/web/node_modules/
+miniapp/web/dist/
+# local captures (the real initData holds a live signature)
+tmp/*
+!tmp/sqlite_probe.py

@@ -14,5 +14,10 @@
   "docs_mirror_dir": "G:\\My Drive\\family-assistant-docs",
   "_comment_docs": "The nightly job copies docs/*.md here so any chat session can read current state without a manual export.",
 
-  "timezone": "Asia/Yerevan"
+  "timezone": "Asia/Yerevan",
+
+  "miniapp_public_url": "https://<pc-name>.<tailnet>.ts.net/",
+  "_comment_miniapp": "Mini App (docs/briefs/MINI_APP.md): the Tailscale Funnel URL Telegram opens. Machine-specific and visible in public certificate logs, so it is kept out of Git. From: tailscale status --json -> Self.DNSName.",
+  "node_dir": "D:\\nvm4w\\nodejs",
+  "_comment_node": "Folder with node.exe and npm, used only to build miniapp/web when npm is not on PATH (scheduler/register-miniapp.ps1)."
 }

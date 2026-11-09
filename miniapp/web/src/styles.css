@@ -1,0 +1,32 @@
+html,
+body {
+  margin: 0;
+  font-family: var(--tgui--font-family, system-ui, -apple-system, sans-serif);
+  background: var(--tg-theme-secondary-bg-color, var(--tgui--secondary_bg_color));
+}
+
+.page {
+  min-height: 100vh;
+  /* room for the fixed tab bar */
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.icon {
+  font-size: 26px;
+  line-height: 28px;
+}
+
+.big {
+  font-size: 56px;
+  line-height: 1;
+}

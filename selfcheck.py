@@ -238,7 +238,8 @@ def check_tasks():
         line(WARN, "task scheduler", "not Windows, skipped")
         return
     for name, required in (("FamilyAssistant-Travel", True),
-                           ("FamilyAssistant-Listener", True)):
+                           ("FamilyAssistant-Listener", True),
+                           ("FamilyAssistant-MiniApp", False)):
         rc, out, _ = run(["schtasks", "/query", "/tn", name, "/fo", "LIST"])
         if rc == 0:
             status = ""
@@ -249,6 +250,53 @@ def check_tasks():
         else:
             line(BAD if required else WARN, name,
                  "not registered" + ("" if required else " (expected - not built yet)"))
+
+
+def check_miniapp(net=True):
+    """Mini App (docs/briefs/MINI_APP.md §8): server answering on localhost, public URL
+    reachable through Tailscale Funnel, menu button set in each person's chat."""
+    header("MINI APP")
+    import urllib.error
+    import urllib.request
+    try:
+        from miniapp import bot_token, load_config, public_url, setup_bot
+        mcfg = load_config()
+    except (ImportError, OSError, ValueError) as e:
+        line(BAD, "miniapp package / config_miniapp.json", f"{type(e).__name__}: {str(e)[:50]}")
+        return
+
+    def get(url):
+        try:
+            with urllib.request.urlopen(url, timeout=10) as r:
+                return r.status
+        except urllib.error.HTTPError as e:
+            return e.code
+        except (OSError, ValueError) as e:
+            return type(e).__name__
+
+    port = mcfg["port"]
+    local = f"http://127.0.0.1:{port}/"
+    page, api = get(local), get(local + "api/status")
+    up = (page, api) == (200, 401)
+    line(OK if up else WARN, f"server on 127.0.0.1:{port}",
+         "page 200, API asks for Telegram auth" if up else
+         f"page {page}, API {api} - start FamilyAssistant-MiniApp "
+         "(scheduler/register-miniapp.ps1)")
+    url = public_url()
+    if not url:
+        line(WARN, "machine.json miniapp_public_url", "not set (docs/SECRETS.md §5)")
+        return
+    if not net:
+        return
+    st = get(url)
+    line(OK if st == 200 else WARN, "public URL (Tailscale Funnel)",
+         "reachable" if st == 200 else f"{st} - see docs/SECRETS.md §5")
+    tok = bot_token()
+    if not tok:
+        return
+    for p, ok, detail in setup_bot.check_all(mcfg, tok, url):
+        line(OK if ok else WARN, f"menu button, {p.name}'s chat",
+             detail if ok else f"{detail} - run: python -m miniapp.setup_bot")
 
 
 def check_git():
@@ -295,6 +343,7 @@ def main():
     check_secrets(cfg)
     check_gitignore()
     check_tasks()
+    check_miniapp(net="--no-net" not in sys.argv)
     check_git()
     if "--no-net" not in sys.argv:
         check_sheets(cfg)

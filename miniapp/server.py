@@ -1,0 +1,279 @@
+"""Mini App server (docs/briefs/MINI_APP.md §3, §6): `python -m miniapp.server`.
+
+stdlib ThreadingHTTPServer on 127.0.0.1 only, GET only:
+    GET /            built web app (miniapp/web/dist), nothing outside that folder
+    GET /api/me      who you are: name, role, tabs
+    GET /api/status  server time in Yerevan, version
+Every /api request carries `Authorization: tma <initData>`, checked by miniapp.auth.
+
+Never logged: initData, hashes, tokens, full user ids. A log line is masked user id, path
+(no query string), status and duration. --capture-initdata saves the first valid initData
+from a known person to tmp/ (gitignored) for the local-only real-data test, then stops
+capturing.
+"""
+import argparse
+import json
+import logging
+import os
+import posixpath
+import sys
+import threading
+import time
+from collections import deque
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from logging.handlers import RotatingFileHandler
+from urllib.parse import unquote, urlsplit
+
+from lib.ui import now_local
+from miniapp import (
+    CAPTURE,
+    DIST,
+    LOG_DIR,
+    __version__,
+    auth,
+    bot_token,
+    load_config,
+    people,
+)
+
+log = logging.getLogger("miniapp")
+
+CSP = ("default-src 'self'; script-src 'self' https://telegram.org; "
+       "style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; "
+       "connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; "
+       "frame-ancestors https://web.telegram.org")
+COMMON_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": CSP,
+    "Strict-Transport-Security": "max-age=31536000",
+}
+TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
+         ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png",
+         ".ico": "image/x-icon", ".json": "application/json", ".woff2": "font/woff2",
+         ".webp": "image/webp", ".txt": "text/plain; charset=utf-8"}
+
+
+class RateLimiter:
+    """At most `limit` hits per key in any 60-second window."""
+
+    def __init__(self, limit, window=60.0):
+        self.limit, self.window = limit, window
+        self.hits = {}
+        self.lock = threading.Lock()
+
+    def allow(self, key, now):
+        with self.lock:
+            q = self.hits.setdefault(key, deque())
+            while q and now - q[0] >= self.window:
+                q.popleft()
+            if len(q) >= self.limit:
+                return False
+            q.append(now)
+            return True
+
+
+class App:
+    """Everything a request needs; built once, shared read-only by the handler threads."""
+
+    def __init__(self, cfg, token, persons, dist=DIST, clock=time.time, capture_path=None):
+        self.cfg = cfg
+        self.token = token
+        self.people = persons
+        self.dist = os.path.realpath(dist)
+        self.clock = clock
+        self.max_age_s = int(cfg.get("max_age_hours", 24)) * 3600
+        self.limiter = RateLimiter(int(cfg.get("rate_limit_per_min", 60)))
+        self.capture_path = capture_path
+        self.capture_lock = threading.Lock()
+
+    # ---- API
+    def api(self, path, auth_header):
+        """(status, body dict, masked user) for an /api path."""
+        try:
+            raw = auth.init_data_from_header(auth_header)
+            checked = auth.check(raw, self.token, int(self.clock()), self.max_age_s)
+        except auth.AuthError as e:
+            log.info("auth rejected: %s", e.reason)
+            if not self.limiter.allow("unauthenticated", self.clock()):
+                return 429, {"error": "slow down"}, "-"
+            return 401, {"error": "unauthorized"}, "-"
+        uid = checked["user"]["id"]
+        who = people.mask(uid)
+        if not self.limiter.allow(uid, self.clock()):
+            return 429, {"error": "slow down"}, who
+        person = people.lookup(self.people, uid)
+        if person is None:
+            return 403, {"error": "private"}, who
+        self._maybe_capture(raw)
+        if path == "/api/me":
+            return 200, {"name": person.name, "role": person.role,
+                         "tabs": list(self.cfg.get("tabs", []))}, who
+        if path == "/api/status":
+            now = now_local()
+            return 200, {"ok": True, "time_local": now.strftime("%Y-%m-%d %H:%M"),
+                         "tz": "Asia/Yerevan", "version": __version__}, who
+        return 404, {"error": "not found"}, who
+
+    def _maybe_capture(self, raw):
+        if not self.capture_path:
+            return
+        with self.capture_lock:
+            if self.capture_path and not os.path.exists(self.capture_path):
+                os.makedirs(os.path.dirname(self.capture_path), exist_ok=True)
+                with open(self.capture_path, "w", encoding="utf-8") as f:
+                    f.write(raw)
+                log.info("captured one initData to tmp/ (local test only); capture off")
+            self.capture_path = None
+
+    # ---- static files
+    def static_file(self, url_path):
+        """Absolute file path inside dist for a URL path, or None (-> 404)."""
+        p = unquote(url_path, errors="strict")
+        if "\x00" in p or "\\" in p:
+            return None
+        p = posixpath.normpath("/" + p.lstrip("/"))
+        if p == "/":
+            p = "/index.html"
+        parts = [s for s in p.split("/") if s]
+        if any(s in (".", "..") or ":" in s for s in parts):
+            return None
+        full = os.path.realpath(os.path.join(self.dist, *parts))
+        if os.path.commonpath([full, self.dist]) != self.dist or not os.path.isfile(full):
+            return None
+        return full
+
+
+class Handler(BaseHTTPRequestHandler):
+    server_version = "miniapp"
+    protocol_version = "HTTP/1.1"
+    timeout = 20
+
+    @property
+    def app(self):
+        return self.server.app
+
+    def version_string(self):        # no Python version in the Server header
+        return self.server_version
+
+    def log_message(self, fmt, *args):   # silence the default stderr access log
+        pass
+
+    def _send(self, status, body, ctype, extra=None):
+        self.send_response(status)
+        for k, v in COMMON_HEADERS.items():
+            self.send_header(k, v)
+        for k, v in (extra or {}).items():
+            self.send_header(k, v)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        if self.command != "HEAD":
+            self.wfile.write(body)
+
+    def _json(self, status, obj):
+        self._send(status, json.dumps(obj).encode(), "application/json",
+                   {"Cache-Control": "no-store"})
+
+    def do_GET(self):
+        t0 = time.monotonic()
+        who, status = "-", 500
+        try:
+            path = urlsplit(self.path).path
+            if path.startswith("/api/") or path == "/api":
+                status, body, who = self.app.api(path, self.headers.get("Authorization"))
+                self._json(status, body)
+            else:
+                try:
+                    full = self.app.static_file(path)
+                except UnicodeDecodeError:
+                    full = None
+                if full is None:
+                    status = 404
+                    self._send(404, b"Not found", "text/plain; charset=utf-8",
+                               {"Cache-Control": "no-store"})
+                else:
+                    status = 200
+                    with open(full, "rb") as f:
+                        data = f.read()
+                    ext = os.path.splitext(full)[1].lower()
+                    hashed = "/assets/" in full.replace("\\", "/")
+                    cache = ("public, max-age=31536000, immutable" if hashed else "no-cache")
+                    self._send(200, data, TYPES.get(ext, "application/octet-stream"),
+                               {"Cache-Control": cache})
+        except Exception as e:  # noqa: BLE001  any failure -> 500, never a trace to the page
+            log.error("error on %s: %s", urlsplit(self.path).path, type(e).__name__)
+            status = 500
+            try:
+                self._json(500, {"error": "server error"})
+            except OSError:
+                pass
+        finally:
+            log.info("%s %s %d %dms", who, urlsplit(self.path).path, status,
+                     (time.monotonic() - t0) * 1000)
+
+    def _not_allowed(self):
+        self.close_connection = True
+        self._send(405, b"Method not allowed", "text/plain; charset=utf-8",
+                   {"Allow": "GET", "Cache-Control": "no-store"})
+        log.info("- %s %s 405", self.command, urlsplit(self.path).path)
+
+    do_POST = do_PUT = do_DELETE = do_PATCH = do_OPTIONS = do_HEAD = _not_allowed
+
+
+class Server(ThreadingHTTPServer):
+    daemon_threads = True
+
+    def __init__(self, addr, app):
+        super().__init__(addr, Handler)
+        self.app = app
+
+
+def setup_logging():
+    os.makedirs(LOG_DIR, exist_ok=True)
+    h = RotatingFileHandler(os.path.join(LOG_DIR, "miniapp.log"), maxBytes=1_000_000,
+                            backupCount=3, encoding="utf-8")
+    h.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    log.addHandler(h)
+    if sys.stdout is not None:          # None under pythonw.exe (the scheduled task)
+        log.addHandler(logging.StreamHandler(sys.stdout))
+    log.setLevel(logging.INFO)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Mini App server (127.0.0.1 only)")
+    ap.add_argument("--capture-initdata", action="store_true",
+                    help="save the first valid initData to tmp/ for the local real-data test")
+    args = ap.parse_args(argv)
+    setup_logging()
+    cfg = load_config()
+    token = bot_token()
+    if not token:
+        log.error("bot token env var not set (docs/SECRETS.md #1); not starting")
+        return 2
+    persons = people.load(cfg)
+    if not persons:
+        log.error("no people configured (TELEGRAM_CHAT_ID unset?); not starting")
+        return 2
+    if not os.path.isfile(os.path.join(DIST, "index.html")):
+        log.warning("miniapp/web/dist is not built; the API works, the page will 404 "
+                    "(run scheduler/register-miniapp.ps1 or npm run build)")
+    app = App(cfg, token, persons, capture_path=CAPTURE if args.capture_initdata else None)
+    try:
+        srv = Server(("127.0.0.1", int(cfg["port"])), app)
+    except OSError as e:
+        log.error("cannot listen on 127.0.0.1:%s: %s", cfg["port"], e.strerror or e)
+        return 3
+    log.info("miniapp %s on http://127.0.0.1:%s (%d people)%s", __version__, cfg["port"],
+             len(persons), " — capturing one initData" if args.capture_initdata else "")
+    try:
+        srv.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        srv.server_close()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
