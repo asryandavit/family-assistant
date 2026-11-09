@@ -232,8 +232,12 @@ def _context(query, sites, rates, tariffs_date):
 
 
 def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category,
-          brand_guidance=None):
-    """(rich_html, plain_html, button_rows)."""
+          brand_guidance=None, search_query=None):
+    """(rich_html, plain_html, button_rows). query is the owner's words (the header);
+    search_query is the plan's short Chinese search words, used in the 'search it yourself'
+    links — the owner's words with the question answers made Taobao match 'it' to the i.t
+    clothing brand (phone demo 2026-11-09)."""
+    link_q = search_query or query
     shown = numbered(sites)
     num = {id(p): n for n, p in shown}
     ctx, foot = _context(query, sites, rates, tariffs_date)
@@ -243,7 +247,7 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
     R = ["<p><b>%s</b></p>" % title, "<p><i>%s</i></p>" % esc(ctx)]
     R.append("<p>%s</p>" % "<br>".join(pick_lines(pick, reason, num.get(id(pick), 0))))
     for s in sites:
-        st = site_status_line(s, query)
+        st = site_status_line(s, link_q)
         if st:
             R.append("<p>%s</p>" % st)
     if brand_guidance:
@@ -288,7 +292,7 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
     P = ["<b>%s</b>" % title, "<i>%s</i>" % esc(ctx), "━━━━━━━━━━━━"]
     P.extend(pick_lines(pick, reason, num.get(id(pick), 0)))
     for s in sites:
-        st = site_status_line(s, query)
+        st = site_status_line(s, link_q)
         if st:
             P.append(st)
     if brand_guidance:

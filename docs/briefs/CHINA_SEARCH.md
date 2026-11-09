@@ -349,7 +349,7 @@ What this means:
 | PDD + 1688, 17:56 | 1688 ok (5 offers, weights from the page); PDD stopped as "check": product pages hide prices → prompt fallback added. Found: 1688 "新人价CN¥3.90起" promo → promo rule added |
 | PDD, 18:03 | rejected: one prose field 202 > 200 chars → prose trimmed instead; JSON extraction hardened |
 | PDD, 18:06 | ok in 73 s, 14 turns, ~$0.41 list-equivalent: 5 results from listings, notice shown |
-| Phone demo, 23:14 (`/china GaN charger 65W EU plug`) | answer in 4 min from both sites + Taobao link. 🏆 went to a no-name 1688 "65W" charger at ¥23.85 over brand-authorised Ugreen → safer pick rule and "⚠️ suspiciously cheap" (decision 091). 1688 product pages refused JavaScript (2 of 5 read, from screenshots) → 1688 prompt reads them with `get_page_text` |
+| Phone demo, 23:14 (`/china GaN charger 65W EU plug`) | answer in 4 min from both sites + Taobao link. 🏆 went to a no-name 1688 "65W" charger at ¥23.85 over brand-authorised Ugreen → safer pick rule and "⚠️ suspiciously cheap" (decision 091). 1688 product pages refused JavaScript (2 of 5 read, from screenshots) → 1688 prompt reads them with `get_page_text`. The 🔗 Taobao link searched the whole English request with the question answers ("What will it charge…"), and Taobao matched "it" to the i.t clothing brand → links now use the plan's Chinese words (`氮化镓充电器 65W 欧规`) |
 | Taobao sign-in | owner tried QR login in `.browser/taobao`: Taobao then demands phone confirmation with a slider that fails in the bot's browser → `taobao_mode: link` |
 
 ### Demo from the phone (P1 done when this passes)

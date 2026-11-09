@@ -150,7 +150,8 @@ def run_search(job, cfg, root, tg, today, log=print, read=read_site, plan_fn=run
     rates = rates_get(root, today)
     sites_out, pick, reason, groups, category, guidance = assemble(answers, ccfg, routes, rates, today)
     rich, plain, btns = report.build(job["job"], full, sites_out, pick, reason, groups, rates,
-                                     tariffs_date, category if plan else "other", guidance)
+                                     tariffs_date, category if plan else "other", guidance,
+                                     search_query=plan.get("query_cn"))
     if not report.fits(rich):
         kind = "plain"
         tg.send_html(cfg, plain, silent=True, buttons=btns, chat_id=chat)

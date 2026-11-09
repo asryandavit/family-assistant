@@ -112,13 +112,15 @@ class Search(unittest.TestCase):
             return search.read_site(c, cc, site, d, q, log) if site == "taobao" else self.reader(c, cc, site, d, q)
         tg = TG()
         search.run_search({"job": "j1", "chat_id": "222", "description": "GaN 65W",
+                           "answers": ["What will it charge: Phone only"],
                            "sites": ["pinduoduo", "taobao"]}, {}, self.root, tg, date(2026, 11, 9),
                           log=lambda m: None, read=reader, plan_fn=self.plan(),
                           rates_get=lambda r, d: RATES)
         rich = tg.sent[-1][2]
         self.assertIn("Taobao is not read automatically", rich)
         self.assertIn("open this search on Taobao", rich)
-        self.assertIn("https://s.taobao.com/search?q=", rich)
+        self.assertIn("https://s.taobao.com/search?q=%E6%B0%AE", rich)   # 氮化镓…, the plan's words
+        self.assertNotIn("search?q=GaN", rich)
         self.assertEqual(len([1 for k, *_ in tg.sent if k == "html"]), 1)   # progress for PDD only
 
     def test_only_one_site(self):

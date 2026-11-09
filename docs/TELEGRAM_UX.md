@@ -240,7 +240,8 @@ Flow: a vague request gets 1–2 questions with buttons (`cn:q:…`, plus "➡�
 line per site ("⏳ Pinduoduo done (1/3)…"), and one answer as a Rich Message (plain HTML
 fallback): header, 🏆 best pick with its reason, sites that could not be read (🔑 logged
 out / 🚫 check page / ⚠️ not read, each with a search link; Taobao is always 🔗 a search
-link, decision 090), brand guidance, Poizon hint for
+link, decision 090; every search link uses the plan's short Chinese search words, never the
+owner's sentence), brand guidance, Poizon hint for
 clothes and shoes, restricted-goods warnings, one 4-column table per site (#, item, seller,
 total AMD; `*` = weight not listed; `⚠️` = suspiciously cheap, far below the search's median
 item price, never the 🏆 pick — decision 091; for electronics, beauty and kids the 🏆 pick is
