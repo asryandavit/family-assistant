@@ -91,9 +91,10 @@ def assemble(answers, ccfg, routes, rates, today):
         if a["status"] == "ok":
             cats.append(a.get("category") or "other")
             guidance = guidance or a.get("brand_guidance")
-    pick, reason = pricing.best_pick(all_ranked, ccfg.get("trusted_within_pct", 25))
-    groups = pricing.same_product(all_ranked)
     category = max(set(cats), key=cats.count) if cats else "other"
+    pricing.mark_suspicious(all_ranked, ccfg.get("suspicious_ratio", 0.25))
+    pick, reason = pricing.best_pick(all_ranked, ccfg.get("trusted_within_pct", 25), category)
+    groups = pricing.same_product(all_ranked)
     return sites, pick, reason, groups, category, guidance
 
 

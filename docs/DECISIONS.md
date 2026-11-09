@@ -723,3 +723,20 @@ bypassed, so Taobao is a search link in every answer (`taobao_mode: link`; the r
 list-price equivalent of Max quota (P0: ~$1.3). Docs: docs/briefs/CHINA_SEARCH.md §9,
 docs/TELEGRAM_UX.md §3/§5e, docs/ROADMAP.md.
 
+
+**091 — 2026-11-09 — /china: safer 🏆 pick for electronics, beauty and kids; suspiciously cheap listings never picked; 1688 product pages read with get_page_text.**
+The first phone demo (`/china GaN charger 65W EU plug`) picked a no-name 1688 "65W" charger at
+¥23.85 (1,888 AMD delivered) over brand-authorised Ugreen on Pinduoduo (~6,800 AMD), because the
+official/authorised preference only applied within 25% of the cheapest. The owner chose a safer
+rule: in `pricing.SAFETY_CATEGORIES` (electronics, beauty, kids) an official or authorised listing,
+when one exists, is always the pick whatever the price gap, and the reason says so. In every
+category a listing whose item price is below `suspicious_ratio` (0.25, `config_china.json`) of the
+search's median item price (promo prices left out of the median) is marked "⚠️ suspiciously cheap"
+in the table, its details and the plain fallback, and is never picked. The same run showed the
+Chrome extension refusing `javascript_tool` on `detail.1688.com` ("Permission denied for JavaScript
+execution on this domain"), so only 2 of 5 offers were read, from screenshots; `get_page_text`
+works on those pages (checked live: supplier, attributes, weight/size table, variant prices), so
+the 1688 prompt now reads each product page with one `get_page_text` call and never from
+screenshots. Not changed: the in-message buttons (owner: wait for the Mini App). Fixture:
+tests/fixtures/china/answer_1688_live.json. Docs: docs/briefs/CHINA_SEARCH.md §9,
+docs/TELEGRAM_UX.md §5e.

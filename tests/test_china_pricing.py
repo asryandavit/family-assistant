@@ -135,6 +135,53 @@ class Ranking(unittest.TestCase):
         self.assertEqual(pricing.best_pick([dict(self.p[0], total_amd=None)], 25), (None, ""))
 
 
+class SaferPick(unittest.TestCase):
+    """Live run 2026-11-09 (/china GaN charger 65W EU plug): a no-name 1688 "65W" charger at
+    ¥23.85 (1,888 AMD with shipping) was picked over brand-authorised Ugreen at ¥159."""
+
+    def setUp(self):
+        with open(os.path.join(F, "answer_1688_live.json"), encoding="utf-8") as f:
+            d = json.load(f)
+        d.pop("_source")
+        self.ali = [priced(r) for r in validate.answer(d, "1688")["results"]]
+        self.pdd = [priced(r) for r in results()]
+        self.all = self.pdd + self.ali
+
+    def test_live_case_picks_the_brand(self):
+        pricing.mark_suspicious(self.all, CFG["suspicious_ratio"])
+        pick, why = pricing.best_pick(self.all, 25, "electronics")
+        self.assertEqual(pick["seller"], parse.AUTHORISED)
+        self.assertEqual(pick["site"], "pinduoduo")
+        self.assertIn("never picks an unmarked seller", why)
+
+    def test_live_no_name_is_suspicious(self):
+        pricing.mark_suspicious(self.all, CFG["suspicious_ratio"])
+        cheap = next(p for p in self.ali if p["id"] == "1089369915475")       # ¥23.85
+        self.assertTrue(cheap["suspicious"])
+        self.assertFalse(any(p["suspicious"] for p in self.pdd))
+
+    def test_safety_rule_ignores_price_gap(self):
+        a = dict(self.pdd[0], total_amd=2000.0, seller=parse.UNMARKED, promo="", suspicious=False)
+        b = dict(self.pdd[1], total_amd=9000.0, seller=parse.OFFICIAL, promo="", suspicious=False)
+        self.assertIs(pricing.best_pick([a, b], 25, "electronics")[0], b)
+        self.assertIs(pricing.best_pick([a, b], 25, "kids")[0], b)
+        self.assertIs(pricing.best_pick([a, b], 25, "home")[0], a)          # price wins outside
+        self.assertIs(pricing.best_pick([a], 25, "electronics")[0], a)      # no brand -> cheapest
+
+    def test_suspicious_never_picked(self):
+        base = dict(self.pdd[1], seller=parse.UNMARKED, promo="")
+        xs = [dict(base, id=str(i), price_amd=v, total_amd=v + 1500) for i, v in
+              enumerate([1000.0, 8000.0, 8500.0, 9000.0])]
+        pricing.mark_suspicious(xs, 0.25)
+        self.assertEqual([x["suspicious"] for x in xs], [True, False, False, False])
+        self.assertEqual(pricing.best_pick(xs, 25, "home")[0]["price_amd"], 8000.0)
+
+    def test_suspicious_needs_three_prices(self):
+        xs = [dict(self.pdd[1], price_amd=v) for v in (100.0, 9000.0)]
+        pricing.mark_suspicious(xs, 0.25)
+        self.assertFalse(any(x["suspicious"] for x in xs))
+
+
 class SameProduct(unittest.TestCase):
     def test_groups_across_sites_only(self):
         a = {"site": "pinduoduo", "title_en": "UGREEN 65W GaN charger Nexode 3 ports"}

@@ -242,7 +242,9 @@ fallback): header, 🏆 best pick with its reason, sites that could not be read 
 out / 🚫 check page / ⚠️ not read, each with a search link; Taobao is always 🔗 a search
 link, decision 090), brand guidance, Poizon hint for
 clothes and shoes, restricted-goods warnings, one 4-column table per site (#, item, seller,
-total AMD; `*` = weight not listed) and a `<details>` per result (variant, ¥ → AMD · USD,
+total AMD; `*` = weight not listed; `⚠️` = suspiciously cheap, far below the search's median
+item price, never the 🏆 pick — decision 091; for electronics, beauty and kids the 🏆 pick is
+an official or authorised seller whenever one exists) and a `<details>` per result (variant, ¥ → AMD · USD,
 China delivery, `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, every forwarder ×
 mode with customs and total, seller class with its evidence, specs, 👍/👎 reviews, the fixed
 Chinese seller message, the product link built from its id). Buttons in the message:

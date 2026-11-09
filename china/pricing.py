@@ -11,6 +11,10 @@ Ranking: per site by the cheapest total (unpriced last), top N. Promo prices (ne
 first-item, 'from', ranges — parse.promo) are shown with their reason but never picked. The best pick is the
 cheapest total from an official / authorised seller when it is within trusted_within_pct of
 the overall cheapest, else the overall cheapest; the reason names which rule chose it.
+Safer pick (owner, 2026-11-09, after a $5 no-name "65W" charger beat brand-authorised Ugreen):
+in SAFETY_CATEGORIES an official / authorised listing, when one exists, always wins over
+unmarked ones whatever the price gap; and a listing priced below suspicious_ratio of the
+median item price of the search is marked suspicious and never picked.
 """
 import re
 
@@ -20,6 +24,7 @@ from market import pricing as mpricing
 from market import rates as rates_mod
 
 TRUSTED = (parse.OFFICIAL, parse.AUTHORISED)
+SAFETY_CATEGORIES = ("electronics", "beauty", "kids")   # fakes here are unsafe, not just poor
 FREE_WORDS = ("包邮", "免运费", "免邮", "free shipping", "free delivery", "运费0", "运费¥0")
 
 
@@ -102,21 +107,45 @@ def rank(priced, top_n):
     return (have + [p for p in priced if p["total_amd"] is None])[:top_n]
 
 
-def best_pick(priced, within_pct):
+def mark_suspicious(priced, ratio):
+    """Sets p["suspicious"] on listings whose item price (AMD) is below ratio x the median item
+    price of all priced listings. Promo prices (new-buyer, first-item, 'from') are not normal
+    prices and stay out of the median. Needs at least 3 prices for a meaningful median."""
+    prices = sorted(p["price_amd"] for p in priced
+                    if p.get("price_amd") is not None and not p.get("promo"))
+    for p in priced:
+        p["suspicious"] = False
+    if len(prices) < 3 or not ratio:
+        return priced
+    n = len(prices)
+    median = prices[n // 2] if n % 2 else (prices[n // 2 - 1] + prices[n // 2]) / 2.0
+    for p in priced:
+        if p.get("price_amd") is not None and p["price_amd"] < median * ratio:
+            p["suspicious"] = True
+    return priced
+
+
+def best_pick(priced, within_pct, category="other"):
     """(result, reason) or (None, '')."""
-    have = [p for p in priced if p["total_amd"] is not None and not p.get("promo")]
+    have = [p for p in priced if p["total_amd"] is not None and not p.get("promo")
+            and not p.get("suspicious")]
     if not have:
         return None, ""
     cheapest = min(have, key=lambda p: p["total_amd"])
     trusted = [p for p in have if p["seller"] in TRUSTED]
     if trusted:
         t = min(trusted, key=lambda p: p["total_amd"])
+        who = parse.LABEL[t["seller"]].split(" ", 1)[1]
         if t is cheapest:
-            return t, "cheapest total, and from %s" % parse.LABEL[t["seller"]].split(" ", 1)[1]
+            return t, "cheapest total, and from %s" % who
         if t["total_amd"] <= cheapest["total_amd"] * (1 + within_pct / 100.0):
             extra = t["total_amd"] - cheapest["total_amd"]
             return t, ("from %s, only %s AMD more than the cheapest (an unmarked or reseller listing)"
-                       % (parse.LABEL[t["seller"]].split(" ", 1)[1], "{:,.0f}".format(extra)))
+                       % (who, "{:,.0f}".format(extra)))
+        if category in SAFETY_CATEGORIES:
+            return t, ("from %s — for %s the bot never picks an unmarked seller over a brand "
+                       "one (fakes and false ratings are common); cheaper unmarked listings are "
+                       "below" % (who, category))
     return cheapest, "cheapest total; no official or authorised seller within %d%%" % within_pct
 
 

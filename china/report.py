@@ -75,6 +75,10 @@ def weight_line(p):
     return lines
 
 
+SUSPICIOUS = ("SUSPICIOUSLY CHEAP — far below the other listings; often a fake rating, a "
+              "different item or a missing part. Not used for the 🏆 pick.")
+
+
 def price_line(p):
     kind = {"after_coupon": "after coupon", "group": "group price (拼单)", "first_item":
             "first-item price", "tier": "price for the smallest quantity", "single": "single buy",
@@ -83,6 +87,8 @@ def price_line(p):
                                 amd(p["price_amd"]), usd(p["price_usd"]))
     if p.get("promo"):
         s += "<br>⚠️ %s — the normal price is higher; not used for the 🏆 pick" % esc(p["promo"])
+    if p.get("suspicious"):
+        s += "<br>⚠️ " + SUSPICIOUS
     if p["site"] == "pinduoduo" and not p.get("variant"):
         s += "<br>⚠️ Listing price — may be a cheaper variant than the one you want."
     if p["site"] == "pinduoduo" and p.get("single_price") is None:
@@ -253,10 +259,10 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
             continue
         rows = ["<tr><th>#</th><th>Item</th><th>Seller</th><th align=\"right\">Total AMD</th></tr>"]
         for p in ranked:
-            rows.append("<tr><td>%d</td><td>%s</td><td>%s</td><td align=\"right\">%s%s%s</td></tr>" % (
+            rows.append("<tr><td>%d</td><td>%s</td><td>%s</td><td align=\"right\">%s%s%s%s</td></tr>" % (
                 num[id(p)], esc(short(p["title_en"], 34)), parse.LABEL[p["seller"]].split(" ")[0],
                 amd(p["total_amd"]), "*" if p["weight_assumed"] and p["total_amd"] is not None else "",
-                " promo" if p.get("promo") else ""))
+                " promo" if p.get("promo") else "", " ⚠️" if p.get("suspicious") else ""))
         R.append('<table bordered striped compact><caption>%s %s</caption>%s</table>' % (
             SITE_ICON[s["site"]], SITE_NAME[s["site"]], "".join(rows)))
         for p in ranked:
@@ -264,6 +270,8 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
                 headline(p, num[id(p)]), "<br>".join(detail_lines(p, category))))
     if any(p["weight_assumed"] for _, p in shown):
         R.append("<p><i>* weight not listed: shipping estimated for 1 kg</i></p>")
+    if any(p.get("suspicious") for _, p in shown):
+        R.append("<p><i>⚠️ suspiciously cheap: far below the other listings, never the 🏆 pick</i></p>")
     if groups:
         g = ["<br>".join("%s: %s AMD (#%d)" % (SITE_NAME[p["site"]], amd(p["total_amd"]), num[id(p)])
                          for p in grp if id(p) in num) for grp in groups]
@@ -296,8 +304,9 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
         P.append("━━━━━━━━━━━━")
         P.append("%s <b>%s</b>" % (SITE_ICON[s["site"]], SITE_NAME[s["site"]]))
         for p in ranked:
-            P.append("%s — %s AMD%s" % (headline(p, num[id(p)]), amd(p["total_amd"]),
-                                        "*" if p["weight_assumed"] and p["total_amd"] is not None else ""))
+            P.append("%s — %s AMD%s%s" % (headline(p, num[id(p)]), amd(p["total_amd"]),
+                                          "*" if p["weight_assumed"] and p["total_amd"] is not None else "",
+                                          " ⚠️ suspiciously cheap" if p.get("suspicious") else ""))
             P.append("<blockquote expandable>%s</blockquote>" % "\n".join(
                 x.replace("<br>", "\n") for x in detail_lines(p, category)))
     P.append("━━━━━━━━━━━━")

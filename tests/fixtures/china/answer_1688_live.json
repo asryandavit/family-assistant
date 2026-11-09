@@ -1,0 +1,129 @@
+{
+ "_source": "live headless run 2026-11-09 23:16, /china GaN charger 65W EU plug, 1688 (product pages read from screenshots because JS was refused; reviewer names are masked on the page and not copied)",
+ "site": "1688",
+ "status": "ok",
+ "notice": "JavaScript was blocked on detail.1688.com pages, so product pages were read from screenshots only. Only 2 of the 5 intended listings were opened. Reviews and supplier details were only partly readable.",
+ "category": "electronics",
+ "brand_guidance": "Most 1688 65W GaN chargers are unbranded or white-label, so look for a real brand or official store, and for CE and 3C marks. The listings seen here are generic factory units. Check the real output (the attributes can contradict the title) and avoid names that imitate Anker, Baseus or Ugreen.",
+ "search_ids": [
+  "1089369915475",
+  "853538700886",
+  "1064189794158",
+  "1086180775096",
+  "888834978819",
+  "1063863791314",
+  "798735446115",
+  "959181549992",
+  "969093248071",
+  "1073138573713",
+  "1049818914328",
+  "978299814058",
+  "619422048696",
+  "706436031022",
+  "1088238351102",
+  "1083659343106",
+  "706005427051",
+  "791958258152",
+  "935467506361",
+  "657332381220",
+  "735154649167",
+  "1050336938520",
+  "908412904646",
+  "1052137989319"
+ ],
+ "results": [
+  {
+   "id": "1089369915475",
+   "title_cn": "跨境65W氮化镓欧规充电器A+C双口快充适用苹果华为手机全兼容充电",
+   "title_en": "Cross-border 65W GaN EU-plug charger, A+C dual-port fast charge, for Apple/Huawei phones",
+   "shop_name": "深圳市迎星电子科技有限公司",
+   "marks": [
+    "Free Return Shipping",
+    "晚发即赔",
+    "7-Day No-Reason Return",
+    "48-Hour Shipping"
+   ],
+   "badges": [
+    "源头旗舰",
+    "四星供应链",
+    "入驻5年",
+    "天天特卖"
+   ],
+   "variant": "65W欧规充电器【单口】白色",
+   "price_text": "¥23.85",
+   "price_kind": "unknown",
+   "list_price_text": null,
+   "single_price_text": null,
+   "domestic_delivery_text": "包邮",
+   "weight_text": "118g",
+   "dims_text": "9.20x5.60x3.50",
+   "sales_text": null,
+   "review_count_text": "5.0 ((0) reviews)",
+   "min_order_text": "2件起批",
+   "specs": {
+    "品牌": "YX",
+    "输出功率": "65W",
+    "插头标准": "欧标",
+    "充电协议": "PD3.0",
+    "接口类型": "多口a+c",
+    "是否原装": "否",
+    "产品认证": "CE认证",
+    "跨境证书": "ROHS HRL2601210061701"
+   },
+   "material": null,
+   "size_advice": null,
+   "liked": [
+    "Reviewer says quality is better than expected",
+    "Fast dispatch and helpful shop"
+   ],
+   "complaints": [],
+   "reviews_read": true,
+   "likely_over_1kg": false,
+   "over_1kg_reason": null,
+   "restrict": [],
+   "why": "Specific 65W EU-plug (欧标) GaN charger from a 4-star supplier with a CE cert. The headline price (券后 CN¥3.60 起, range CN¥3.60~26.55) covers cheaper options such as cables. ¥23.85 is the 不配包装 (no retail box) price for the matching 65W variant, and 盒装 is ¥24.3. The title says A+C dual-port but the selected variant is single-port, so check the port count. Brand YX is unknown and 是否原装 is 否. Only one review was visible, and the review count is 0."
+  },
+  {
+   "id": "853538700886",
+   "title_cn": "欧规65W氮化镓充电器A C口CE认证手机平板电脑快充头GaN适配器",
+   "title_en": "European standard 65W GaN charger, A+C ports, CE certified, for phone/tablet/laptop",
+   "shop_name": null,
+   "marks": [
+    "Free Return Shipping",
+    "晚发即赔",
+    "48-Hour Shipping",
+    "Four times compensation for fakes"
+   ],
+   "badges": [
+    "超级工厂"
+   ],
+   "variant": "Feb-401ac 65w european standard, White1",
+   "price_text": "$8.51",
+   "price_kind": "tier",
+   "list_price_text": null,
+   "single_price_text": null,
+   "domestic_delivery_text": null,
+   "weight_text": "116g",
+   "dims_text": null,
+   "sales_text": null,
+   "review_count_text": null,
+   "min_order_text": "20个起批",
+   "specs": {
+    "Applicable models": "Feb-401ac 65w european standard",
+    "Is it a digital display?": "No",
+    "Output power current total power": "65W1",
+    "Maximum output power": "65W2",
+    "Charger applicable form": "Other"
+   },
+   "material": null,
+   "size_advice": null,
+   "liked": [],
+   "complaints": [],
+   "reviews_read": false,
+   "likely_over_1kg": false,
+   "over_1kg_reason": null,
+   "restrict": [],
+   "why": "EU-standard 65W A+C GaN charger from a 超级工厂 (Super Factory) supplier. The supplier name was not confirmed on the page; a factory video caption suggested Shenzhen Fuerbo Technology. Price shows 券后 $8.40, with tiers of $8.51 for 20+ pieces, $8.36 for 5000-19999 and $8.21 for 20000+. Shipping to Yerevan is shown as $1.21 起, which is not China delivery. The attribute table has odd values (\"65W1\", \"65W2\") and no brand or plug-standard row was visible, so confirm the plug and the real output. The listing is unbranded and I did not read its reviews."
+  }
+ ]
+}

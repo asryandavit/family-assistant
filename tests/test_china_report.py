@@ -60,6 +60,17 @@ class Rich(unittest.TestCase):
         self.assertIn("&lt;script&gt;", self.rich)             # model/page text escaped
         self.assertIn("https://s.taobao.com/search?q=GaN", self.rich)
 
+    def test_suspicious_shown_in_table_details_and_plain(self):
+        self.assertNotIn("SUSPICIOUSLY CHEAP", self.rich)
+        self.ranked[1]["suspicious"] = True
+        rich, plain, _ = report.build("j1", "GaN", [{"site": "pinduoduo", "status": "ok",
+                                                      "ranked": self.ranked}],
+                                      self.ranked[0], "x", [], RATES, "2026-10-29", "electronics")
+        self.assertIn("SUSPICIOUSLY CHEAP", rich)
+        self.assertIn("⚠️ suspiciously cheap: far below the other listings", rich)
+        self.assertIn("⚠️ suspiciously cheap", plain)
+        self.assertTrue(report.fits(rich))
+
     def test_pdd_group_price_note(self):
         self.assertIn("single-buy price is only in the PDD app", self.rich)
 

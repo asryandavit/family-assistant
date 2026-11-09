@@ -335,7 +335,7 @@ What this means:
 |---|---|---|
 | Parsers (prices, counts, weights, mm/cm, seller class, promo, restrictions, links from ids) | `china/parse.py` | `tests/test_china_parse.py` on the P0 captures |
 | Answer contract, whole-answer rejection, prose trimming, JSON extraction | `china/validate.py` | `tests/test_china_validate.py` |
-| Money: ¥/$ → AMD/USD, China delivery, forwarder × mode, customs, 1 kg rule, ranking, 🏆 pick, same product, parcel customs | `china/pricing.py`, `config_china.json` | `tests/test_china_pricing.py` (hand-checked totals on `market/tariffs.json` and a fixed CBA rate set) |
+| Money: ¥/$ → AMD/USD, China delivery, forwarder × mode, customs, 1 kg rule, ranking, 🏆 pick (brand first for electronics/beauty/kids, suspiciously cheap never picked — decision 091), same product, parcel customs | `china/pricing.py`, `config_china.json` | `tests/test_china_pricing.py` (hand-checked totals on `market/tariffs.json` and a fixed CBA rate set) |
 | Rich answer + plain fallback, buttons | `china/report.py`, `lib/telegram.send_rich` | `tests/test_china_report.py`, `tests/test_telegram_rich.py` |
 | `claude -p` calls (plan, site, Taobao text, reviews), repair re-ask | `china/runner.py`, `prompts/china_*.md` | `tests/test_china_search.py` (Repair) |
 | Queue + worker | `china/queue.py`, `china/search.py`, `jobs/china_search.py` | `tests/test_china_queue.py`, `tests/test_china_search.py` |
@@ -349,6 +349,7 @@ What this means:
 | PDD + 1688, 17:56 | 1688 ok (5 offers, weights from the page); PDD stopped as "check": product pages hide prices → prompt fallback added. Found: 1688 "新人价CN¥3.90起" promo → promo rule added |
 | PDD, 18:03 | rejected: one prose field 202 > 200 chars → prose trimmed instead; JSON extraction hardened |
 | PDD, 18:06 | ok in 73 s, 14 turns, ~$0.41 list-equivalent: 5 results from listings, notice shown |
+| Phone demo, 23:14 (`/china GaN charger 65W EU plug`) | answer in 4 min from both sites + Taobao link. 🏆 went to a no-name 1688 "65W" charger at ¥23.85 over brand-authorised Ugreen → safer pick rule and "⚠️ suspiciously cheap" (decision 091). 1688 product pages refused JavaScript (2 of 5 read, from screenshots) → 1688 prompt reads them with `get_page_text` |
 | Taobao sign-in | owner tried QR login in `.browser/taobao`: Taobao then demands phone confirmation with a slider that fails in the bot's browser → `taobao_mode: link` |
 
 ### Demo from the phone (P1 done when this passes)

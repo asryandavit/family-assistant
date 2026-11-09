@@ -5,8 +5,12 @@ SITE: 1688 (the account sees the international English/USD version).
    const as=[...document.querySelectorAll('a')].filter(a=>/detail\.1688\.com\/offer\/(\d+)/.test(a.href)); const m={}; for(const a of as){const id=a.href.match(/offer\/(\d+)/)[1]; const tx=a.innerText.replace(/\n+/g,'|'); if(!m[id]||tx.length>m[id].length) m[id]=tx;} window.__a=Object.entries(m); window.__a.length
    then read them in chunks: JSON.stringify(window.__a.slice(0,8).map(([i,t])=>[i,t.slice(0,110)]))
    (repeat with slice(8,16), slice(16,24)). Cards show only an English title and a price.
-2. For each chosen id: navigate to https://detail.1688.com/offer/<id>.html and read with
-   javascript_tool in chunks: document.body.innerText.slice(0,950), slice(950,1900), ...
+2. For each chosen id: navigate to https://detail.1688.com/offer/<id>.html and read it with
+   ONE get_page_text call (the whole page as text). Do NOT use javascript_tool on
+   detail.1688.com — the browser refuses it there ("Permission denied for JavaScript
+   execution on this domain", live run 2026-11-09); get_page_text works. If get_page_text
+   says the page navigated to a different domain, call tabs_context_mcp once and retry it.
+   Never fall back to reading screenshots. Open up to 5 product pages.
    Look for: supplier company name and years (入驻N年), supplier tier (e.g. 四星供应链), badges
    ("Factory direct supply", 源头工厂, 实力商家), attributes (插头标准 plug standard, 是否原装,
    品牌, 输出功率), variants ("Applicable model"), price tiers by quantity, minimum order, and
