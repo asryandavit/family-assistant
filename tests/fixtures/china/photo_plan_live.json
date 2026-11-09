@@ -1,0 +1,8 @@
+{
+ "subtype": "success",
+ "result": "{\"is_product\": true, \"query_cn\": \"绿联 65W氮化镓充电器 旅行套装\", \"query_en\": \"UGREEN 65W GaN travel charger with 4 plug adapters\", \"category\": \"electronics\", \"brand_seen\": \"UGREEN (绿联)\", \"seen\": \"UGREEN 65W GaN wall charger with USB-A and two USB-C ports, sold with 4 interchangeable plugs (CN/US/UK/EU)\"}",
+ "num_turns": 1,
+ "duration_ms": 9883,
+ "total_cost_usd": 1.18402,
+ "_captured": "2026-11-10 claude -p --tools \"\" --input-format stream-json (base64 jpeg of a Ugreen 65W listing image), sonnet, 14.2 s"
+}

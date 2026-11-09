@@ -1,0 +1,24 @@
+{
+  "_captured": "2026-11-10, owner's Chrome via the extension (interactive), test photo = a Ugreen 65W GaN listing image from Pinduoduo (800x800 JPEG)",
+  "_flow": "s.1688.com search page -> click 'Image Search' (next to Search) -> input[type=file].image-file-reader-wrapper appears (accept .jpg,.jpeg,.png,.bmp,.webp) -> file_upload(path) -> preview with a 'Search for' button -> click -> air.1688.com/kapp/1688-search/pc-image-search/?tab=imageSearch&imageId=<n>&imageIdList=<n>",
+  "_cards": "results are div[class*=searchOfferWrapper] (60 on the first screen), NOT links; the offer id is the trailing number of data-renderkey ('1_0_normal_b2b-221772435708258703_1091161500776'). detail.1688.com/offer/764855582659.html opened the same product (title checked). Card text (international English/USD form): English title | ¥price | ≈$ | promo | Repurchase Rate N% | rating | sales or 'Hot selling'. No supplier, no factory marks on cards (same as text search, P0 finding 4).",
+  "_page_text_top": "Image Search · Supports comparison shopping via image · Selected subject · Upload Image (1/6) · Found the following sources for you · Comprehensive | Sales volume | Price",
+  "_matches": "visually similar, not exact: Pisen/Pinsheng GaN chargers mostly; off-target items too (a Switch dock, a Bluetooth receiver, power banks) -> the model must choose only real matches",
+  "renderkey_example": "1_0_normal_b2b-221772435708258703_1091161500776",
+  "cards": [
+    ["1091161500776", "Hai Beisi portable charging dock, compatible with Switch 2, features gallium nitride technology for extended display and allows you to connect your Switch to a TV for gam"],
+    ["1034678498074", "[3C Certification] Pinsheng 160W Gallium Nitride Charger Pd Fast Charging Head Is Suitable for iPhone 17, Apple 16, Huawei|¥132.0|≈$20.30|3 yuan off for first order|Repurchase Rate 39%|5|Hot selling"],
+    ["764855582659", "Pinsheng 65W Gallium Nitride Charger with Multiple Ports Suitable for Apple 15Promax Fast Charging Head Gan Laptop Ma|¥49.00|≈$7.53|Get sample fee back when placing an order|Repurchase Rate 39%|5|Hot selling"],
+    ["1056522840057", "Biaz Aux Bluetooth Receiver 5.4 to Audio Converter for Old-Fashioned Speakers, Dedicated Amplifier Modification for Playback|¥39.90|≈$6.14|Get sample fee back when placing an order|Repurchase Rate 40%|100+ sold"],
+    ["981969604056", "65W Mobile Phone Charger Fast Charging Fully Compatible with Gallium Nitride Notebook Ov All-Brand Mobile Phone Fast Charging Charging Head|¥30.90|≈$4.75|Get sample fee b"],
+    ["1035615629135", "Pinsheng 160W Gallium Nitride Charger Pd Fast Charging Head Suitable for Iphone17 MacBook Lapto"],
+    ["1001366634964", "Pinsheng 140W Gallium Nitride Charger Head Pd Fast Charging Head Suitable for MacBook Laptop Mu"],
+    ["937323500687", "Pinsheng Is Suitable for Apple Android USB Fast Charging Head 22.5W Multi-Port Pd30W Charger Pl"],
+    ["1046629494919", "Shunwangshun PD45W gallium nitride super-fast charging adapter, 3C certified, compatible with 8"],
+    ["1058835664173", "[Preferred for iPhone 18] Pisen Gan New 45W Charger Cable Suitable for Apple 17 Pro Max 18P|¥35"],
+    ["1016179664576", "Remax New Model Comes with a Built-In Cable Power Bank with Plug, 10000 Mah Fast Charging Power"],
+    ["1015832805452", "Remax3C Certified Ac Wall Plug Fast Charger with Built-In Cable, Portable Power Bank That Can B"],
+    ["903429312191", "Cross-Border Exclusive Supply of 200W Gallium Nitride Charging Device, 20V5A High-Power Desktop"]
+  ],
+  "pinduoduo_web": "mobile.yangkeduo.com has no image search: no file input on search_view.html / search_result.html; its JS bundle shows only a modal '需前往拼多多APP 使用拍照搜同款' (go to the PDD app to search by photo). App-only."
+}

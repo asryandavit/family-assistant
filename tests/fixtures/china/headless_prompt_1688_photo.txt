@@ -1,0 +1,10 @@
+You are a READ-ONLY reader in the owner's Chrome. Never log in, never type, never buy, never message anyone, never solve a CAPTCHA/slider; if you see a login or check page STOP and answer {"status":"check","notice":"<text>"}.
+SETUP: call list_connected_browsers, then select_browser with the deviceId of the browser whose osPlatform is Windows. Call tabs_context_mcp with createIfEmpty true and use that tab.
+1. navigate to https://s.1688.com/selloffer/offer_search.htm?charset=utf8&keywords=charger
+2. Click the "Image Search" button next to the Search button (take ONE screenshot to find it). A file input appears.
+3. Use find with query "image file input" to get its ref, then file_upload with paths ["D:\Claude\family-assistant\.browser\china_data\photos\probe_ugreen.jpg"].
+4. Wait 3 s. A preview with a "Search for" button appears; click it (screenshot to find it). Wait 4 s.
+5. javascript_tool: location.host+location.pathname
+6. javascript_tool: window.__c=[...document.querySelectorAll('[class*=searchOfferWrapper]')].map(d=>[(d.getAttribute('data-renderkey')||'').split('_').pop(), d.innerText.replace(/\n+/g,'|')]); JSON.stringify([window.__c.length, window.__c.slice(0,6).map(([i,t])=>[i,t.slice(0,100)])])
+7. Close your tab (tabs_close_mcp).
+Answer ONE JSON object only: {"status":"ok|check|error","upload":"worked|failed: <why>","host_path":"...","n_cards":0,"first":[["id","text"]]}

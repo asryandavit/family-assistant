@@ -23,6 +23,13 @@ CHROME_TOOLS = ",".join("mcp__claude-in-chrome__" + t for t in (
 DENIED = ",".join(["Bash", "Edit", "Write", "WebFetch", "WebSearch",
                    "mcp__claude-in-chrome__form_input", "mcp__claude-in-chrome__file_upload",
                    "mcp__claude-in-chrome__upload_image"])
+# Photo search on 1688 (decision 095) adds ONLY file_upload (a local file into the page's
+# image-search input). upload_image (screenshots) and form_input stay denied.
+UPLOAD = "mcp__claude-in-chrome__file_upload"
+CHROME_TOOLS_PHOTO = CHROME_TOOLS + "," + UPLOAD
+DENIED_PHOTO = ",".join(t for t in DENIED.split(",") if t != UPLOAD)
+MEDIA = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "webp": "image/webp",
+         "bmp": "image/bmp"}
 
 
 def _env():
@@ -39,14 +46,18 @@ def _prompt(name, **kw):
     return text
 
 
-def call(cfg, prompt, chrome=False, model=None, timeout=600, resume=None, run=subprocess.run):
-    """The CLI's JSON wrapper: {"result", "session_id", "usage", "duration_ms", ...}."""
+def call(cfg, prompt, chrome=False, model=None, timeout=600, resume=None, run=subprocess.run,
+         upload=False):
+    """The CLI's JSON wrapper: {"result", "session_id", "usage", "duration_ms", ...}.
+    upload=True (photo search only) adds file_upload to the Chrome allow-list."""
     cmd = [cfg.get("claude_cmd", "claude"), "-p", "--output-format", "json"]
     if model:
         cmd += ["--model", model]
     if resume:
         cmd += ["--resume", resume]
-    if chrome:
+    if chrome and upload:
+        cmd += ["--chrome", "--allowedTools", CHROME_TOOLS_PHOTO, "--disallowedTools", DENIED_PHOTO]
+    elif chrome:
         cmd += ["--chrome", "--allowedTools", CHROME_TOOLS, "--disallowedTools", DENIED]
     else:
         cmd += ["--disallowedTools", DENIED + "," + CHROME_TOOLS]
@@ -117,6 +128,88 @@ def plan(cfg, ccfg, description, run=subprocess.run):
              timeout=120, run=run)
     p, w = _validated(cfg, w, validate.plan, ccfg.get("claude_model"), 120, run)
     return p, usage(w)
+
+
+def call_image(cfg, image_path, text, model=None, timeout=180, run=subprocess.run):
+    """One `claude -p` turn that SEES a photo: the image goes in as a base64 block on stdin
+    (--input-format stream-json; nothing on the command line), with every tool off
+    (--tools ""). Returns a wrapper shaped like call()'s (result, session_id, usage...)."""
+    import base64
+    ext = os.path.splitext(image_path)[1].lstrip(".").lower()
+    with open(image_path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    msg = {"type": "user", "message": {"role": "user", "content": [
+        {"type": "image", "source": {"type": "base64", "media_type": MEDIA.get(ext, "image/jpeg"),
+                                     "data": b64}},
+        {"type": "text", "text": text}]}}
+    cmd = [cfg.get("claude_cmd", "claude"), "-p", "--tools", "", "--input-format", "stream-json",
+           "--output-format", "stream-json", "--verbose"]
+    if model:
+        cmd += ["--model", model]
+    p = run(cmd, input=json.dumps(msg) + "\n", capture_output=True, text=True, encoding="utf-8",
+            timeout=timeout, env=_env())
+    if p.returncode != 0:
+        raise RuntimeError(f"claude failed: {(p.stderr or '')[:300]}")
+    w = stream_result(p.stdout)
+    if run is subprocess.run:
+        keep_raw(w)
+    return w
+
+
+def stream_result(stdout):
+    """The final {"type": "result"} event of a stream-json run, or RuntimeError."""
+    res = None
+    for line in (stdout or "").splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            ev = json.loads(line)
+        except ValueError:
+            continue
+        if ev.get("type") == "result":
+            res = ev
+    if not res:
+        raise RuntimeError("claude gave no result")
+    if res.get("is_error"):
+        raise RuntimeError(f"claude error: {str(res.get('result'))[:200]}")
+    return res
+
+
+def photo_plan(cfg, ccfg, image_path, note, run=subprocess.run):
+    """Photo (+ the caption's note) -> validated photo plan (validate.photo_plan) + usage."""
+    w = call_image(cfg, image_path, _prompt("china_photo_plan.md", note=note or "(none)"),
+                   model=ccfg.get("claude_model"), timeout=180, run=run)
+    p, w = _validated(cfg, w, validate.photo_plan, ccfg.get("claude_model"), 180, run)
+    return p, usage(w)
+
+
+def photo_body(query_url, reviews, image_path):
+    """The 1688 photo-search steps: upload the photo, read the result cards, then the same
+    product-page and review steps as the text search (china_1688.md from step 2)."""
+    text = _prompt("china_1688.md", query_url=query_url, reviews=reviews)
+    i = text.find("\n2. ")
+    if i < 0:
+        raise ValueError("china_1688.md lost its step 2")
+    return _prompt("china_1688_photo.md", image_path=image_path) + "\n" + text[i + 1:]
+
+
+def site_photo(cfg, ccfg, description, query_cn, image_path, run=subprocess.run):
+    """1688 image search (以图搜货) with the photo -> the same validated answer as site()."""
+    rules = _prompt("china_rules.md", site="1688", top=ccfg.get("top_per_site", 5),
+                    reviews=ccfg.get("reviews_top", 3), description=description, query_cn=query_cn)
+    body = photo_body(quote(query_cn), ccfg.get("reviews_top", 3), os.path.abspath(image_path))
+    timeout = ccfg.get("site_timeout_s", 480)
+    try:
+        w = call(cfg, rules + "\n\n" + body, chrome=True, model=ccfg.get("claude_model"),
+                 timeout=timeout, run=run, upload=True)
+        a, w = _validated(cfg, w, lambda o: validate.answer(o, "1688"), ccfg.get("claude_model"),
+                          timeout, run)
+        return a, usage(w)
+    except subprocess.TimeoutExpired:
+        return error("1688", f"took longer than {timeout} s"), {}
+    except (ValueError, RuntimeError, json.JSONDecodeError) as e:
+        return error("1688", str(e)[:200]), {}
 
 
 def site(cfg, ccfg, site_key, description, query_cn, run=subprocess.run):

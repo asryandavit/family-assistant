@@ -11,9 +11,9 @@ others still answer; the message is sent before anything is saved.
 import json
 import os
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
-from china import data_dir, pricing, report, runner, taobao, validate
+from china import data_dir, photo, pricing, report, runner, taobao, validate
 from market import rates as rates_mod
 
 SITES = ("pinduoduo", "taobao", "1688")
@@ -166,6 +166,121 @@ def run_search(job, cfg, root, tg, today, log=print, read=read_site, plan_fn=run
                            "buttons": btns, "usage": usage,
                            "sent_utc": datetime.now(timezone.utc).isoformat(timespec="seconds")})
     return kind
+
+
+# ------------------------------------------------------------------ photo search
+
+PDD_PHOTO_NOTE = ("searched by the words read from your photo — Pinduoduo searches by photo "
+                  "only in its app")
+TAOBAO_PHOTO_TIP = "📷 in the Taobao app, tap the camera in the search bar to search by this photo"
+
+
+def bot_token(cfg):
+    return os.environ.get(cfg["telegram"]["bot_token_env"], "")
+
+
+def _photo_path(job, cfg, root, download, log):
+    """A kept photo (🔁 on a photo answer) or a fresh download for this job."""
+    if job.get("photo_of"):
+        p = photo.find(root, job["photo_of"])
+        if p:
+            return p, False
+        raise ValueError("the photo was already deleted")
+    dest = photo.path_for(root, job["job"], job.get("ext") or "jpg")
+    download(bot_token(cfg), job["file_id"], dest)
+    log(f"photo {job['job']} downloaded ({os.path.getsize(dest) // 1024} KB)")
+    return dest, True
+
+
+def run_photo(job, cfg, root, tg, today, log=print, plan_fn=runner.photo_plan, read=None,
+              read_photo=runner.site_photo, rates_get=rates_mod.get, download=photo.download):
+    """Photo search: photo -> plan (what it is, Chinese words) -> 1688 by photo, Pinduoduo by
+    the words (its photo search is app-only), Taobao a link + app tip -> the same answer as
+    a text search. The photo is deleted when the answer is out, unless photo_keep_minutes."""
+    read = read or read_site
+    ccfg = load_cfg(root)
+    chat = job["chat_id"]
+    note = job.get("note") or ""
+    keep = ccfg.get("photo_keep_minutes", 0)
+    path, mine = None, False
+    try:
+        try:
+            path, mine = _photo_path(job, cfg, root, download, log)
+        except ValueError as e:
+            log(f"photo {job['job']}: {e}")
+            why = report.esc(str(e)[:80])
+            tg.send_html(cfg, f"⚠️ China photo search: I could not get the photo ({why}). Send it "
+                              "again.", silent=True, chat_id=chat)
+            return "photo_failed"
+        plan = job.get("plan")
+        if not plan:
+            try:
+                plan, _ = plan_fn(cfg, ccfg, path, note)
+            except Exception as e:  # noqa: BLE001 — any failure is told to the asker, never silent
+                log(f"photo plan failed: {e}")
+                why = report.esc(str(e)[:80])
+                tg.send_html(cfg, f"⚠️ China photo search: I could not read the photo this time "
+                                  f"({why}). Try again, or add a caption like "
+                                  "<code>/china red, size 42</code>.", silent=True, chat_id=chat)
+                return "plan_failed"
+            if not plan.get("is_product"):
+                seen = f" ({report.esc(plan['seen'])})" if plan.get("seen") else ""
+                tg.send_html(cfg, f"🤔 I don't see something to buy in this photo{seen}. Send a "
+                                  "photo of the item itself (or its box or label).",
+                             silent=True, chat_id=chat)
+                return "not_product"
+        sites = [x for x in (job.get("sites") or ccfg.get("sites") or SITES) if x in SITES]
+        full = plan["query_en"] + ("; " + note if note else "")
+        answers, usage = [], {}
+        for i, s in enumerate(sites, start=1):
+            try:
+                if s == "1688":
+                    a, u = read_photo(cfg, ccfg, full, plan["query_cn"], path)
+                    if a["status"] == "error":       # photo search broke: search by its words
+                        why = (a.get("notice") or "error")[:60]
+                        log(f"1688 photo search failed ({why}); searching by words")
+                        a, u = read(cfg, ccfg, s, full, plan["query_cn"], log=log)
+                        a = dict(a, notice=f"photo search failed ({why}) — searched by the words "
+                                           "from your photo")
+                elif s == "pinduoduo":
+                    a, u = read(cfg, ccfg, s, full, plan["query_cn"], log=log)
+                    if a["status"] == "ok":
+                        a = dict(a, notice=PDD_PHOTO_NOTE + (" · " + a["notice"] if a.get("notice") else ""))
+                else:
+                    a, u = read(cfg, ccfg, s, full, plan["query_cn"], log=log)
+                    if a["status"] == "link":
+                        a = dict(a, notice=TAOBAO_PHOTO_TIP)
+            except Exception as e:  # noqa: BLE001 — a site never takes the others down
+                a, u = runner.error(s, str(e)[:160]), {}
+            answers.append(a)
+            usage[s] = u
+            log(f"{s}: {a['status']} {u}")
+            if a["status"] != "link":
+                tg.send_html(cfg, report.progress(s, i, len(sites), a["status"]), silent=True, chat_id=chat)
+        routes, tariffs_date = load_routes(root)
+        rates = rates_get(root, today)
+        sites_out, pick, reason, groups, category, guidance = assemble(answers, ccfg, routes, rates, today)
+        seen = f"📷 {plan.get('seen') or plan['query_en']} · searched as {plan['query_cn']}"
+        rich, plain, btns = report.build(job["job"], full, sites_out, pick, reason, groups, rates,
+                                         tariffs_date, plan.get("category") or category, guidance,
+                                         search_query=plan["query_cn"], photo_line=seen)
+        if not report.fits(rich):
+            kind = "plain"
+            tg.send_html(cfg, plain, silent=True, buttons=btns, chat_id=chat)
+        else:
+            kind, _ = tg.send_rich(cfg, rich, plain, silent=True, buttons=btns, chat_id=chat)
+        log(f"photo answer sent as {kind}; usage {usage}")
+        save_last(root, chat, {"job": job["job"], "kind": "photo", "description": full,
+                               "query_cn": plan["query_cn"], "plan": plan,
+                               "photo_of": job.get("photo_of") or job["job"],
+                               "user_id": job.get("user_id"), "role": job.get("role"),
+                               "sites": sites_out, "category": category, "rich": rich,
+                               "plain": plain, "buttons": btns, "usage": usage,
+                               "sent_utc": datetime.now(UTC).isoformat(timespec="seconds")})
+        return kind
+    finally:
+        if mine and not keep:
+            photo.remove(path)
 
 
 def find_result(root, chat_id, job_id, n):

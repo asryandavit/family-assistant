@@ -13,7 +13,7 @@ import traceback
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from china import data_dir, queue, search  # noqa: E402
+from china import data_dir, photo, queue, search
 from lib import config, telegram, ui  # noqa: E402
 
 
@@ -34,6 +34,8 @@ def run(job, cfg):
         return search.run_search(job, cfg, ROOT, telegram, today, log=log)
     if kind == "reviews":
         return search.run_reviews(job, cfg, ROOT, telegram, log=log)
+    if kind == "photo":
+        return search.run_photo(job, cfg, ROOT, telegram, today, log=log)
     log("unknown job kind %r" % kind)
     return "unknown"
 
@@ -43,12 +45,16 @@ def drain(cfg):
         log("another worker is running; exiting")
         return
     try:
+        keep = search.load_cfg(ROOT).get("photo_keep_minutes", 0)
+        n = photo.sweep(ROOT, keep)          # photos left by a crash or past their keep time
+        if n:
+            log(f"deleted {n} old photo(s)")
         while True:
             job = queue.pop(ROOT)
             if not job:
                 break
             queue.mark(job.get("job"), ROOT)
-            log("job %s %s from %s" % (job.get("job"), job.get("kind"), "chat"))
+            log(f"job {job.get('job')} {job.get('kind')} from chat {photo.mask(job.get('chat_id'))}")
             try:
                 log("job %s -> %s" % (job.get("job"), run(job, cfg)))
             except Exception as e:

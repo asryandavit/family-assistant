@@ -218,6 +218,24 @@ def plan(obj):
             "category": cat, "vague": vague and bool(out_q), "questions": out_q if vague else []}
 
 
+def photo_plan(obj):
+    """The photo plan call's answer (prompts/china_photo_plan.md) -> clean dict, or ValueError.
+    is_product false (a person, a screenshot of text, nothing to buy) -> no search."""
+    if not isinstance(obj, dict):
+        raise ValueError("photo plan is not a JSON object")  # noqa: TRY004 — callers catch ValueError
+    seen = _str(obj.get("seen"), "seen", MID, prose=True)
+    if not _bool(obj.get("is_product"), "is_product"):
+        return {"is_product": False, "seen": seen}
+    cat = obj.get("category") or "other"
+    if cat not in CATEGORIES:
+        raise ValueError(f"category {cat!r} not allowed")
+    return {"is_product": True, "seen": seen,
+            "query_cn": _str(obj.get("query_cn"), "query_cn", 40, required=True),
+            "query_en": _str(obj.get("query_en"), "query_en", SHORT, required=True, prose=True),
+            "brand_seen": _str(obj.get("brand_seen"), "brand_seen", 40),
+            "category": cat, "vague": False, "questions": []}
+
+
 def _balanced(s, start):
     """The JSON object starting at s[start] ('{'), parsed; ValueError if unbalanced/invalid."""
     import json

@@ -245,7 +245,7 @@ def _context(query, sites, rates, tariffs_date):
 
 
 def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category,
-          brand_guidance=None, search_query=None):
+          brand_guidance=None, search_query=None, photo_line=None):
     """(rich_html, plain_html, button_rows). query is the owner's words (the header);
     search_query is the plan's short Chinese search words, used in the 'search it yourself'
     links — the owner's words with the question answers made Taobao match 'it' to the i.t
@@ -254,10 +254,12 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
     shown = numbered(sites)
     num = {id(p): n for n, p in shown}
     ctx, foot = _context(query, sites, rates, tariffs_date)
-    title = "🇨🇳 China search · %s" % esc(short(query, 60))
+    title = f"🇨🇳 China {'photo search' if photo_line else 'search'} · {esc(short(query, 60))}"
 
     # ---------------------------------------------------------------- rich
     R = ["<p><b>%s</b></p>" % title, "<p><i>%s</i></p>" % esc(ctx)]
+    if photo_line:
+        R.append(f"<p>{esc(short(photo_line, 200))}</p>")
     R.append("<p>%s</p>" % "<br>".join(pick_lines(pick, reason, num.get(id(pick), 0))))
     for s in sites:
         st = site_status_line(s, link_q)
@@ -302,7 +304,10 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
     rich = "".join(R)
 
     # ---------------------------------------------------------------- plain
-    P = ["<b>%s</b>" % title, "<i>%s</i>" % esc(ctx), "━━━━━━━━━━━━"]
+    P = [f"<b>{title}</b>", f"<i>{esc(ctx)}</i>"]
+    if photo_line:
+        P.append(esc(short(photo_line, 200)))
+    P.append("━━━━━━━━━━━━")
     P.extend(pick_lines(pick, reason, num.get(id(pick), 0)))
     for s in sites:
         st = site_status_line(s, link_q)
