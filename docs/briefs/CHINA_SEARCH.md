@@ -1,7 +1,7 @@
 # CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688 (brief, not built)
 
 Status: **brief approved by the owner 2026-11-09 ("go ahead"; Davit and Karine share one Chrome
-session, one queue, the same features). P0 discovery done (§8, decision 088); Taobao path open.** Builds on Market watch (decisions 086–087): forwarder
+session, one queue, the same features). P0 discovery done (§8, decision 088); owner's go for P1 with the recommended options (§8).** Builds on Market watch (decisions 086–087): forwarder
 tariffs, customs, CBA rates, working-day arrivals and the report helpers in `market/` are
 reused, not rewritten.
 
@@ -307,8 +307,22 @@ What this means:
    the price elsewhere ("限时价 ¥159" moved to a note), `首件¥89.9` is a first-item price,
    1688 prices came in USD, and 1688 weight tables mix mm and cm.
 
+### Owner's answers (2026-11-09, "do it with the best recommended ways")
+
+- **Taobao**: option (a) — read Taobao in the bot's own browser profile (Playwright, the
+  owner signs in once himself; reading only, slow: search + ≤ 3 product pages, spaced).
+  If it shows a check / `访问异常` / login, the answer says so and falls back to (b): a
+  Taobao search link built in code. Never bypassed.
+- **Pinduoduo and 1688**: headless `claude -p --chrome` in the owner's Chrome (works
+  unattended, P0).
+- **1688 language**: stays as the account has it (English/USD); seller class comes from the
+  offer page (supplier company, tier, badges), not the search card. ¥ vs USD read from the
+  page and converted by code.
+- **Quota**: fixed extraction scripts in the prompt (the model runs them instead of
+  exploring), a cheaper model for browsing, one call per site, reviews for the top 3 on
+  PDD and 1688. P1 measures and reports usage per `/china`.
+- Windows browser always; Davit and Karine share the session and queue; CBA rate for USD.
+
 ### Still open
 
-- Taobao: decide (a)/(b)/(c) above.
-- 1688 in Chinese (factory marks on search cards): owner's account setting.
 - Image-search entry points (P3).
