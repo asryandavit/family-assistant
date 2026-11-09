@@ -86,6 +86,7 @@ def list_view(root):
         body.append("Nothing watched yet. Tap ➕ Add or type /watch add.")
     body.append("<i>Report every night ~01:30 to both of you; alerts on a 10% drop or back in stock.</i>")
     rows = [[("\U0001f504 Check now", "cmd:market"), ("➕ Add", "mk:add")]]
+    rows.append([("\U0001f1e8\U0001f1f3 China search", "cn:ask")])
     sid = sheet_id(root)
     if sid:
         rows.append([("\U0001f4c4 Watch list Sheet", "https://docs.google.com/spreadsheets/d/%s/edit" % sid)])

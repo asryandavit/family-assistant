@@ -141,6 +141,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/price &lt;product&gt; [parma|yc] \u2014 grocery prices + links\n"
         "/basket [monthly|all] \u2014 price the shopping list, fill the checklist\n"
         "/watch [add|check|price] \u2014 market watch: items priced to Yerevan\n"
+        "/china &lt;item&gt; | only taobao &lt;item&gt; | last \u2014 search Pinduoduo, Taobao, 1688\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 the Home screen\n"
         "/today \u2014 today's meals and both sessions\n"
@@ -355,6 +356,7 @@ def set_menu(tok):
             {"command": "price", "description": "Grocery prices: /price lentils"},
             {"command": "basket", "description": "Price the shopping list + checklist"},
             {"command": "watch", "description": "Market watch: items priced to Yerevan"},
+            {"command": "china", "description": "Search Pinduoduo, Taobao, 1688: /china GaN 65W"},
             {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
             {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
             {"command": "scan", "description": "Run the flight scan now"},
@@ -414,6 +416,8 @@ def handle_text(cfg, runner, text, chat_id=None):
         if sub and sub[0].lower() == "check":
             return runner.launch("market", chat_id=chat_id)
         return _market("handle", cfg, ROOT, text, chat_id)
+    if cmd == "china":
+        return _china("handle", cfg, ROOT, text, chat_id)
     if cmd in JOBS:
         return runner.launch(cmd, chat_id=chat_id)
     if cmd == "cancel":
@@ -498,6 +502,18 @@ def _market(fn, *args):
         return "⚠️ Market watch is unavailable right now (%s)." % telegram.esc(str(e)[:80])
 
 
+def _china(fn, *args):
+    """Call china/bot.py lazily, like _market: a fault answers with a short message and
+    never takes the listener down. China searches run in their own worker and queue
+    (china/queue.py), not in the Runner, so they never block other commands."""
+    try:
+        from china import bot
+        return getattr(bot, fn)(*args)
+    except Exception as e:
+        log("china %s failed: %s" % (fn, str(e)[:120]))
+        return "⚠️ China search is unavailable right now (%s)." % telegram.esc(str(e)[:80])
+
+
 def route_reply(text, reply_to_text):
     """An answer to the Price check prompt becomes a /price command, an answer to a
     Market add prompt becomes /watch answer; a slash command typed as a reply is left
@@ -507,6 +523,9 @@ def route_reply(text, reply_to_text):
         return "/price " + t
     if reply_to_text and "Market · add" in reply_to_text and t and not t.startswith("/"):
         return "/watch answer " + t
+    if reply_to_text and reply_to_text.startswith("🇨🇳 China search · what") and t \
+            and not t.startswith("/"):
+        return "/china " + t
     return text
 
 
@@ -563,6 +582,10 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
         if parts[1] == "add":
             return _market("start_add", cfg, ROOT, chat_id)
         return "Unrecognised button."
+
+    # cn:<action> -- China search (docs/briefs/CHINA_SEARCH.md §5)
+    if parts and parts[0] == "cn":
+        return _china("callback", cfg, ROOT, data, chat_id)
 
     # sw:<task key>:<0 off | 1 on | r run now | v refresh>
     if parts and parts[0] == "sw" and len(parts) == 3:

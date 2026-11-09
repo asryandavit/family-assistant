@@ -17,7 +17,7 @@ Bottom keyboard (always visible)      [ 🏠 Home ] [ 🔍 Price check ]
  ├─ 🍽 Meals      this week's menu, one fold per day, recipe references
  ├─ 🏃 Training   today's session per adult: cues, videos, safety
  ├─ 🛒 Shopping   price check, 🧺 basket, 📋 checklist (Sheet), shopping plan
- ├─ 🌍 Market     watch list, check now, add (§5d; /watch)
+ ├─ 🌍 Market     watch list, check now, add (§5d; /watch), 🇨🇳 China search (§5e; /china)
  ├─ ✈️ Travel     scan, digest, flights/stays how-to, automation
  └─ ⚙️ System     status, automation, cancel, help
 ```
@@ -81,6 +81,7 @@ messages keep `send_html()`.
 | `ui:<section>` | navigation: `ui:home`, `ui:today`, `ui:meals`, `ui:training`, `ui:shop`, `ui:market`, `ui:travel`, `ui:system` | new |
 | `cmd:<action>` | run a menu action (`scan`, `digest`, `status`, `cancel`, `auto`, `basket`, `market`) | existing, kept |
 | `mk:<action>` | Market watch actions (`mk:add` starts the add dialog) | new (decision 087) |
+| `cn:<action>` | China search: `cn:ask` (prompt), `cn:only:<site>:<job>`, `cn:rev:<job>:<n>`, `cn:watch:<job>:<n>`, `cn:q:<job>:<q>:<option>` | new (decision 088) |
 | `st:` `o:` `g:` | stays search / filter panel | existing, kept |
 | `sw:` | automation switches | existing, kept |
 | `co:` | reserved for coach actions (COACH_SPEC §11) | reserved |
@@ -225,11 +226,33 @@ customs rule. **Alerts with sound** (both chats): best total down ≥ 10% vs yes
 fresh read, or back in stock. After 3 blocked nights in a row the owner alone gets one
 message (open the link yourself or `/watch price`).
 
+### 5e. China search (decision 088)
+
+🌍 Market has `🇨🇳 China search` (`cn:ask`): a force-reply prompt "🇨🇳 China search · what are
+you looking for?" whose answer becomes `/china <text>`. Typed: `/china <description>`,
+`/china only pinduoduo|taobao|1688 <description>`, `/china last` (24 h), `/china cancel`.
+Both chats, one shared queue (`china/queue.py`); the answer goes to the chat that asked.
+The listener only queues: the plan, the browsing and the pricing run in
+`jobs/china_search.py`, one job at a time, so other commands are never blocked.
+
+Flow: a vague request gets 1–2 questions with buttons (`cn:q:…`, plus "➡️ Skip"); then
+"⏳ Searching … (~N min)" (with the place in line if another search runs), one progress
+line per site ("⏳ Pinduoduo done (1/3)…"), and one answer as a Rich Message (plain HTML
+fallback): header, 🏆 best pick with its reason, sites that could not be read (🔑 logged
+out / 🚫 check page / ⚠️ not read, each with a search link), brand guidance, Poizon hint for
+clothes and shoes, restricted-goods warnings, one 4-column table per site (#, item, seller,
+total AMD; `*` = weight not listed) and a `<details>` per result (variant, ¥ → AMD · USD,
+China delivery, `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, every forwarder ×
+mode with customs and total, seller class with its evidence, specs, 👍/👎 reviews, the fixed
+Chinese seller message, the product link built from its id). Buttons in the message:
+`🔁 Only <site>`, `💬 Reviews N` (results whose reviews were not read), `👁 Watch N` (adds
+the item to Market watch with today's price as the owner's price). Silent.
+
 ## 6. Bot profile
 
 Set from `listener.set_menu()` at startup so it can't drift:
 - **Description** (start screen) and **short description** (profile page) — §7 text.
-- **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `watch`, `flights`, `stays`, `scan`,
+- **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `watch`, `china`, `flights`, `stays`, `scan`,
   `digest`, `status`, `cancel`, `help`.
 - Profile photo: BotFather only (not settable by a bot).
 

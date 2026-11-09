@@ -58,7 +58,7 @@ class Screens(unittest.TestCase):
                 if data.startswith("https://"):
                     continue
                 self.assertLessEqual(len(data.encode("utf-8")), 64, (name, data))
-                self.assertRegex(data, r"^(ui|cmd|mk):[a-z]+$", (name, data))
+                self.assertRegex(data, r"^(ui|cmd|mk|cn):[a-z]+$", (name, data))
 
     def test_market_on_home_between_shopping_and_travel(self):
         _, rows = ui.home(ROOT)
