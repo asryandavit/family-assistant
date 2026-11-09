@@ -514,6 +514,19 @@ def _china(fn, *args):
         return "⚠️ China search is unavailable right now (%s)." % telegram.esc(str(e)[:80])
 
 
+def is_photo(msg):
+    """A photo, or a file that may be an image (china/photo.py decides which files count)."""
+    return bool(msg.get("photo") or msg.get("document"))
+
+
+def handle_photo(cfg, msg, chat_id=None):
+    """Photos go to China photo search (decision 095): a /china caption searches, any other
+    photo gets one yes/no button question there. Nothing else in the bot reads photos today;
+    when Health records arrives it reads photos only inside an open /health conversation and
+    is checked before this."""
+    return _china("photo", cfg, ROOT, msg, chat_id)
+
+
 def route_reply(text, reply_to_text):
     """An answer to the Price check prompt becomes a /price command, an answer to a
     Market add prompt becomes /watch answer; a slash command typed as a reply is left
@@ -703,6 +716,15 @@ def main():
                 msg = u.get("message") or {}
                 chat = str((msg.get("chat") or {}).get("id") or "")
                 text = msg.get("text") or ""
+                if not text and is_photo(msg):
+                    if chat not in allowed:
+                        log("ignored photo from foreign chat")
+                        continue
+                    log("photo -> china")          # never the file id next to the chat id
+                    reply = handle_photo(cfg, msg, chat)
+                    if reply:
+                        telegram.send_html(cfg, reply, silent=True, chat_id=chat)
+                    continue
                 if not text:
                     continue
                 if chat not in allowed:

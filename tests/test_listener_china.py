@@ -36,6 +36,20 @@ class China(unittest.TestCase):
         self.assertEqual(listener.route_reply("/help", "🇨🇳 China search · what are you looking for?"),
                          "/help")
 
+    def test_photo_goes_to_china_bot(self):
+        msg = {"photo": [{"file_id": "F", "width": 9, "height": 9}], "caption": "/china"}
+        self.assertTrue(listener.is_photo(msg))
+        self.assertTrue(listener.is_photo({"document": {"file_id": "D"}}))
+        self.assertFalse(listener.is_photo({"text": "hi"}))
+        with mock.patch("china.bot.photo", return_value="queued") as ph:
+            self.assertEqual(listener.handle_photo(self.cfg, msg, "222"), "queued")
+        ph.assert_called_once_with(self.cfg, listener.ROOT, msg, "222")
+
+    def test_photo_fault_does_not_crash_listener(self):
+        with mock.patch("china.bot.photo", side_effect=RuntimeError("disk full")):
+            self.assertIn("China search is unavailable",
+                          listener.handle_photo(self.cfg, {"photo": [{}]}, "111"))
+
     def test_existing_routes_unchanged(self):
         self.assertEqual(listener.route_reply("lentils", "🔍 Price check"), "lentils"
                          if "🔍 Price check" not in "" else "lentils")

@@ -44,6 +44,14 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   (`https://…`), and `{"web_app": url}`, which opens the Mini App at that https URL inside
   Telegram (2026-11-10, Mini App step 0, for step 1's "📱 Open" buttons). Existing buttons
   are unchanged.
+- `listener.py` reads photos (2026-11-10, China photo search, decision 095): a message with
+  a photo or a file and no text, from an allowed chat, goes to `china/bot.photo` (through
+  the same fault-catching `_china` wrapper). Before this, every message without text was
+  dropped, so no feature saw photos. A `/china` caption starts a photo search; any other
+  photo gets one "Search China?" yes/no question, never a search on its own. The log line is
+  "photo -> china" only (no file id, no chat id). Text messages and buttons are unchanged.
+  When Health records lands it reads photos only inside an open `/health` conversation and
+  must be checked before this route.
 
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.
