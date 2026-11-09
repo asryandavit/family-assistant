@@ -817,3 +817,28 @@ admin-console step is the owner's (docs/SECRETS.md §5); `register-miniapp.ps1` 
 Funnel status. pytest and ruff were not installed on the PC; both installed (`pip --user`) for
 this phase's definition of done. Docs: docs/SECRETS.md (#10–12, §5), docs/TELEGRAM_UX.md §6,
 ARCHITECHTURE.MD (processes, tunnel), docs/ROADMAP.md, docs/VISION.md §4, the brief's status.
+
+**095 — 2026-11-10 — /china P2 photo search: 1688 searched by the photo, Pinduoduo by the words read from it, Taobao a link; photos asked about, never searched unasked, and deleted after the answer.**
+The owner asked for photo search next ("start china P2 photo search"), ahead of keeping the sites
+logged in; the brief's phases are renumbered (P2 photo, P3 keep logged in). Discovery: only
+**1688** has a web image search the bot can drive — its `Image Search` file input takes the
+Chrome extension's `file_upload`, headless included (60 visually similar results; offer ids from
+the cards' `data-renderkey`). **Pinduoduo**'s photo search is app-only (its web code shows only
+"go to the app"); **Taobao** cannot be read unattended at all (decision 090). So a photo job asks
+`claude -p` what the item is (the image as a base64 block on stdin, every tool off, the answer
+validated whole: is it a product, what it is, 2–6 Chinese search words, brand only if readable,
+category), searches 1688 by the photo itself (falling back to its words if the upload fails),
+Pinduoduo by the words (said in the answer), and gives the Taobao link with those words plus "tap
+the camera in the Taobao app". Everything after is the text search unchanged: pricing, trust
+ranking, 🏆, buttons, `/china last`. Only `file_upload` was added to the browser allow-list, and
+only for the 1688 photo run. Photo routing: the listener dropped every message without text, so
+nothing else in the bot reads photos; a photo with a `/china` caption searches, any other photo
+gets one question with `🇨🇳 Search China` / `✖ No` (Health records, when built, reads photos only
+inside `/health` and goes first). Privacy: photos are downloaded to the gitignored
+`.browser/china_data/photos/`, deleted when the answer is sent (`photo_keep_minutes` 0), swept
+at worker start and on each new photo; the file id is never logged with a chat id; chat ids
+masked. Household-ready (089): photo jobs carry the sender's Telegram user id and role
+(`config_miniapp.json` people); a viewer may not start a search. Measured live: photo plan 13 s
+(~$0.07 list-equivalent of Max quota), 1688 by photo 3.8 min (~$0.66). Docs:
+docs/briefs/CHINA_SEARCH.md §6/§10, docs/TELEGRAM_UX.md §5e, docs/ROADMAP.md, ARCHITECHTURE.MD
+(listener).

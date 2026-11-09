@@ -254,6 +254,23 @@ Chinese seller message, the product link built from its id). Buttons in the mess
 `🔁 Only <site>`, `💬 Reviews N` (results whose reviews were not read), `👁 Watch N` (adds
 the item to Market watch with today's price as the owner's price). Silent.
 
+**Photo search (decision 095).** Send a photo (or an image as a file) with the caption
+`/china`, `/china <note>` (e.g. `/china red, size 42`) or `/china only pinduoduo|taobao|1688
+<note>` → "⏳ Searching China by your photo — 1688 by photo, Pinduoduo by the words in it, a
+Taobao link… (~N min)" → the same progress lines and the same full answer, titled
+"🇨🇳 China photo search · <item>", with a line "📷 <what the photo shows> · searched as
+<Chinese words>". 1688 is searched with the photo itself (以图搜货); Pinduoduo's photo search
+exists only in its app, so it is searched by the words read from the photo and says so;
+Taobao stays a link (with those words) plus "📷 in the Taobao app, tap the camera in the
+search bar to search by this photo". A photo **without** a `/china` caption is never
+searched on its own: one question "📷 Search China for the item in this photo?" with
+`🇨🇳 Search China` (`cn:ph:<id>`) / `✖ No` (`cn:phx:<id>`), valid 60 min
+(`photo_ask_minutes`); a non-command caption is kept as the note. A photo with nothing to
+buy gets "🤔 I don't see something to buy in this photo (…)". `🔁 Only <site>` on a photo
+answer searches by the photo's words (the photo is deleted when the answer is sent;
+`photo_keep_minutes` > 0 keeps it so 🔁 repeats the photo search). Health records, when
+built, reads photos only inside an open `/health` conversation.
+
 ## 6. Bot profile
 
 Set from `listener.set_menu()` at startup so it can't drift:

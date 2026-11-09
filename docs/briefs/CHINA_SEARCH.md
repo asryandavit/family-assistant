@@ -1,7 +1,7 @@
-# CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688 (brief, not built)
+# CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688
 
 Status: **brief approved by the owner 2026-11-09 ("go ahead"; Davit and Karine share one Chrome
-session, one queue, the same features). P0 done (§8, decision 088); P1 built (§9, decision 090) — Pinduoduo and 1688 automatic, Taobao a search link.** Builds on Market watch (decisions 086–087): forwarder
+session, one queue, the same features). P0 done (§8, decision 088); P1 built (§9, decision 090) — Pinduoduo and 1688 automatic, Taobao a search link. P2 photo search built (§10, decision 095) — 1688 by photo, Pinduoduo by the photo's words, Taobao a link.** Builds on Market watch (decisions 086–087): forwarder
 tariffs, customs, CBA rates, working-day arrivals and the report helpers in `market/` are
 reused, not rewritten.
 
@@ -48,7 +48,7 @@ browser tools**; typing tools are not on it.
 | 11 | Ranking | Trust marks, sales volume, returns shown. **Top 5 per site by total delivered price**, one 🏆 best pick with its reason; the same product on several sites side by side; forwarder restrictions flagged (power banks / batteries, liquids, magnets, aerosols); customs check for several items in one parcel |
 | 12 | After a result | Buttons `🔁 Only Pinduoduo` / `Only Taobao` / `Only 1688` (typed: `/china only taobao <description>`); `👁 Watch` adds the item to the Market watch list; `/china last` shows the last results (kept 24 h) |
 | 13 | Progress | "⏳ Pinduoduo done (1/3)…" messages; **one Chrome job at a time**, one queue for both users and the login check; a second request waits and is told its place |
-| 14 | Photo search | Photo with a caption → image search on Taobao and Pinduoduo → the same full answer. Own phase |
+| 14 | Photo search | Photo with a caption → image search → the same full answer. Own phase. **Built as P2 (owner, 2026-11-10; §10, decision 095)**: 1688 by photo; Pinduoduo's and Taobao's photo search are app-only / blocked, so Pinduoduo is searched by the words read from the photo and Taobao is a link + app tip |
 | 15 | Keep logged in | At Windows logon Chrome opens with the three sites in tabs (plain Chrome, script under `scheduler/`). **Daily login check 09:00** through the same queue; logged out / Chrome closed / extension disconnected → both chats: "🔑 Taobao logged out — open Chrome on the PC and sign in" |
 
 ## 4. Architecture
@@ -199,8 +199,8 @@ version the numbered lines are a table and the folds are `<details>`):
 |---|---|---|
 | **P0 Discovery** | In the owner's Chrome (he clicks the extension's per-site "Allow"), capture to `tests/fixtures/china/`, per site: a search result page, a product page with variants (SKU prices; PDD group vs single), the reviews section, shop / official marks (官方旗舰店, 品牌授权, 源头工厂, 实力商家), the logged-in marker, a login/check page if one appears, and the image-search entry point. Repeat one search **headlessly** (`claude -p --chrome`) per site and time a full 3-site + 9-review run. Send one Rich Message test (§5.1) and capture the response | A table: site → what is readable, the field names, time and quota per run, whether headless needs a permission click; the rich test renders on both phones |
 | **P1 Text search** | `china/` (bot, queue, validate, pricing, report), `prompts/china_site.md`, `jobs/china_search.py`; vague-request buttons; reviews for top 3 per site; seller classes + official/dealer lookup; restrictions; parcel customs; progress messages; `💬 Reviews`, `🔁 Only <site>`, `👁 Watch`, `/china last`. `listener.py` / `lib/ui.py` changes in their own additive commits | A real `/china` from both phones answered with all three sites; tests green |
-| **P2 Keep logged in** | Logon script with the three tabs, 09:00 login check through the queue, both-chat 🔑 message, staleness line at listener startup | Logging out of one site produces the 🔑 message at the next check |
-| **P3 Photo search** | Photo + caption → Taobao and Pinduoduo image search (extension upload tool, found in P0) → the same answer | A photo of a real item finds it on both sites |
+| **P2 Photo search** (was P3; the owner moved it first, 2026-11-10 — "China P2") | Photo + `/china` caption (or a yes to "Search China?") → 1688 image search with the extension's `file_upload`; Pinduoduo by the words read from the photo (its photo search is app-only); Taobao link + app tip → the same answer. **Built, §10, decision 095** | A photo of a real item from the owner's phone answered end to end |
+| **P3 Keep logged in** (was P2) | Logon script with the three tabs, 09:00 login check through the queue, both-chat 🔑 message, staleness line at listener startup | Logging out of one site produces the 🔑 message at the next check |
 | **Later: Mini App** | Full-screen Telegram Mini App for results: photos, sort, filters (owner wants it; not now). Opened from a `web_app` button on the result; reads the saved `last_<chat>.json`. Hosting and data access designed when it is scheduled | — |
 
 Each phase ends with a decision entry (088+), a doc update and a phone demo.
@@ -325,7 +325,7 @@ What this means:
 
 ### Still open
 
-- Image-search entry points (P3).
+- Image-search entry points — found in P2 (§10): 1688 only.
 
 ## 9. P1 results (2026-11-09, decision 090)
 
@@ -373,5 +373,62 @@ Once: restart the listener so it loads the new code (stop / wait 3 s / start the
 
 - Taobao reading (blocked by its sign-in check); 💬 Reviews for Taobao items.
 - Pinduoduo variant prices and reviews (product pages hide prices on the web now).
-- Photo search (P2/P3 in §6), the logon tabs and the 09:00 login check (§6 P2), Mini App.
+- Photo search (built in P2, §10), the logon tabs and the 09:00 login check (§6 P3), Mini App.
 
+
+## 10. P2 photo search (2026-11-10, decision 095)
+
+The owner asked for photo search next ("start china P2 photo search"), so the brief's P3 became
+P2 and "Keep logged in" became P3 (§6).
+
+### Discovery (owner's Chrome, then headless)
+
+| Site | Photo search on the web | Headless (`claude -p --chrome`) | Used as |
+|---|---|---|---|
+| **1688** | Yes: `Image Search` button next to Search → `input[type=file].image-file-reader-wrapper` (jpg/png/webp/bmp) → preview + `Search for` → `air.1688.com/kapp/1688-search/pc-image-search/?tab=imageSearch&imageId=…`. 60 cards, **not links**: the offer id is the last number of `data-renderkey`; `detail.1688.com/offer/<id>.html` opens the same product. Matches are visually similar, not always the same item (a Switch dock and a Bluetooth receiver among GaN chargers) → `1688_image_search.json` | **Works**: `file_upload` (path) accepted, 60 cards, 2.5 min, ~$0.39 → `headless_1688_photo.json` | photo search |
+| **Pinduoduo** | **No**: mobile web has no file input; its JS bundle only shows the modal "需前往拼多多APP 使用拍照搜同款" (go to the app) | — | text search with the Chinese words read from the photo; the answer says so |
+| **Taobao** | Has an image search on `s.taobao.com`, but Taobao cannot be read unattended at all (P0/P1: per-action permission prompts, phone/slider check) | — | link with the photo's words + "📷 in the Taobao app, tap the camera in the search bar" |
+
+The photo itself is read by `claude -p` as a base64 image block on stdin
+(`--input-format stream-json`, `--tools ""`, the mechanism the Health records probe proved):
+13–14 s → `{"is_product", "seen", "query_cn", "query_en", "brand_seen", "category"}`, validated
+whole (`validate.photo_plan`) → `photo_plan_live.json` ("UGREEN 65W GaN … swappable plugs",
+`绿联 65W氮化镓充电器 旅行套装`). The first call cost ~$1.18 list-equivalent (cache creation),
+later ones ~$0.07.
+
+### Built
+
+| Part | Files | Proven by |
+|---|---|---|
+| Image in the message, caption command, Bot API download (10 MB cap, no partial file, token never shown), delete and sweep, id masking | `china/photo.py` | `tests/test_china_photo.py` Helpers |
+| Photo plan (image on stdin, no tools) and its validator; 1688 photo run with `file_upload` added only there (`upload_image`, `form_input`, `Bash`… still denied) | `china/runner.py`, `china/validate.py`, `prompts/china_photo_plan.md`, `prompts/china_1688_photo.md` (+ steps 2–4 of `china_1688.md`) | Runner, PlanValidator tests |
+| Photo job: download → plan → 1688 by photo (falls back to words if it fails) / Pinduoduo by words / Taobao link + tip → same pricing, trust, 🏆, report ("China photo search", "📷 … · searched as …") → `/china last`; photo deleted after the answer | `china/search.py`, `china/report.py`, `jobs/china_search.py`, `config_china.json` (`photo_keep_minutes` 0, `photo_ask_minutes` 60) | Worker tests, incl. the live 1688 answer priced end to end |
+| Telegram: `/china` caption → search; other photos → one question `🇨🇳 Search China` / `✖ No` (`cn:ph:` / `cn:phx:`); 🔁 on a photo answer by words (or by photo while kept); user id + role on every photo job, viewers refused | `china/bot.py`; `listener.py` (own commit) | BotPhoto tests, `tests/test_listener_china.py` |
+
+Photo uses elsewhere in the bot: none today — the listener dropped every message without text.
+Health records (brief) reads photos only inside an open `/health` conversation; it must be
+checked before the China route when built.
+
+### Live runs
+
+| Run | Result |
+|---|---|
+| Headless probe, 1688 by photo (Ugreen 65W listing image) | ok: upload accepted, 60 cards, 2.5 min, 21 turns, ~$0.39 |
+| Real code, photo plan + 1688 by photo, 2026-11-10 | plan 13 s (~$0.07); 1688 ok in 3.8 min, 44 turns (~$0.66): 4 results with page weights (58–120 g), suppliers and reviews; the model flagged an "Anker"-named listing whose page says 是否原装: 否 → `answer_1688_photo_live.json` |
+| Phone demo | pending — see below |
+
+### Demo from the phone (P2 done when this passes)
+
+Once: restart the listener so it loads the new code (stop / wait 3 s / start the
+`FamilyAssistant-Listener` task).
+
+1. Take a photo of a real item (e.g. a charger or a toy), send it with the caption
+   `/china` → "⏳ Searching China by your photo — 1688 by photo, Pinduoduo by the words in it,
+   a Taobao link… (~10 min)" → "⏳ Pinduoduo done (1/3)…", "⏳ 1688 done (3/3)…" → one answer
+   "🇨🇳 China photo search · …" with "📷 … · searched as …", 🏆, tables, details, the 🔗 Taobao
+   line with the app tip, and "ℹ️ Pinduoduo: searched by the words read from your photo…".
+2. Send another photo **without** a caption → "📷 Search China for the item in this photo?"
+   → tap ✖ No → "OK — not searching." Send it again, tap 🇨🇳 Search China → the search starts.
+3. Caption `/china only 1688 black` on a photo → 1688 only, by photo.
+4. `/china last` shows the photo answer; 🔁 Only Pinduoduo on it searches by the photo's words.
+5. Check: `.browser\china_data\photos\` is empty after each answer.
