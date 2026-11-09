@@ -774,3 +774,46 @@ allow-list matching | mixed | other | unknown); matching +3, other −5. (3) Pho
 `photo_review_count_text` as shown (图/视频(166)), 2·log10, at most +6. Considered and left for
 later: grouping the same product across sites into one comparison (already shown as "same
 product", decision 090). Docs: docs/TELEGRAM_UX.md §5e (trust parts), docs/briefs/CHINA_SEARCH.md.
+
+## Mini App
+
+**094 — 2026-11-10 — Mini App step 0 built: own React app served from the PC through Tailscale Funnel, Telegram's signature checked on every request.**
+As briefed (docs/briefs/MINI_APP.md, owner answers 2026-11-10). A separate process,
+`python -m miniapp.server` (scheduled task `FamilyAssistant-MiniApp` at logon, restarted if it
+dies; `scheduler/register-miniapp.ps1`), stdlib `ThreadingHTTPServer` on 127.0.0.1:8790, GET only
+(anything else 405): static files from `miniapp/web/dist` (paths normalised; anything outside
+dist, `..`, encoded `..`, backslashes, drive letters, NUL is a 404) plus `/api/me` (name, role,
+tabs) and `/api/status` (Yerevan time, version). `listener.py` is untouched. Auth
+(`miniapp/auth.py`, pure): `Authorization: tma <initData>`, Telegram's HMAC algorithm with the
+bot token from the existing env var (never sent to the page), duplicate keys / missing hash /
+bad JSON / older than 24 h / more than 5 min ahead all rejected; the hash is checked over every
+field and, failing that, over every field except `signature` (which form Telegram signs is
+settled by the local real-capture test; accepting both forges nothing). 401 for bad auth, 403
+`{"error":"private"}` for a valid Telegram user who is not in `miniapp/people.py`, 429 after 60
+requests a minute per user id (and for unauthenticated requests as one bucket). People by
+Telegram user id + role, household-ready (089): Davit = owner from `TELEGRAM_CHAT_ID`, Karine =
+adult from `TELEGRAM_CHAT_ID_2`, names and roles in `config_miniapp.json`; Users and roles later
+replaces the source, not the interface. Headers: CSP (self + telegram.org for the script,
+frame-ancestors web.telegram.org), nosniff, no-referrer, HSTS, `Cache-Control: no-store` on the
+API, `Server: miniapp` without a Python version. Logs (`.browser/miniapp.log`): masked user id
+(last 3 digits), path without query, status, duration — never initData, hashes or tokens.
+Web (`miniapp/web/`): React 18.3.1 (Telegram UI 2.1.13 needs 18), Vite 7.3.8, TypeScript 5.9.3,
+exact versions and lockfile committed, `dist/` and `node_modules/` gitignored, built with the
+PC's Windows Node 24 (machine.json `node_dir`); `tsc --noEmit` + `vite build` clean. Five
+"Coming soon" tabs, "Signed in as … · role", a status card refreshed every 30 s, Telegram's
+theme followed live (`themeChanged`), Telegram's back button walks back through tabs, and two
+clear states: "This app is private" (401/403 or opened outside Telegram) and "PC is not
+reachable" (no answer, timeout or a gateway error) with Try again. Checked in a browser with a
+test-signed initData: owner view, live switch to dark, tabs + back button, stranger → private,
+server stopped → unreachable. A cold open while the PC is off shows Telegram's own error page,
+not ours (brief §3 trade-off). `miniapp/setup_bot.py` sets / checks / removes the 🏠 Family chat
+menu button per person (`setChatMenuButton`). `lib/telegram.py` gained `{"web_app": url}` inline
+buttons in its own commit (54fd773; docs/REGRESSION.md does not exist, so the full suite was the
+regression check). The public URL lives only in gitignored `machine.json`
+(`miniapp_public_url`); `tmp/*` and `machine.json` are now gitignored too. `selfcheck.py` gains a
+MINI APP section (server on localhost, public URL, menu button per chat). Tunnel: Tailscale was
+running but HTTPS certificates and the `funnel` node attribute were off, so the one-time
+admin-console step is the owner's (docs/SECRETS.md §5); `register-miniapp.ps1` only reports the
+Funnel status. pytest and ruff were not installed on the PC; both installed (`pip --user`) for
+this phase's definition of done. Docs: docs/SECRETS.md (#10–12, §5), docs/TELEGRAM_UX.md §6,
+ARCHITECHTURE.MD (processes, tunnel), docs/ROADMAP.md, docs/VISION.md §4, the brief's status.

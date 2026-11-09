@@ -26,6 +26,19 @@ Non-negotiable conventions (rationale in the doc):
 - Never bypass a CAPTCHA or bot wall. Stop, log it, hand me a prefilled link.
 - Secrets in Windows environment variables and gitignored files, never in the repo.
 
+Processes on the PC (each its own scheduled task):
+- `FamilyAssistant-Listener` — `listener.py`, the one Telegram poller; launches jobs.
+- Scheduled jobs (travel scan, coach plan messages, market watch) — run, send, exit.
+- `FamilyAssistant-MiniApp` — `python -m miniapp.server` (since 2026-11-10, decision 094):
+  stdlib HTTP server on 127.0.0.1:8790 only, serving the built Mini App
+  (`miniapp/web/dist`, React + Vite + Telegram UI, built on the PC with Windows Node) and a
+  GET-only JSON API. Every API request carries Telegram's signed initData
+  (`Authorization: tma …`), checked with the bot token (HMAC, `miniapp/auth.py`); access by
+  Telegram user id + role (`miniapp/people.py`), 60 requests/min per user. Not inside the
+  listener; it shares no state with it. Reached from Telegram only through **Tailscale
+  Funnel** (`https://<pc>.<tailnet>.ts.net/` → 127.0.0.1:8790, no open router port; the
+  hostname lives in gitignored `machine.json`). PC off → the app is unreachable.
+
 Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
 - `lib/telegram.py` inline buttons take three kinds: callback data (any string), a link
   (`https://…`), and `{"web_app": url}`, which opens the Mini App at that https URL inside

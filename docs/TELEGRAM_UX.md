@@ -261,6 +261,16 @@ Set from `listener.set_menu()` at startup so it can't drift:
 - **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `watch`, `china`, `flights`, `stays`, `scan`,
   `digest`, `status`, `cancel`, `help`.
 - Profile photo: BotFather only (not settable by a bot).
+- **Chat menu button: 🏠 Family** (decision 094) — the button beside the message field opens
+  the Mini App (docs/briefs/MINI_APP.md) inside Telegram. Set per chat for Davit and Karine by
+  `python -m miniapp.setup_bot` (`--check` shows it, `--remove` puts back Telegram's default);
+  `set_menu()` does not touch it. With it set, the command list is still there by typing `/`.
+  The app opens with "Signed in as <name> · <role>", five tabs (Today · China · Market ·
+  Basket · Travel, "Coming soon" in step 0) and a PC status card; it follows Telegram's
+  light/dark theme, and Telegram's back button walks back through the tabs visited. Anyone
+  else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
+  with Try again. Later, messages get "📱 Open" buttons (`lib/telegram` `{"web_app": url}`)
+  that open the matching screen.
 
 ## 7. Copy
 
@@ -273,5 +283,5 @@ Set from `listener.set_menu()` at startup so it can't drift:
 - **Family group with topics** (Travel / Meals / Training / Shopping) so Karine sees the
   shared plan and lists; personal things stay in private chat. Needs the multi-chat
   change to `lib/telegram.py` (Phase 0).
-- **Mini App** (a full screen inside Telegram, free on GitHub Pages) — only if the chat
-  UI proves limiting.
+- **Mini App screens** — step 0 (empty, secure shell) is built: §6 🏠 Family. Screens follow
+  one per session (docs/ROADMAP.md), China results first.

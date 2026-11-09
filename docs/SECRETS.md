@@ -21,8 +21,9 @@ commit (CLAUDE.md §1/§10).
 | 7 | Claude Code login (`claude` CLI) | per-user login on the machine | this PC | travel insight line, future /health assistant (`claude -p`, Max subscription) | yes for those | In PowerShell: `claude auth login` (sign in with the Max account); check with `claude auth status` → `"loggedIn": true`. **This login expires** (seen 2026-10-21: "OAuth session expired" — the travel 💡 line silently disappeared); opening `claude` interactively does *not* show it. `selfcheck.py` checks it the way the bot runs it. For a server/AWS or to stop expiry: `claude setup-token` and store the printed token as `CLAUDE_CODE_OAUTH_TOKEN` (a secret — treat like #1). Testing from inside a Claude Code / Desktop session is misleading (it injects its own auth variables). **`ANTHROPIC_API_KEY` must stay unset**, or `claude -p` bills the metered API. |
 | 8 | `.browser/wizz`, `.browser/stays_*` | Playwright browser profiles (gitignored) | this PC | Wizz fare scan, Booking/Airbnb stays | yes for travel | recreated automatically on first run; first scans may meet a cookie/verification page — run once by hand with `headless: false` |
 | 9 | `secrets/health_sheets.json` | file (gitignored) — *planned* | — | /health (docs/briefs/HEALTH_RECORDS.md) | when built | written by the health-records setup |
-| 10 | `machine.json` | file (gitignored) — *planned* | — | machine-specific paths (COACH_SPEC §6) | when built | copy `machine.example.json` and fill in |
-| 11 | Scheduled tasks `FamilyAssistant-*` | Windows Task Scheduler | this PC | listener (always on), daily travel scan, plan messages `FamilyAssistant-Coach-Morning` (07:30) and `FamilyAssistant-Coach-Week` (Sun 18:00) | **yes** | `scheduler/register-listener.ps1`, `scheduler/register-tasks.ps1`, `scheduler/register-coach.ps1` (elevated PowerShell) |
+| 10 | `machine.json` | file (gitignored) | this PC | machine-specific values: `miniapp_public_url` (the Funnel URL, kept out of Git), `node_dir`; later the coach paths (COACH_SPEC §6) | **yes** for the Mini App | copy `machine.example.json` and fill in; the URL is `https://` + `tailscale status --json` → `Self.DNSName` (without the final dot) + `/` |
+| 11 | Scheduled tasks `FamilyAssistant-*` | Windows Task Scheduler | this PC | listener (always on), daily travel scan, plan messages `FamilyAssistant-Coach-Morning` (07:30) and `FamilyAssistant-Coach-Week` (Sun 18:00), Mini App server `FamilyAssistant-MiniApp` (at logon) | **yes** | `scheduler/register-listener.ps1`, `scheduler/register-tasks.ps1`, `scheduler/register-coach.ps1` (elevated PowerShell); `scheduler/register-miniapp.ps1` (normal PowerShell) |
+| 12 | Tailscale login + Funnel | Tailscale service on this PC; HTTPS certificates and the `funnel` node attribute in the Tailscale admin console | this PC + Tailscale account | Mini App: the public https URL Telegram opens (docs/briefs/MINI_APP.md §5) | **yes** for the Mini App | §5 below. The login is the PC's Tailscale node key (Tailscale keeps it; never copy it). If the PC is replaced, the hostname changes: update `machine.json` and run `python -m miniapp.setup_bot` again. |
 
 Not secrets, already in Git: spreadsheet ids, Drive links (`config.json`, `config_coach.json`).
 
@@ -89,3 +90,40 @@ Do these in order; tick each.
 
 Google sharing (#5) and the bot token itself don't change when moving — only where the
 token is stored.
+
+## 5. Mini App tunnel (Tailscale Funnel) — one-time setup
+
+The Mini App server listens on `127.0.0.1:8790` only (`config_miniapp.json` `port`). Tailscale
+Funnel publishes it as `https://<pc-name>.<tailnet>.ts.net/` without opening a port on the
+router. The hostname appears in public certificate logs (it names the PC and the tailnet, not
+any data); every request is still checked against Telegram's signature. Keep the hostname out
+of Git: it lives only in `machine.json`.
+
+**A. In the Tailscale admin console (owner, ~5 minutes, once):**
+1. Open <https://login.tailscale.com/admin/dns>, signed in to the account this PC uses.
+   Check that **MagicDNS** is on. Under **HTTPS Certificates**, click **Enable HTTPS…** and
+   confirm.
+2. Open <https://login.tailscale.com/admin/acls/file> (**Access controls → JSON editor**).
+   If the policy has no `nodeAttrs` entry with `"funnel"`, add this at the top level (next
+   to `"acls"` / `"grants"`), then **Save**:
+   ```json
+   "nodeAttrs": [
+     { "target": ["autogroup:member"], "attr": ["funnel"] }
+   ],
+   ```
+   If `nodeAttrs` already exists, add only the `{ ... "funnel" ... }` object to its list.
+   *(Shortcut: running `tailscale funnel 8790` before this step prints a one-time
+   `login.tailscale.com/f/funnel?...` link that turns on both A1 and A2 with one click.)*
+3. Check on the PC: `tailscale status --json` → `CertDomains` is no longer empty.
+
+**B. On the PC (PowerShell, once):**
+1. `tailscale funnel --bg 8790` — serves `https://<pc-name>.<tailnet>.ts.net/` (port 443) →
+   `http://127.0.0.1:8790`. `--bg` keeps it after restarts (the Tailscale service owns it).
+2. `tailscale funnel status` → shows `(Funnel on)` and `proxy http://127.0.0.1:8790`.
+3. `.\scheduler\register-miniapp.ps1` (builds the app, starts `FamilyAssistant-MiniApp`, checks
+   the Funnel status without changing it).
+4. `python -m miniapp.setup_bot` → sets **🏠 Family** in Davit's and Karine's chats.
+5. `python selfcheck.py` → the MINI APP lines are all `ok`.
+
+**Turn it off:** `tailscale funnel --https=443 off` (or `tailscale funnel reset`), and
+`python -m miniapp.setup_bot --remove` to put back Telegram's default menu button.
