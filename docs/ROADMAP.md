@@ -9,6 +9,7 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
 |---|---|---|---|
 | 1 | 🇨🇳 China search P1 — `/china` text search, full answer: Pinduoduo + 1688 automatic, Taobao as a search link (its sign-in check blocks the bot) | built (decision 090); phone demo after a listener restart | `briefs/CHINA_SEARCH.md` §9 |
 | 2 | 🇨🇳 China search P2 — photo search | next | `briefs/CHINA_SEARCH.md` |
+| 3 | 📱 Mini App step 0 — our own app (React + Vite + Telegram UI), served from the PC through a tunnel, Telegram signature checked on every request, empty tabs | brief written 2026-11-09, waiting on owner answers (§10); owner moved it ahead of Users and roles | `briefs/MINI_APP.md` |
 
 ## Waiting on the owner or small checks
 
@@ -28,15 +29,14 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
 
 | # | Work | Why first |
 |---|---|---|
-| 3 | 👥 Users and roles — invite links, roles (owner/adult/member/viewer), permissions per module, remove/change, change log, private items | everything after it (Celebrations privacy, Mini App login, a product) stands on it |
+| 4 | 👥 Users and roles — invite links, roles (owner/adult/member/viewer), permissions per module, remove/change, change log, private items | everything after it (Celebrations privacy, Mini App login, a product) stands on it |
 
 ## Then
 
 | # | Work |
 |---|---|
-| 4 | 🎉 Celebrations — calendar, early reminders, person notes, gift ideas priced and checked for arrival in time, tracking (VISION §5) |
-| 5 | 📱 Mini App step 0 — GitHub Pages, Cloudflare Tunnel, Telegram init-data check, empty app with tabs |
-| 6 | 📱 Mini App screens, one session each — China results first, then Market, Basket/checklist, Today/Meals/Training, Travel, Celebrations |
+| 5 | 🎉 Celebrations — calendar, early reminders, person notes, gift ideas priced and checked for arrival in time, tracking (VISION §5) |
+| 6 | 📱 Mini App screens, one session each (after step 0) — China results first, then Market, Basket/checklist, Today/Meals/Training, Travel, Celebrations |
 | 7 | Rich Messages for the older reports (Market report, Basket) where they read better as tables |
 
 ## Later — only if the owner decides on a product

@@ -67,8 +67,8 @@ Later:   Telegram bot ─┐
 - **Telegram stays the front door** for alerts and summaries; the **Mini App** is the full screen
   (tables, photos, filters, editing). A Mini App cannot run jobs or send messages itself — the
   daily jobs keep running on the PC (later the backend) and every message gets an "Open" button.
-- **Mini App connection (when built)**: page on GitHub Pages, data only through a Cloudflare
-  Tunnel to the PC, every request checked against Telegram's signed init data. Family data is
+- **Mini App connection (when built)**: web files and data both served from the PC through a
+  tunnel (one origin, no public repo; changed 2026-11-09, `briefs/MINI_APP.md` §3), every request checked against Telegram's signed init data. Family data is
   never published on a public page. Store pages cannot usefully be embedded (iframe): logins don't
   carry, the app can't read them, and the stores' apps are better — results use "Open in app"
   deep links instead.
