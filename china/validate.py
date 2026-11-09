@@ -22,6 +22,8 @@ Contract (prompts/china_rules.md shows it to the model):
     "rating_text": str|null,                  positive rate / score as shown
     "complaint_types": [COMPLAINTS],          kinds the reviews read report (allow-list)
     "spec_mismatch": bool,                    attributes contradict the title
+    "photo_review_count_text": str|null,      reviews with photos/videos, as shown (图/视频(166))
+    "review_variant": "matching|mixed|other|unknown"   which variant the reviews read were of
     "likely_over_1kg": bool, "over_1kg_reason": str|null,
     "restrict": ["battery|liquid|magnet|aerosol"],
     "why": str|null}]}
@@ -33,6 +35,7 @@ STATUSES = ("ok", "login", "check", "error")
 CATEGORIES = ("electronics", "clothes", "shoes", "home", "beauty", "kids", "other")
 PRICE_KINDS = ("after_coupon", "list", "group", "first_item", "tier", "single", "unknown")
 RESTRICT = ("battery", "liquid", "magnet", "aerosol")
+REVIEW_VARIANT = ("matching", "mixed", "other", "unknown")
 COMPLAINTS = ("fake", "broken", "unsafe", "wrong_spec", "not_as_described", "poor_quality",
               "slow_shipping", "packaging", "other")
 ID_RE = re.compile(r"^\d{6,15}$")
@@ -84,6 +87,13 @@ def _unique(xs):
         if x not in out:
             out.append(x)
     return out
+
+
+def _enum(v, field, allowed):
+    v = v or "unknown"
+    if v not in allowed:
+        raise ValueError("%s %r not allowed" % (field, v))
+    return v
 
 
 def _bool(v, field):
@@ -142,6 +152,8 @@ def result(r, search_ids, site):
         "complaint_types": _unique(_list(r.get("complaint_types"), "complaint_types", len(COMPLAINTS),
                                          20, allowed=COMPLAINTS)),
         "spec_mismatch": _bool(r.get("spec_mismatch"), "spec_mismatch"),
+        "photo_review_count_text": _str(r.get("photo_review_count_text"), "photo_review_count_text", SHORT),
+        "review_variant": _enum(r.get("review_variant"), "review_variant", REVIEW_VARIANT),
         "likely_over_1kg": _bool(r.get("likely_over_1kg"), "likely_over_1kg"),
         "over_1kg_reason": _str(r.get("over_1kg_reason"), "over_1kg_reason", MID, prose=True),
         "restrict": _list(r.get("restrict"), "restrict", 4, 10, allowed=RESTRICT),

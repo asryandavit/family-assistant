@@ -94,15 +94,16 @@ def price_result(r, routes, rates, today, cfg):
         "promo": parse.promo(r.get("price_text")) or ("first-item price" if r.get("price_kind") == "first_item" else ""),
         "seller": cls, "seller_evidence": evidence,
         "sales": parse.count(r.get("sales_text")), "reviews": parse.count(r.get("review_count_text")),
+        "photo_reviews": parse.count(r.get("photo_review_count_text")),
         "flags": flags, "link": parse.link(r["site"], r["id"]),
     })
     return out
 
 
-def apply_trust(priced, category="other"):
+def apply_trust(priced, category="other", brands=None):
     """Sets p["trust"] and p["trust_parts"] (china/trust.py) on every result."""
     for p in priced:
-        p["trust"], p["trust_parts"] = trust.score(p, category)
+        p["trust"], p["trust_parts"] = trust.score(p, category, brands)
     return priced
 
 

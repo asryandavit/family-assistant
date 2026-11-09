@@ -113,5 +113,68 @@ class Contract(unittest.TestCase):
             validate.answer(d, "pinduoduo")
 
 
+BRANDS = {"electronics": {"trusted": [["绿联", "Ugreen"], ["苹果", "Apple"], ["安克", "Anker"]],
+                          "lookalike": [["UE"]]}}
+
+
+class Brands(unittest.TestCase):
+    def b(self, **kw):
+        return dict(trust.score(p(**kw), "electronics", BRANDS)[1])
+
+    def test_brand_from_title_start_spec_or_brand_store(self):
+        self.assertEqual(self.b(title_cn="绿联65W氮化镓充电器")["known brand Ugreen"], 10)
+        self.assertEqual(self.b(title_en="UGREEN Nexode 65W")["known brand Ugreen"], 10)
+        self.assertIn("known brand Anker", self.b(specs={"品牌": "Anker/安克"}))
+        self.assertIn("known brand Ugreen", self.b(shop_name="绿联赛文斯专卖店"))
+        self.assertIn("known brand Ugreen", self.b(title_cn="【官方正品】绿联充电器"))
+
+    def test_fits_apple_is_not_apple(self):
+        self.assertEqual(self.b(title_cn="跨境65W氮化镓充电器适用苹果华为"),
+                         {"unmarked seller": 0})
+        self.assertNotIn("known brand Apple", self.b(shop_name="苹果配件店"))   # not a brand store
+
+    def test_lookalike(self):
+        x = self.b(title_cn="UE100W氮化镓充电器65W快充")                       # live, 2026-11-09
+        self.assertEqual(x["look-alike brand UE"], -30)
+        self.assertNotIn("look-alike brand UE", self.b(title_en="UEFA licensed charger"))
+
+    def test_lists_are_per_category(self):
+        self.assertEqual(trust.score(p(title_cn="绿联充电器"), "home", BRANDS)[0], 0)
+
+    def test_config_lists_are_well_formed(self):
+        with open(os.path.join(os.path.dirname(F), "..", "..", "config_china.json"), encoding="utf-8") as f:
+            brands = json.load(f)["brands"]
+        for cat, lists in brands.items():
+            self.assertIn(cat, validate.CATEGORIES)
+            for kind in ("trusted", "lookalike"):
+                for spellings in lists[kind]:
+                    self.assertTrue(spellings and all(isinstance(x, str) and x for x in spellings))
+
+
+class VariantAndPhotos(unittest.TestCase):
+    def test_variant(self):
+        self.assertEqual(parts(p(reviews_read=True, review_variant="matching"))
+                         ["reviews are of this variant"], 3)
+        self.assertEqual(parts(p(reviews_read=True, review_variant="other"))
+                         ["reviews are of other variants"], -5)
+        self.assertEqual(trust.score(p(reviews_read=True, review_variant="mixed"))[0], 0)
+        self.assertEqual(trust.score(p(reviews_read=False, review_variant="matching"))[0], 0)
+
+    def test_photos(self):
+        self.assertEqual(parts(p(photo_reviews=166))["166 photo reviews"], 4.4)   # 2 × 2.22
+        self.assertEqual(parts(p(photo_reviews=5000))["5,000 photo reviews"], 6.0)
+        self.assertEqual(trust.score(p(photo_reviews=2))[0], 0)
+
+    def test_contract(self):
+        d = Contract().good()
+        d["results"][0].update(photo_review_count_text="图/视频(166)", review_variant="matching")
+        r = validate.answer(d, "pinduoduo")["results"][0]
+        self.assertEqual((r["photo_review_count_text"], r["review_variant"]), ("图/视频(166)", "matching"))
+        self.assertEqual(parse.count(r["photo_review_count_text"]), 166)
+        d["results"][0]["review_variant"] = "most"
+        with self.assertRaises(ValueError):
+            validate.answer(d, "pinduoduo")
+
+
 if __name__ == "__main__":
     unittest.main()

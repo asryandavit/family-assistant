@@ -22,6 +22,12 @@ Points (each part is shown in the 🏆 reason and in the result's details):
                   slow_shipping, packaging, other −2
     spec mismatch −15 when the attributes contradict the title (e.g. title 65W, spec 25W)
     suspicious    −100 (far below the search's median price, pricing.mark_suspicious)
+    brand         +10 for a brand on the category's trusted list, −30 for a known look-alike
+                  (config_china.json "brands", owner-editable; decision 093). The brand is
+                  read from the 品牌 spec, the shop name or the START of the title — never from
+                  anywhere in the title, because no-name titles say "适用苹果" (fits Apple)
+    variant       reviews read were of the wanted variant +3; only of other variants −5
+    photos        reviews with buyer photos/videos: 2 × log10(count), at most +6
 """
 import math
 import re
@@ -42,6 +48,9 @@ CERT_KEYS = ("3c", "ccc", "ce认证", "ce ", "产品认证")
 CERT_CATEGORIES = ("electronics", "kids")
 MIN_REVIEWS_FOR_RATING = 20
 BAND = 5   # results whose scores fall in the same band of 5 points are ordered by price
+
+VARIANT_POINTS = {"matching": 3, "other": -5}
+VARIANT_TEXT = {"matching": "reviews are of this variant", "other": "reviews are of other variants"}
 
 AGE_RE = re.compile(r"(\d{1,2})\s*年(?:老店|店)|入驻\s*(\d{1,2})\s*年")
 PCT_RE = re.compile(r"(\d{2,3}(?:\.\d+)?)\s*%")
@@ -80,8 +89,46 @@ def _certified(specs):
     return False
 
 
-def score(p, category="other"):
-    """(points, parts): parts is a list of (label, points) for the reason text."""
+BRACKETS_RE = re.compile(r"^\s*(?:[【\[(（][^】\])）]{0,12}[】\])）]\s*)*")
+BRAND_SHOP_WORDS = ("旗舰店", "专卖店", "official")
+
+
+def _norm(t):
+    """Lower-case text without leading bracket tags such as 【官方正品】."""
+    return BRACKETS_RE.sub("", str(t or "")).lower()
+
+
+def _starts_with(text, name):
+    """text starts with name, followed by a non-letter (so 'UE' matches 'UE100W' but not
+    'UEFA'; Chinese names need no boundary)."""
+    t, n = _norm(text), name.lower()
+    if not t.startswith(n):
+        return False
+    nxt = t[len(n):len(n) + 1]
+    return not (n.isascii() and nxt.isascii() and nxt.isalpha())
+
+
+def brand_of(p, names):
+    """The first of names (each a list of spellings, e.g. ["绿联", "ugreen"]) that the result
+    shows as ITS brand: the 品牌 spec, a brand store's name (旗舰店 / 专卖店 — an accessory
+    shop called "苹果配件店" is not Apple), or the start of the title. None if none."""
+    specs = p.get("specs") or {}
+    spec_brand = next((str(v) for k, v in specs.items()
+                       if "品牌" in str(k) or str(k).lower() == "brand"), "")
+    shop = str(p.get("shop_name") or "").lower()
+    brand_shop = any(w in shop for w in BRAND_SHOP_WORDS)
+    for spellings in names or []:
+        for n in spellings:
+            if (spec_brand and _starts_with(spec_brand, n)) \
+                    or (brand_shop and n.lower() in shop) \
+                    or _starts_with(p.get("title_cn"), n) or _starts_with(p.get("title_en"), n):
+                return next((x for x in spellings if x.isascii()), spellings[0])
+    return None
+
+
+def score(p, category="other", brands=None):
+    """(points, parts): parts is a list of (label, points) for the reason text. brands is
+    config_china.json "brands": {category: {"trusted": [[spellings]], "lookalike": [[...]]}}."""
     parts = []
     parts.append((parse.LABEL[p["seller"]].split(" ", 1)[1], SELLER_POINTS.get(p["seller"], 0)))
     tags = [str(x) for x in list(p.get("marks") or []) + list(p.get("badges") or [])]
@@ -104,6 +151,18 @@ def score(p, category="other"):
         parts.append(("%d%% positive" % round(r * 100), round(max(-20.0, min(10.0, (r - 0.9) * 100)), 1)))
     for k in p.get("complaint_types") or []:
         parts.append(("complaints: " + COMPLAINT_TEXT.get(k, k), COMPLAINT_POINTS.get(k, -2)))
+    lists = (brands or {}).get(category) or {}
+    fake = brand_of(p, lists.get("lookalike"))
+    good = None if fake else brand_of(p, lists.get("trusted"))
+    if fake:
+        parts.append(("look-alike brand " + fake, -30))
+    elif good:
+        parts.append(("known brand " + good, 10))
+    if p.get("reviews_read") and p.get("review_variant") in VARIANT_POINTS:
+        parts.append((VARIANT_TEXT[p["review_variant"]], VARIANT_POINTS[p["review_variant"]]))
+    photos = p.get("photo_reviews")
+    if photos and photos >= 3:
+        parts.append(("%s photo reviews" % _n(photos), round(min(6.0, 2 * math.log10(photos)), 1)))
     if p.get("spec_mismatch"):
         parts.append(("specs contradict the title", -15))
     if p.get("suspicious"):

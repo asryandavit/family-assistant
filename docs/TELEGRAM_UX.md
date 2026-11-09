@@ -243,7 +243,9 @@ out / 🚫 check page / ⚠️ not read, each with a search link; Taobao is alwa
 link, decision 090; every search link uses the plan's short Chinese search words, never the
 owner's sentence), brand guidance, Poizon hint for
 clothes and shoes, restricted-goods warnings, one 4-column table per site, most trusted first (#, item, 🛡 trust = seller icon + score
-from china/trust.py, total AMD; price orders only results of about the same trust, decision 092; `*` = weight not listed; `⚠️` = suspiciously cheap, far below the search's median
+from china/trust.py — seller, guarantees, reviews, rating, complaints, brand list and look-alikes
+from config_china.json, photo reviews; total AMD; price orders only results of about the same
+trust, decisions 092–093; `*` = weight not listed; `⚠️` = suspiciously cheap, far below the search's median
 item price, never the 🏆 pick — decision 091; the 🏆 pick is the top of the trust order and its reason
 lists the trust parts) and a `<details>` per result (variant, ¥ → AMD · USD,
 China delivery, `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, every forwarder ×

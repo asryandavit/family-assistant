@@ -89,7 +89,7 @@ def assemble(answers, ccfg, routes, rates, today):
                 for a in answers]
     everything = [p for ps in per_site for p in ps]
     pricing.mark_suspicious(everything, ccfg.get("suspicious_ratio", 0.25))
-    pricing.apply_trust(everything, category)
+    pricing.apply_trust(everything, category, ccfg.get("brands"))
     sites, all_ranked = [], []
     for a, priced in zip(answers, per_site):
         ranked = pricing.rank(priced, ccfg.get("top_per_site", 5))

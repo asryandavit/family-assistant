@@ -49,6 +49,10 @@ For each chosen listing report:
   fake | broken | unsafe | wrong_spec | not_as_described | poor_quality | slow_shipping |
   packaging | other. One entry per kind, only if at least one review reports it; [] if none
   or if you did not read reviews.
+- photo_review_count_text: the count of reviews with buyer photos/videos exactly as shown
+  (e.g. "图/视频(166)", "有图(52)") or null.
+- review_variant: which variant the reviews you read were about (reviews show "型号：…" /
+  "规格：…"): matching (most were the wanted variant) | mixed | other (none were) | unknown.
 - spec_mismatch: true if the page's attributes contradict the title (e.g. title 65W, attribute
   25W; title GaN, attribute not GaN); else false.
 - restrict: any of battery | liquid | magnet | aerosol that the item contains.
@@ -69,7 +73,8 @@ ANSWER with ONE JSON object and nothing else:
    "weight_text": null, "dims_text": null, "sales_text": null, "review_count_text": null,
    "min_order_text": null, "specs": {}, "material": null, "size_advice": null,
    "liked": [], "complaints": [], "reviews_read": false, "rating_text": null,
-   "complaint_types": [], "spec_mismatch": false, "likely_over_1kg": false,
+   "complaint_types": [], "spec_mismatch": false, "photo_review_count_text": null,
+   "review_variant": "unknown", "likely_over_1kg": false,
    "over_1kg_reason": null, "restrict": [], "why": null}]}
 
 The user's description: {description}

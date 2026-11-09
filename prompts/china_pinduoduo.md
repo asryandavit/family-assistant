@@ -28,7 +28,8 @@ SITE: Pinduoduo (mobile web, logged in).
 4. Reviews (first {reviews} chosen ids): navigate to
    https://mobile.yangkeduo.com/goods_comments.html?goods_id=<id> and read
    document.body.innerText.slice(0,950) and, after one scroll, slice(950,1900). The top shows
-   the filters with counts — 全部(N) is review_count_text — and tag chips with counts
+   the filters with counts — 全部(N) is review_count_text, 图/视频(N) is
+   photo_review_count_text — and tag chips with counts
    (质量好(19) ...; negative chips like 质量差 / 不充电 / 发热 count as complaints). If a 差评
    or 追加 (follow-up, written after use) filter is shown, click it once and read its first
    reviews too: they matter most. Reviews show "型号：..." — prefer reviews of the matching

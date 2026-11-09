@@ -761,3 +761,16 @@ listings, never the cheapest, and Pinduoduo reads the reviews page (counts, tag 
 追加 follow-up reviews) for the top listings even when product pages hide prices. Also fixed: tests
 with a fake runner wrote their replies into `.browser/china_data/raw` and rotated real replies out;
 only real runs are kept now. Docs: docs/TELEGRAM_UX.md §5e, docs/briefs/CHINA_SEARCH.md.
+
+**093 — 2026-11-10 — /china trust score adds a brand list with look-alikes, reviews of the right variant, and photo reviews.**
+Owner: "as a professional add the most important ones". Three signals, computed in
+`china/trust.py`, unit-tested. (1) Brands: `config_china.json` `brands` per category, owner-editable
+— a trusted brand +10, a known look-alike −30 (seeded with brands well known in China and the
+look-alikes seen or documented: "UE" imitating Ugreen, seen live 2026-11-09; 乐拼/Lepin copying
+LEGO). The brand is read only from the 品牌 spec, a brand store's name (旗舰店 / 专卖店) or the start
+of the title: no-name titles say 适用苹果 ("fits Apple"), and accessory shops carry brand names.
+(2) Variant: the model reports which variant the reviews it read were about (`review_variant`,
+allow-list matching | mixed | other | unknown); matching +3, other −5. (3) Photo reviews:
+`photo_review_count_text` as shown (图/视频(166)), 2·log10, at most +6. Considered and left for
+later: grouping the same product across sites into one comparison (already shown as "same
+product", decision 090). Docs: docs/TELEGRAM_UX.md §5e (trust parts), docs/briefs/CHINA_SEARCH.md.
