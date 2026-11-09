@@ -123,6 +123,40 @@ def send_html(cfg, text, silent=False, buttons=None, reply_keyboard=None, force_
         _post(tok, payload)
 
 
+RICH_URL = "https://api.telegram.org/bot%s/sendRichMessage"
+
+
+def send_rich(cfg, rich_html, fallback_html=None, silent=True, buttons=None, chat_id=None,
+              post=None):
+    """Send a Telegram Rich Message (Bot API 10.1+, `rich_message.html`) and return
+    ("rich", message_id). If Telegram refuses it (an error, a limit, a tag it doesn't know),
+    send fallback_html with send_html() and return ("plain", None); with no fallback,
+    ("failed", None). A rich message carries its buttons inside the HTML (<tg-button>);
+    `buttons` is only for the plain fallback. Additive: send_html() is unchanged.
+    Format notes (seen 2026-11-09): a newline is a space -> use <br>; buttons use data=."""
+    tok, chat = _creds(cfg)
+    chat = chat_id or chat
+    if not tok or not chat:
+        print("Telegram env not set; skipping rich:", rich_html[:80])
+        return "failed", None
+    post = post or requests.post
+    why = ""
+    try:
+        r = post(RICH_URL % tok, json={"chat_id": chat, "rich_message": {"html": rich_html},
+                                        "disable_notification": silent}, timeout=30)
+        d = r.json()
+        if d.get("ok"):
+            return "rich", (d.get("result") or {}).get("message_id")
+        why = str(d.get("description") or d)[:160]
+    except (requests.RequestException, ValueError) as e:
+        why = str(e)[:160]
+    print("Telegram rich send failed:", why)
+    if fallback_html:
+        send_html(cfg, fallback_html, silent=silent, buttons=buttons, chat_id=chat)
+        return "plain", None
+    return "failed", None
+
+
 def send_family(cfg, text, **kw):
     """Send to every allowed chat (family content: daily plan, shopping list)."""
     for chat in allowed_chats(cfg):

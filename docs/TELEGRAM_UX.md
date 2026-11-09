@@ -54,6 +54,17 @@ Rules:
 - Stay under the 4096-character limit; `lib/telegram._split` keeps folded blocks intact
   if a message ever has to be split.
 
+**Rich Messages** (decision 088): `lib/telegram.send_rich(cfg, rich_html, fallback_html,
+buttons=…, chat_id=…)` sends `sendRichMessage` (Bot API 10.1+, `rich_message.html`) and, if
+Telegram refuses it, the same content through `send_html()` as plain HTML with
+`<blockquote expandable>` folds and an inline keyboard. Returns `("rich", message_id)`,
+`("plain", None)` or `("failed", None)`. Rich HTML rules seen on the owner's iPhone
+(2026-11-09): a newline is a space (use `<br>` / `<p>`); tables ≤ 4 columns; long parts in
+`<details><summary>`; `<tg-slideshow>` for photos (HTTP(S) URLs); in-message buttons are
+`<tg-button type="callback_data" data="…">` inside `<tg-button-row>` (`callback_data=` is
+refused). Limits: 32,768 characters, 500 blocks, 50 media. Used by `/china` first; other
+messages keep `send_html()`.
+
 ## 3. Buttons and routing
 
 | Kind | Looks like | Use |
