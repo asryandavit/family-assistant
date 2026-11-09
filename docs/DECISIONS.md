@@ -740,3 +740,24 @@ the 1688 prompt now reads each product page with one `get_page_text` call and ne
 screenshots. Not changed: the in-message buttons (owner: wait for the Mini App). Fixture:
 tests/fixtures/china/answer_1688_live.json. Docs: docs/briefs/CHINA_SEARCH.md §9,
 docs/TELEGRAM_UX.md §5e.
+
+**092 — 2026-11-09 — /china ranks by trust first, price second; reviews read on Pinduoduo even when prices are hidden.**
+Owner: "the price is not so important — find the best and trustworthy product; make sure reviews and
+all important things are counted, especially on Pinduoduo." Results are now ordered by a trust
+score computed in code (`china/trust.py`, unit-tested): seller class (official 40, authorised 35,
+flagship 25, reseller/factory 10, unmarked 0), a fake-compensation or genuine-goods guarantee (+5),
+store age (+1/yr, ≤ 5), a 3C/CE certificate for electronics and kids (+5), sales (3·log10, ≤ 15),
+review count (2.5·log10, ≤ 10), positive rate with ≥ 20 reviews (+10 at 100%, 0 at 90%, down to
+−20), each complaint kind found in the reviews (fake, broken, unsafe, wrong specs, not as described
+−12; poor quality −6; shipping, packaging, other −2), specs contradicting the title (−15), and
+suspiciously cheap (−100). Delivered price orders only results in the same 5-point band. The 🏆 pick
+is the top of that order across sites (never a promo or suspiciously cheap price) and its reason
+lists the parts; each result's details show "🛡 Trust N: part +n · …" and the table's third column
+is the trust score. This supersedes decision 091's 25% / safety-category rule (`trusted_within_pct`
+removed); the suspicious-price rule stays. The model only reports what the page shows: new contract
+fields `rating_text` (as shown), `complaint_types` (allow-list, validate.COMPLAINTS, anything else
+rejects the answer) and `spec_mismatch`; the prompts now ask for the best and most trustworthy
+listings, never the cheapest, and Pinduoduo reads the reviews page (counts, tag chips, 差评 and
+追加 follow-up reviews) for the top listings even when product pages hide prices. Also fixed: tests
+with a fake runner wrote their replies into `.browser/china_data/raw` and rotated real replies out;
+only real runs are kept now. Docs: docs/TELEGRAM_UX.md §5e, docs/briefs/CHINA_SEARCH.md.

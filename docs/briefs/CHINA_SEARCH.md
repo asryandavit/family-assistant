@@ -335,7 +335,7 @@ What this means:
 |---|---|---|
 | Parsers (prices, counts, weights, mm/cm, seller class, promo, restrictions, links from ids) | `china/parse.py` | `tests/test_china_parse.py` on the P0 captures |
 | Answer contract, whole-answer rejection, prose trimming, JSON extraction | `china/validate.py` | `tests/test_china_validate.py` |
-| Money: ¥/$ → AMD/USD, China delivery, forwarder × mode, customs, 1 kg rule, ranking, 🏆 pick (brand first for electronics/beauty/kids, suspiciously cheap never picked — decision 091), same product, parcel customs | `china/pricing.py`, `config_china.json` | `tests/test_china_pricing.py` (hand-checked totals on `market/tariffs.json` and a fixed CBA rate set) |
+| Money: ¥/$ → AMD/USD, China delivery, forwarder × mode, customs, 1 kg rule, ranking, trust-first ranking and 🏆 pick (`china/trust.py`, decision 092; suspiciously cheap never picked, decision 091), same product, parcel customs | `china/pricing.py`, `china/trust.py`, `config_china.json` | `tests/test_china_pricing.py` (hand-checked totals on `market/tariffs.json` and a fixed CBA rate set), `tests/test_china_trust.py` |
 | Rich answer + plain fallback, buttons | `china/report.py`, `lib/telegram.send_rich` | `tests/test_china_report.py`, `tests/test_telegram_rich.py` |
 | `claude -p` calls (plan, site, Taobao text, reviews), repair re-ask | `china/runner.py`, `prompts/china_*.md` | `tests/test_china_search.py` (Repair) |
 | Queue + worker | `china/queue.py`, `china/search.py`, `jobs/china_search.py` | `tests/test_china_queue.py`, `tests/test_china_search.py` |

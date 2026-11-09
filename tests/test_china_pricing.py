@@ -6,7 +6,7 @@ import os
 import unittest
 from datetime import date
 
-from china import parse, pricing, validate
+from china import parse, pricing, trust, validate
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 F = os.path.join(ROOT, "tests", "fixtures", "china")
@@ -93,50 +93,74 @@ class Delivery(unittest.TestCase):
         self.assertIn("store delivery China delivery not shown", p["quote"]["notes"])
 
 
+def mk(base, **kw):
+    """A priced result with only the fields ranking reads replaced."""
+    d = dict(base, promo="", suspicious=False, marks=[], badges=[], specs={}, sales=None,
+             reviews=None, rating_text=None, complaint_types=[], spec_mismatch=False,
+             reviews_read=False)
+    d.update(kw)
+    return d
+
+
 class Ranking(unittest.TestCase):
+    """Owner, 2026-11-09: the best and most trustworthy product first, price second."""
+
     def setUp(self):
-        self.p = [priced(r) for r in results()]
+        self.p = pricing.apply_trust([priced(r) for r in results()], "electronics")
+        self.base = self.p[1]
 
-    def test_rank_cheapest_first(self):
-        ranked = pricing.rank(self.p, 5)
-        totals = [x["total_amd"] for x in ranked]
-        self.assertEqual(totals, sorted(totals))
-        self.assertEqual(ranked[0]["id"], "987289867285")        # 首件¥89.9
+    def test_trust_before_price(self):
+        cheap = mk(self.base, id="1", seller=parse.UNMARKED, total_amd=3000.0)
+        good = mk(self.base, id="2", seller=parse.OFFICIAL, total_amd=12000.0)
+        ranked = pricing.rank(pricing.apply_trust([cheap, good]), 5)
+        self.assertEqual([x["id"] for x in ranked], ["2", "1"])
+        self.assertIs(pricing.best_pick([cheap, good])[0], good)
 
-    def test_best_pick_prefers_trusted_within_pct(self):
-        pick, why = pricing.best_pick(self.p, 25)
-        self.assertEqual(pick["seller"], parse.AUTHORISED)
-        self.assertIn("cheapest", why)
+    def test_price_breaks_ties_within_a_band(self):
+        a = mk(self.base, id="1", seller=parse.AUTHORISED, total_amd=9000.0)
+        b = mk(self.base, id="2", seller=parse.AUTHORISED, total_amd=7000.0)
+        pricing.apply_trust([a, b])
+        self.assertEqual([x["id"] for x in pricing.rank([a, b], 5)], ["2", "1"])
+        pick, why = pricing.best_pick([a, b])
+        self.assertIs(pick, b)
+        self.assertIn("the cheapest of 2 equally trusted", why)
 
-    def test_best_pick_falls_back_to_cheapest(self):
-        p = copy.deepcopy(self.p)
-        for x in p:
-            x["seller"] = parse.UNMARKED
-        pick, why = pricing.best_pick(p, 25)
-        self.assertEqual(pick["total_amd"], min(x["total_amd"] for x in p if not x["promo"]))
-        self.assertIn("no official or authorised", why)
+    def test_reviews_and_sales_outrank_a_bare_listing(self):
+        bare = mk(self.base, id="1", seller=parse.AUTHORISED, total_amd=7000.0)
+        proven = mk(self.base, id="2", seller=parse.AUTHORISED, total_amd=9000.0, sales=50000,
+                    reviews=2321, rating_text="好评率99%", reviews_read=True)
+        pricing.apply_trust([bare, proven])
+        pick, why = pricing.best_pick([bare, proven])
+        self.assertIs(pick, proven)
+        self.assertIn("2,321 reviews", why)
+        self.assertIn("99% positive", why)
+        self.assertIn("no serious complaints", why)
+
+    def test_serious_complaints_sink_an_official_store(self):
+        bad = mk(self.base, id="1", seller=parse.OFFICIAL, total_amd=8000.0,
+                 complaint_types=["fake", "broken"], reviews_read=True)
+        ok = mk(self.base, id="2", seller=parse.AUTHORISED, total_amd=9000.0, reviews_read=True)
+        pricing.apply_trust([bad, ok])
+        self.assertIs(pricing.best_pick([bad, ok])[0], ok)
+        self.assertIn("complaints: fake", trust.reason(bad))
+
+    def test_unpriced_last(self):
+        none = mk(self.base, id="1", seller=parse.OFFICIAL, total_amd=None)
+        some = mk(self.base, id="2", seller=parse.UNMARKED, total_amd=5000.0)
+        pricing.apply_trust([none, some])
+        self.assertEqual([x["id"] for x in pricing.rank([none, some], 5)], ["2", "1"])
+        self.assertEqual(pricing.best_pick([none]), (None, ""))
 
     def test_promo_prices_never_picked(self):
         first_item = next(x for x in self.p if x["id"] == "987289867285")   # 首件¥89.9
         self.assertEqual(first_item["promo"], "first-item price")
-        self.assertIsNot(pricing.best_pick(self.p, 25)[0], first_item)
-        self.assertIs(pricing.rank(self.p, 5)[0], first_item)               # still shown, cheapest
-        only_promo = [dict(first_item)]
-        self.assertEqual(pricing.best_pick(only_promo, 25), (None, ""))
-
-    def test_trusted_too_expensive_loses(self):
-        a = dict(self.p[0], total_amd=10000.0, seller=parse.UNMARKED)
-        b = dict(self.p[1], total_amd=13000.0, seller=parse.OFFICIAL)   # +30% > 25%
-        self.assertIs(pricing.best_pick([a, b], 25)[0], a)
-        c = dict(b, total_amd=12000.0)                                  # +20%
-        self.assertIs(pricing.best_pick([a, c], 25)[0], c)
-
-    def test_nothing_priced(self):
-        self.assertEqual(pricing.best_pick([dict(self.p[0], total_amd=None)], 25), (None, ""))
+        self.assertIsNot(pricing.best_pick(self.p)[0], first_item)
+        self.assertIn(first_item, pricing.rank(self.p, 5))                 # still shown
+        self.assertEqual(pricing.best_pick([first_item]), (None, ""))
 
 
-class SaferPick(unittest.TestCase):
-    """Live run 2026-11-09 (/china GaN charger 65W EU plug): a no-name 1688 "65W" charger at
+class LiveDemo(unittest.TestCase):
+    """Phone demo 2026-11-09 (/china GaN charger 65W EU plug): a no-name 1688 "65W" charger at
     ¥23.85 (1,888 AMD with shipping) was picked over brand-authorised Ugreen at ¥159."""
 
     def setUp(self):
@@ -146,40 +170,33 @@ class SaferPick(unittest.TestCase):
         self.ali = [priced(r) for r in validate.answer(d, "1688")["results"]]
         self.pdd = [priced(r) for r in results()]
         self.all = self.pdd + self.ali
-
-    def test_live_case_picks_the_brand(self):
         pricing.mark_suspicious(self.all, CFG["suspicious_ratio"])
-        pick, why = pricing.best_pick(self.all, 25, "electronics")
+        pricing.apply_trust(self.all, "electronics")
+
+    def test_picks_the_brand(self):
+        pick, why = pricing.best_pick(self.all)
         self.assertEqual(pick["seller"], parse.AUTHORISED)
         self.assertEqual(pick["site"], "pinduoduo")
-        self.assertIn("never picks an unmarked seller", why)
+        self.assertIn("brand-authorised", why)
 
-    def test_live_no_name_is_suspicious(self):
-        pricing.mark_suspicious(self.all, CFG["suspicious_ratio"])
+    def test_no_name_is_suspicious_and_last(self):
         cheap = next(p for p in self.ali if p["id"] == "1089369915475")       # ¥23.85
         self.assertTrue(cheap["suspicious"])
         self.assertFalse(any(p["suspicious"] for p in self.pdd))
-
-    def test_safety_rule_ignores_price_gap(self):
-        a = dict(self.pdd[0], total_amd=2000.0, seller=parse.UNMARKED, promo="", suspicious=False)
-        b = dict(self.pdd[1], total_amd=9000.0, seller=parse.OFFICIAL, promo="", suspicious=False)
-        self.assertIs(pricing.best_pick([a, b], 25, "electronics")[0], b)
-        self.assertIs(pricing.best_pick([a, b], 25, "kids")[0], b)
-        self.assertIs(pricing.best_pick([a, b], 25, "home")[0], a)          # price wins outside
-        self.assertIs(pricing.best_pick([a], 25, "electronics")[0], a)      # no brand -> cheapest
-
-    def test_suspicious_never_picked(self):
-        base = dict(self.pdd[1], seller=parse.UNMARKED, promo="")
-        xs = [dict(base, id=str(i), price_amd=v, total_amd=v + 1500) for i, v in
-              enumerate([1000.0, 8000.0, 8500.0, 9000.0])]
-        pricing.mark_suspicious(xs, 0.25)
-        self.assertEqual([x["suspicious"] for x in xs], [True, False, False, False])
-        self.assertEqual(pricing.best_pick(xs, 25, "home")[0]["price_amd"], 8000.0)
+        self.assertIs(pricing.rank(self.all, 10)[-1], cheap)
 
     def test_suspicious_needs_three_prices(self):
-        xs = [dict(self.pdd[1], price_amd=v) for v in (100.0, 9000.0)]
+        xs = [dict(self.pdd[1], price_amd=v, promo="") for v in (100.0, 9000.0)]
         pricing.mark_suspicious(xs, 0.25)
         self.assertFalse(any(x["suspicious"] for x in xs))
+
+    def test_suspicious_never_picked(self):
+        xs = [mk(self.pdd[1], id=str(i), seller=parse.OFFICIAL, price_amd=v, total_amd=v + 1500)
+              for i, v in enumerate([1000.0, 8000.0, 8500.0, 9000.0])]
+        pricing.mark_suspicious(xs, 0.25)
+        self.assertEqual([x["suspicious"] for x in xs], [True, False, False, False])
+        pricing.apply_trust(xs)
+        self.assertEqual(pricing.best_pick(xs)[0]["price_amd"], 8000.0)
 
 
 class SameProduct(unittest.TestCase):

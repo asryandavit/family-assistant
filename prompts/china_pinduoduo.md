@@ -22,9 +22,15 @@ SITE: Pinduoduo (mobile web, logged in).
    to confirm, then stop opening product pages and answer status "ok" with results built
    from the SEARCH LISTINGS: price_text = the listing's shown price with its prefix (e.g.
    "券后¥109"), price_kind "list", variant null, marks from the listing tags, sales_text
-   from salesTip, reviews_read false, and why = "listing price — may be a cheaper variant;
-   the product page shows prices only in the PDD app". Put the notice text in "notice".
+   from salesTip, and why starting "listing price — may be a cheaper variant; the product
+   page shows prices only in the PDD app". Put the notice text in "notice". Still do step 4
+   (reviews) for the first {reviews} chosen ids — the reviews page is separate from the price.
 4. Reviews (first {reviews} chosen ids): navigate to
    https://mobile.yangkeduo.com/goods_comments.html?goods_id=<id> and read
-   document.body.innerText.slice(0,950) and, after one scroll, slice(950,1900). Reviews show
-   "型号：..." — prefer reviews of the matching variant. Do not copy reviewer names.
+   document.body.innerText.slice(0,950) and, after one scroll, slice(950,1900). The top shows
+   the filters with counts — 全部(N) is review_count_text — and tag chips with counts
+   (质量好(19) ...; negative chips like 质量差 / 不充电 / 发热 count as complaints). If a 差评
+   or 追加 (follow-up, written after use) filter is shown, click it once and read its first
+   reviews too: they matter most. Reviews show "型号：..." — prefer reviews of the matching
+   variant. Do not copy reviewer names. If this page is a login or check page, set
+   reviews_read false for that listing and go on.

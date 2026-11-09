@@ -55,7 +55,8 @@ def call(cfg, prompt, chrome=False, model=None, timeout=600, resume=None, run=su
     if p.returncode != 0:
         raise RuntimeError("claude failed: %s" % (p.stderr or p.stdout or "")[:300])
     w = json.loads(p.stdout)
-    keep_raw(w)
+    if run is subprocess.run:           # real replies only — tests' fake replies must not
+        keep_raw(w)                     # rotate the real ones out (found 2026-11-09)
     return w
 
 

@@ -242,12 +242,12 @@ fallback): header, 🏆 best pick with its reason, sites that could not be read 
 out / 🚫 check page / ⚠️ not read, each with a search link; Taobao is always 🔗 a search
 link, decision 090; every search link uses the plan's short Chinese search words, never the
 owner's sentence), brand guidance, Poizon hint for
-clothes and shoes, restricted-goods warnings, one 4-column table per site (#, item, seller,
-total AMD; `*` = weight not listed; `⚠️` = suspiciously cheap, far below the search's median
-item price, never the 🏆 pick — decision 091; for electronics, beauty and kids the 🏆 pick is
-an official or authorised seller whenever one exists) and a `<details>` per result (variant, ¥ → AMD · USD,
+clothes and shoes, restricted-goods warnings, one 4-column table per site, most trusted first (#, item, 🛡 trust = seller icon + score
+from china/trust.py, total AMD; price orders only results of about the same trust, decision 092; `*` = weight not listed; `⚠️` = suspiciously cheap, far below the search's median
+item price, never the 🏆 pick — decision 091; the 🏆 pick is the top of the trust order and its reason
+lists the trust parts) and a `<details>` per result (variant, ¥ → AMD · USD,
 China delivery, `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, every forwarder ×
-mode with customs and total, seller class with its evidence, specs, 👍/👎 reviews, the fixed
+mode with customs and total, seller class with its evidence, 🛡 the trust score with every part, specs, 👍/👎 reviews, the fixed
 Chinese seller message, the product link built from its id). Buttons in the message:
 `🔁 Only <site>`, `💬 Reviews N` (results whose reviews were not read), `👁 Watch N` (adds
 the item to Market watch with today's price as the owner's price). Silent.

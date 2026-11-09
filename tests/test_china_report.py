@@ -22,11 +22,13 @@ def build(**kw):
     d.pop("_source")
     a = validate.answer(d, "pinduoduo")
     priced = [pricing.price_result(r, ROUTES, RATES, date(2026, 11, 9), CFG) for r in a["results"]]
+    pricing.apply_trust(priced, "electronics")
     ranked = pricing.rank(priced, 5)
     sites = [{"site": "pinduoduo", "status": "ok", "ranked": ranked},
              {"site": "taobao", "status": "login", "ranked": []},
              {"site": "1688", "status": "check", "notice": "访问异常 <script>", "ranked": []}]
-    pick, why = pricing.best_pick(ranked, 25)
+    pricing.apply_trust(ranked, "electronics")
+    pick, why = pricing.best_pick(ranked)
     args = dict(job="j1", query="GaN charger 65W, EU plug", sites=sites, pick=pick, reason=why,
                 groups=[], rates=RATES, tariffs_date="2026-10-29", category="electronics")
     args.update(kw)
@@ -70,6 +72,12 @@ class Rich(unittest.TestCase):
         self.assertIn("⚠️ suspiciously cheap: far below the other listings", rich)
         self.assertIn("⚠️ suspiciously cheap", plain)
         self.assertTrue(report.fits(rich))
+
+    def test_trust_shown(self):
+        self.assertIn("<th>Trust</th>", self.rich)
+        self.assertIn("🛡 <b>Trust ", self.rich)
+        self.assertIn("brand-authorised +35", self.rich)
+        self.assertIn("most trusted first", self.rich)
 
     def test_pdd_group_price_note(self):
         self.assertIn("single-buy price is only in the PDD app", self.rich)

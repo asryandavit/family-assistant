@@ -124,6 +124,17 @@ def seller_line(p):
     return lab + shop + ev
 
 
+def trust_cell(p):
+    icon = parse.LABEL[p["seller"]].split(" ")[0]
+    return "%s %g" % (icon, p["trust"]) if p.get("trust") is not None else icon
+
+
+def trust_line(p):
+    """'Trust 52: brand-authorised +35 · guarantee 假一赔十 +5 · …' (china/trust.py)."""
+    parts = " · ".join("%s %s%g" % (esc(lbl), "+" if v > 0 else "", v) for lbl, v in p["trust_parts"])
+    return "🛡 <b>Trust %g</b>: %s" % (p["trust"], parts)
+
+
 def detail_lines(p, category):
     L = []
     if p.get("variant"):
@@ -133,6 +144,8 @@ def detail_lines(p, category):
     L.extend(weight_line(p))
     L.extend(route_lines(p))
     L.append("Seller: " + seller_line(p))
+    if p.get("trust_parts") is not None:
+        L.append(trust_line(p))
     if p.get("sales") is not None:
         L.append("Sold: %s" % "{:,}".format(p["sales"]))
     if p.get("min_order_text"):
@@ -224,8 +237,8 @@ def buttons(job, sites, shown):
 
 def _context(query, sites, rates, tariffs_date):
     read = [SITE_NAME[s["site"]] for s in sites if s.get("status") == "ok"]
-    ctx = "%s · top %s each by total to Yerevan" % (", ".join(read) or "no site read",
-                                                    max([len(s.get("ranked") or []) for s in sites] + [0]))
+    ctx = "%s · top %s each, most trusted first (🛡 trust score), then cheapest to Yerevan" % (
+        ", ".join(read) or "no site read", max([len(s.get("ranked") or []) for s in sites] + [0]))
     foot = "CBA %s · tariffs %s · customs: forwarders' rule (€200 duty-free, 15%% above), estimate" % (
         rates.get("date", "?") if rates else "no rates", tariffs_date or "?")
     return ctx, foot
@@ -261,10 +274,10 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
         ranked = s.get("ranked") or []
         if not ranked:
             continue
-        rows = ["<tr><th>#</th><th>Item</th><th>Seller</th><th align=\"right\">Total AMD</th></tr>"]
+        rows = ["<tr><th>#</th><th>Item</th><th>Trust</th><th align=\"right\">Total AMD</th></tr>"]
         for p in ranked:
             rows.append("<tr><td>%d</td><td>%s</td><td>%s</td><td align=\"right\">%s%s%s%s</td></tr>" % (
-                num[id(p)], esc(short(p["title_en"], 34)), parse.LABEL[p["seller"]].split(" ")[0],
+                num[id(p)], esc(short(p["title_en"], 34)), trust_cell(p),
                 amd(p["total_amd"]), "*" if p["weight_assumed"] and p["total_amd"] is not None else "",
                 " promo" if p.get("promo") else "", " ⚠️" if p.get("suspicious") else ""))
         R.append('<table bordered striped compact><caption>%s %s</caption>%s</table>' % (

@@ -19,6 +19,9 @@ Contract (prompts/china_rules.md shows it to the model):
     "sales_text": str|null, "review_count_text": str|null, "min_order_text": str|null,
     "specs": {str: str}, "material": str|null, "size_advice": str|null,
     "liked": [str], "complaints": [str], "reviews_read": bool,
+    "rating_text": str|null,                  positive rate / score as shown
+    "complaint_types": [COMPLAINTS],          kinds the reviews read report (allow-list)
+    "spec_mismatch": bool,                    attributes contradict the title
     "likely_over_1kg": bool, "over_1kg_reason": str|null,
     "restrict": ["battery|liquid|magnet|aerosol"],
     "why": str|null}]}
@@ -30,6 +33,8 @@ STATUSES = ("ok", "login", "check", "error")
 CATEGORIES = ("electronics", "clothes", "shoes", "home", "beauty", "kids", "other")
 PRICE_KINDS = ("after_coupon", "list", "group", "first_item", "tier", "single", "unknown")
 RESTRICT = ("battery", "liquid", "magnet", "aerosol")
+COMPLAINTS = ("fake", "broken", "unsafe", "wrong_spec", "not_as_described", "poor_quality",
+              "slow_shipping", "packaging", "other")
 ID_RE = re.compile(r"^\d{6,15}$")
 URL_RE = re.compile(r"https?://|www\.", re.I)
 
@@ -70,6 +75,14 @@ def _list(v, field, limit_items, limit_len, allowed=None, prose=False):
         if allowed and s not in allowed:
             raise ValueError("%s: %r not allowed" % (field, s))
         out.append(s)
+    return out
+
+
+def _unique(xs):
+    out = []
+    for x in xs:
+        if x not in out:
+            out.append(x)
     return out
 
 
@@ -125,6 +138,10 @@ def result(r, search_ids, site):
         "liked": _list(r.get("liked"), "liked", 3, 160, prose=True),
         "complaints": _list(r.get("complaints"), "complaints", 3, 160, prose=True),
         "reviews_read": _bool(r.get("reviews_read"), "reviews_read"),
+        "rating_text": _str(r.get("rating_text"), "rating_text", SHORT),
+        "complaint_types": _unique(_list(r.get("complaint_types"), "complaint_types", len(COMPLAINTS),
+                                         20, allowed=COMPLAINTS)),
+        "spec_mismatch": _bool(r.get("spec_mismatch"), "spec_mismatch"),
         "likely_over_1kg": _bool(r.get("likely_over_1kg"), "likely_over_1kg"),
         "over_1kg_reason": _str(r.get("over_1kg_reason"), "over_1kg_reason", MID, prose=True),
         "restrict": _list(r.get("restrict"), "restrict", 4, 10, allowed=RESTRICT),

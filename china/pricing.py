@@ -7,24 +7,22 @@ Per result:
                   so only "free" is taken from it)
     weight        from the page; none -> config assumed_kg (1 kg) and weight_assumed=True
     routes        config routes only (forwarder x mode), each with shipping, customs, total
-Ranking: per site by the cheapest total (unpriced last), top N. Promo prices (new-buyer,
-first-item, 'from', ranges — parse.promo) are shown with their reason but never picked. The best pick is the
-cheapest total from an official / authorised seller when it is within trusted_within_pct of
-the overall cheapest, else the overall cheapest; the reason names which rule chose it.
-Safer pick (owner, 2026-11-09, after a $5 no-name "65W" charger beat brand-authorised Ugreen):
-in SAFETY_CATEGORIES an official / authorised listing, when one exists, always wins over
-unmarked ones whatever the price gap; and a listing priced below suspicious_ratio of the
-median item price of the search is marked suspicious and never picked.
+Ranking (owner, 2026-11-09: "the price is not so important — find the best and trustworthy
+product"): by the trust score (china/trust.py: seller, guarantees, store age, certificates,
+sales, reviews, rating, complaint kinds, spec mismatch), then by delivered price only among
+results in the same score band; unpriced last. Promo prices (new-buyer, first-item, 'from',
+ranges — parse.promo) are shown with their reason but never picked; a listing priced below
+suspicious_ratio of the search's median item price is marked suspicious (−100) and never
+picked. The 🏆 pick is the top of that order across sites; its reason lists the trust parts.
 """
+import math
 import re
 
-from china import parse
+from china import parse, trust
 from market import customs as customs_mod
 from market import pricing as mpricing
 from market import rates as rates_mod
 
-TRUSTED = (parse.OFFICIAL, parse.AUTHORISED)
-SAFETY_CATEGORIES = ("electronics", "beauty", "kids")   # fakes here are unsafe, not just poor
 FREE_WORDS = ("包邮", "免运费", "免邮", "free shipping", "free delivery", "运费0", "运费¥0")
 
 
@@ -101,10 +99,24 @@ def price_result(r, routes, rates, today, cfg):
     return out
 
 
+def apply_trust(priced, category="other"):
+    """Sets p["trust"] and p["trust_parts"] (china/trust.py) on every result."""
+    for p in priced:
+        p["trust"], p["trust_parts"] = trust.score(p, category)
+    return priced
+
+
+def order_key(p):
+    """Trust band first (higher better), then delivered total (lower better)."""
+    return (-math.floor(p.get("trust", 0) / trust.BAND), p["total_amd"])
+
+
 def rank(priced, top_n):
-    """Cheapest total first; unpriced keep their order at the end."""
-    have = sorted([p for p in priced if p["total_amd"] is not None], key=lambda p: p["total_amd"])
-    return (have + [p for p in priced if p["total_amd"] is None])[:top_n]
+    """Most trusted first, cheaper first within a trust band; unpriced at the end (most
+    trusted first)."""
+    have = sorted([p for p in priced if p["total_amd"] is not None], key=order_key)
+    rest = sorted([p for p in priced if p["total_amd"] is None], key=lambda p: -p.get("trust", 0))
+    return (have + rest)[:top_n]
 
 
 def mark_suspicious(priced, ratio):
@@ -125,28 +137,19 @@ def mark_suspicious(priced, ratio):
     return priced
 
 
-def best_pick(priced, within_pct, category="other"):
-    """(result, reason) or (None, '')."""
+def best_pick(priced):
+    """(result, reason) or (None, ''): the top of the trust order, never a promo or
+    suspiciously cheap price."""
     have = [p for p in priced if p["total_amd"] is not None and not p.get("promo")
             and not p.get("suspicious")]
     if not have:
         return None, ""
-    cheapest = min(have, key=lambda p: p["total_amd"])
-    trusted = [p for p in have if p["seller"] in TRUSTED]
-    if trusted:
-        t = min(trusted, key=lambda p: p["total_amd"])
-        who = parse.LABEL[t["seller"]].split(" ", 1)[1]
-        if t is cheapest:
-            return t, "cheapest total, and from %s" % who
-        if t["total_amd"] <= cheapest["total_amd"] * (1 + within_pct / 100.0):
-            extra = t["total_amd"] - cheapest["total_amd"]
-            return t, ("from %s, only %s AMD more than the cheapest (an unmarked or reseller listing)"
-                       % (who, "{:,.0f}".format(extra)))
-        if category in SAFETY_CATEGORIES:
-            return t, ("from %s — for %s the bot never picks an unmarked seller over a brand "
-                       "one (fakes and false ratings are common); cheaper unmarked listings are "
-                       "below" % (who, category))
-    return cheapest, "cheapest total; no official or authorised seller within %d%%" % within_pct
+    best = min(have, key=order_key)
+    why = trust.reason(best)
+    peers = [p for p in have if p is not best and order_key(p)[0] == order_key(best)[0]]
+    if peers:
+        why += "; the cheapest of %d equally trusted" % (len(peers) + 1)
+    return best, why
 
 
 WORD_RE = re.compile(r"[a-z]+|\d+w", re.I)

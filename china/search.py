@@ -81,19 +81,22 @@ def read_site(cfg, ccfg, site, description, query_cn, log=print):
 def assemble(answers, ccfg, routes, rates, today):
     """answers: validated site answers in site order -> (sites, pick, reason, groups, category,
     brand_guidance) for report.build()."""
-    sites, all_ranked, cats, guidance = [], [], [], None
-    for a in answers:
-        priced = [pricing.price_result(r, routes, rates, today, ccfg) for r in a["results"]]
+    cats = [a.get("category") or "other" for a in answers if a["status"] == "ok"]
+    category = max(set(cats), key=cats.count) if cats else "other"
+    guidance = next((a.get("brand_guidance") for a in answers
+                     if a["status"] == "ok" and a.get("brand_guidance")), None)
+    per_site = [[pricing.price_result(r, routes, rates, today, ccfg) for r in a["results"]]
+                for a in answers]
+    everything = [p for ps in per_site for p in ps]
+    pricing.mark_suspicious(everything, ccfg.get("suspicious_ratio", 0.25))
+    pricing.apply_trust(everything, category)
+    sites, all_ranked = [], []
+    for a, priced in zip(answers, per_site):
         ranked = pricing.rank(priced, ccfg.get("top_per_site", 5))
         sites.append({"site": a["site"], "status": a["status"], "notice": a.get("notice"),
                       "ranked": ranked})
         all_ranked.extend(ranked)
-        if a["status"] == "ok":
-            cats.append(a.get("category") or "other")
-            guidance = guidance or a.get("brand_guidance")
-    category = max(set(cats), key=cats.count) if cats else "other"
-    pricing.mark_suspicious(all_ranked, ccfg.get("suspicious_ratio", 0.25))
-    pick, reason = pricing.best_pick(all_ranked, ccfg.get("trusted_within_pct", 25), category)
+    pick, reason = pricing.best_pick(all_ranked)
     groups = pricing.same_product(all_ranked)
     return sites, pick, reason, groups, category, guidance
 
@@ -181,8 +184,9 @@ def find_result(root, chat_id, job_id, n):
 REVIEW_STEPS = {
     "pinduoduo": "Navigate to https://mobile.yangkeduo.com/goods_comments.html?goods_id={item_id} and "
                  "read document.body.innerText.slice(0,950), then scroll once and read slice(950,1900).",
-    "1688": "Navigate to https://detail.1688.com/offer/{item_id}.html and read the rating and the "
-            "reviews on the page with document.body.innerText in chunks of 950 characters.",
+    "1688": "Navigate to https://detail.1688.com/offer/{item_id}.html and read the whole page with "
+            "ONE get_page_text call (javascript_tool is refused on detail.1688.com); use the rating "
+            "and the reviews shown there.",
 }
 
 

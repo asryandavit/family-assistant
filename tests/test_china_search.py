@@ -187,6 +187,13 @@ class Repair(unittest.TestCase):
             del os.environ["ANTHROPIC_API_KEY"]
         self.assertNotIn("ANTHROPIC_API_KEY", seen)
 
+    def test_fake_runs_never_saved_as_raw(self):
+        from unittest import mock
+        run, _ = self.fake_run([{"result": "{}", "session_id": "s"}])
+        with mock.patch.object(runner, "keep_raw") as kept:
+            runner.call({"claude_cmd": "claude"}, "x", run=run)
+        kept.assert_not_called()
+
     def test_chrome_tools_allow_list(self):
         self.assertNotIn("form_input", runner.CHROME_TOOLS)
         self.assertNotIn("upload", runner.CHROME_TOOLS)

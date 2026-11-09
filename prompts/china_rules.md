@@ -17,11 +17,13 @@ osPlatform is Windows. Create your own tab (tabs_context_mcp with createIfEmpty)
 end (tabs_close_mcp). javascript_tool output is cut at about 1,000 characters: read in chunks
 with the slice() calls given below.
 
-WHAT TO FIND: the item described below. Choose up to {top} listings that best match the
-description (right type, wattage/size/spec, plug if asked; skip accessories-only and bundles
-that are a different product). Prefer different shops; include an official flagship store
-(官方旗舰店) or brand-authorised seller (品牌授权) when one matches. For each chosen listing open
-its product page; for the first {reviews} also read the reviews.
+WHAT TO FIND: the item described below. The family wants the BEST and most TRUSTWORTHY
+product, not the cheapest. Choose up to {top} listings that best match the description (right
+type, wattage/size/spec, plug if asked; skip accessories-only and bundles that are a different
+product), preferring: official flagship stores (官方旗舰店) and brand-authorised sellers
+(品牌授权), known brands, many sales and reviews, a high positive rate, guarantees (假一赔十,
+正品险). Never prefer a listing just because it is cheap. Prefer different shops. For each
+chosen listing open its product page; for the first {reviews} also read the reviews.
 
 For each chosen listing report:
 - variant: the option that matches the description (e.g. 65W + EU plug), not the cheapest one;
@@ -40,6 +42,15 @@ For each chosen listing report:
   size_advice: size table summary and whether reviews say it runs small or large.
 - liked / complaints: 2–3 short English points each from the reviews you read
   (reviews_read: true); if you did not read reviews, reviews_read: false and empty lists.
+  Look especially at negative and follow-up reviews (差评, 追加/追评 written after use).
+- rating_text: the positive rate or score exactly as shown (e.g. "好评率98%", "4.8分", "5.0")
+  or null. Do not compute it.
+- complaint_types: the kinds of problem the reviews you read actually report, chosen ONLY from:
+  fake | broken | unsafe | wrong_spec | not_as_described | poor_quality | slow_shipping |
+  packaging | other. One entry per kind, only if at least one review reports it; [] if none
+  or if you did not read reviews.
+- spec_mismatch: true if the page's attributes contradict the title (e.g. title 65W, attribute
+  25W; title GaN, attribute not GaN); else false.
 - restrict: any of battery | liquid | magnet | aerosol that the item contains.
 - why: one short English line on why this listing is or is not a good choice (brand, seller,
   specs); flag look-alike brands (names imitating a known brand) here.
@@ -57,7 +68,8 @@ ANSWER with ONE JSON object and nothing else:
    "list_price_text": null, "single_price_text": null, "domestic_delivery_text": null,
    "weight_text": null, "dims_text": null, "sales_text": null, "review_count_text": null,
    "min_order_text": null, "specs": {}, "material": null, "size_advice": null,
-   "liked": [], "complaints": [], "reviews_read": false, "likely_over_1kg": false,
+   "liked": [], "complaints": [], "reviews_read": false, "rating_text": null,
+   "complaint_types": [], "spec_mismatch": false, "likely_over_1kg": false,
    "over_1kg_reason": null, "restrict": [], "why": null}]}
 
 The user's description: {description}
