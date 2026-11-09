@@ -8,7 +8,8 @@ from market import DIR
 ALIASES = {"www.ozon.ru": "am.ozon.com", "ozon.ru": "am.ozon.com", "wildberries.ru": "www.wildberries.ru",
            "amazon.com": "www.amazon.com", "amazon.co.uk": "www.amazon.co.uk",
            "amazon.de": "www.amazon.de", "amazon.it": "www.amazon.it", "www.vega.am": "vega.am",
-           "global.wildberries.ru": "www.wildberries.ru", "wildberries.am": "www.wildberries.ru"}
+           "global.wildberries.ru": "www.wildberries.ru", "wildberries.am": "www.wildberries.ru",
+           "detail.tmall.com": "item.taobao.com", "yangkeduo.com": "mobile.yangkeduo.com"}
 
 
 def load(path=None):

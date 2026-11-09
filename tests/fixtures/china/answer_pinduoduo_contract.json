@@ -1,0 +1,186 @@
+{
+ "_source": "Converted by script from headless_pinduoduo.json (real headless answer 2026-11-09) into the P1 answer contract (china/validate.py). Values unchanged; field names mapped; price_text = after-coupon price, else the shown 限时价 without the note.",
+ "site": "pinduoduo",
+ "status": "ok",
+ "notice": null,
+ "category": "electronics",
+ "brand_guidance": null,
+ "search_ids": [
+  "796316919192",
+  "990724308501",
+  "1025029495459",
+  "747870218999",
+  "1010518629764",
+  "996089469661",
+  "1003276559461",
+  "746462564077",
+  "961442683684",
+  "616556746723",
+  "796296014964",
+  "1025439537826",
+  "616805280700",
+  "939098439427",
+  "509937729525",
+  "1008346598668",
+  "987289867285",
+  "387503861263",
+  "1017024291134",
+  "840318448427"
+ ],
+ "results": [
+  {
+   "id": "616805280700",
+   "title_cn": "绿联65W氮化镓充电器100V英规欧规全球通用适用苹果华为手机电脑",
+   "title_en": "UGREEN 65W GaN charger, 100V, UK/EU plug, worldwide use, for Apple/Huawei phones and laptops",
+   "shop_name": "绿联赛文斯专卖店",
+   "marks": [
+    "绿联",
+    "品牌正品",
+    "在线中",
+    "假一赔十",
+    "保证金",
+    "8年老店"
+   ],
+   "badges": [],
+   "variant": "【65W三口】配中/美/英/欧转换头",
+   "price_text": "¥159",
+   "price_kind": "list",
+   "list_price_text": null,
+   "single_price_text": null,
+   "domestic_delivery_text": null,
+   "weight_text": null,
+   "dims_text": null,
+   "sales_text": null,
+   "review_count_text": "274",
+   "min_order_text": null,
+   "specs": {
+    "品牌": "绿联",
+    "充电器适用形式": "直充",
+    "3C认证证书编号": "2025010907813585",
+    "插口数量": "多口",
+    "是否支持快充": "支持快充",
+    "充电功率": "65W"
+   },
+   "material": null,
+   "size_advice": null,
+   "liked": [
+    "Swappable CN/US/UK/EU plugs, used in Europe/Germany without separate adapters",
+    "Stays cool under load, charges laptops fine",
+    "3 ports, fast charging, cheaper than abroad"
+   ],
+   "complaints": [
+    "Heavier/bulkier than a normal 65W charger",
+    "One report of poor QC: plug hard to insert, internals crooked",
+    "One tester saw only ~26W peak on an iPhone"
+   ],
+   "reviews_read": true,
+   "likely_over_1kg": false,
+   "over_1kg_reason": null,
+   "restrict": [],
+   "why": null
+  },
+  {
+   "id": "616556746723",
+   "title_cn": "绿联多国旅行充电器65W氮化镓PD快充英国欧洲美国全球通用充电头",
+   "title_en": "UGREEN multi-country travel charger 65W GaN PD fast charging, UK/EU/US worldwide plug",
+   "shop_name": "绿联明和盛专卖店",
+   "marks": [
+    "绿联",
+    "品牌正品",
+    "在线中",
+    "假一赔十",
+    "保证金",
+    "4年老店"
+   ],
+   "badges": [],
+   "variant": "多头版(配中/英/欧/美规四种插头)",
+   "price_text": "¥159",
+   "price_kind": "after_coupon",
+   "list_price_text": "¥177",
+   "single_price_text": null,
+   "domestic_delivery_text": null,
+   "weight_text": null,
+   "dims_text": null,
+   "sales_text": null,
+   "review_count_text": "323",
+   "min_order_text": null,
+   "specs": {
+    "品牌": "绿联",
+    "充电器适用形式": "充电插头",
+    "3C认证证书编号": "2025010907824251",
+    "插口数量": "多口",
+    "是否支持快充": "支持快充",
+    "快充协议": "FCP，QC，PD"
+   },
+   "material": null,
+   "size_advice": null,
+   "liked": [
+    "Multi-plug set works for travel (HK, Korea), has 3C certification",
+    "Small and light, good for travel",
+    "Solid build, fast shipping"
+   ],
+   "complaints": [
+    "Overseas buyer warns replacements are not arranged abroad if the product fails",
+    "Mostly generic 5-star reviews; little detailed feedback",
+    "No other complaints visible in the loaded reviews"
+   ],
+   "reviews_read": true,
+   "likely_over_1kg": false,
+   "over_1kg_reason": null,
+   "restrict": [],
+   "why": null
+  },
+  {
+   "id": "987289867285",
+   "title_cn": "绿联65W氮化镓充电器PD多口TypeC快充适用苹果华为三星笔记本电脑",
+   "title_en": "UGREEN 65W GaN charger PD multi-port Type-C fast charging for Apple/Huawei/Samsung laptops",
+   "shop_name": "绿联UGREEN凯易樽专卖店",
+   "marks": [
+    "绿联",
+    "品牌正品",
+    "在线中",
+    "保证金",
+    "品牌授权",
+    "上榜店铺",
+    "我关注的店"
+   ],
+   "badges": [],
+   "variant": "65W【氮化镓充电器】折叠 20700【单头】2C1A",
+   "price_text": "首件¥89.9",
+   "price_kind": "first_item",
+   "list_price_text": "券前¥99.9",
+   "single_price_text": null,
+   "domestic_delivery_text": null,
+   "weight_text": null,
+   "dims_text": null,
+   "sales_text": null,
+   "review_count_text": "640",
+   "min_order_text": null,
+   "specs": {
+    "品牌": "绿联",
+    "充电器适用形式": "充电插头",
+    "3C认证证书编号": "2024010907666660",
+    "插口数量": "多口",
+    "是否支持快充": "支持快充",
+    "充电功率": "65W"
+   },
+   "material": null,
+   "size_advice": null,
+   "liked": [
+    "Compact foldable design, much smaller than old laptop bricks",
+    "Fast and stable charging of phones and laptops, stays fairly cool",
+    "Several ports, good value, 3C certified"
+   ],
+   "complaints": [
+    "Gets hot during fast charging (25-day follow-up review)",
+    "One reviewer called it a waste of money (no details)",
+    "China plug only; overseas buyers need an adapter"
+   ],
+   "reviews_read": true,
+   "likely_over_1kg": false,
+   "over_1kg_reason": null,
+   "restrict": [],
+   "why": null
+  }
+ ]
+}

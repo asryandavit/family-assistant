@@ -26,6 +26,9 @@ Columns (only the table is read, by market/stores.py):
 | wildberries | Wildberries | www.wildberries.ru | none | russia | RUB | direct, air, truck | — |
 | ozon | Ozon | am.ozon.com | none | russia | RUB | direct, air, truck | — |
 | vega | vega.am | vega.am | vega | local | AMD | local | — |
+| pinduoduo | Pinduoduo | mobile.yangkeduo.com | none | china | CNY | air, sea, truck | — |
+| taobao | Taobao / Tmall | item.taobao.com | none | china | CNY | air, sea, truck | — |
+| 1688 | 1688 | detail.1688.com | none | china | CNY | air, sea, truck | — |
 
 Other warehouses the forwarders have (stores can be added later): Greece 10437 (Athens),
 Spain 08016 (Barcelona), Poland, UAE, Korea.
@@ -34,3 +37,7 @@ Wildberries and Ozon: the bot's browser was shown a block page on 2026-10-29 (§
 brief), so their reader is `none` until a real product page is captured; their items run
 on the owner's price (`/watch price`) with the store fallback. `ozon.ru` links are read at
 `am.ozon.com` (where ozon.ru redirects from Armenia).
+
+Pinduoduo, Taobao/Tmall and 1688 (decision 088): read by `/china` in a real browser
+(docs/briefs/CHINA_SEARCH.md), not by the nightly reader (`none`); a `👁 Watch` from a
+`/china` result adds the item with its price as the owner's price.
