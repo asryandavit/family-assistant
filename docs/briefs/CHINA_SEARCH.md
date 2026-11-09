@@ -1,0 +1,188 @@
+# CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688 (brief, not built)
+
+Status: **spec agreed with the owner 2026-11-09; brief written 2026-11-09, waiting for the
+owner's OK; P0 discovery next.** Builds on Market watch (decisions 086–087): forwarder
+tariffs, customs, CBA rates, working-day arrivals and the report helpers in `market/` are
+reused, not rewritten.
+
+---
+
+## 1. What it does
+
+`/china <description>` from Davit's or Karine's chat. The bot searches **Pinduoduo,
+Taobao/Tmall and 1688** in the **owner's own Chrome** (where he is logged in), reads the
+listings, product pages and reviews, and answers the chat that asked with the top results
+priced all the way to Yerevan: item price of the matching variant in ¥ → AMD and USD,
+China domestic delivery, shipping per forwarder × mode, customs. Each result says who the
+seller is (official / authorised / reseller / factory), what buyers liked and complained
+about, and why it is (or isn't) the pick.
+
+**Poizon (得物) is skipped** (app-only). For clothes, shoes and sneakers the answer adds one
+line: "👟 Also check Poizon on your phone — it has authenticated sneakers and clothes."
+
+## 2. What the bot never does
+
+Claude in Chrome only **searches and reads**. It never logs in, never types a password or
+an SMS code, never adds to cart, never buys, never messages a seller, never solves a
+CAPTCHA, slider or any bot check. A login page or a check stops that site for the run and
+the owner is told ("🔑 Taobao logged out — open Chrome on the PC and sign in"). This is the
+same rule as Market watch (decision 086): no stealth, no solvers, no proxies.
+
+Enforced in code, not only in the prompt (§4.3): the `claude -p` run gets an **allow-list of
+browser tools**; typing tools are not on it.
+
+## 3. The agreed spec (owner, 2026-11-09)
+
+| # | Topic | Agreed |
+|---|---|---|
+| 1 | Who | Both chats; the answer goes to the chat that asked |
+| 2 | Sites | Pinduoduo, Taobao/Tmall, 1688. Poizon skipped (+ phone hint for clothes/shoes) |
+| 3 | Where it runs | Owner's real Chrome via the Claude in Chrome extension (option a) |
+| 4 | Vague request | Bot first asks 1–2 quick questions with buttons (budget, size, colour, brand only?) |
+| 5 | Price | The **variant matching the description**, not the cheapest SKU; PDD group (拼单) and single (单独购买) prices kept apart; ¥ → AMD and USD at the CBA rate |
+| 6 | Delivery | China domestic delivery if not free; China → Yerevan per forwarder × mode (Onex air/sea, Globbing air/sea, BuyForYou air, EasyTrans truck) from stored tariffs; customs if over €200 |
+| 7 | No weight | Computed for 1 kg and said in UPPERCASE: `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`; if it likely weighs more: `⚠️ PROBABLY OVER 1 KG`. A ready Chinese message to ask the seller weight / size / EU plug |
+| 8 | Why this one | Brand guidance (which brand is better, look-alike brands flagged), key specs (wattage, EU plug, GaN…), clothes: **material composition**, size table + "runs small/large" from reviews |
+| 9 | Reviews | Per link 2–3 liked points, 2–3 complaints, review count. **Option B**: reviews read for the **top 3 per site** (9 links); the rest get a `💬 Reviews` button |
+| 10 | Official vs not | Every seller marked: official flagship (官方旗舰店) · brand-authorised (品牌授权) · reseller · factory (1688 源头工厂 / 实力商家) · unmarked. Plus **manufacturer / official dealer lookup** ("Grohe official store or dealer"): official store and authorised dealers first, factories listed apart with a warning that a factory selling a brand name is not official unless marked; shop links and how to contact them (the bot never contacts them) |
+| 11 | Ranking | Trust marks, sales volume, returns shown. **Top 5 per site by total delivered price**, one 🏆 best pick with its reason; the same product on several sites side by side; forwarder restrictions flagged (power banks / batteries, liquids, magnets, aerosols); customs check for several items in one parcel |
+| 12 | After a result | Buttons `🔁 Only Pinduoduo` / `Only Taobao` / `Only 1688` (typed: `/china only taobao <description>`); `👁 Watch` adds the item to the Market watch list; `/china last` shows the last results (kept 24 h) |
+| 13 | Progress | "⏳ Pinduoduo done (1/3)…" messages; **one Chrome job at a time**, one queue for both users and the login check; a second request waits and is told its place |
+| 14 | Photo search | Photo with a caption → image search on Taobao and Pinduoduo → the same full answer. Own phase |
+| 15 | Keep logged in | At Windows logon Chrome opens with the three sites in tabs (plain Chrome, script under `scheduler/`). **Daily login check 09:00** through the same queue; logged out / Chrome closed / extension disconnected → both chats: "🔑 Taobao logged out — open Chrome on the PC and sign in" |
+
+## 4. Architecture
+
+### 4.1 Headless trigger — verified 2026-11-09 (before this brief, read-only probes)
+
+The listener can drive the owner's Chrome without anyone at the keyboard:
+
+```
+claude -p --chrome --output-format json \
+       --allowedTools "mcp__claude-in-chrome__<read tools>" --disallowedTools "Bash,Edit,Write"
+```
+
+- Runs on the owner's **Max subscription** (`ANTHROPIC_API_KEY` unset in the child env —
+  `lib/claude.py` already runs `claude -p` this way; `selfcheck.py` warns if the key is set).
+- `list_connected_browsers` showed **two** browsers on the account (Windows PC and a Mac).
+  The run must pick the **Windows** one explicitly (`select_browser` by platform; the
+  device id is stored in `machine.json`, gitignored) — otherwise nothing is returned.
+- Probe: one Pinduoduo search (`mobile.yangkeduo.com/search_result.html?search_key=…`,
+  "氮化镓充电器 65W") read headlessly in **49 s**, 20 listings, no login wall: titles,
+  `券后` coupon prices, `本店已拼` / `全店总售` sales, `品牌授权`, `正品险` marks.
+- Each `claude -p --chrome` call loads the Chrome tool definitions (~72k tokens of cache
+  creation; the CLI reported a list-price equivalent of ~$0.55–0.60 per small call). On Max
+  this is quota, not money, but a full `/china` (3 searches + 9 product pages with reviews)
+  is a noticeable share of a 5-hour window. P0 measures a full run; the brief's ~6 min
+  estimate is checked there.
+- Taobao needed the extension's **per-site permission click** on 2026-11-09. Whether a
+  headless run can trigger that prompt (and hang) is a P0 question; the answer decides
+  whether the 09:00 check must also verify site permissions.
+
+### 4.2 Flow
+
+```
+/china <text>  (listener, either chat)
+  → china/bot.py: parse ("only <site>", "last", photo), vague? → 1–2 button questions
+  → china/queue.py: append job to the single file queue, reply "⏳ queued (2nd)" if busy
+  → jobs/china_search.py (one worker; a lock file guarantees one Chrome job at a time)
+      per site:  claude -p --chrome  prompt prompts/china_site.md  → JSON
+                 → china/validate.py  (schema, allow-lists; reject → re-ask once → site
+                    marked "not read", never a partial result)
+                 → progress message "⏳ Pinduoduo done (1/3)"
+  → china/pricing.py  (Python: parse ¥ strings, pick group/single, domestic delivery,
+                       market.shipping per forwarder × mode, market.customs, market.rates)
+  → china/report.py   (template, folds, buttons)  → the asking chat
+  → .browser/china_data/last_<chat>.json (24 h)   — saved after the message is sent
+```
+
+### 4.3 Numbers are code (CLAUDE.md §2)
+
+The model **transcribes and classifies**; Python **computes**.
+
+| The model returns | Python does |
+|---|---|
+| Price **as shown** (`"券后¥109"`, `"¥45.79"`, `"拼单¥39.9 / 单独购买¥45"`) and the SKU label it matched | parses the ¥ amount, keeps group and single apart, rejects anything unparsable |
+| Domestic delivery text (`"包邮"`, `"运费¥8"`) | free / amount / unknown (unknown is shown as unknown, never as free) |
+| Weight / size text from the spec table, if any | `market.readers.parse_weight_kg` / `parse_dims_cm`; none → 1 kg + the UPPERCASE warning |
+| `likely_over_1kg: true/false` + a one-line reason | shows `⚠️ PROBABLY OVER 1 KG`; never changes the computed number |
+| Sales and review count **as shown** (`"全店总售523万+"`) | parses to a number (万 = 10,000) for sorting |
+| Seller class from an enum + the **raw mark text** as evidence | checks the evidence actually contains a mark of that class (官方旗舰店 / 旗舰店 / 品牌授权 / 源头工厂 / 实力商家…); otherwise downgraded to "unmarked" |
+| Restriction flags from an enum (`battery`, `liquid`, `magnet`, `aerosol`) | looks up each forwarder's rule (data row in `market/forwarders.md`) |
+| English title, liked / complaints, brand note, size advice, material composition (as shown) | lays them out; no number from these lines is used in any calculation |
+
+Totals, ¥→AMD/USD, shipping, customs (single item and several items in one parcel), the
+sort by total delivered price and the 🏆 pick's price comparison are all Python, unit-tested
+on fixtures captured in P0. The 🏆 **reason** is words from the model, chosen among the top
+results Python already ranked (an id outside that list is rejected).
+
+The seller message is a **fixed Chinese template in code** (extends the one in
+`market/bot.py`): weight, box size, and for electrics "is there an EU plug (欧标插头)?".
+
+### 4.4 Queue and Chrome jobs
+
+- One file queue in `.browser/china_data/queue/`, one worker process at a time
+  (lock file with the worker's pid; a stale lock from a dead pid is cleared and reported).
+- Jobs: `search`, `reviews` (the 💬 button), `photo`, `login_check`. FIFO; a waiting user is
+  told their place; `/cancel` removes their own job.
+- Time limit per site (default 6 min); a timeout marks that site "not read" and moves on.
+- The worker never holds anything else open: no Sheets write, no database transaction
+  while `claude -p` runs (CLAUDE.md §3 spirit — this feature keeps state in JSON files).
+
+### 4.5 Keeping the sites open
+
+- `scheduler/register-china.ps1`: at logon, start Chrome with the three sites in tabs; a
+  09:00 daily `jobs/china_search.py --login-check` (queued like any job).
+- The check opens each site's "my account" page read-only and looks for the logged-in
+  marker found in P0. Logged out, check page, Chrome closed or extension disconnected →
+  one message to **both** chats (the family can't search until the owner fixes it).
+- Platform calls stay in `scheduler/` (CLAUDE.md §6).
+
+## 5. Telegram (plugs into TELEGRAM_UX.md, no new top-level menu)
+
+- 🌍 Market section gets a `🇨🇳 China search` button (prompt "What are you looking for?").
+- Typed: `/china <description>`, `/china only pinduoduo|taobao|1688 <description>`,
+  `/china last`, a photo with caption `/china …` (photo phase).
+- New callback prefix `cn:` (`cn:only:<site>:<job>`, `cn:rev:<job>:<n>`, `cn:watch:<job>:<n>`,
+  `cn:q:<answer>` for the vague-request questions). Old buttons keep working.
+- Replies to the asking chat, silent; the 🔑 login problem is with sound to both chats.
+
+Result layout (illustrative — numbers below are placeholders, not computed):
+
+```
+🇨🇳 China search · GaN charger 65W, EU plug
+<i>3 sites · top 5 each by total to Yerevan · CBA 9 Nov</i>
+━━━━━━━━━━━━
+🏆 Ugreen 65W GaN (Pinduoduo, ✅ brand-authorised) — <total> AMD (<usd>) via <route>
+   Why: <reason>
+1. … one line per result: site · seller mark · total AMD · cheapest route
+▸ Pinduoduo (fold): per result — title (EN), variant, ¥ group / single → AMD · USD,
+  domestic delivery, every forwarder × mode, customs, ⚠️ weight line, specs,
+  👍 liked / 👎 complaints (n reviews), size advice, link, seller message
+▸ Taobao (fold) · ▸ 1688 (fold) · ▸ Same product on several sites (fold)
+━━━━━━━━━━━━
+⚠️ Battery item: Onex/Globbing air may refuse — check before ordering
+[🔁 Only Pinduoduo] [🔁 Only Taobao] [🔁 Only 1688]
+[💬 Reviews 4] [💬 Reviews 5] … [👁 Watch 1] …
+```
+
+## 6. Phases (one per session, CLAUDE.md §9)
+
+| Phase | Content | Done when |
+|---|---|---|
+| **P0 Discovery** | In the owner's Chrome (he clicks the extension's per-site "Allow"), capture to `tests/fixtures/china/`, per site: a search result page, a product page with variants (SKU prices; PDD group vs single), the reviews section, shop / official marks (官方旗舰店, 品牌授权, 源头工厂, 实力商家), the logged-in marker, a login/check page if one appears, and the image-search entry point. Repeat one search **headlessly** (`claude -p --chrome`) per site and time a full 3-site + 9-review run. | A table: site → what is readable, the field names, time and quota per run, whether headless needs a permission click |
+| **P1 Text search** | `china/` (bot, queue, validate, pricing, report), `prompts/china_site.md`, `jobs/china_search.py`; vague-request buttons; reviews for top 3 per site; seller classes + official/dealer lookup; restrictions; parcel customs; progress messages; `💬 Reviews`, `🔁 Only <site>`, `👁 Watch`, `/china last`. `listener.py` / `lib/ui.py` changes in their own additive commits | A real `/china` from both phones answered with all three sites; tests green |
+| **P2 Keep logged in** | Logon script with the three tabs, 09:00 login check through the queue, both-chat 🔑 message, staleness line at listener startup | Logging out of one site produces the 🔑 message at the next check |
+| **P3 Photo search** | Photo + caption → Taobao and Pinduoduo image search (extension upload tool, found in P0) → the same answer | A photo of a real item finds it on both sites |
+
+Each phase ends with a decision entry (088+), a doc update and a phone demo.
+
+## 7. Open questions for the owner
+
+1. **Quota**: a full `/china` costs a noticeable share of the Max 5-hour window (§4.1). OK,
+   or should reviews for the top 3 be on a button too (fewer calls)?
+2. **Mac browser**: the extension is also connected on a Mac. The bot will always pick the
+   Windows PC — confirm.
+3. **Karine's searches** run in your Chrome on the PC while you may be using it (tabs open
+   in their own group and close at the end). OK?
+4. **Exchange to USD**: CBA AMD/USD rate (same source as AMD) — OK?
