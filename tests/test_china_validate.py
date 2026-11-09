@@ -29,6 +29,25 @@ class Accepts(unittest.TestCase):
                              "search_ids": [], "results": []}, "taobao")
         self.assertEqual((a["status"], a["results"]), ("check", []))
 
+    def test_stray_brace_before_json(self):
+        txt = "I used the {site} rule. " + json.dumps(good(), ensure_ascii=False)
+        self.assertEqual(validate.extract_json(txt)["site"], "pinduoduo")
+
+    def test_long_prose_trimmed_not_rejected(self):
+        d = good()
+        d["results"][0]["why"] = "x" * 202
+        d["results"][0]["liked"] = ["y" * 300]
+        r = validate.answer(d, "pinduoduo")["results"][0]
+        self.assertEqual(len(r["why"]), 200)
+        self.assertTrue(r["why"].endswith("…"))
+        self.assertEqual(len(r["liked"][0]), 160)
+
+    def test_long_data_still_rejected(self):
+        d = good()
+        d["results"][0]["price_text"] = "¥" + "1" * 100
+        with self.assertRaises(ValueError):
+            validate.answer(d, "pinduoduo")
+
     def test_json_in_fences(self):
         txt = "Here it is:\n```json\n" + json.dumps(good(), ensure_ascii=False) + "\n```\nDone {x}"
         self.assertEqual(validate.extract_json(txt)["site"], "pinduoduo")

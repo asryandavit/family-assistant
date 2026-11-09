@@ -54,7 +54,26 @@ def call(cfg, prompt, chrome=False, model=None, timeout=600, resume=None, run=su
             timeout=timeout, env=_env())
     if p.returncode != 0:
         raise RuntimeError("claude failed: %s" % (p.stderr or p.stdout or "")[:300])
-    return json.loads(p.stdout)
+    w = json.loads(p.stdout)
+    keep_raw(w)
+    return w
+
+
+def keep_raw(wrapper):
+    """Save the model's raw reply (CLAUDE.md §8: capture the real payload), last 30 kept."""
+    try:
+        from china import data_dir
+        d = os.path.join(data_dir(), "raw")
+        os.makedirs(d, exist_ok=True)
+        import time as _t
+        with open(os.path.join(d, "%d.json" % _t.time_ns()), "w", encoding="utf-8") as f:
+            json.dump({"result": wrapper.get("result"), "session_id": wrapper.get("session_id"),
+                       "stop_reason": wrapper.get("stop_reason"), "num_turns": wrapper.get("num_turns")},
+                      f, ensure_ascii=False)
+        for old in sorted(os.listdir(d))[:-30]:
+            os.remove(os.path.join(d, old))
+    except Exception:
+        pass
 
 
 def usage(wrapper):

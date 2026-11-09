@@ -37,7 +37,10 @@ MAX_RESULTS = 8
 SHORT, MID, LONG = 80, 200, 400
 
 
-def _str(v, field, limit, required=False, allow_url=False):
+def _str(v, field, limit, required=False, allow_url=False, prose=False):
+    """Text field. Data fields (ids, prices, counts, names) over the limit are rejected;
+    prose fields (English descriptions written by the model) are trimmed with '…' — a
+    long sentence is not a wrong value (live run 2026-11-09: 'why' at 202 of 200)."""
     if v is None:
         if required:
             raise ValueError("%s missing" % field)
@@ -48,20 +51,22 @@ def _str(v, field, limit, required=False, allow_url=False):
     if required and not v:
         raise ValueError("%s empty" % field)
     if len(v) > limit:
-        raise ValueError("%s too long (%d > %d)" % (field, len(v), limit))
+        if not prose:
+            raise ValueError("%s too long (%d > %d)" % (field, len(v), limit))
+        v = v[: limit - 1].rstrip() + "…"
     if not allow_url and URL_RE.search(v):
         raise ValueError("%s contains a link" % field)   # links are built in code only
     return v or None
 
 
-def _list(v, field, limit_items, limit_len, allowed=None):
+def _list(v, field, limit_items, limit_len, allowed=None, prose=False):
     if v is None:
         return []
     if not isinstance(v, list) or len(v) > limit_items:
         raise ValueError("%s must be a list of at most %d" % (field, limit_items))
     out = []
     for x in v:
-        s = _str(x, field, limit_len, required=True)
+        s = _str(x, field, limit_len, required=True, prose=prose)
         if allowed and s not in allowed:
             raise ValueError("%s: %r not allowed" % (field, s))
         out.append(s)
@@ -98,7 +103,7 @@ def result(r, search_ids, site):
     return {
         "site": site, "id": rid,
         "title_cn": _str(r.get("title_cn"), "title_cn", LONG, required=True),
-        "title_en": _str(r.get("title_en"), "title_en", MID, required=True),
+        "title_en": _str(r.get("title_en"), "title_en", MID, required=True, prose=True),
         "shop_name": _str(r.get("shop_name"), "shop_name", SHORT),
         "marks": _list(r.get("marks"), "marks", 12, 40),
         "badges": _list(r.get("badges"), "badges", 12, 60),
@@ -115,15 +120,15 @@ def result(r, search_ids, site):
         "min_order_text": _str(r.get("min_order_text"), "min_order_text", SHORT),
         "specs": {_str(k, "specs key", 40, required=True): _str(v, "specs value", SHORT, required=True)
                   for k, v in specs.items()},
-        "material": _str(r.get("material"), "material", MID),
-        "size_advice": _str(r.get("size_advice"), "size_advice", MID),
-        "liked": _list(r.get("liked"), "liked", 3, 160),
-        "complaints": _list(r.get("complaints"), "complaints", 3, 160),
+        "material": _str(r.get("material"), "material", MID, prose=True),
+        "size_advice": _str(r.get("size_advice"), "size_advice", MID, prose=True),
+        "liked": _list(r.get("liked"), "liked", 3, 160, prose=True),
+        "complaints": _list(r.get("complaints"), "complaints", 3, 160, prose=True),
         "reviews_read": _bool(r.get("reviews_read"), "reviews_read"),
         "likely_over_1kg": _bool(r.get("likely_over_1kg"), "likely_over_1kg"),
-        "over_1kg_reason": _str(r.get("over_1kg_reason"), "over_1kg_reason", MID),
+        "over_1kg_reason": _str(r.get("over_1kg_reason"), "over_1kg_reason", MID, prose=True),
         "restrict": _list(r.get("restrict"), "restrict", 4, 10, allowed=RESTRICT),
-        "why": _str(r.get("why"), "why", MID),
+        "why": _str(r.get("why"), "why", MID, prose=True),
     }
 
 
@@ -153,8 +158,8 @@ def answer(obj, expect_site):
     if len({r["id"] for r in results}) != len(results):
         raise ValueError("the same id appears twice in results")
     return {"site": site, "status": status, "category": cat,
-            "notice": _str(obj.get("notice"), "notice", LONG),
-            "brand_guidance": _str(obj.get("brand_guidance"), "brand_guidance", LONG),
+            "notice": _str(obj.get("notice"), "notice", LONG, prose=True),
+            "brand_guidance": _str(obj.get("brand_guidance"), "brand_guidance", LONG, prose=True),
             "search_ids": search_ids, "results": results}
 
 
@@ -184,13 +189,9 @@ def plan(obj):
             "category": cat, "vague": vague and bool(out_q), "questions": out_q if vague else []}
 
 
-def extract_json(text):
-    """The first top-level JSON object in a model reply (it may wrap it in ``` fences)."""
+def _balanced(s, start):
+    """The JSON object starting at s[start] ('{'), parsed; ValueError if unbalanced/invalid."""
     import json
-    s = (text or "").strip()
-    start = s.find("{")
-    if start < 0:
-        raise ValueError("no JSON object in the reply")
     depth, in_str, esc = 0, False, False
     for i in range(start, len(s)):
         c = s[i]
@@ -210,3 +211,26 @@ def extract_json(text):
             if depth == 0:
                 return json.loads(s[start:i + 1])
     raise ValueError("unfinished JSON object in the reply")
+
+
+def extract_json(text):
+    """The answer object in a model reply: a ```json fence first, else the first '{' that
+    starts a valid JSON object (a stray '{' in the prose before it is skipped)."""
+    s = (text or "").strip()
+    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", s, re.S)
+    if m:
+        try:
+            return _balanced(m.group(1), 0)
+        except ValueError:
+            pass
+    last = ValueError("no JSON object in the reply")
+    pos = s.find("{")
+    while pos >= 0:
+        try:
+            obj = _balanced(s, pos)
+            if isinstance(obj, dict):
+                return obj
+        except ValueError as e:
+            last = e
+        pos = s.find("{", pos + 1)
+    raise last
