@@ -1,0 +1,13 @@
+{
+ "_source": "Tmall product page, owner's Chrome (logged in), 2026-11-09, https://detail.tmall.com/item.htm?id=1072160018602, document.body.innerText (1194 chars) after ~6 automated page reads on Taobao in a few minutes. NOT bypassed; Taobao paused after this.",
+ "state": "degraded: 访问异常提示 — details, specs and reviews hidden; price, shop and SKU names still shown",
+ "check_marker": "系统检测到当前访问存在异常，为避免您的个人信息泄露，请您在安全的网络与浏览环境下重新访问，恢复正常访问方式后，商品详情页将在一段时间后自动恢复。",
+ "shop": {"name": "品胜官方旗舰店", "rating": "4.9", "good_rate": "88VIP好评率96%", "ship": "平均8小时发货", "service": "客服满意度95%"},
+ "price_shown": "￥109.34",
+ "ship_from_to": "广东东莞 至 中国",
+ "guarantees": "退货宝15天价保7天无理由退换假一赔四极速退款",
+ "sku_label": "颜色分类",
+ "skus": ["【65W三口单头】云初白★升级氮化镓★小巧可折叠", "【65W三口单头】魔幻黑★升级氮化镓★小巧可折叠", "【65W三口单头】月白蓝★升级氮化镓★小巧可折叠", "特惠⭐【套装】云初白+1.2米双C快充线", "特惠⭐【套装】魔幻黑+1.2米双C快充线", "特惠⭐【套装】枪灰色+1.2米双C快充线"],
+ "stock": "有货(限购50件)",
+ "buttons_present_not_used": ["加入购物车", "立即购买"]
+}

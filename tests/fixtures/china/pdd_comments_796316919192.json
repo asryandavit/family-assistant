@@ -1,0 +1,17 @@
+{
+ "_source": "Pinduoduo mobile web reviews page, owner's Chrome (logged in), 2026-11-09, https://mobile.yangkeduo.com/goods_comments.html?goods_id=796316919192 (document.body.innerText, first ~900 chars). Reviewer nicknames removed (personal data).",
+ "filters": ["全部(2321)", "最新", "追加(8)", "图/视频(166)", "回头客(1)"],
+ "tags": ["充电快(20)", "功能好用(27)", "质量好(19)", "性价比高(21)", "方便(35)", "功率大(7)", "有分量(6)", "做工细(12)", "外观好看(18)", "设计很好(19)", "手感好(6)", "品质棒(4)", "有质感(8)", "线材结实(5)"],
+ "reviews": [
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "发货很快，到货也快，沉甸甸的，一上手就知道是好东西，等使用后再来追评", "likes": null},
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "这款充电器，如同静谧夜晚中的一缕微光，低调而可靠。黑色圆润的插头设计，握感舒适，仿佛为指尖量身定制。100W的强劲输出，让设备快速回血，每一次使用都充满安心与信赖。", "likes": "3"},
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "做工非常好，试用了一下，充电没问题，携带很方便，满意。", "likes": "1"},
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "插头设计：方便，自带无需在带线 输出功率：充电速度快 外观样式：好看 重量轻便性：很方便携带 兼容性：好 价格合理性：合理", "likes": "2"},
+  {"variant": "型号：45W伸缩线充电器【三口快充】", "text": "产品体验极佳，功能实用，操作便捷，性价比高，值得推荐。", "likes": null},
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "很有份量，小米华为都可以激活快速充电，我那个被车载充坏了的小米也能充的进去", "likes": "1"},
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "这件商品外观亮眼独特，设计感十足，一下子就吸引了我。质量也很不错，做工精细耐用。物流相当快，客服服务周到，很满意这次购物。", "likes": "4"},
+  {"variant": "型号：65W伸缩线充电器【三口快充】", "text": "非常好的手机插头，感谢商家发货快", "likes": null},
+  {"variant": "型号：100W伸缩线充电器【四口快充】", "text": "正品，好用，强烈建议兄弟姐妹们冲", "likes": null}
+ ],
+ "observations": "No negative-review (差评/中评) filter shown on mobile web; the first page is all positive. Complaints must be looked for further down or reported as 'none found in the first N reviews'."
+}

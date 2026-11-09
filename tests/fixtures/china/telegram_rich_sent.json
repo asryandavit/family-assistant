@@ -1,0 +1,229 @@
+{
+ "ok": true,
+ "result": {
+  "message_id": 267,
+  "from": {
+   "id": 7988573862,
+   "is_bot": true,
+   "first_name": "Davit Family Assistant",
+   "username": "davit_family_assistant_bot"
+  },
+  "chat": {
+   "id": 0,
+   "first_name": "Davit",
+   "last_name": "Asryan",
+   "type": "private"
+  },
+  "date": 1794228083,
+  "rich_message": {
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": [
+      {
+       "type": "bold",
+       "text": "🌍 Market watch · rich message test (2nd copy, to save the response)"
+      },
+      " ",
+      {
+       "type": "italic",
+       "text": "Sample layout only — the numbers are made up, not real prices."
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "cells": [
+      [
+       {
+        "text": "Item",
+        "is_header": true,
+        "align": "center",
+        "valign": "middle"
+       },
+       {
+        "text": "Store",
+        "is_header": true,
+        "align": "center",
+        "valign": "middle"
+       },
+       {
+        "text": "Total AMD",
+        "is_header": true,
+        "align": "right",
+        "valign": "middle"
+       },
+       {
+        "text": "Route",
+        "is_header": true,
+        "align": "center",
+        "valign": "middle"
+       }
+      ],
+      [
+       {
+        "text": "Philips airfryer",
+        "align": "left",
+        "valign": "middle"
+       },
+       {
+        "text": "Amazon DE",
+        "align": "left",
+        "valign": "middle"
+       },
+       {
+        "text": "41,200",
+        "align": "right",
+        "valign": "middle"
+       },
+       {
+        "text": "Globbing air",
+        "align": "left",
+        "valign": "middle"
+       }
+      ],
+      [
+       {
+        "text": "GaN charger 65W",
+        "align": "left",
+        "valign": "middle"
+       },
+       {
+        "text": "Pinduoduo",
+        "align": "left",
+        "valign": "middle"
+       },
+       {
+        "text": "12,900",
+        "align": "right",
+        "valign": "middle"
+       },
+       {
+        "text": "BuyForYou air",
+        "align": "left",
+        "valign": "middle"
+       }
+      ],
+      [
+       {
+        "text": "Running shoes",
+        "align": "left",
+        "valign": "middle"
+       },
+       {
+        "text": "Taobao",
+        "align": "left",
+        "valign": "middle"
+       },
+       {
+        "text": "23,400",
+        "align": "right",
+        "valign": "middle"
+       },
+       {
+        "text": "EasyTrans truck",
+        "align": "left",
+        "valign": "middle"
+       }
+      ]
+     ],
+     "caption": "Top offers (sample)",
+     "is_bordered": true,
+     "is_striped": true,
+     "is_compact": true
+    },
+    {
+     "type": "details",
+     "summary": "▸ Details: GaN charger 65W (tap to open)",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "¥75.90 → 8,200 AMD · $21.10\nOnex air 6,900 · Globbing air 8,000 · BuyForYou air 4,900\n⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED"
+      }
+     ]
+    },
+    {
+     "type": "slideshow",
+     "blocks": [
+      {
+       "type": "photo",
+       "photo": [
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2yvwmzOWCU46xJ_MHbQEuDdAALgDWsbjGJ9UVxpXmU47RccAQADAgADcwADPQQ",
+         "file_unique_id": "AQAD4A1rG4xifVF4",
+         "file_size": 1081,
+         "width": 90,
+         "height": 51
+        },
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2yvwmzOWCU46xJ_MHbQEuDdAALgDWsbjGJ9UVxpXmU47RccAQADAgADbQADPQQ",
+         "file_unique_id": "AQAD4A1rG4xifVFy",
+         "file_size": 13004,
+         "width": 320,
+         "height": 180
+        },
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2yvwmzOWCU46xJ_MHbQEuDdAALgDWsbjGJ9UVxpXmU47RccAQADAgADeAADPQQ",
+         "file_unique_id": "AQAD4A1rG4xifVF9",
+         "file_size": 55714,
+         "width": 800,
+         "height": 450
+        },
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2yvwmzOWCU46xJ_MHbQEuDdAALgDWsbjGJ9UVxpXmU47RccAQADAgADeQADPQQ",
+         "file_unique_id": "AQAD4A1rG4xifVF-",
+         "file_size": 118930,
+         "width": 1280,
+         "height": 720
+        },
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2yvwmzOWCU46xJ_MHbQEuDdAALgDWsbjGJ9UVxpXmU47RccAQADAgADdwADPQQ",
+         "file_unique_id": "AQAD4A1rG4xifVF8",
+         "file_size": 202060,
+         "width": 1920,
+         "height": 1080
+        }
+       ]
+      },
+      {
+       "type": "photo",
+       "photo": [
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2zlC-tYUeTMRI2nr_nIYYE_AAKnDmsb7np1U9v9qTrAukQRAQADAgADcwADPQQ",
+         "file_unique_id": "AQADpw5rG-56dVN4",
+         "file_size": 1560,
+         "width": 90,
+         "height": 90
+        },
+        {
+         "file_id": "AgACAgQAAxUAAWrxv2zlC-tYUeTMRI2nr_nIYYE_AAKnDmsb7np1U9v9qTrAukQRAQADAgADbQADPQQ",
+         "file_unique_id": "AQADpw5rG-56dVNy",
+         "file_size": 3814,
+         "width": 128,
+         "height": 128
+        }
+       ]
+      }
+     ],
+     "caption": {
+      "text": "Photo slideshow test"
+     }
+    },
+    {
+     "type": "buttons",
+     "buttons": [
+      {
+       "text": "🌍 Open Market",
+       "style": "primary",
+       "callback_data": "ui:market"
+      },
+      {
+       "text": "API docs",
+       "url": "https://core.telegram.org/bots/api"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

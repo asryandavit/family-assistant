@@ -1,0 +1,24 @@
+{
+ "_source": "Pinduoduo mobile web product page, owner's Chrome (logged in), 2026-11-09, https://mobile.yangkeduo.com/goods.html?goods_id=796316919192. window.rawData is null on product pages (client-rendered): data read from document.body.innerText. Variant prices read by selecting each option in the picker opened by 发起拼单 (no order confirmed). Other buyers' names in the group-buy list are deliberately NOT stored.",
+ "listing_price_shown": {"prefix": "券后", "price": "109", "note": "search listing price = the cheapest variant (45W), not the 100W in the title"},
+ "title": "绿联100W氮化镓充电器pd快充头自带伸缩线多口Type-C快充头PD65W",
+ "head_text": "1/9\n券后¥\n109\n已优惠40元\n已拼2980件\n40元无门槛券\n绿联100W氮化镓充电器pd快充头自带伸缩线多口Type-C快充头PD65W\n未发货秒退\n绿联\n品牌官方正品，100%保障\n2920人已拼，\n参与可立即拼成",
+ "skus_label": "型号",
+ "skus": [
+  {"name": "45W伸缩线充电器【三口快充】", "after_coupon": "券后¥109", "before_coupon": "券前¥149"},
+  {"name": "45W伸缩线充电器【三口快充】白色", "after_coupon": null, "before_coupon": null, "note": "shown greyed out (sold out)"},
+  {"name": "65W伸缩线充电器【三口快充】", "after_coupon": "券后¥139", "before_coupon": "券前¥179"},
+  {"name": "65W伸缩线充电器【三口快充】白色", "after_coupon": "券后¥139", "before_coupon": "券前¥179"},
+  {"name": "100W伸缩线充电器【四口快充】", "after_coupon": "券后¥189", "before_coupon": "券前¥229", "sold": "已拼1641件"}
+ ],
+ "single_buy_price": "not offered on mobile web: only 发起拼单 (group) button; page says 用手机浏览器扫码在拼多多App打开 for the app",
+ "body_text_after_group_list": "入选品牌多口手机充电器年度畅销榜单\n预计15小时内发货\n|\n承诺48小时内发货，超时必赔\n正品险由中国人寿财险承保\n我收藏的商品\n7天无理由退货\n48小时内发货\n假一赔十\n未发货秒退\n商品评价(2,321)\n查看全部\n末未\n发货很快，到货也快，沉甸甸的，一上手就知道是好东西，等使用后再来追评\nAI~seasoon\n这款充电器，如同静谧夜晚中的一缕微光，低调而可靠。黑色圆润的插头设计，握感舒适，仿佛为指尖量身定制。100W的强劲输出，让设备快速回血，每一次使用都充满安心与信赖。\n该商品所属店铺评价\n好用(2414)质量好(2993)便宜好用(1298)充电快(1437)做工精致(1274)外观好看(1317)效果好(764)手感好(663)尺寸合适(346)功能好(1384)\n绿联UGREEN赛文斯专卖店\n绿联\n品牌正品\n进店逛逛\n在线中\n店铺保障\n假一赔十保证金品牌授权\n绿联\n始于2012年\n绿联科技是集数码配件、充电设备等产品的自主研发、设计、生产、销售于一体的国家级... 展开\n绿联\n品牌\n充电插头\n充电器适用形式\n2023010907549536\n3C认证证书编号\n多口\n插口数量\n支持快充\n是否支持快充\nPD\n快充协议\n商品详情\n品牌绿联\n查看全部",
+ "observations": {
+  "review_count": "商品评价(2,321)",
+  "shop_name": "绿联UGREEN赛文斯专卖店 (专卖店 = brand-authorised specialty store, not 官方旗舰店)",
+  "shop_marks": ["品牌正品", "假一赔十保证金品牌授权"],
+  "domestic_delivery": "not stated as a fee on the page (no 运费 line); 48小时内发货",
+  "weight": "not listed in the spec block",
+  "plug": "spec 充电插头 only; type (CN/EU) not stated"
+ }
+}

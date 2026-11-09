@@ -1,0 +1,19 @@
+{
+ "_source": "1688 offer page, owner's Chrome (logged in), 2026-11-09, https://detail.1688.com/offer/735345997702.html, international form ('AM-English-USD'), document.body.innerText excerpts. Reviewer nickname masked by the site (学**啊), not stored.",
+ "supplier": {"name_cn": "深圳市同长盛电子有限公司", "name_en": "Shenzhen tongchangsheng electronics co., ltd", "years": "入驻15年", "main": "主营：手机配件", "tier": "四星供应链", "quality_rate": "品质达标率 99.4%", "fulfil_rate": "综合履约率 90.9%", "repeat_rate": "店铺回头率 39.7%", "badge_on_related_offers": "Factory direct supply"},
+ "rating": "4.4 (product), shop reviews 4.8 / 94.4%",
+ "attributes": {"是否支持快充": "是", "输出功率": "100W", "接口类型": "TYPE-C", "品牌": "同长盛", "充电协议": "PD", "是否原装": "否", "插头标准": "英标", "Product Certification": "Ce certification"},
+ "variants_label": "Applicable model",
+ "variants": ["US regulations (for domestic use)", "With European gauge adapter", "With British gauge conversion head", "Australian standard conversion head", "U.S. Gauge Matching European, British and Australian Translator", "US 100W Data Line C- C with Emark Chip"],
+ "colors": ["White1", "Black1", "White2", "Black2"],
+ "weight_table_header": "Applicable model\tColor\tLength (cm)\tWidth (cm)\tHeight (cm)\tVolume (cm³)\tWeight (g)",
+ "weight_table_rows": [
+  "US regulations (for domestic use)\tWhite1\t67.50\t33.80\t86.50\t197349.750\t180",
+  "With European gauge adapter\tWhite1\t67.50\t33.80\t86.50\t197349.750\t180",
+  "With British gauge conversion head\tWhite1\t67.50\t33.80\t86.50\t197349.750\t180"
+ ],
+ "weight_table_note": "Labelled cm but the numbers are mm (a 180 g charger cannot be 197 litres). Python must range-check dims against weight and reject or rescale with a visible note — never use as-is.",
+ "order_text": "rder quantity: 1 piece\nTotal sales volume900+Piece\nSold800+Piece\nGet sample fee back when placing an order\nFree shipping for orders over 88\n$1 off your first order and free shipping\nShenzhen, guangdong\nDelivered to\nErevanYerevan\nWithin 10 pieces\nCommitment to ship within 48 hours\nShipping cost¥4Start\nBelow average\nDare to pay compensation\nFree Return Shipping\n7-Day No-Reason Return",
+ "order_note": "Price tiers by quantity ('Within 10 pieces', '≥2 pieces'); the shipping estimate is to the account's delivery address (Yerevan), NOT to a forwarder's China warehouse.",
+ "related_offers_tail": "Factory direct supply|4.0|￥65.34|Selling 100+ items|Shenzhen tongchangsheng electronics co., ltd"
+}

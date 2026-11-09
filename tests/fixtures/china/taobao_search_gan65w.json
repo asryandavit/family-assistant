@@ -1,0 +1,20 @@
+{
+ "_source": "Taobao PC search, owner's Chrome (logged in), 2026-11-09, https://s.taobao.com/search?q=氮化镓充电器 65W. 37 unique items on page 1; first 9 kept. Built in page JS from <a> cards linking to item.taobao.com / detail.tmall.com: [item id from the link, host, card innerText with newlines as |]. The logged-in user name in the header is not stored.",
+ "_notes": [
+  "Price is split in the card text: '¥|109|.34' = ¥109.34; label after it: 券后价 / 补贴价 / 首单价 or none.",
+  "The brand chip (e.g. 'Apple/苹果') is the COMPATIBLE-device attribute, not the maker: 品胜, 绿联, Anker cards all show Apple/苹果.",
+  "Shop name is the last field; 官方旗舰店 vs other 旗舰店 vs 专卖店 vs 直销店/直营店 differ (see 品胜官方旗舰店 vs 品胜快充旗舰店).",
+  "'品牌旗舰' chip appears on brand flagship cards; '天天特卖工厂' on a factory listing."
+ ],
+ "rows": [
+  ["1067071242933","tmall","65W氮化镓充电器120W双口适用华为苹果vivo荣耀小米iqoo三星oppo安卓usb接口多功能通用笔记本快充闪充协议66|入选PPS多口充电器热卖|榜|Apple/苹果|120W|氮化镓芯片|¥|16|券后价|5000+人付款|浙江|杭州|直接下单享优惠|退货宝|包邮|回头客800万|天天特卖工厂"],
+  ["1072160018602","tmall","【国家3C认证】品胜65W氮化镓充电器适用iPhone18pro快充头17华为小米Macbook多口苹果安卓笔记本电脑双typec|Apple/苹果|65W|氮化镓芯片|¥|109|.34|券后价|9000+人付款|广东|东莞|直接下单享优惠|包邮|品牌旗舰|品胜官方旗舰店"],
+  ["843864725356","tmall","品胜65W氮化镓充电器适用苹果17promax快充头18插头笔记本电脑macbook多口GaN超级快充ipad三口typec闪充头15|Apple/苹果|65W|氮化镓芯片|¥|69|.9|4000+人付款|广东|中山|直接下单享优惠|包邮|回头客5万|品胜快充旗舰店"],
+  ["826108710949","tmall","3C认证品胜65W氮化镓充电器适用iPhone18promx苹果17快充头GaN笔记本电脑多口超级快充华为ipad插头typec手机|65W手机充电器热卖|榜·第9名|Apple/苹果|65W|氮化镓芯片|¥|69|.8|补贴价|1万+人付款|广东|深圳|直接下单享优惠|回头客1万|百亿补贴品牌优选"],
+  ["987775131748","taobao","绿联65W/100W氮化镓充电器PD快充头Gan适用苹果iPhone17pro华为macbook手机平板笔记本电脑双typec多口插头|品牌新客补贴，当日有效|Apple/苹果|65W|氮化镓芯片|¥|89|.9|首单价|200+人付款|河北|唐山|直降10元|淘金币抵1.5元|退货宝|9年老店|华北绿联品牌直销店"],
+  ["1053138407798","tmall","联想（Lenovo）65W充电器PD快充头氮化镓Gan双接口Typec多头套装适用于苹果手机17pro华为手机笔记本平板电脑|正在秒杀|直降38.25元|Apple/苹果|65W|氮化镓芯片|¥|92|.9|券后价|300+人付款|广东|东莞|淘金币抵1.9元|退货宝|包邮|联想惠泽专卖店"],
+  ["913574096232","tmall","【适配iPhone18-6/安卓】Anker安克65W氮化镓GaN充电器PD快充头多口typec适用苹果18华为平板17笔记本电脑|Apple/苹果|65W|氮化镓芯片|¥|129|券后价|1000+人付款|广东|东莞|直接下单享优惠|退货宝|包邮|ANKER安克天跃专卖店"],
+  ["1014795989762","taobao","LDNIO力德诺65W迷你小巧充电器GaN氮化镓PD快充充电头适用于苹果手机|Apple/苹果|65W|氮化镓芯片|¥|57|.3|券后价|100+人付款|广东|广州|官方立减15%|48小时内发|包邮|LDNIO力德诺港澳直营店"],
+  ["1018617057087","tmall","【国家3C认证】Anker安克65W氮化镓充电器快充充电头PD适用平板iPhone18pro苹果17手机iPhone16macbook笔记本|Apple/苹果|65W|氮化镓芯片|¥|129|券后价|600+人付款|广东|深圳|直接下单享优惠|退货宝|包邮|ANKER安克麦旻专卖店"]
+ ]
+}

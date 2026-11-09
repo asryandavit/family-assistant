@@ -1,7 +1,7 @@
 # CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688 (brief, not built)
 
-Status: **spec agreed with the owner 2026-11-09; brief written 2026-11-09, waiting for the
-owner's OK; P0 discovery next.** Builds on Market watch (decisions 086–087): forwarder
+Status: **brief approved by the owner 2026-11-09 ("go ahead"; Davit and Karine share one Chrome
+session, one queue, the same features). P0 discovery in progress (§8).** Builds on Market watch (decisions 086–087): forwarder
 tariffs, customs, CBA rates, working-day arrivals and the report helpers in `market/` are
 reused, not rewritten.
 
@@ -216,3 +216,56 @@ Each phase ends with a decision entry (088+), a doc update and a phone demo.
 4. **Exchange to USD**: CBA AMD/USD rate (same source as AMD) — OK?
 5. **Rich test message** in P0: OK to send one test Rich Message from the bot to your chat
    (and Karine's, to see it on her phone)?
+
+## 8. P0 results so far (2026-11-09)
+
+Captured in the owner's Chrome through the extension, logged in. Fixtures in
+`tests/fixtures/china/` (other buyers' and reviewers' names and the account name are never
+stored). Search used for every site: "氮化镓充电器 65W".
+
+### What each site gives
+
+| Site | Search | Product page | Reviews | Seller / official marks | Weight |
+|---|---|---|---|---|---|
+| **Pinduoduo** (`mobile.yangkeduo.com`) | **Structured JSON** in `window.rawData…ssrListData.list` (20 per page): `goodsID`, `goodsName`, `price` (fen, before coupon), `priceInfo` + `pricePrefixInfo` (`券后` / `限1件` / `新客`), `salesTip`, `tagList` (`绿联·品牌授权`, `正品险`, `假一赔十`, `退货包运费`…) → `pdd_search_gan65w.json` | No JSON (client-rendered); text: shop name (`绿联UGREEN赛文斯专卖店`), `品牌授权`, guarantees, spec block (brand, 3C number, ports, protocol). **Variant prices only in the picker** opened by `发起拼单` (selecting an option changes `券后¥… 券前¥…`; nothing is confirmed) → `pdd_goods_796316919192.json` | `goods_comments.html?goods_id=` readable: total `全部(2321)`, tag counts, each review with its **variant** (`型号：100W…`) → `pdd_comments_…json`. No negative-review filter on the web | `品牌授权` tag, `专卖店` / `旗舰店` in the shop name | not listed |
+| **Taobao / Tmall** (`s.taobao.com`) | Readable as card text (37 per page): title, chips, price split `¥|109|.34` + label (`券后价`/`补贴价`/`首单价`), `N+人付款`, origin, shop name last, `品牌旗舰` chip → `taobao_search_gan65w.json` | **Degraded after ~6 automated reads in a few minutes**: `访问异常提示 — 系统检测到当前访问存在异常…` — details/specs/reviews hidden, price + shop rating + variant names still shown → `tmall_item_…_anomaly.json`. Not bypassed; Taobao paused | not reached (hidden by the notice) | shop name: `品胜官方旗舰店` **vs** `品胜快充旗舰店` (look-alike "flagship" that is not the official one), `专卖店`, `直销店`, `港澳直营店`, `天天特卖工厂` | not reached |
+| **1688** (`s.1688.com`) | Served in its **international English/USD form** to this account (`AM-English-USD`): card = machine-translated English title + `¥price` only — **no supplier, no factory marks, no MOQ, no sales** → `1688_search_gan.json` | Rich: supplier company (`深圳市同长盛电子有限公司`, `入驻15年`, `四星供应链`, quality/fulfilment/repeat rates), `Factory direct supply`, attributes incl. `是否原装: 否` and `插头标准: 英标`, variants (EU adapter…), quantity price tiers → `1688_offer_735345997702.json` | rating + one review on the page; full reviews not yet opened | supplier tier text; `Factory direct supply` badge | **per-variant weight table (g)** — but sizes labelled cm are mm (180 g, "197 L") |
+
+### Findings that change the plan
+
+1. **Listing price ≠ the described variant** (confirmed): PDD shows ¥109 for a "100W" title;
+   that is the 45W variant — 100W is ¥189 after coupon (¥229 before). P1 must open the
+   picker for the top results; the listing price is only a sort hint.
+2. **PDD mobile web has no 单独购买 (single-buy) price** — only 发起拼单 (group). The result
+   says "group price; single price only in the app".
+3. **Taobao reacts to automated reading within minutes** (soft notice, not a CAPTCHA). The
+   per-run budget for Taobao must be small and slow (P1: search + ≤ 3 product pages, spaced),
+   and the notice is detected and reported like a check page.
+4. **1688 international form hides the trust marks** on search cards; the offer page has
+   them. Whether the Chinese form (with 源头工厂 / 实力商家 on cards) can be shown is a
+   language/site preference in the owner's account — not changed by the bot; owner's call.
+5. **1688 delivery is quoted to Yerevan** (the account's address), not to a forwarder's
+   China warehouse: it is not the China domestic delivery the maths needs → "unknown".
+6. **Look-alike flagships are real** (`品胜官方旗舰店` vs `品胜快充旗舰店`): seller class is
+   decided in code from the shop name (`官方旗舰店` only = official), not from `旗舰店`.
+7. **Taobao's brand chip is the compatible device** (`Apple/苹果` on Pisen/Anker cards),
+   not the maker — never used as the brand.
+8. **Extension limits that shape the design**: page-JS results are capped at ~1,000
+   characters (read in chunks, or use `get_page_text`); URLs with query strings and
+   base64 are blocked in tool output (product links are rebuilt in code from ids:
+   `goods.html?goods_id=`, `item.taobao.com/item.htm?id=`, `detail.1688.com/offer/<id>.html`);
+   a batched action on a new site can fail with `permission_required` (needs a standalone
+   call so the owner is prompted) — a headless run must treat that as "site not permitted".
+9. **Rich Message** test sent (2 copies; the first save crashed): `sendRichMessage` returns
+   the parsed `rich_message.blocks` (`paragraph`, `table` with cells/`is_header`/`align`,
+   `details`, `slideshow` of photos with sizes, `buttons`) → `telegram_rich_sent.json`.
+   Button attribute is `data=`, not `callback_data=` (the latter returns
+   `BUTTON_DATA_INVALID`). A newline in `html` becomes a space — use `<br>` or blocks.
+
+### Still open in P0
+
+- The owner's report of how the Rich test looks on his phone.
+- Headless timing of a **full** run (3 searches + pickers + 9 review pages) — only one PDD
+  search has been timed (49 s). Taobao must cool down first.
+- Taobao product page and reviews when not degraded; 1688 reviews page; image-search entry
+  points (P3).
