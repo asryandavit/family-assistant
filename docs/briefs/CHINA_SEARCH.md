@@ -262,9 +262,20 @@ stored). Search used for every site: "氮化镓充电器 65W".
    Button attribute is `data=`, not `callback_data=` (the latter returns
    `BUTTON_DATA_INVALID`). A newline in `html` becomes a space — use `<br>` or blocks.
 
+### Rich Message on the owner's iPhone (screenshots, 2026-11-09 17:05)
+
+Renders as designed: bordered striped table with caption and a header row (4 columns fit
+the phone width; long cells wrap to 2–3 lines), the `<details>` row shows collapsed with a
+chevron, the slideshow swipes (page dots, caption under it), the two in-message buttons
+show as a row (primary style blue; URL button with ↗). Confirmed rules for P1:
+- Title and subtitle ran into one paragraph (`
+` → space): use `<br>` or separate blocks.
+- Phone table: **≤ 4 columns**, short cell text (site · total AMD · route; details go in
+  the `<details>` fold).
+- Plain-HTML fallback stays for Karine's phone / older clients until seen there.
+
 ### Still open in P0
 
-- The owner's report of how the Rich test looks on his phone.
 - Headless timing of a **full** run (3 searches + pickers + 9 review pages) — only one PDD
   search has been timed (49 s). Taobao must cool down first.
 - Taobao product page and reviews when not degraded; 1688 reviews page; image-search entry
