@@ -675,3 +675,24 @@ rebuilt in code from ids). A two-site run is ~$2.65 list-price equivalent of Max
 fixed extraction scripts and a cheaper browsing model. Taobao path ((a) bot profile, (b) link only,
 (c) attended) is the owner's call. Fixtures: tests/fixtures/china/.
 
+## Direction
+
+**089 — 2026-11-09 — Direction: build everything in our own environment first, household-ready from now on; vision, roadmap and commercial research recorded.**
+The owner set the big goal: a family life assistant (meals, training, shopping and prices, travel,
+celebrations) that could one day become a product with invited users, roles and permissions, a
+better interface (Mini App), a separate backend and workers — fully or partly, direction open.
+The rule for now: every feature is built and polished in our own environment first and changed
+step by step; even if it never becomes commercial it should be close to perfect. From now on new
+features are **household-ready** (user ids and roles, not hard-coded chats; settings per
+household; a permission check per module; private items possible). Recorded: docs/VISION.md
+(product idea, users/roles, architecture direction, Celebrations idea, commercial findings),
+docs/ROADMAP.md (China P1/P2 → users and roles → Celebrations → Mini App step 0 and screens), and
+docs/research/2026-11-09-commercial.md (owner's research). Key findings: a Claude Pro/Max
+subscription may not serve a product (a product uses the Anthropic API under commercial terms);
+Telegram digital subscriptions must use Stars; Amazon forbids price alerts for Associates; health
+and diet data are special-category. Mini App: one screen layer only — jobs stay on the PC, data
+only through an authenticated tunnel, store pages are linked ("Open in app"), not embedded.
+Celebrations: Google Calendar read-only, reminders 2 months / 1 month / 2 weeks / 1 week, person
+notes, priced gift ideas checked for arrival in time, tracked with a deadline, private per
+creator — built after users and roles. To verify now: the 2026 EAEU customs rule and Anthropic's
+"API credits for subscribers".
