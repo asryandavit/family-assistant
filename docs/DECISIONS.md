@@ -696,3 +696,30 @@ Celebrations: Google Calendar read-only, reminders 2 months / 1 month / 2 weeks 
 notes, priced gift ideas checked for arrival in time, tracked with a deadline, private per
 creator — built after users and roles. To verify now: the 2026 EAEU customs rule and Anthropic's
 "API credits for subscribers".
+
+**090 — 2026-11-09 — /china P1: text search built; Pinduoduo and 1688 automatic, Taobao a link; numbers in code, model answers validated whole.**
+`/china <description>` (both chats, one queue, the same features — "household-ready" (089) where
+cheap: the asking chat is carried through the job, `/china last` and every result button are per
+chat and refuse another chat's results, settings live in `config_china.json`). The listener only
+queues; `jobs/china_search.py` (one worker, lock file, `china/queue.py`) runs: a plan call (Chinese
+query, category, 1–2 button questions when vague), one `claude -p --chrome` run per site on the
+Max subscription (allow-listed read tools, typing/upload tools denied, `ANTHROPIC_API_KEY`
+removed; Sonnet for browsing), validation of the whole answer (`china/validate.py`: allow-listed
+ids, enums, no URLs, data fields strict, long English prose trimmed rather than rejected) with one
+`--resume` repair re-ask, then everything numeric in code: `china/parse.py` (¥/$ strings, 万
+counts, weights, mm-labelled-cm sizes, seller class from shop name and marks — only 官方旗舰店 is
+official), `china/pricing.py` (market.pricing.quote per forwarder × mode from `config_china.json`
+routes, 1 kg assumed and said in UPPERCASE when no weight, unknown China delivery never free, promo
+prices — 新人价, 首件, 起, ranges — shown but never the 🏆 pick, the pick prefers an official /
+authorised seller within 25% of the cheapest, parcel customs for several items). The answer is one
+Rich Message (`lib/telegram.send_rich`, own commit) with a plain-HTML fallback; buttons
+🔁 Only <site>, 💬 Reviews N, 👁 Watch N (adds the item to Market watch with today's price as the
+owner's price). Live runs 2026-11-09 changed the plan twice: **Pinduoduo product pages now hide
+prices** ("前往APP查看价格") — results come from the search listing, labelled "may be a cheaper
+variant"; and **Taobao cannot be read**: the extension asks on every action, and the bot's own
+browser fails Taobao's phone/slider check after QR login even when the owner does it by hand — not
+bypassed, so Taobao is a search link in every answer (`taobao_mode: link`; the reader in
+`china/taobao.py` stays for a later `profile` mode). Cost per site run measured at ~$0.4–0.7
+list-price equivalent of Max quota (P0: ~$1.3). Docs: docs/briefs/CHINA_SEARCH.md §9,
+docs/TELEGRAM_UX.md §3/§5e, docs/ROADMAP.md.
+

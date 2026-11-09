@@ -1,7 +1,7 @@
 # CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688 (brief, not built)
 
 Status: **brief approved by the owner 2026-11-09 ("go ahead"; Davit and Karine share one Chrome
-session, one queue, the same features). P0 discovery done (§8, decision 088); owner's go for P1 with the recommended options (§8).** Builds on Market watch (decisions 086–087): forwarder
+session, one queue, the same features). P0 done (§8, decision 088); P1 built (§9, decision 090) — Pinduoduo and 1688 automatic, Taobao a search link.** Builds on Market watch (decisions 086–087): forwarder
 tariffs, customs, CBA rates, working-day arrivals and the report helpers in `market/` are
 reused, not rewritten.
 
@@ -326,3 +326,51 @@ What this means:
 ### Still open
 
 - Image-search entry points (P3).
+
+## 9. P1 results (2026-11-09, decision 090)
+
+### Built
+
+| Part | Files | Proven by |
+|---|---|---|
+| Parsers (prices, counts, weights, mm/cm, seller class, promo, restrictions, links from ids) | `china/parse.py` | `tests/test_china_parse.py` on the P0 captures |
+| Answer contract, whole-answer rejection, prose trimming, JSON extraction | `china/validate.py` | `tests/test_china_validate.py` |
+| Money: ¥/$ → AMD/USD, China delivery, forwarder × mode, customs, 1 kg rule, ranking, 🏆 pick, same product, parcel customs | `china/pricing.py`, `config_china.json` | `tests/test_china_pricing.py` (hand-checked totals on `market/tariffs.json` and a fixed CBA rate set) |
+| Rich answer + plain fallback, buttons | `china/report.py`, `lib/telegram.send_rich` | `tests/test_china_report.py`, `tests/test_telegram_rich.py` |
+| `claude -p` calls (plan, site, Taobao text, reviews), repair re-ask | `china/runner.py`, `prompts/china_*.md` | `tests/test_china_search.py` (Repair) |
+| Queue + worker | `china/queue.py`, `china/search.py`, `jobs/china_search.py` | `tests/test_china_queue.py`, `tests/test_china_search.py` |
+| Telegram | `china/bot.py`; `listener.py` (own commit); 🇨🇳 button in 🌍 Market | `tests/test_china_bot.py`, `tests/test_listener_china.py` |
+| Taobao reader (bot profile; not used while `taobao_mode` is `link`) | `china/taobao.py` | live: logged-out detection |
+
+### Live runs (owner's chat)
+
+| Run | Result |
+|---|---|
+| PDD + 1688, 17:56 | 1688 ok (5 offers, weights from the page); PDD stopped as "check": product pages hide prices → prompt fallback added. Found: 1688 "新人价CN¥3.90起" promo → promo rule added |
+| PDD, 18:03 | rejected: one prose field 202 > 200 chars → prose trimmed instead; JSON extraction hardened |
+| PDD, 18:06 | ok in 73 s, 14 turns, ~$0.41 list-equivalent: 5 results from listings, notice shown |
+| Taobao sign-in | owner tried QR login in `.browser/taobao`: Taobao then demands phone confirmation with a slider that fails in the bot's browser → `taobao_mode: link` |
+
+### Demo from the phone (P1 done when this passes)
+
+Once: restart the listener so it loads the new code (stop / wait 3 s / start the
+`FamilyAssistant-Listener` task).
+
+1. 🏠 Home → 🌍 Market → **🇨🇳 China search** → type `GaN charger 65W EU plug` →
+   "⏳ Searching Pinduoduo, Taobao, 1688…" → "⏳ Pinduoduo done (1/3)…", "⏳ 1688 done (3/3)…"
+   → one rich answer: 🏆 pick with reason, 🔗 Taobao search link, tables, details per result.
+2. Tap a result's details: price ¥ → AMD · USD, `⚠️ SHIPPING ESTIMATED FOR 1 KG` when no
+   weight, every forwarder × mode, seller class, the Chinese seller message.
+3. Tap **🔁 Only 1688** → a new search on 1688 only. Tap **👁 Watch 2** → "Added to 🌍 Market
+   watch"; /watch lists it.
+4. `/china running shoes` → 1–2 questions with buttons (size, budget) → answer with the 👟
+   Poizon line.
+5. From Karine's phone at the same time: `/china kids raincoat` → "you are 2nd in line"; her
+   answer comes to her chat only. `/china last` on each phone shows that phone's last answer.
+
+### Not done in P1
+
+- Taobao reading (blocked by its sign-in check); 💬 Reviews for Taobao items.
+- Pinduoduo variant prices and reviews (product pages hide prices on the web now).
+- Photo search (P2/P3 in §6), the logon tabs and the 09:00 login check (§6 P2), Mini App.
+

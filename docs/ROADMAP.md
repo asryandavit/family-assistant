@@ -7,7 +7,7 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
 
 | # | Work | State | Brief |
 |---|---|---|---|
-| 1 | 🇨🇳 China search P1 — `/china` text search, full answer (Pinduoduo + 1688; Taobao through the bot's own profile, link fallback) | in progress | `briefs/CHINA_SEARCH.md` |
+| 1 | 🇨🇳 China search P1 — `/china` text search, full answer: Pinduoduo + 1688 automatic, Taobao as a search link (its sign-in check blocks the bot) | built (decision 090); phone demo after a listener restart | `briefs/CHINA_SEARCH.md` §9 |
 | 2 | 🇨🇳 China search P2 — photo search | next | `briefs/CHINA_SEARCH.md` |
 
 ## Waiting on the owner or small checks

@@ -239,7 +239,8 @@ Flow: a vague request gets 1–2 questions with buttons (`cn:q:…`, plus "➡�
 "⏳ Searching … (~N min)" (with the place in line if another search runs), one progress
 line per site ("⏳ Pinduoduo done (1/3)…"), and one answer as a Rich Message (plain HTML
 fallback): header, 🏆 best pick with its reason, sites that could not be read (🔑 logged
-out / 🚫 check page / ⚠️ not read, each with a search link), brand guidance, Poizon hint for
+out / 🚫 check page / ⚠️ not read, each with a search link; Taobao is always 🔗 a search
+link, decision 090), brand guidance, Poizon hint for
 clothes and shoes, restricted-goods warnings, one 4-column table per site (#, item, seller,
 total AMD; `*` = weight not listed) and a `<details>` per result (variant, ¥ → AMD · USD,
 China delivery, `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, every forwarder ×
