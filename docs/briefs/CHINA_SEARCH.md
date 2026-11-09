@@ -1,7 +1,7 @@
 # CHINA_SEARCH.md — `/china` search on Pinduoduo, Taobao/Tmall and 1688 (brief, not built)
 
 Status: **brief approved by the owner 2026-11-09 ("go ahead"; Davit and Karine share one Chrome
-session, one queue, the same features). P0 discovery in progress (§8).** Builds on Market watch (decisions 086–087): forwarder
+session, one queue, the same features). P0 discovery done (§8, decision 088); Taobao path open.** Builds on Market watch (decisions 086–087): forwarder
 tariffs, customs, CBA rates, working-day arrivals and the report helpers in `market/` are
 reused, not rewritten.
 
@@ -274,9 +274,41 @@ show as a row (primary style blue; URL button with ↗). Confirmed rules for P1:
   the `<details>` fold).
 - Plain-HTML fallback stays for Karine's phone / older clients until seen there.
 
-### Still open in P0
+### Full headless run (2026-11-09 17:11–17:31)
 
-- Headless timing of a **full** run (3 searches + pickers + 9 review pages) — only one PDD
-  search has been timed (49 s). Taobao must cool down first.
-- Taobao product page and reviews when not degraded; 1688 reviews page; image-search entry
-  points (P3).
+One `claude -p --chrome` call per site, in sequence, same rules prompt (read-only, stop on
+login/check), top 3 per site with product page and reviews. Prompts and the model's JSON
+answers: `tests/fixtures/china/headless_*`.
+
+| Site | Time | Turns | Tokens (cache read / created / output) | List-price equivalent | Result |
+|---|---|---|---|---|---|
+| Pinduoduo | **4.0 min** | 42 | 2.02 M / 85 k / 11.5 k | ~$1.32 | **ok, no prompt**: search, 3 product pages with the picker (EU-plug variants found: `多头版(配中/英/欧/美规四种插头)` ¥159 after coupon), 3 review pages (274–640 reviews; liked / complaints in English, e.g. "gets hot during fast charging", "bulkier than a normal 65W") |
+| Taobao | 10.5 min | 32 | 1.43 M / 73 k / 9.8 k | ~$1.07 | **failed**: search page read (27 of 39 cards), then every `javascript_tool` and the navigation to `item.taobao.com` waited on the extension's **per-action permission prompt** and timed out — "Site-level permissions are disabled for this site", so it asks on every action and cannot be allowed once. No product page read |
+| 1688 | **4.5 min** | 45 | 1.75 M / 85 k / 14.6 k | ~$1.33 | **ok, no prompt**: supplier company, variants, **weight row** (72–100 g; one table again in mm), one attribute mismatch caught (title 65W, attributes 25W / British plug). Prices on detail pages in **USD** (international mode); no factory badges on these 3 |
+
+What this means:
+
+1. **Headless works unattended for Pinduoduo and 1688**: ~4–4.5 min per site for search +
+   3 products + reviews.
+2. **Taobao cannot run unattended through the extension**: it requires a human click on
+   every action (site-level allow is disabled for it — a setting of the extension, not
+   ours to change). Options for the owner:
+   (a) Taobao through the bot's own browser profile (Playwright, owner signs in once —
+   decision 086 #5), reading only, slowly; it may still hit `访问异常`, which is then
+   reported, not bypassed; (b) no Taobao reading: the answer carries a Taobao search link
+   built in code; (c) Taobao only when the owner is at the PC to click Allow (not
+   automatic). Recommended: try (a) in P1's first step, fall back to (b).
+3. **Quota**: a two-site run is ~3.8 M cache-read tokens and ~$2.65 list-price equivalent
+   (three sites would be ~$3.7). On Max this is quota, not money, but several searches a
+   day are a large share of a 5-hour window. P1 cuts it: fixed extraction scripts (the
+   model calls them instead of exploring), a cheaper model for browsing (`--model`), one
+   call per site, reviews for top 3 only on PDD/1688.
+4. **The model's JSON needs the validator in §4.3**: price fields were sometimes null with
+   the price elsewhere ("限时价 ¥159" moved to a note), `首件¥89.9` is a first-item price,
+   1688 prices came in USD, and 1688 weight tables mix mm and cm.
+
+### Still open
+
+- Taobao: decide (a)/(b)/(c) above.
+- 1688 in Chinese (factory marks on search cards): owner's account setting.
+- Image-search entry points (P3).

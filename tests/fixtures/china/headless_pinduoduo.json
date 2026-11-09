@@ -1,0 +1,477 @@
+{
+ "_source": "Headless run 2026-11-09 17:11–17:31: claude -p --chrome (Max subscription, ANTHROPIC_API_KEY unset), prompt = rules + pinduoduo task (search + top 3 product pages + reviews). The model's JSON answer, verbatim.",
+ "_run": {
+  "num_turns": 42,
+  "duration_ms": 230505,
+  "usage": {
+   "input_tokens": 60,
+   "cache_creation_input_tokens": 85491,
+   "cache_read_input_tokens": 2019324,
+   "output_tokens": 11459
+  },
+  "list_price_equivalent_usd": 1.32,
+  "permission_denials": 0
+ },
+ "answer": {
+  "site": "pinduoduo",
+  "status": "ok",
+  "notice": null,
+  "search": [
+   {
+    "id": "796316919192",
+    "title": "绿联100W氮化镓充电器pd快充头自带伸缩线多口Type-C快充头PD65W",
+    "price_shown": "109",
+    "prefix": "券后",
+    "sales": "全店总售523万+",
+    "tags": [
+     "绿联·品牌授权",
+     "我收藏过",
+     "正品险",
+     "假一赔十"
+    ]
+   },
+   {
+    "id": "990724308501",
+    "title": "忆捷65W氮化镓充电头适用苹果17Pro快充iPhone16/15/1413手机充电",
+    "price_shown": "47.6",
+    "prefix": "",
+    "sales": "本店已拼24.9万+",
+    "tags": [
+     "过压保护 短路保护",
+     "只换不修",
+     "正品险"
+    ]
+   },
+   {
+    "id": "1025029495459",
+    "title": "倍思小冰充66W氮化镓折叠脚适用苹果华为小米多设备快充充电器",
+    "price_shown": "98",
+    "prefix": "券后",
+    "sales": "已抢90件",
+    "tags": [
+     "倍思·品牌授权",
+     "立享9折",
+     "我拼过的店",
+     "正品险"
+    ]
+   },
+   {
+    "id": "747870218999",
+    "title": "绿联100W自带伸缩线手机氮化镓充电器多口Type-c适用苹果三星小米",
+    "price_shown": "99",
+    "prefix": "限1件",
+    "sales": "全店总售47.2万+",
+    "tags": [
+     "绿联·品牌授权",
+     "立减10元",
+     "即将售罄",
+     "正品发票"
+    ]
+   },
+   {
+    "id": "1010518629764",
+    "title": "UE100W氮化镓充电器65W快充英规旅行充电头GaN手机平板笔记本电脑",
+    "price_shown": "89.4",
+    "prefix": "券后",
+    "sales": "本店已拼3.9万",
+    "tags": [
+     "立享7折",
+     "正品发票",
+     "只换不修"
+    ]
+   },
+   {
+    "id": "996089469661",
+    "title": "Anker安克氮化镓充电器65W多口PD快充头适用笔记本苹果16iPhone17",
+    "price_shown": "87.3",
+    "prefix": "券后",
+    "sales": "本店已拼1.2万",
+    "tags": [
+     "装壳不伤机",
+     "即将售罄",
+     "正品险",
+     "退货包运费"
+    ]
+   },
+   {
+    "id": "1003276559461",
+    "title": "Belkin贝尔金67W零耗安芯充氮化镓充电器支持PD3.2&AVS适iPhone18",
+    "price_shown": "103.8",
+    "prefix": "新客",
+    "sales": "全店总售17.2万+",
+    "tags": [
+     "立减5元",
+     "我关注的店",
+     "即将恢复原价",
+     "正品险"
+    ]
+   },
+   {
+    "id": "746462564077",
+    "title": "绿联45W自带伸缩线手机65W带线充电器适用苹果三星小米荣耀氮化镓",
+    "price_shown": "109",
+    "prefix": "券后",
+    "sales": "已抢1935件",
+    "tags": [
+     "绿联·品牌授权",
+     "正品发票",
+     "正品险"
+    ]
+   },
+   {
+    "id": "961442683684",
+    "title": "倍魔自带伸缩线充电器65W适用于苹果手机iWatch手表无线磁吸快充",
+    "price_shown": "131.9",
+    "prefix": "券后",
+    "sales": "全店总售900万+",
+    "tags": [
+     "过压保护 短路保护",
+     "多人评价“全新未拆封”",
+     "正品险",
+     "退货包运费"
+    ]
+   },
+   {
+    "id": "616556746723",
+    "title": "绿联多国旅行充电器65W氮化镓PD快充英国欧洲美国全球通用充电头",
+    "price_shown": "159",
+    "prefix": "券后",
+    "sales": "全店总售528万+",
+    "tags": [
+     "绿联·品牌授权",
+     "立享9折",
+     "正品发票",
+     "正品险"
+    ]
+   },
+   {
+    "id": "796296014964",
+    "title": "绿联100W氮化镓充电器自带伸缩线多口快充适用苹果华为macbookPro",
+    "price_shown": "109",
+    "prefix": "",
+    "sales": "全店总售524万+",
+    "tags": [
+     "绿联·品牌授权",
+     "正品发票",
+     "正品险"
+    ]
+   },
+   {
+    "id": "1025439537826",
+    "title": "荣耀65W充电器多国通用旅行高效大功率快充适配全球多种插头便携",
+    "price_shown": "193",
+    "prefix": "限1件",
+    "sales": "本店已拼116",
+    "tags": [
+     "立减33元",
+     "即将售罄",
+     "只换不修",
+     "正品险"
+    ]
+   },
+   {
+    "id": "616805280700",
+    "title": "绿联65W氮化镓充电器100V英规欧规全球通用适用苹果华为手机电脑",
+    "price_shown": "159",
+    "prefix": "",
+    "sales": "已拼467件",
+    "tags": [
+     "绿联·品牌授权",
+     "即将恢复原价",
+     "正品险",
+     "假一赔十"
+    ]
+   },
+   {
+    "id": "939098439427",
+    "title": "UE100W氮化镓充电器65W快充英规旅行充电头GaN手机平板笔记本电脑",
+    "price_shown": "82.4",
+    "prefix": "券后",
+    "sales": "本店已拼3.9万",
+    "tags": [
+     "立享7折",
+     "正品发票",
+     "只换不修"
+    ]
+   },
+   {
+    "id": "509937729525",
+    "title": "Anker安克65W充电器PD快充头适用于iPhone18苹果17手机多口充电头",
+    "price_shown": "92.8",
+    "prefix": "券后",
+    "sales": "已抢2.5万+件",
+    "tags": [
+     "多人评价“全新未拆封”",
+     "即将售罄",
+     "正品险",
+     "假一赔十"
+    ]
+   },
+   {
+    "id": "1008346598668",
+    "title": "忆捷65W充电器适用苹果18Pro充电头iPhone17快充16数据线15套装14",
+    "price_shown": "45.79",
+    "prefix": "",
+    "sales": "本店已拼32.5万+",
+    "tags": [
+     "装壳不伤机",
+     "忆捷·品牌授权",
+     "我收藏过",
+     "只换不修"
+    ]
+   },
+   {
+    "id": "987289867285",
+    "title": "绿联65W氮化镓充电器PD多口TypeC快充适用苹果华为三星笔记本电脑",
+    "price_shown": "75.9",
+    "prefix": "限1件",
+    "sales": "本店已拼25.8万+",
+    "tags": [
+     "绿联·品牌授权",
+     "立减10元",
+     "我关注的店",
+     "正品险"
+    ]
+   },
+   {
+    "id": "387503861263",
+    "title": "Anker安克140W氮化镓充电器苹果iPhone18/17手机Macbook快充套装",
+    "price_shown": "233.9",
+    "prefix": "",
+    "sales": "已抢4.5万+件",
+    "tags": [
+     "多人评价“全新未拆封”",
+     "即将售罄",
+     "正品险",
+     "假一赔十"
+    ]
+   },
+   {
+    "id": "1017024291134",
+    "title": "绿联70W指尖湃60W充电头适用苹果iPhone18Promax华为66W/小米67W",
+    "price_shown": "107",
+    "prefix": "限1件",
+    "sales": "本店已拼104万+",
+    "tags": [
+     "绿联·品牌授权",
+     "立减12元",
+     "正品发票",
+     "只换不修"
+    ]
+   },
+   {
+    "id": "840318448427",
+    "title": "摩米士适用Apple/苹果40W/45W快充充电器套装iPhone17Air充电插头",
+    "price_shown": "72.9",
+    "prefix": "",
+    "sales": "全店总售86.2万+",
+    "tags": [
+     "只换不修",
+     "正品险"
+    ]
+   }
+  ],
+  "top": [
+   {
+    "id": "616805280700",
+    "title_cn": "绿联65W氮化镓充电器100V英规欧规全球通用适用苹果华为手机电脑",
+    "title_en": "UGREEN 65W GaN charger, 100V, UK/EU plug, worldwide use, for Apple/Huawei phones and laptops",
+    "shop_name": "绿联赛文斯专卖店",
+    "shop_marks": [
+     "绿联",
+     "品牌正品",
+     "在线中",
+     "假一赔十",
+     "保证金",
+     "8年老店"
+    ],
+    "guarantees": [
+     "正品险由中国人寿财险承保",
+     "7天无理由退货",
+     "48小时内发货",
+     "假一赔十",
+     "未发货秒退",
+     "承诺48小时内发货，超时必赔"
+    ],
+    "specs": {
+     "品牌": "绿联",
+     "充电器适用形式": "直充",
+     "3C认证证书编号": "2025010907813585",
+     "插口数量": "多口",
+     "是否支持快充": "支持快充",
+     "充电功率": "65W"
+    },
+    "variants": [
+     "【65W三口】单充电头",
+     "【65W三口】配中/美/英/欧转换头"
+    ],
+    "matched_variant": "【65W三口】配中/美/英/欧转换头",
+    "matched_price_after_coupon": null,
+    "matched_price_before_coupon": null,
+    "single_price": "¥159 (限时价; 2天10小时后恢复169元; 2件9.9折)",
+    "domestic_delivery": "预计14小时内发货",
+    "weight_text": null,
+    "review_count": "274",
+    "review_tags": [
+     "图/视频(17)",
+     "回头客(2)",
+     "店铺: 正品(2739)",
+     "质量很好(1.4万)",
+     "好用(1.1万)",
+     "做工精致(4663)",
+     "外观好看(4690)",
+     "充电快(3881)",
+     "效果好(2037)",
+     "合适(1316)",
+     "功能正常(2104)"
+    ],
+    "liked": [
+     "Swappable CN/US/UK/EU plugs, used in Europe/Germany without separate adapters",
+     "Stays cool under load, charges laptops fine",
+     "3 ports, fast charging, cheaper than abroad"
+    ],
+    "complaints": [
+     "Heavier/bulkier than a normal 65W charger",
+     "One report of poor QC: plug hard to insert, internals crooked",
+     "One tester saw only ~26W peak on an iPhone"
+    ]
+   },
+   {
+    "id": "616556746723",
+    "title_cn": "绿联多国旅行充电器65W氮化镓PD快充英国欧洲美国全球通用充电头",
+    "title_en": "UGREEN multi-country travel charger 65W GaN PD fast charging, UK/EU/US worldwide plug",
+    "shop_name": "绿联明和盛专卖店",
+    "shop_marks": [
+     "绿联",
+     "品牌正品",
+     "在线中",
+     "假一赔十",
+     "保证金",
+     "4年老店"
+    ],
+    "guarantees": [
+     "正品险由中国人寿财险承保",
+     "正品发票",
+     "7天无理由退货",
+     "48小时内发货",
+     "假一赔十",
+     "承诺48小时内发货，超时必赔"
+    ],
+    "specs": {
+     "品牌": "绿联",
+     "充电器适用形式": "充电插头",
+     "3C认证证书编号": "2025010907824251",
+     "插口数量": "多口",
+     "是否支持快充": "支持快充",
+     "快充协议": "FCP，QC，PD"
+    },
+    "variants": [
+     "单头版(配中规插头)",
+     "多头版(配中/英/欧/美规四种插头)"
+    ],
+    "matched_variant": "多头版(配中/英/欧/美规四种插头)",
+    "matched_price_after_coupon": "¥159",
+    "matched_price_before_coupon": "¥177",
+    "single_price": null,
+    "domestic_delivery": "预计14小时内发货",
+    "weight_text": null,
+    "review_count": "323",
+    "review_tags": [
+     "图/视频(10)",
+     "店铺: 正品(807)",
+     "好用(7308)",
+     "做工精致(4161)",
+     "充电快(2643)",
+     "外观好看(2873)",
+     "手感好(3026)",
+     "合适(1424)"
+    ],
+    "liked": [
+     "Multi-plug set works for travel (HK, Korea), has 3C certification",
+     "Small and light, good for travel",
+     "Solid build, fast shipping"
+    ],
+    "complaints": [
+     "Overseas buyer warns replacements are not arranged abroad if the product fails",
+     "Mostly generic 5-star reviews; little detailed feedback",
+     "No other complaints visible in the loaded reviews"
+    ]
+   },
+   {
+    "id": "987289867285",
+    "title_cn": "绿联65W氮化镓充电器PD多口TypeC快充适用苹果华为三星笔记本电脑",
+    "title_en": "UGREEN 65W GaN charger PD multi-port Type-C fast charging for Apple/Huawei/Samsung laptops",
+    "shop_name": "绿联UGREEN凯易樽专卖店",
+    "shop_marks": [
+     "绿联",
+     "品牌正品",
+     "在线中",
+     "保证金",
+     "品牌授权",
+     "上榜店铺",
+     "我关注的店"
+    ],
+    "guarantees": [
+     "正品险由中国人寿财险承保",
+     "7天无理由退货",
+     "48小时内发货",
+     "假一赔十",
+     "全场包邮",
+     "承诺48小时内发货，超时必赔"
+    ],
+    "specs": {
+     "品牌": "绿联",
+     "充电器适用形式": "充电插头",
+     "3C认证证书编号": "2024010907666660",
+     "插口数量": "多口",
+     "是否支持快充": "支持快充",
+     "充电功率": "65W"
+    },
+    "variants": [
+     "型号: 65W【氮化镓充电器】折叠",
+     "35961【单头】单C口",
+     "25707【单头】1C1A",
+     "25263【单头】2C1A",
+     "90263【单头】2C1A",
+     "20700【单头】2C1A",
+     "75072【单头】3C1A",
+     "90609【单头】2C1A",
+     "50653【套装】2C1A+1.5米CC线",
+     "50326【套装】2C1A+100W1米CC线",
+     "85971【套装】2C1A+100W1.5米CC线",
+     "85036【套装】3C1A+100W1.5米CC线"
+    ],
+    "matched_variant": "65W【氮化镓充电器】折叠 20700【单头】2C1A",
+    "matched_price_after_coupon": "首件¥89.9",
+    "matched_price_before_coupon": "券前¥99.9",
+    "single_price": "首件¥75.9 (lowest shown on page; 已优惠10元, 限1件)",
+    "domestic_delivery": "预计12小时内发货",
+    "weight_text": null,
+    "review_count": "640",
+    "review_tags": [
+     "追加(1)",
+     "图/视频(23)",
+     "回头客(2)",
+     "外观好看(7)",
+     "店铺: 好用(1379)",
+     "质量好(1386)",
+     "充电很快(1057)",
+     "很便宜(447)",
+     "功率好(201)",
+     "大小合适(171)"
+    ],
+    "liked": [
+     "Compact foldable design, much smaller than old laptop bricks",
+     "Fast and stable charging of phones and laptops, stays fairly cool",
+     "Several ports, good value, 3C certified"
+    ],
+    "complaints": [
+     "Gets hot during fast charging (25-day follow-up review)",
+     "One reviewer called it a waste of money (no details)",
+     "China plug only; overseas buyers need an adapter"
+    ]
+   }
+  ],
+  "timing_note": "Read 2026-11-09. Only the read tab was opened and it is now closed. No login or CAPTCHA appeared. #1 shows one price (限时价 ¥159) with no 券后/券前 split, so it is put in single_price. #2 did not load more reviews after one scroll. #3: the picker's default variant 20700 is shown as matched, and its 首件 prices are a first-item discount. No listing shows a weight. #3 is China-plug only. #1 and #2 include EU plugs."
+ }
+}

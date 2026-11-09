@@ -651,3 +651,27 @@ rejected whole); the Sheet id is empty until the owner creates and shares it. **
 changed in their own additive commits with the full suite as the regression check (no
 `docs/ARCHITECTURE.md` exists; docs/TELEGRAM_UX.md §5d carries the UI). Rules:
 docs/briefs/MARKET_WATCH.md §10, docs/TELEGRAM_UX.md §5d.
+
+## China search
+
+**088 — 2026-11-09 — /china search: brief approved, P0 discovery — headless Chrome works for Pinduoduo and 1688, not for Taobao.**
+The owner wants `/china <description>` (both chats, one shared Chrome session and queue) to search
+Pinduoduo, Taobao/Tmall and 1688 in his own logged-in Chrome via the Claude in Chrome extension and
+answer with results priced to Yerevan by the Market watch code (decisions 086–087). Brief:
+docs/briefs/CHINA_SEARCH.md, approved 2026-11-09. Results will be Telegram Rich Messages
+(`sendRichMessage`, Bot API 10.1–10.3) with a plain-HTML fallback; a test rendered correctly on the
+owner's iPhone (table, details, slideshow, in-message buttons; button attribute is `data=`).
+P0: `claude -p --chrome` runs headless on the Max subscription (`ANTHROPIC_API_KEY` unset) and must
+select the Windows browser (a Mac is also connected). A full read (search, top 3 product pages with
+variant picker, reviews) took ~4 min on Pinduoduo and ~4.5 min on 1688 with no prompt; Taobao asks
+for permission on every action ("site-level permissions are disabled") and timed out unattended, and
+its product page showed a `访问异常` notice after a few quick reads — never bypassed. Findings that
+shape P1: the listing price is the cheapest variant, not the described one (¥109 shown, ¥189 for
+the 100W); PDD web has only the group price; Tmall look-alike flagships (`品胜官方旗舰店` vs
+`品胜快充旗舰店`); Taobao's brand chip is the compatible device; 1688 is served in English/USD
+without factory marks on cards and quotes delivery to Yerevan; 1688 size tables mix mm and cm;
+extension tool output is capped at ~1,000 characters and blocks URLs with query strings (links are
+rebuilt in code from ids). A two-site run is ~$2.65 list-price equivalent of Max quota, so P1 uses
+fixed extraction scripts and a cheaper browsing model. Taobao path ((a) bot profile, (b) link only,
+(c) attended) is the owner's call. Fixtures: tests/fixtures/china/.
+

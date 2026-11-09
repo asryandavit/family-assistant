@@ -1,0 +1,352 @@
+{
+ "_source": "Headless run 2026-11-09 17:11–17:31: claude -p --chrome (Max subscription, ANTHROPIC_API_KEY unset), prompt = rules + 1688 task (search + top 3 product pages + reviews). The model's JSON answer, verbatim.",
+ "_run": {
+  "num_turns": 45,
+  "duration_ms": 261312,
+  "usage": {
+   "input_tokens": 52,
+   "cache_creation_input_tokens": 85435,
+   "cache_read_input_tokens": 1745392,
+   "output_tokens": 14649
+  },
+  "list_price_equivalent_usd": 1.33,
+  "permission_denials": 0
+ },
+ "answer": {
+  "site": "1688",
+  "status": "ok",
+  "notice": null,
+  "search": [
+   {
+    "id": "1084819216899",
+    "card": "65W multi-port US standard charger, featuring 3A and 3C ports, and utilizing gallium nitride technology, suitable for fast charging Apple devices|¥25.00|≈$3.84|MOQ 200|5|Hot selling"
+   },
+   {
+    "id": "798735446115",
+    "card": "65w Charging Head Suitable for Huawei Matebook13 Xiaomi Notebook pd65w Gallium Nitride Charger typec|¥27.80|≈$4.27|下单返拿样费|4.9|29K+ sold"
+   },
+   {
+    "id": "1090137814774",
+    "card": "New national standard 65W gallium nitride charger, featuring A+C dual ports for fast charging, compatible with Apple and Huawei phones|¥25.80|≈$3.97|元宝可抵1%|Hot selling"
+   },
+   {
+    "id": "1091559312429",
+    "card": "PD65W gallium nitride charging head, multi-port, retractable cable charger, fast charging adapter for mobile phones and laptops|¥25.00|≈$3.84|分享再减5元|Repurchase Rate 45%|5|Hot selling"
+   },
+   {
+    "id": "1076554927792",
+    "card": "100W Smart Digital Display Charger, 65W GaN Display PD Charger, 100W Smart AI Charger|¥74.00|≈$11.38|下单返拿样费|5|Hot selling"
+   },
+   {
+    "id": "981969604056",
+    "card": "65W Mobile Phone Charger Fast Charging Fully Compatible with Gallium Nitride Notebook Ov All-Brand Mobile Phone Fast Charging Charging Head|¥32.90|≈$5.06|下单返拿样费|Repurchase Rate 44%|4.9|5K+ sold"
+   },
+   {
+    "id": "920999391401",
+    "card": "800W Gallium Nitride Desktop Charger 765W Multi-Function Pd Fast Charging Head 730W Cross-Border 10-Port Australian Standard Charger|¥103.0|≈$15.84|下单返拿样费|5|4K+ sold"
+   },
+   {
+    "id": "1089679397187",
+    "card": "GaN gallium nitride charger collection: 200W super-fast charging, fully compatible with 65W and 40W, suitable for Apple 18 charging heads, 5A|¥20.50|≈$3.15|MOQ 1|Repurchase Rate 71%|Hot selling"
+   },
+   {
+    "id": "972306664644",
+    "card": "Pd65W Gallium Nitride Charger Is Suitable for Huawei and Xiaomi Laptops and Tablets Matebook15 Super Fast|¥27.50|≈$4.23|满58包邮|Repurchase Rate 56%|5|3K+ sold"
+   },
+   {
+    "id": "1049818914328",
+    "card": "Pd65W Digital Display Charger with Built-In Retractable Cable, Gallium Nitride Charging Head, Cross-Border Us/Eu/Uk Standard Mobile Phone Fast Charging Head|¥24.00|≈$3.69|首单减1元且免运费|Repurchase Rate 50%|5|Hot selling"
+   },
+   {
+    "id": "959302338099",
+    "card": "Pd65W Charger Is Suitable for Huawei, Xiaomi, Apple, Lenovo Notebook Fast Charging Head, Data Cable, Gallium Nitride Charging Head|¥2.50|≈$0.38|下单返拿样费|Repurchase Rate 47%|5|4K+ sold"
+   },
+   {
+    "id": "1027688738379",
+    "card": "Zuzg Ice-Clear 45W Gallium Nitride Foldable Charger Suitable for Apple Set Pd Fast Charging Typec Mobile Phone Charger|¥28.90|≈$4.44|下单返拿样费|Repurchase Rate 52%|5|2K+ sold"
+   },
+   {
+    "id": "978299814058",
+    "card": "Factory Direct Sales 65W Gallium Nitride Charger with Built-In Retractable Cable, 3C Certified Dual-Port Fast Charging Head, Small Batch Wholesale|¥18.80|≈$2.89|下单返拿样费|9K+ sold"
+   },
+   {
+    "id": "1056020012410",
+    "card": "Shunwangshun 65W Gallium Nitride Charger Head with Multiple Ports Pd Fast Charging Head Suitable for Apple Xiaomi 17Pro Huawei Tablet|¥38.00|≈$5.84|首单减1元|5|100+ sold"
+   },
+   {
+    "id": "1027321851359",
+    "card": "Gallium Nitride 65W Charger with Dual Ports Suitable for Huawei, Xiaomi, Vivo, Honor, Android Usb, Office Use, Multi-Functional and Universal|¥22.00|≈$3.38|首单减1元且免运费|Repurchase Rate 53%|5|2K+ sold"
+   },
+   {
+    "id": "969093248071",
+    "card": "65W Gallium Nitride Charger Head Comes with a Retractable Cable, Pd Fast Charging, Suitable for Apple, Huawei, Xiaomi Typec Plug|¥32.72|≈$5.03|MOQ 1|Hot selling"
+   },
+   {
+    "id": "1018616983141",
+    "card": "[3C Certification] Beimo 65W Gallium Nitride Charging Gift Box Set Is Suitable for Xiaomi, Apple, and Huawei Chargers|¥28.00|≈$4.31|MOQ 2|Repurchase Rate 60%|Hot selling"
+   },
+   {
+    "id": "1060339662953",
+    "card": "New National Standard 65W Gallium Nitride Charger A+C Dual-Port Fast Charging Adapter Suitable for Android and Apple, Wholesale Available|¥25.35|≈$3.90|元宝可抵1%|5|100+ sold"
+   },
+   {
+    "id": "913669033133",
+    "card": "65W Gallium Nitride Digital Display Three-Port Charger Usb+2Typec Foldableing Plug Suitable for Laptops, Tablets and Mobile Phones|¥49.00|≈$7.53|首单减1元|Repurchase Rate 51%|5|Hot selling"
+   },
+   {
+    "id": "1083659343106",
+    "card": "Full Protocol 65W Digital Display Retractable Cable GaN Charger Type-C Fast Charging Head with Extendable Cable and LED Charging Display|¥21.00|≈$3.23|分享再减3元|Repurchase Rate 55%|Hot selling"
+   },
+   {
+    "id": "1076945953606",
+    "card": "[Manufacturer] Dual-port GaN (Gallium Nitride) Fast Charging Charger, New National Standard Multi-Protocol Integrated Flash Charging|¥3.20|≈$0.49|MOQ 1|Repurchase Rate 46%|Hot selling"
+   },
+   {
+    "id": "1048719022404",
+    "card": "65W High-Power Dual-Port Gallium Nitride Charger Suitable for Android and Apple 17 18, Ipad, and Laptop Fast Charging|¥25.90|≈$3.98|首单减1元且免运费|5|Hot selling"
+   },
+   {
+    "id": "1040012753724",
+    "card": "Suitable for Dji Drone Gallium Nitride Charger Drone Air3/3S Action Camera 65W Charging Head Set|¥28.50|≈$4.38|满58包邮|Repurchase Rate 56%|5|4K+ sold"
+   },
+   {
+    "id": "995056760889",
+    "card": "65W Smart Digital Display A+C Gallium Nitride Charger Suitable for Apple Android Mobile Phone Tablet Multi-Port Fast Charging Charging Head|¥7.90|≈$1.21|下单返拿样费|5|900+ sold"
+   },
+   {
+    "id": "995034656250",
+    "card": "65W Gallium Nitride Charger Suitable for Apple Huawei Charging Head Digital Display Charger Mobile Phone Charger Fast Charging|¥8.90|≈$1.37|下单返拿样费|Repurchase Rate 44%|4.3|500+ sold"
+   },
+   {
+    "id": "1087413565341",
+    "card": "66W smart digital display GaN charger, compatible with iPhone 18, smartphones, and laptops, offering super-fast charging|¥79.90|≈$12.29|MOQ 1|Hot selling"
+   },
+   {
+    "id": "1086180775096",
+    "card": "Cross-border 65W digital display charger with retractable cable, suitable for Apple phone charging, gallium nitride charger|¥18.45|≈$2.84|首单减3元|Repurchase Rate 59%|1K+ sold"
+   },
+   {
+    "id": "1062657145889",
+    "card": "65W Gallium Nitride Charger, New National Standard 3C Certified Pd Fast Charging, Universal for Mobile Phones, Tablets, and Laptops, Source Factory|¥26.60|≈$4.09|元宝可抵1%|5|Hot selling"
+   },
+   {
+    "id": "1057685723520",
+    "card": "Source Factory Dual-Port Gan Gallium Nitride Fast Charging Charger, New National Standard Multi-Protocol Integrated Flash Charging Wholesale|¥3.20|≈$0.49|MOQ 1|Repurchase Rate 46%|Hot selling"
+   },
+   {
+    "id": "1089109172000",
+    "card": "Gan220w high-power gan charger - smart load balancing, multi-port fast charging, universal for laptops and phones (type-c)|¥60.82|≈$9.35|MOQ 1|Hot selling"
+   },
+   {
+    "id": "1091463228250",
+    "card": "Pisen 67w gan charger type-c fast charging adapter set - universal for apple ipad, ipad pro, and laptops|¥44.00|≈$6.77|首单减3元|Repurchase Rate 39%|Hot selling"
+   },
+   {
+    "id": "848020294361",
+    "card": "Carefully Selected and Exclusively Provided 200W Gallium Nitride Charger 20V5A High-Power Universal Charging Station for Mobile Phones and Laptops 200W|¥89.00|≈$13.68|下单返拿样费|5|100+ sold"
+   },
+   {
+    "id": "916489175642",
+    "card": "470W Fast Charging Adapter Gallium Nitride Charger USB Fast Charging Mobile Phone Computer Universal Multi-Port Desktop Charging Head|¥101.0|≈$15.53|首单减1元且免运费|Repurchase Rate 57%|5|Hot selling"
+   },
+   {
+    "id": "1080242087038",
+    "card": "PD2.0 gallium nitride 86-type 65W smart super-fast charging Type-C panel, USB socket, mobile phone charging panel|¥51.00|≈$7.84|分享再减5元|Repurchase Rate 22%|100+ sold"
+   },
+   {
+    "id": "1020134809610",
+    "card": "[3C Certification] Beimo 67W Gallium Nitride Champagne Gold Charger Super Fast Charging Suitable for Apple and Huawei|¥28.00|≈$4.31|MOQ 2|Repurchase Rate 60%|Hot selling"
+   },
+   {
+    "id": "1067505745494",
+    "card": "New multi-port USB charger with high power and smart display for charging mobile phones and tablets, GaN charger|¥147.0|≈$22.60|下单返拿样费|Repurchase Rate 57%|Hot selling"
+   },
+   {
+    "id": "1015131213181",
+    "card": "Suitable for Huawei Charger 90 Laptop Super Fast Charging 65W Charging Head Mobile Phone Data Cable 3C Set W|¥22.30|≈$3.43|下单返拿样费|Repurchase Rate 55%|4.3|1K+ sold"
+   },
+   {
+    "id": "1065443633430",
+    "card": "Xiaotuanyuan Gallium Nitride Low-Temperature Fast Charging Charger Is Suitable for Huawei and Apple Devices, with Gallium Nitride Super Fast Charging|¥16.00|≈$2.46|下单返拿样费|4.8|3K+ sold"
+   },
+   {
+    "id": "970644775653",
+    "card": "[Fused Gallium] Dual-Port Full-Protocol Fusion Protocol Fast Charging Head Typec Foldableable Pd Fast Charging Suitable for Apple|¥29.90|≈$4.60|MOQ 1|Repurchase Rate 51%|5|100+ sold"
+   },
+   {
+    "id": "1087089319656",
+    "card": "Multi-port gan (gallium nitride) high-power charger with integrated retractable cable, multi-purpose smart power distribution desktop charging station|¥312.0|≈$47.97|首单减1元且免运费|Repurchase Rate 59%|Hot selling"
+   }
+  ],
+  "top": [
+   {
+    "id": "1049818914328",
+    "title_en": "Pd65W Digital Display Charger with Built-In Retractable Cable, Gallium Nitride Charging Head, Cross-Border Us/Eu/Uk Standard Mobile Phone Fast Charging Head",
+    "supplier": "东莞市诺威仕科技有限公司",
+    "supplier_years": "入驻1年",
+    "supplier_tier": "三星供应链",
+    "badges": [],
+    "attributes": {
+     "品牌 / Brand": "nowes",
+     "Product certification": "Ce certification",
+     "Whether to display digital display": "Is1",
+     "Output work current total power": "65w1",
+     "Maximum output power": "65w2",
+     "Charging mode": "Wired direct charging",
+     "Charger applicable form": "Multi-port fast charging",
+     "Interface type": "Type-c",
+     "是否原装 / Is it original?": "Is2",
+     "Charging protocol": "Gan fast charging",
+     "插头标准 / Plug standard": "European standard",
+     "Plug standard 2": "American standard, european standard, british standard, more national plug standards and certifications can be customized",
+     "Output current": "5V3A,9V3V,12V3A,15V3A,20V3.25A(65W Max)",
+     "Maximum output power of single port": "65",
+     "Production company": "Dongguan nuowei shi technology co., ltd",
+     "Compatible device type": "Notebook,Mobile phone,Tablet",
+     "Plug type": "Folding pins",
+     "Ip authorization: yes or no?": "No",
+     "Color classification": "White,Black",
+     "Power supply interface type": "Usb-c,Usb-a",
+     "Precautions": "This product is a dedicated supply source for cross-border export. please do not purchase it for domestic use",
+     "Number of interfaces": "3",
+     "Support customization": "Supports oem, odm, white-labeling, custom packaging, and custom logos",
+     "Quality rate (品质达标率)": "100%",
+     "Fulfillment rate (综合履约率)": "81.4%",
+     "Shop repurchase rate (店铺回头率)": "50.3%",
+     "Product publish date": "2026年5月"
+    },
+    "variants": [
+     "In-stock white gan 65w dual-port no display us plug $3.77",
+     "In-stock white gan 65w dual-port no display eu plug $3.77",
+     "In-stock white gan 65w dual-port no display uk plug charger $3.92",
+     "In-stock black gan 65w dual-port charger (no display), us plug $3.77",
+     "In-stock black gan 65w dual-port charger (no display), european plug $3.77",
+     "In-stock black gan 65w dual-port charger (no display), uk plug $3.92",
+     "Customized white gan65w single channel with digital display us standard $6.33",
+     "Customized white gan65w single channel with digital display european standard $6.33",
+     "Customized white gan65w single channel with digital display british standard $6.48",
+     "Customized black gan65w single channel with digital display us standard $6.33",
+     "Customized black gan65w single channel with digital display european standard $6.33",
+     "Customized black gan65w single channel with digital display british standard $6.48"
+    ],
+    "matched_variant": "In-stock white gan 65w dual-port no display eu plug",
+    "price_tiers": [
+     "新人价 $3.69 起",
+     "2件预估到手单价 $3.77 ~ $6.48",
+     "≥2件 $3.77 (分销代发)"
+    ],
+    "min_order": "2只起批",
+    "weight_row": "商品件重尺 (single row, all variants): 长10cm 宽5cm 高2cm 体积100cm³ 重量100g",
+    "rating": "5.0",
+    "liked": [
+     "货已经收到了，包装看上去还可以，不错的一次购物，还算满意。好很满意 (t**4, 4只)"
+    ],
+    "complaints": []
+   },
+   {
+    "id": "1086180775096",
+    "title_en": "Cross-border 65W digital display charger with retractable cable, suitable for Apple phone charging, gallium nitride charger",
+    "supplier": "深圳市福田区睿联卓电子商行",
+    "supplier_years": "入驻2年",
+    "supplier_tier": "三星供应链",
+    "badges": [],
+    "attributes": {
+     "品牌 / Brand": "Ruilianzhuo1",
+     "Product certification": "CE certification",
+     "Color (plug option)": "European regulations,US Standard (Applicable in China),British regulations",
+     "Power supply interface type": "USB-C,USB-A",
+     "Whether it is a digital display": "Yes3",
+     "Maximum output power": "25W1",
+     "Charging mode": "Wired direct charging",
+     "Compatible charger types": "Three-in-one",
+     "Does it support fast charging?": "Yes1",
+     "Interface type": "Multiple interfaces",
+     "是否原装 / Is it original?": "Yes2",
+     "Cable outer layer material": "ABS2",
+     "Charging protocol": "PD",
+     "插头标准 / Plug standard": "British Standard",
+     "Maximum output power of a single port": "25",
+     "Manufacturing company": "Ruilianzhuo2",
+     "Compatible Device Types": "Mobile phone,Tablet",
+     "Plug type": "Fixed pin",
+     "Output power": "25W2",
+     "Color classification": "White,Yellow,Black,Silver gray",
+     "Number of interfaces": "3",
+     "Quality rate (品质达标率)": "100%",
+     "Fulfillment rate (综合履约率)": "97%",
+     "Shop repurchase rate (店铺回头率)": "60.1%"
+    },
+    "variants": [
+     "65W single-port charger [digital display] [white] bare unit",
+     "65W Single-Port Charger [Digital Display] [Black] Bare Unit",
+     "65W single-port charger [digital display] [silver] bare unit",
+     "65W single-port charger [digital display] [yellow] bare unit",
+     "European and American style color boxes are one yuan each (contact customer service to adjust the price)",
+     "Color: European regulations $3.24",
+     "Color: US Standard (Applicable in China) $3.24",
+     "Color: British regulations $3.24"
+    ],
+    "matched_variant": "65W single-port charger [digital display] [white] bare unit / European regulations",
+    "price_tiers": [
+     "新人价 $3.01",
+     "2件预估到手单价 $3.24 (2套起批)",
+     "60天老客价 $3.18 1000-2999套",
+     "$3.13 ≥3000套",
+     "≥2件 $3.32 (分销代发)"
+    ],
+    "min_order": "2套起批",
+    "weight_row": "65W single-port charger [digital display] [white] bare unit | European regulations | 4.76 | 3.85 | 9.12 | 167.133 | 72",
+    "rating": null,
+    "liked": [],
+    "complaints": []
+   },
+   {
+    "id": "969093248071",
+    "title_en": "65W Gallium Nitride Charger Head Comes with a Retractable Cable, Pd Fast Charging, Suitable for Apple, Huawei, Xiaomi Typec Plug",
+    "supplier": "深圳市小格子科技有限公司",
+    "supplier_years": "入驻8年",
+    "supplier_tier": "四星供应链",
+    "badges": [],
+    "attributes": {
+     "品牌 / Brand": "Xayvg/little yogurt",
+     "Product certification": "That",
+     "3c certificate number": "2022300907000094",
+     "Whether to display digital display": "No",
+     "Output power current total power": "65w1",
+     "Maximum output power": "65w2",
+     "Charger applicable form": "Foldable",
+     "Does it support fast charging?": "Is1",
+     "Interface type": "Type–c",
+     "是否原装 / Is it original?": "Is2",
+     "Charging protocol": "P d3.0",
+     "Charger applicable form 2": "Charging plug",
+     "插头标准 / Plug standard": "European standard",
+     "Output current": "5000mA",
+     "Output power": "65 w",
+     "Color classification": "White,Black",
+     "Quality rate (品质达标率)": "99.8%",
+     "Fulfillment rate (综合履约率)": "99.8%",
+     "Shop repurchase rate (店铺回头率)": "35.5%",
+     "Sales": "Sold60+Set | Total sales volume100+Set"
+    },
+    "variants": [
+     "【gan】single retractable cable type-c + apple pd / midnight black $4.93 (stock 19928)",
+     "[gallium nitride] single telescopic cable type-c+apple pd/moonlight white $4.93 (stock 19922)"
+    ],
+    "matched_variant": "[gallium nitride] single telescopic cable type-c+apple pd/moonlight white",
+    "price_tiers": [
+     "$4.93 Minimum order is 1 set",
+     "60-day loyalty price $4.62 ≥2 sets"
+    ],
+    "min_order": "Minimum order is 1 set",
+    "weight_row": "[gallium nitride] single telescopic cable type-c+apple pd/moonlight white | 12 | 7 | 3.50 | 294 | 88",
+    "rating": "4.2",
+    "liked": [],
+    "complaints": [
+     "Wrong item received. i ordered a charger, but received a data cable instead. they promised to send the correct item, but never did (De**zhou, 1Set, rating 1.0)"
+    ]
+   }
+  ],
+  "timing_note": "Ran 2026-11-09, no login, CAPTCHA or 访问异常 notice. Detail pages showed in 1688's English/USD translation mode (AM-English-USD), so prices are in USD as shown. Shipping destination showed Yerevan. None of the 3 pages showed the badges Factory direct supply, 源头工厂 or 实力商家. For 1049818914328 the page had no quantity price tiers, only the new-buyer price, the estimated price range and the dropship price. For 1086180775096 the attributes say max output 25W and plug standard British, which does not match the 65W title and the EU/US/UK plug options, and the page had no rating or reviews. For 969093248071 the page shows plug standard European and a 3C certificate number, with MOQ 1 set. Both tabs were closed."
+ }
+}

@@ -1,0 +1,6 @@
+SITE: 1688.
+1. Navigate to https://s.1688.com/selloffer/offer_search.htm?keywords=%E6%B0%AE%E5%8C%96%E9%95%93%E5%85%85%E7%94%B5%E5%99%A8%2065W&charset=utf8 . Scroll once. In javascript_tool collect for each <a> linking to detail.1688.com/offer/<id>.html: the id and the anchor's innerText (newlines as |); store in window.__a, read in chunks.
+2. Pick the 3 offers that best match (65W GaN, EU plug preferred, retail quantity 1 OK).
+3. For each of the 3: navigate to https://detail.1688.com/offer/<id>.html; read supplier company name, years, supplier tier text, badges (Factory direct supply, 源头工厂, 实力商家 if present), attributes (incl. 插头标准, 是否原装, 品牌), variants, price tiers by quantity, min order, the "Product weight and size" table rows for the matching variant, rating and any reviews on the page.
+Reply with JSON only:
+{"site":"1688","status":"ok|login|check|error","notice":str|null,"search":[{"id":str,"card":str}],"top":[{"id":str,"title_en":str,"supplier":str,"supplier_years":str|null,"supplier_tier":str|null,"badges":[str],"attributes":{str:str},"variants":[str],"matched_variant":str|null,"price_tiers":[str],"min_order":str|null,"weight_row":str|null,"rating":str|null,"liked":[str],"complaints":[str]}],"timing_note":str}
