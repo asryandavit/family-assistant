@@ -1009,3 +1009,6 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   person's waiting searches while the page says "Sent to the bot. I'll post progress there";
   `last` re-sent the old answer; `only taobao` was "sent" and then refused in the chat. The form
   now answers "Describe the item…" for all three and reads `only <site>` exactly as the chat does.
+- **Adding a link that is already on the watch list adds nothing** — the app's Add form and the
+  chat's `/watch add` answer "Already on the list: <name> — nothing added." Reproduced: the same
+  Amazon link added twice made two items. Same rule as 👁 Watch above (active items only).

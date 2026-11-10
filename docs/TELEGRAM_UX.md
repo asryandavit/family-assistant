@@ -203,6 +203,7 @@ failure tells the owner and sends nothing to the family.
 the latest best total with its route and date, ⚖️ when a weight is missing — with
 `🔄 Check now` (`cmd:market`, the nightly job run now), `➕ Add` (`mk:add`) and a
 `📄 Watch list Sheet` link button once `config_market.json watch_sheet_id` is set.
+Adding a link that is already on the list is refused ("Already on the list", decision 099).
 Typed shortcuts: `/watch`, `/watch add`, `/watch bought|remove <n>`,
 `/watch price <n> <amount> [store]`, `/watch weight <n> <kg> [LxWxH]`, `/watch check`.
 

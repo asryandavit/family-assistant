@@ -198,5 +198,42 @@ class RunChinaWords(unittest.TestCase):
         self.assertEqual(self.compose("only ebay red shoes")[0], None)
 
 
+class MarketAddTwice(unittest.TestCase):
+    """Step 2 review (decision 099): adding a link that is already on the list (the app's Add
+    form or the chat's /watch add) made a second item. Same rule as 👁 Watch."""
+
+    def setUp(self):
+        import shutil
+        import tempfile
+        self.root = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.root, True)
+
+    def add(self, name, link):
+        from miniapp import actions
+        with mock.patch("market.bot.sheet_id", lambda root: None):
+            return actions.market_add({}, self.root, "222", name, link)
+
+    def test_same_link_is_added_once(self):
+        from market import state
+        ok, msg = self.add("Kettle", "https://www.amazon.de/dp/B0ABCDEFGH")
+        self.assertTrue(ok, msg)
+        ok, msg = self.add("Kettle again", "https://www.amazon.de/dp/B0ABCDEFGH")
+        self.assertFalse(ok)
+        self.assertIn("Already on the list: Kettle", msg)
+        self.assertEqual(len(state.load_items(self.root)), 1)
+        ok, _ = self.add("Other", "https://www.amazon.de/dp/B0ABCDEFG1")
+        self.assertTrue(ok)
+
+    def test_bought_item_can_be_added_again(self):
+        from market import state
+        from miniapp import actions
+        self.add("Kettle", "https://www.amazon.de/dp/B0ABCDEFGH")
+        with mock.patch("market.bot.sheet_id", lambda root: None):
+            actions.market_action({}, self.root, "222", "bought", "1")
+        ok, msg = self.add("Kettle", "https://www.amazon.de/dp/B0ABCDEFGH")
+        self.assertTrue(ok, msg)
+        self.assertEqual(len(state.load_items(self.root)), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

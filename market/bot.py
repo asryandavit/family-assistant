@@ -296,6 +296,10 @@ def _finish(cfg, root, chat_id, draft):
     added = {}
 
     def fn(items):
+        for u in draft["links"]:                   # the same product twice is a slip (decision 099)
+            same = next((i for i in state.active(items) if u in (i.get("links") or [])), None)
+            if same:
+                raise ValueError(f"Already on the list: {same['name']} — nothing added.")
         it = state.new_item(items, draft["name"], draft["links"], draft["qty"], draft.get("weight_kg"),
                             draft.get("size_cm"), who(cfg, chat_id))
         items.append(it)
