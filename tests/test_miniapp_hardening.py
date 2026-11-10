@@ -4,10 +4,13 @@ Raw sockets, because the point is what the server does with bytes a browser neve
 an attacker who knows the public URL can: a body on a GET, a body that never arrives. Behind
 Tailscale Funnel the proxy reuses one connection to this server for several clients, so a
 request that leaves unread bytes behind is a request-smuggling primitive."""
+import json
 import socket
 import time
 import unittest
+from unittest import mock
 
+from miniapp import server
 from tests.test_miniapp_server import OWNER, Base, init_data
 
 
@@ -80,6 +83,41 @@ class GetWithBody(Base):
             self.smuggle(b"GET /api/status HTTP/1.1\r\n")
             time.sleep(0.2)
         self.assertIn("- /api/status 400", "\n".join(cm.output))
+
+
+class SlowBody(Base):
+    """A POST whose body never arrives: 408 and the connection closed (it was a 500, and the
+    dead socket was then read again)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.patch = mock.patch.object(server.Handler, "timeout", 0.5)
+        cls.patch.start()
+        super().setUpClass()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        cls.patch.stop()
+
+    def post(self, sent, length):
+        return exchange(self.port, b"POST /api/china/action HTTP/1.1\r\nHost: x\r\n"
+                        b"Authorization: tma " + init_data(OWNER).encode() + b"\r\n"
+                        b"Content-Type: application/json\r\nContent-Length: "
+                        + str(length).encode() + b"\r\n\r\n" + sent, wait=3)
+
+    def test_body_never_arrives_408(self):
+        before = len(self.actions)
+        out, closed = self.post(b'{"action":', 100)
+        self.assertTrue(out.startswith(b"HTTP/1.1 408 "), out[:80])
+        self.assertEqual(json.loads(out.split(b"\r\n\r\n", 1)[1]), {"error": "body not received"})
+        self.assertTrue(closed)
+        self.assertEqual(len(self.actions), before)          # nothing ran
+
+    def test_complete_body_still_runs(self):
+        body = json.dumps({"action": "watch", "job": "0123abcd", "n": 1}).encode()
+        out, _ = self.post(body, len(body))
+        self.assertTrue(out.startswith(b"HTTP/1.1 200 "), out[:80])
 
 
 if __name__ == "__main__":

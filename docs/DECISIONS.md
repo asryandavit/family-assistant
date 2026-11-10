@@ -906,3 +906,6 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   demonstrated through the tunnel; the primitive was, and the fix is five lines. Why not ignore
   the body: reading and discarding it keeps the connection in step too, but a GET with a body is
   never ours, so refusing is the smaller promise.
+- **A POST whose body never arrives is a 408, connection closed, nothing run.** Reproduced:
+  `Content-Length: 100` with 10 bytes sent gave a 500 after 20 s and the server then read the
+  timed-out socket again (traceback). Should-fix, not a leak.

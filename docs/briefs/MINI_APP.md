@@ -142,7 +142,9 @@ Rules:
 - **Request framing (decision 099).** A request must leave nothing unread in its connection:
   the tunnel reuses one connection to the server for several clients, so leftover bytes would
   be run as somebody's next request. A GET that announces a body (`Content-Length` above 0 or
-  any `Transfer-Encoding`) is a 400 and the connection is closed.
+  any `Transfer-Encoding`) is a 400 and the connection is closed. A POST whose announced body
+  does not arrive within the 20 s socket timeout is a 408, the connection is closed and
+  nothing runs.
 - **Household-ready:** access goes by Telegram **user id plus role**, never by chat id. In private
   chats the user id equals the chat id, so step 0 reads `TELEGRAM_CHAT_ID` (role `owner`) and
   `TELEGRAM_CHAT_ID_2` (role `adult`). Users and roles later replaces `people.py`'s source without

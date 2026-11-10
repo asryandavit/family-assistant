@@ -314,7 +314,15 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(status, {"error": "body too large" if status == 413 else
                                     "length required"})
                 return
-            body = self.rfile.read(length)
+            try:
+                body = self.rfile.read(length)
+            except OSError:                       # timeout: the announced body never arrived
+                body = b""
+            if len(body) < length:
+                status = 408
+                self.close_connection = True      # the socket is out of step: never reuse it
+                self._json(408, {"error": "body not received"})
+                return
             status, out, who = self.app.api(path, self.headers.get("Authorization"), "POST",
                                             self.headers.get("Content-Type") or "", body)
             self._json(status, out)
