@@ -16,7 +16,7 @@ export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
   const fetchIt = useCallback(async () => {
     const r = await get<China>("/api/china");
     if (r.kind === "ok") setLoad({ kind: "ok", data: r.data });
-    else if (r.kind === "private") onFail(r);
+    else if (r.kind === "private" || r.kind === "expired") onFail(r);
     else setLoad({ kind: "failed" });
   }, [onFail]);
 
@@ -134,7 +134,9 @@ function ResultCard(props: { job: string; c: ChinaCard }) {
             ? "Too many requests — wait a minute."
             : r.kind === "private"
               ? "This app is private."
-              : "The PC did not answer — try again.",
+              : r.kind === "expired"
+                ? "Session expired — close the app and open it again."
+                : "The PC did not answer — try again.",
       });
       tg?.HapticFeedback?.notificationOccurred("error");
     }

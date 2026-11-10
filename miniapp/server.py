@@ -122,6 +122,10 @@ class App:
             log.info("auth rejected: %s", e.reason)
             if not self.limiter.allow("unauthenticated", self.clock()):
                 return 429, {"error": "slow down"}, "-"
+            if e.reason == "expired":
+                # the signature was Telegram's, the session is just old: the page may say
+                # "close and reopen" instead of "private" (decision 099). Still no data.
+                return 401, {"error": "expired"}, "-"
             return 401, {"error": "unauthorized"}, "-"
         uid = checked["user"]["id"]
         who = people.mask(uid)

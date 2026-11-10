@@ -1,4 +1,4 @@
-"""Mini App review, 2026-11-10 (decision 099): request framing.
+"""Mini App review, 2026-11-10 (decision 099): request framing and session expiry.
 
 Raw sockets, because the point is what the server does with bytes a browser never sends but
 an attacker who knows the public URL can: a body on a GET, a body that never arrives. Behind
@@ -118,6 +118,37 @@ class SlowBody(Base):
         body = json.dumps({"action": "watch", "job": "0123abcd", "n": 1}).encode()
         out, _ = self.post(body, len(body))
         self.assertTrue(out.startswith(b"HTTP/1.1 200 "), out[:80])
+
+
+class Expired(Base):
+    """A session older than max_age_hours had a valid Telegram signature once: the page is told
+    "expired" (so it can say "close and reopen"), never the family's data. A bad signature
+    still learns nothing but "unauthorized"."""
+
+    def test_expired_says_expired_and_no_data(self):
+        old = init_data(OWNER, int(time.time()) - 25 * 3600)
+        for path in ("/api/me", "/api/china"):
+            st, h, body = self.api(path, raw=old)
+            self.assertEqual((st, json.loads(body)), (401, {"error": "expired"}), path)
+            self.assertEqual(h["Cache-Control"], "no-store")
+
+    def test_expired_post_runs_nothing(self):
+        before = len(self.actions)
+        old = init_data(OWNER, int(time.time()) - 25 * 3600)
+        st, _, body = self.req("/api/china/action", "tma " + old, method="POST",
+                               body=json.dumps({"action": "watch", "job": "0123abcd", "n": 1}),
+                               headers={"Content-Type": "application/json"})
+        self.assertEqual((st, json.loads(body)), (401, {"error": "expired"}))
+        self.assertEqual(len(self.actions), before)
+
+    def test_tampered_expired_is_plain_unauthorized(self):
+        old = init_data(OWNER, int(time.time()) - 25 * 3600)
+        st, _, body = self.api("/api/me", raw=old[:-4] + "0000")
+        self.assertEqual((st, json.loads(body)), (401, {"error": "unauthorized"}))
+
+    def test_future_date_is_plain_unauthorized(self):
+        st, _, body = self.api("/api/me", raw=init_data(OWNER, int(time.time()) + 3600))
+        self.assertEqual((st, json.loads(body)), (401, {"error": "unauthorized"}))
 
 
 if __name__ == "__main__":

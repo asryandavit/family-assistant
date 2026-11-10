@@ -7,6 +7,7 @@ export interface TelegramWebApp {
   version: string;
   ready(): void;
   expand(): void;
+  close(): void;
   isVersionAtLeast(v: string): boolean;
   setHeaderColor?(color: string): void;
   setBackgroundColor?(color: string): void;

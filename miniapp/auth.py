@@ -14,7 +14,8 @@ user): its hash matches with `signature` included and not without
 (tests/test_miniapp_auth.py, RealCapture).
 
 Every rejection raises AuthError. Its `reason` is for tests and the local log only and
-never reaches the page (the page only ever learns "unauthorized" or "private").
+never reaches the page. The page only ever learns "unauthorized", "private", or "expired" —
+the last only for a string whose signature was valid and whose auth_date is too old.
 """
 import hashlib
 import hmac

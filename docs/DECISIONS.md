@@ -909,3 +909,9 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
 - **A POST whose body never arrives is a 408, connection closed, nothing run.** Reproduced:
   `Content-Length: 100` with 10 bytes sent gave a 500 after 20 s and the server then read the
   timed-out socket again (traceback). Should-fix, not a leak.
+- **An expired session says "expired", not "private".** Telegram's initData is made when the app
+  opens and the server accepts it for 24 h; a window left open (or minimised) longer got 401 and
+  the page told the owner "This app is private". The server now answers `{"error": "expired"}`
+  when the signature is valid and only `auth_date` is too old, and the page shows "Session
+  expired" with Close. This tells an attacker nothing new: to see it they need a string Telegram
+  signed for this bot. A bad signature, a future date and an unknown person are unchanged.

@@ -67,10 +67,13 @@ export interface ActionReply {
 }
 
 // private: the server refused who we are (401/403) — never says why.
+// expired: Telegram's signature was valid but the session is older than the server accepts;
+//          closing and reopening the app gets a fresh one.
 // unreachable: no answer from the PC (off, tunnel down, timeout, gateway error).
 export type Result<T> =
   | { kind: "ok"; data: T }
   | { kind: "private" }
+  | { kind: "expired" }
   | { kind: "slow" }
   | { kind: "unreachable" };
 
@@ -102,7 +105,11 @@ async function call<T>(path: string, body?: object): Promise<Result<T>> {
       credentials: "omit",
       signal: ctl.signal,
     });
-    if (r.status === 401 || r.status === 403) return { kind: "private" };
+    if (r.status === 401) {
+      const why = (await r.json().catch(() => null)) as { error?: string } | null;
+      return why?.error === "expired" ? { kind: "expired" } : { kind: "private" };
+    }
+    if (r.status === 403) return { kind: "private" };
     if (r.status === 429) return { kind: "slow" };
     const type = r.headers.get("Content-Type") ?? "";
     if (!r.ok || !type.startsWith("application/json")) return { kind: "unreachable" };

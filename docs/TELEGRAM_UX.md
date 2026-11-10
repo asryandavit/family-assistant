@@ -289,7 +289,8 @@ Set from `listener.set_menu()` at startup so it can't drift:
   corners. A row opens its screen; Telegram's back button returns Home. Icons avoid flag
   emoji (Windows shows 🇨🇳 as "CN"; China is 🏮). It follows Telegram's light/dark theme. Anyone
   else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
-  with Try again.
+  with Try again; a window left open for more than 24 h shows "Session expired" with Close
+  (decision 099 — it used to say "private" to the owner).
 - **📱 Open in app** (decision 097) — first button row on every `/china` answer (rich and
   plain). Opens the app straight on the China screen (`?screen=china`): the latest result as
   cards in the chat's numbering — 🏆 pick, price, delivered total, warnings, a Details fold

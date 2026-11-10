@@ -121,7 +121,9 @@ request**, done in `miniapp/auth.py` following Telegram's documented algorithm:
    `hex(HMAC_SHA256(key=secret_key, msg=data_check_string))`. Compare with
    `hmac.compare_digest`.
 5. Reject if `auth_date` is older than `max_age_hours` (config, default 24) or more than 5 minutes
-   in the future.
+   in the future. A too-old `auth_date` on a string whose signature is valid answers
+   `401 {"error": "expired"}` and the page says "Session expired — close and reopen"
+   (decision 099); every other failure stays `401 unauthorized` with no reason.
 6. Look up `user.id` in `people.py`. An unknown id gets **403 and no data**. The reply never says
    why beyond "private".
 

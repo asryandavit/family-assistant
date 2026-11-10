@@ -45,6 +45,7 @@ function startSection(sections: string[]): string | null {
 type Screen =
   | { kind: "loading" }
   | { kind: "private" }
+  | { kind: "expired" }
   | { kind: "unreachable" }
   | { kind: "slow" }
   | { kind: "ready"; me: Me };
@@ -75,7 +76,7 @@ export function App() {
   }, []);
 
   const fail = useCallback((r: Result<unknown>) => {
-    if (r.kind === "private" || r.kind === "unreachable" || r.kind === "slow") {
+    if (r.kind === "private" || r.kind === "expired" || r.kind === "unreachable" || r.kind === "slow") {
       setScreen({ kind: r.kind });
     }
   }, []);
@@ -153,6 +154,21 @@ export function App() {
             description="It opens only for the family, from the 🏠 Family button in the bot's chat."
           >
             <span className="big">🔒</span>
+          </Placeholder>
+        </div>
+      )}
+      {screen.kind === "expired" && (
+        <div className="center">
+          <Placeholder
+            header="Session expired"
+            description="This window has been open for more than a day. Close it and open the app again from 🏠 Family."
+            action={
+              <Button size="m" onClick={() => webApp()?.close()}>
+                Close
+              </Button>
+            }
+          >
+            <span className="big">⌛</span>
           </Placeholder>
         </div>
       )}
