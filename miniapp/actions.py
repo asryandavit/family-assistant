@@ -57,11 +57,14 @@ def compose(job, args, cfg):
         return (None, _err(q["error"])) if "error" in q else (text, None)
     # china: "<description>" or "only <site> <description>"
     from china import bot as cbot
-    m = re.match(r"only\s+(\S+)\s+(.+)$", args, re.IGNORECASE)
+    # Read "only <site>" exactly as china.bot.handle does, and keep the chat's command words
+    # ("last", "cancel") out: this form sends descriptions, and "/china cancel" would drop the
+    # person's waiting searches while the page says "Sent" (review, decision 099).
+    m = re.match(r"only\s+(\S+)\s*(.*)$", args, re.IGNORECASE)
     desc = m.group(2).strip() if m else args
     if m and m.group(1).lower() not in cbot.SITES:
         return None, "Which site? Pinduoduo, Taobao or 1688."
-    if not cbot.DESC_RE.match(desc):
+    if args.lower() in ("last", "cancel") or not cbot.DESC_RE.match(desc):
         return None, "Describe the item in 3–200 characters, e.g. GaN charger 65W EU plug."
     return f"/china {args}", None
 

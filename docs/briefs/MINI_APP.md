@@ -338,6 +338,23 @@ file.
 
 ### 14.2 Found and left (small; say the word)
 
+Step 2 (§13) was added to the review afterwards. Fixed there: the China form accepted the chat's
+command words (`cancel`, `last`) as a description, and Add accepted a link already on the list.
+Left from step 2:
+- **Listener not running → the page still says "Sent to the bot".** The request file is dropped
+  after 120 s and nobody is told. The server could check the listener's single-instance port
+  before answering.
+- **The Travel screen reads Google Sheets on the request thread with no timeout** (`lib/sheets`
+  sets none); the page gives up after 25 s but the thread waits on. Only a signed-in person can
+  cause it. A "one refresh at a time, others get the last copy" guard in `screens._sheet_rows`
+  would bound it without touching `lib/`.
+- **`only taobao` plus a 200-character description** passes the form's check and is then refused
+  by the inbox's 200-character limit with "That request was not accepted".
+- **`.tmp` files left by a crash in the inbox folder are never removed** (harmless, they are
+  never read).
+
+Left from steps 0 and 1:
+
 - **The Mini App server starts the China worker as its own child** (💬 Reviews →
   `china/queue.start_worker`). Stopping the `FamilyAssistant-MiniApp` task while a reviews job
   runs probably stops that job (not tested — it needs a real Chrome job). Recommendation: send

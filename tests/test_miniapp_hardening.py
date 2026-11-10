@@ -172,5 +172,31 @@ class WatchReply(Base):
         self.assertEqual((st, d["ok"]), (200, False))
 
 
+class RunChinaWords(unittest.TestCase):
+    """Step 2 review (decision 099): the China search form sends a description. The chat's
+    command words must not ride in as one — "cancel" silently dropped the person's waiting
+    searches while the page said "Sent … I'll post progress there"."""
+
+    def compose(self, args):
+        from miniapp import actions
+        return actions.compose("china", args, {})
+
+    def test_command_words_are_not_descriptions(self):
+        for words in ("cancel", "last", "Cancel", " LAST ", "only taobao", "only 1688"):
+            text, err = self.compose(words)
+            self.assertIsNone(text, words)
+            self.assertIn("Describe the item", err, words)
+
+    def test_real_descriptions_still_pass(self):
+        for words, want in (("GaN charger 65W", "/china GaN charger 65W"),
+                            ("only taobao Grohe faucet", "/china only taobao Grohe faucet"),
+                            ("last minute gift box", "/china last minute gift box"),
+                            ("cancel button sticker", "/china cancel button sticker")):
+            self.assertEqual(self.compose(words), (want, None))
+
+    def test_unknown_site_still_refused(self):
+        self.assertEqual(self.compose("only ebay red shoes")[0], None)
+
+
 if __name__ == "__main__":
     unittest.main()

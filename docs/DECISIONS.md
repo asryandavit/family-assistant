@@ -995,3 +995,17 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   the server, a compact card. **§15** — the far goal: a household agent on a ladder from "inform"
   to "standing rules", an action ledger and limits in code before anything is spent, Telegram
   kept as the front door but not as the foundation.
+- **Step 2 added to the review at the builder session's request (decision 098's code).** Probed
+  on a throwaway server with a temp folder: nothing reaches the listener that the chat would
+  refuse (a newline, a second command, `/cancel`, `/auto`, `/status`, `/watch remove` are all
+  refused or reduced to the allowed text); a request is always queued for the signed person's own
+  chat; a file for a chat that is not allowed and a file older than 120 s are dropped; 10 runs a
+  minute per person; a stranger gets 403. The listener's inbox thread cannot stop the poll loop:
+  it is its own thread, every pass is inside `try`, and `Runner.launch` takes its lock without
+  waiting. Market add refuses look-alike hosts (`amazon.de@evil…`, `amazon.de.evil…`, a store URL
+  inside another URL's query). `html_blocks` keeps only `http(s)` links and passes markup as text.
+- **The China search form no longer accepts the chat's command words as a description.**
+  Reproduced: `{"job": "china", "args": "cancel"}` queued `/china cancel`, which drops the
+  person's waiting searches while the page says "Sent to the bot. I'll post progress there";
+  `last` re-sent the old answer; `only taobao` was "sent" and then refused in the chat. The form
+  now answers "Describe the item…" for all three and reads `only <site>` exactly as the chat does.
