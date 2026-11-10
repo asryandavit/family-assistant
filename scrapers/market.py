@@ -87,6 +87,7 @@ class Session:
 
     def __enter__(self):
         from playwright.sync_api import sync_playwright
+
         from scrapers import browser_lock
         # one owner of the profile at a time: the nightly scan and /amazon wait for each other
         browser_lock.acquire(self.who, self.lock_wait_s, ROOT, log=self.log)
@@ -169,6 +170,16 @@ class Session:
                     "text": text, "detail": why}
         return {"status": "ok", "url": url, "final_url": final, "html": html, "text": text,
                 "detail": ""}
+
+    def scroll_html(self):
+        """Scroll the open page to its bottom once (lazy search cards load as you scroll) and
+        return its HTML, or "" on a fault. Read-only: no click, no typing."""
+        try:
+            self._page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            self._page.wait_for_timeout(2500)
+            return self._page.content()
+        except Exception:  # noqa: BLE001 - the caller keeps the cards it already has
+            return ""
 
     # ---------------------------------------------------------- profile setup
 
