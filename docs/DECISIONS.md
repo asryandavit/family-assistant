@@ -1033,3 +1033,34 @@ start; later markets are adapters of two reader kinds (Playwright + parser, or o
 the merged `/find` ranks within markets and merges above a trust floor with arrival date. Wildberries/
 Ozon intra-EAEU customs are to be verified, not assumed. Phases P1, P1b, P2–P5 with "done means" and
 ten owner questions are in §7–§8. **Docs:** docs/briefs/AMAZON_SEARCH.md (new), docs/ROADMAP.md (row).
+
+**101 — 2026-11-10 — `/amazon` P1: Amazon UK, DE and IT searched in the bot's browser, read by a Python parser, priced to Yerevan; the model only plans and phrases one sentence.**
+Built to the owner's recommended defaults (brief §10). `amazon/` mirrors `china/` file names; `china/` and
+`lib/` are untouched (the CLI plumbing is imported from `china/runner.py`; copies are marked `# same as
+china/…`). **Reader:** `scrapers/market.Session` (signed out, read-only, 3–6 s pauses); the card and product-page
+parsers were written only against the 12 EU captures in `tests/fixtures/amazon/` and are tested on all of them,
+including rejection paths (no price → "not read", a price in the wrong currency is not used, no seller block →
+"seller not read"). Per store: search page, `Deliver to` postcode check (wrong → that store skipped with a
+message), one scroll if fewer than 24 cards loaded, top 3 cards by card-level trust get a product-page read.
+**Trust** is code with weights in `config_amazon.json`: sold by Amazon 40 > dispatched by Amazon 30 > third party
+ships itself 10 > not read 0, rating only with ≥ 20 reviews (a 5.0 from 6 is printed as "not counted"), review
+count, "N+ bought in past month", Amazon's Choice / Best Seller, sponsored −2 and never the 🏆 pick while an
+organic result is priced; order = trust band (8) then delivered AMD. **Money:** `market.pricing.quote` for every
+forwarder × mode of the store; Amazon's "FREE delivery on your first/eligible order" is a condition, not a fee —
+not counted and said so; unknown weight → 1 kg with the uppercase warning. **Model:** two small `claude -p` calls
+(plan with DE/IT translation, category and at most one age/size question — answered, the plan is made again with
+the age in the words; the 🏆 reason sentence), no browsing tools, `--model sonnet`; a reason sentence may only
+contain numbers present in the facts it was given, else rejected, re-asked once, then the deterministic
+`trust.reason` sentence. **Limits in code:** 10 runs a day, 24 h out for a store after a check page (never
+bypassed), the browser profile shared with the nightly scan through a new lock (`scrapers/browser_lock.py`, own
+commit, with `Session.scroll_html`, own commit). **Measured** (4 real runs, UK+DE+IT): 109–113 s, 12–14 page
+loads, ≈ $0.19 list-price equivalent per run (two ~54k-token cached model calls, 60–100 output tokens each),
+against ≈ $3.7 for `/china`. **Found live and fixed with tests on captured excerpts:** "Currently unavailable" sits
+in script strings of in-stock pages (availability now read from its element); cards with a separate brand heading
+had the brand as title; November baby searches are full of Halloween costumes (`avoid_words`, owner-editable).
+**Not built, on purpose:** 📱 Open in app (the Mini App screen reads China's answer; comes with the generic results
+screen in P1b), 💬 Reviews, US (P2). The `listener.py` route (`/amazon`, `am:` buttons, prompt reply) is its own
+additive commit with `ARCHITECHTURE.MD`. The full suite is the travel regression check (docs/REGRESSION.md does not
+exist). **Docs:** docs/briefs/AMAZON_SEARCH.md (status, §6 measured, new §11 results and phone demo),
+docs/ROADMAP.md (row 3a), docs/TELEGRAM_UX.md (§5f, `am:` buttons, Market menu, command list), ARCHITECHTURE.MD
+(worker, browser lock, listener route).

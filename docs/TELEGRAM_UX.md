@@ -17,7 +17,7 @@ Bottom keyboard (always visible)      [ 🏠 Home ] [ 🔍 Price check ]
  ├─ 🍽 Meals      this week's menu, one fold per day, recipe references
  ├─ 🏃 Training   today's session per adult: cues, videos, safety
  ├─ 🛒 Shopping   price check, 🧺 basket, 📋 checklist (Sheet), shopping plan
- ├─ 🌍 Market     watch list, check now, add (§5d; /watch), 🇨🇳 China search (§5e; /china)
+ ├─ 🌍 Market     watch list, check now, add (§5d; /watch), 🇨🇳 China search (§5e; /china), 🛒 Amazon search (§5f; /amazon)
  ├─ ✈️ Travel     scan, digest, flights/stays how-to, automation
  └─ ⚙️ System     status, automation, cancel, help
 ```
@@ -82,6 +82,7 @@ messages keep `send_html()`.
 | `cmd:<action>` | run a menu action (`scan`, `digest`, `status`, `cancel`, `auto`, `basket`, `market`) | existing, kept |
 | `mk:<action>` | Market watch actions (`mk:add` starts the add dialog) | new (decision 087) |
 | `cn:<action>` | China search: `cn:ask` (prompt), `cn:only:<site>:<job>`, `cn:rev:<job>:<n>`, `cn:watch:<job>:<n>`, `cn:q:<job>:<q>:<option>` | new (decision 088) |
+| `am:<action>` | Amazon search: `am:ask` (prompt), `am:q:<job>:<q>:<option>`, `am:watch:<job>:<n>` | new (decision 101) |
 | `st:` `o:` `g:` | stays search / filter panel | existing, kept |
 | `sw:` | automation switches | existing, kept |
 | `co:` | reserved for coach actions (COACH_SPEC §11) | reserved |
@@ -273,11 +274,37 @@ answer searches by the photo's words (the photo is deleted when the answer is se
 `photo_keep_minutes` > 0 keeps it so 🔁 repeats the photo search). Health records, when
 built, reads photos only inside an open `/health` conversation.
 
+### 5f. Amazon search (decision 101)
+
+🌍 Market has `🛒 Amazon search` (`am:ask`, next to 🇨🇳 China search): a force-reply prompt "🛒 Amazon
+search · what are you looking for?" whose answer becomes `/amazon <text>`. Typed: `/amazon
+<description>`, `/amazon only uk|de|it <description>`, `/amazon last` (24 h), `/amazon cancel`. Both
+chats, one shared queue (`amazon/queue.py`), the answer goes to the chat that asked; the listener only
+queues, `jobs/amazon_search.py` runs the job (one at a time).
+
+Flow: clothing without an age/size gets ONE question with buttons (`am:q:…`, plus "➡️ Skip - search as
+is"); the answer is added to the words and the plan is made again, so the German/Italian size words match.
+Then "⏳ Searching Amazon UK, Amazon DE, Amazon IT for … (~5 min)", one progress line per store, one answer
+as a Rich Message (plain HTML fallback): header, the translated words searched per store, 🏆 best pick
+(seller line, total AMD, route, a one-sentence reason), stores that could not be read (🚫 check page - not
+bypassed, kept out for 24 h / ⚙️ not set to the warehouse address / ⏳ in cool-down / ⚠️ not read, each with
+a search link), "saw N results, read 3 in detail" per store, one table per store (#, item, seller icon +
+class, total AMD; `*` = weight not listed; 📢 = sponsored) and a `<details>` per result (price → AMD · USD,
+Amazon's delivery line to the warehouse - a "free on a first order" line is a condition and is NOT counted,
+said so -, weight or `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, every forwarder × mode with
+customs and total, seller evidence ("Sold by X · Dispatches from Amazon"), 🛡 trust with every part, link
+built from the ASIN). Seller icons: 🟢 sold by Amazon, 🟡 dispatched by Amazon, 🟠 third party ships
+itself, ⚪ not read. Buttons: `👁 Watch N` (adds the exact `/dp/` link to Market watch; a link already on
+the list is not added again). No 📱 Open in app and no 💬 Reviews yet: the Mini App screen reads China's
+answer (brief §4.1: it becomes the generic results screen in P1b). Silent. Limits in code: at most 10
+searches a day, 3–6 s between pages, a store that shows a check page is skipped and not opened again for
+24 h.
+
 ## 6. Bot profile
 
 Set from `listener.set_menu()` at startup so it can't drift:
 - **Description** (start screen) and **short description** (profile page) — §7 text.
-- **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `watch`, `china`, `flights`, `stays`, `scan`,
+- **Command list** — grouped, short: `menu`, `today`, `price`, `basket`, `watch`, `china`, `amazon`, `flights`, `stays`, `scan`,
   `digest`, `status`, `cancel`, `help`.
 - Profile photo: BotFather only (not settable by a bot).
 - **Chat menu button: 🏠 Family** (decision 094) — the button beside the message field opens

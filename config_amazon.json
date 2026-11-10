@@ -1,0 +1,29 @@
+{
+  "_doc": "/amazon search (docs/briefs/AMAZON_SEARCH.md, decision 101). stores: the Amazons searched (keys of market/stores.md amazon_<key>). routes_per_store comes from market/stores.md modes x market/tariffs.json. top_per_store: how many cards per store get a product-page read (seller, weight, exact delivery); the rest are not shown. max_searches_per_day: /amazon runs per local day (one run = one search page per store + product pages); cooldown_hours: a store that showed a check page is not opened again for this long. pause_s: polite pause range between page loads. browser_wait_s: how long a run waits for the bot's browser when the nightly market scan holds it. assumed_kg: weight used when the page lists none (said in UPPERCASE). claude_model: cheaper model for the two small calls (plan, pick reason). trust: weights of the trust score (amazon/trust.py) - seller class points, rating points only with min_reviews reviews, review-count and 'bought in past month' evidence (3*log10, capped), badges, sponsored penalty; band: results whose scores fall in the same band are ordered by delivered price. keep_last_hours: /amazon last. Prime is not a ranking input (brief 1.1). avoid_words: seasonal/costume listings are left out of the candidates unless the person's own words contain the word (owner-editable, like China's brand lists); skipped when fewer than top_per_store results would remain.",
+  "stores": ["uk", "de", "it"],
+  "top_per_store": 3,
+  "cards_considered": 24,
+  "max_searches_per_day": 10,
+  "cooldown_hours": 24,
+  "pause_s": [3.0, 6.0],
+  "browser_wait_s": 900,
+  "assumed_kg": 1.0,
+  "avoid_words": ["halloween", "costume", "cosplay", "fancy dress", "christmas", "xmas", "santa", "elf outfit",
+                  "kostüm", "karneval", "weihnacht", "natale", "carnevale", "travestimento"],
+  "claude_model": "sonnet",
+  "keep_last_hours": 24,
+  "pending_minutes": 60,
+  "trust": {
+    "min_reviews_for_rating": 20,
+    "band": 8,
+    "seller": {"amazon": 40, "dispatched_by_amazon": 30, "third_party": 10, "unread": 0},
+    "rating": {"neutral": 4.0, "per_star": 10, "min": -10, "max": 10},
+    "reviews": {"per_log10": 2.5, "max": 10, "min_count": 10},
+    "bought": {"per_log10": 3.0, "max": 9, "min_count": 50},
+    "badges": {"amazons_choice": 3, "best_seller": 3},
+    "sponsored": -2
+  },
+  "amazon_seller_names": ["amazon", "amazon eu s.à r.l.", "amazon eu sarl", "amazon eu s.a r.l.",
+                           "amazon.de", "amazon.it", "amazon.co.uk", "amazon.com", "amazon uk",
+                           "amazon italia", "amazon italia services", "amazon.com services llc"]
+}

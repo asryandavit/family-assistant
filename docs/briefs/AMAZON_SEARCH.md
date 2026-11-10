@@ -1,7 +1,9 @@
 # AMAZON_SEARCH.md — `/amazon` find-and-compare, and the road to one `/find`
 
-Status: **P0 done (2026-11-10, decision 100). Nothing is built.** Waiting for the owner's answers
-(§8). Source of truth for this feature; if code and this file disagree, fix this file in the same commit.
+Status: **P0 done (decision 100). P1 built 2026-11-10 (decision 101): `/amazon` on Amazon UK, DE, IT**
+(results, measured cost and the phone demo are in §11). P1b (extract the engine), US (P2) and the
+📱 card are not built. Source of truth for this feature; if code and this file disagree, fix this
+file in the same commit.
 
 Reads with: `docs/briefs/CHINA_SEARCH.md` (the pipeline this reuses), `docs/briefs/MARKET_WATCH.md`
 §8–§9 (stores, forwarders, customs), `docs/VISION.md` (gift ideas and shopping use the same search).
@@ -224,11 +226,18 @@ So adapters have **two reader kinds**: `playwright` (deterministic, 0 tokens, bo
 
 ### 6.1 Max quota
 
-| | `/china` (measured, CHINA_SEARCH §8) | `/amazon` (estimate — to be measured in P1) |
+| | `/china` (measured, CHINA_SEARCH §8) | `/amazon` (estimate; measured line below the table) |
 |---|---|---|
 | Browsing | ~1.3 M cache-read tokens per site (PDD 2.0 M, 1688 1.75 M), list-price equivalent ~$1.3 per site | **0** — Playwright + parser |
 | Model calls | one per site (read) + plan + phrasing | 2: plan (translate to DE/IT, category, questions) and the 🏆 reason. No browsing tools, a small prompt of final numbers. Cheaper model by `--model` as China P1 did (the configured fast model); fixed extraction scripts are not needed because the model does not read pages |
 | Estimate | ~$3.7 list-price equivalent for three sites | tens of thousands of tokens at most per run, i.e. small next to China |
+
+**Measured in P1 (2026-11-10, 4 real runs on the PC, UK + DE + IT, Sonnet via `--model sonnet`):** one run =
+2 model calls, each ≈ 54k tokens of Claude Code's own cached prompt (33k cache-read + 21–23k cache-write;
+our prompt is ~1k of it), **~90–100 output tokens (plan) and ~60–75 (reason)**; list-price equivalent
+**≈ $0.19 per run** (plan $0.09–0.10 + reason $0.09–0.10) against ≈ $3.7 for a `/china` run — about 5 %.
+Browsing tokens 0. Most of each call's ~$0.1 is the fixed cost of starting `claude -p`, so a vague
+request that is planned twice (the question, then the answer) costs one more plan.
 
 Rules kept from China: the model gets final numbers and "do not recalculate"; any answer that fails
 validation is rejected and re-asked once, then falls back to a deterministic default (the 🏆 reason
@@ -236,8 +245,12 @@ becomes the template sentence). A model failure never changes a number.
 
 ### 6.2 Time
 
-Per run, estimated: 4 stores × (1 search + 3 product pages) = 16 page loads × (3–6 s pause + load) ≈
-3–5 minutes with the polite pauses, in the queue with one browser job at a time. Measured in P1.
+Estimated in P0: 4 stores × (1 search + 3 product pages) = 16 page loads ≈ 3–5 minutes.
+**Measured in P1 (3 stores, 1 search + 3 product pages each):** electronics `usb c charger 65w` **113 s**
+total (browser 101 s, 14 page loads: 3 searches + 2 scrolls for the stores whose search page loads only
+21–22 cards + 9 product pages; 2 model calls ≈ 12 s); baby `baby romper 6-12 months` **109 s** (browser 93 s,
+12 page loads, 60 cards load without a scroll). Per store ≈ 30–35 s; a progress line arrives about every
+30 s. The "~5 min" in the first message is a safe upper bound.
 
 ### 6.3 Amazon terms and anti-bot risk (stated plainly)
 
@@ -330,3 +343,90 @@ agree with you and do your best." Taken as: **every recommended default in §8 i
 10. Russia (P4) runs in the owner's Chrome, same arrangement as China.
 
 Next: P1 in its own session (CLAUDE.md §9).
+
+---
+
+## 11. P1 results (2026-11-10, decision 101)
+
+### 11.1 What was built (and where it differs from §7)
+
+`amazon/` mirrors `china/` (`parse, trust, pricing, validate, runner, search, report, queue, bot`) plus
+`limits.py`; `jobs/amazon_search.py` (worker, `--once` for demos), `prompts/amazon_plan.md`,
+`prompts/amazon_reason.md`, `config_amazon.json`, a `🛒 Amazon search` button in 🌍 Market, `/amazon`
+in `listener.py` (own commit). `china/` and `lib/` untouched. Copies say `# same as china/…`
+(`queue.py`, file helpers in `search.py`, `bot.py` helpers); the CLI plumbing (`call`, `usage`,
+`_validated`) is imported from `china/runner.py`, not copied.
+
+- **Reader.** `scrapers/market.Session` (bot profile, signed out, visible window, 3–6 s between pages).
+  Two additive commits to `scrapers/market.py`: a **cross-process browser lock** (`scrapers/browser_lock.py`;
+  the nightly market scan and `/amazon` wait for each other, up to 20 min) and `Session.scroll_html()`
+  (one scroll when a search page loads fewer than 24 cards).
+- **Per store:** search page → postcode check of the `Deliver to` line against `market/stores.md` (wrong →
+  that store is skipped with a message, no product page opened) → up to 24 cards parsed → candidates:
+  priced cards, costume/seasonal listings left out (`avoid_words`, owner-editable, unless the person's words
+  contain them), number+unit words the person typed (`65w`) must be in the title → ordered by card-level
+  trust band, organic before sponsored, cheaper first → **top 3 get a product-page read** (seller, exact
+  buy-box price, weight/size, exact delivery).
+- **Trust** (`amazon/trust.py`, weights in `config_amazon.json`): seller class 40 / 30 / 10 / 0, rating only
+  with ≥ 20 reviews (a 5.0 from 6 is printed as "not counted"), review count, "N+ bought in past month",
+  Amazon's Choice / Best Seller, sponsored −2; the order is trust band (8 points) then delivered AMD; a
+  sponsored result never beats an organic one at the same total and is never the 🏆 pick while an organic
+  one is priced.
+- **Money** (`amazon/pricing.py`): `market.pricing.quote` for every forwarder × mode of the store's
+  `market/stores.md` row (UK air; DE air + truck; IT truck). Amazon's own delivery to the warehouse is the
+  page's: a number if shown, 0 if plainly free; **"FREE … on your first/eligible order" is a condition,
+  not a fee, so it is not counted and the answer says so** (the common case on every store).
+  Unknown weight → 1 kg and `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`.
+- **Model**: plan (translate to DE/IT, category, ≤ 1 question; the answer is added to the words and the plan is
+  made again so the German size words match: `baby strampler Größe 74 80`) and the 🏆 reason sentence — every
+  number in the sentence must be one of the facts it was given, else rejected, re-asked once, then the
+  deterministic `trust.reason` sentence. No browsing tools, `--model sonnet`.
+- **Limits** (`amazon/limits.py`, survive restarts): 10 runs a day, a store that showed a check page is not
+  opened again for 24 h; a check page on a product page stops that store's remaining product pages.
+- **Buttons:** `👁 Watch N` through `market.bot._mutate` with the exact `/dp/<ASIN>` link (a link already on the
+  list is not added again). **Not built, on purpose:** `📱 Open in app` (the Mini App screen reads China's
+  saved answer, so a button would open the wrong screen — it comes with the generic results screen in P1b),
+  `💬 Reviews` (not needed), `'amazon'` in `miniapp/actions.py` JOBS (so no new form to guard).
+
+### 11.2 Real runs (PC, 2026-11-10, bot profile)
+
+| Query | Time | Page loads | Model | Result |
+|---|---|---|---|---|
+| `usb c charger 65w` | 113 s | 14 | plan 90 out, reason 73 out; ≈ $0.19 list | 🏆 Anker Nano II 65W, Amazon UK, sold by AnkerDirect UK, dispatched by Amazon, £16.14 → **8,793 AMD** via Onex air (0.15 kg from the page); DE Anker 8,470 AMD (Onex truck), IT Anker 8,987 AMD |
+| `baby romper 6-12 months` | 109 s | 12 | plan 102 out, reason 63 out; ≈ $0.19 list | 🏆 NAME IT pyjamas, Amazon DE, "Shipper / Seller Amazon", €12.99 → **5,655 AMD** via Onex truck (0.067 kg); UK/IT results 6,106–15,419 AMD, five of nine with the 1 kg warning |
+
+Findings from the live pages (each is now a test on a captured excerpt or fixture):
+1. A plain text search for "Currently unavailable" marks in-stock pages unavailable (the words are in script
+   strings): availability now comes from the availability element only
+   (`tests/fixtures/amazon/uk_elec_dp_live_excerpt.html`).
+2. Some cards have two headings (brand, then title); the title was only the brand ("Gerber", "Lilcutie").
+3. Many product pages carry no weight at all (UGREEN chargers on UK/DE): the 1 kg estimate and its warning are
+   the normal case for them, as for China.
+4. Amazon search returns costumes and Halloween items for baby queries in November; seven of 60 UK cards were
+   left out by `avoid_words`. Relevance beyond that is Amazon's own order, and the trust order can still put a
+   marginal item first (a known limit; the 🏆 reason says why it won).
+5. The delivery to the warehouse is "free on a first order" on every card and page seen; the real fee for the
+   family's own account is unknown until an order is placed.
+
+### 11.3 Phone demo (owner; both phones)
+
+1. Home → 🌍 Market → **🛒 Amazon search** → type `usb c charger 65w` (or send `/amazon usb c charger 65w`).
+   Reply: "⏳ Searching Amazon UK, Amazon DE, Amazon IT for usb c charger 65w… (~5 min)". A browser window opens on the PC.
+2. Three progress lines ("⏳ Amazon UK done (1/3)…"), then one answer after ~2 min: 🏆 pick with seller line, AMD
+   total, route and a reason; a table per store; open a result's fold for price → AMD, Amazon's delivery line,
+   weight, every forwarder × mode, seller evidence, 🛡 trust parts, link.
+3. `/amazon baby romper 6-12 months` — same flow. `/amazon baby romper` (no age) → one question with age buttons,
+   then the search with German/Italian size words.
+4. Tap `👁 Watch 1` → "Added to 🌍 Market watch … (from /amazon)"; tap it again → "Already on 🌍 Market watch".
+5. `/amazon last` re-sends the last answer; `/amazon cancel` drops a waiting search.
+6. Check pages: not forced live (Amazon cannot be asked for one). Forced in `tests/test_amazon_search.py` with a
+   fake browser serving a block page for one store: one skipped store with "showed a check page - not bypassed",
+   the other two answer, the store is kept out for 24 h.
+
+The listener must be restarted once to load the `/amazon` route (the worker needs no restart).
+
+### 11.4 Open for P1b / P2
+
+Generic results screen and 📱 card; US (P2, with the `/dp`-links fallback); re-compare the product price across
+delivery addresses on more ASINs (P0 open item: every product price read in P1 equalled the card's price or the
+answer notes the difference); headless was not tried (a visible window is accepted, §10 answer 5).
