@@ -3,8 +3,10 @@
 Status: **built 2026-11-10 (decision 094).** Direction approved by the owner 2026-11-09 ("go
 with C"): our own small app, React + Vite + Telegram UI + Telegram's official script, Python API
 on the PC. This brief covers step 0 only; §10 answered 2026-11-10. Server, auth, web app,
-scheduled task and menu-button tool are in; the tunnel needs the owner's one-time Tailscale
-admin-console step (docs/SECRETS.md §5) before the phone demo (§8). Direction and later screens:
+scheduled task and menu-button tool are in; Tailscale Funnel is live and 🏠 Family is set in
+both chats. Owner demo 2026-11-10: opened as owner, and the "PC is not reachable" state and
+recovery work. Navigation became a Home list instead of the tabs in §1 (decision 096). Still to
+see on a phone: dark mode and Karine's "· adult" (§8 demo steps 3 and 5). Direction and later screens:
 `docs/VISION.md` §4, `docs/ROADMAP.md`.
 
 ---
