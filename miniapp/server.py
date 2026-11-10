@@ -241,6 +241,12 @@ class Handler(BaseHTTPRequestHandler):
         if self.command != "HEAD":
             self.wfile.write(body)
 
+    def _has_body(self):
+        """True when the request announces a body (any Transfer-Encoding, or a Content-Length
+        that is not zero)."""
+        return bool(self.headers.get("Transfer-Encoding")
+                    or (self.headers.get("Content-Length") or "0").strip() != "0")
+
     def _json(self, status, obj):
         self._send(status, json.dumps(obj).encode(), "application/json",
                    {"Cache-Control": "no-store"})
@@ -250,7 +256,14 @@ class Handler(BaseHTTPRequestHandler):
         who, status = "-", 500
         try:
             path = urlsplit(self.path).path
-            if path.startswith("/api/") or path == "/api":
+            if self._has_body():
+                # A GET has no body here. Unread, it would stay in the socket and be run as
+                # the next request on this connection (request smuggling: the tunnel reuses one
+                # connection for several clients). Refuse and close (decision 099).
+                status = 400
+                self.close_connection = True
+                self._json(400, {"error": "no body on GET"})
+            elif path.startswith("/api/") or path == "/api":
                 status, body, who = self.app.api(path, self.headers.get("Authorization"))
                 self._json(status, body)
             else:

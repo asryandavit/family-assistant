@@ -33,6 +33,7 @@ Processes on the PC (each its own scheduled task):
   stdlib HTTP server on 127.0.0.1:8790 only, serving the built Mini App
   (`miniapp/web/dist`, React + Vite + Telegram UI, built on the PC with Windows Node) and a
   JSON API (GET; since step 1 one POST, `/api/china/action`, JSON ≤ 1 KB, decision 097).
+  A GET that announces a body is a 400 and the connection is closed (decision 099).
   Every API request carries Telegram's signed initData
   (`Authorization: tma …`), checked with the bot token (HMAC, `miniapp/auth.py`); access by
   Telegram user id + role (`miniapp/people.py`), 60 requests/min per user. Not inside the

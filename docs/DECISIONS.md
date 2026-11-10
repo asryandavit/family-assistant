@@ -891,3 +891,18 @@ button, own-chat only). Tests: tests/test_miniapp_china.py, tests/test_market_lo
 method tests updated; 564 passed. Docs: docs/briefs/MINI_APP.md §12 and status,
 docs/TELEGRAM_UX.md §6, ARCHITECHTURE.MD (second writer, POST), docs/briefs/CHINA_SEARCH.md
 (Mini App row), docs/ROADMAP.md (step 0 done, China screen built), market/state.py docstring.
+
+
+**099 — 2026-11-10 — Mini App review (steps 0 and 1): what was checked, what was fixed, what is proposed.**
+An independent review of steps 0 and 1 the day they were built: tests, an attacker's probes against a
+throwaway server with a test token, the lock, the phone UI. Findings and larger proposals:
+`docs/briefs/MINI_APP.md` §13–§14. Each fix below is its own commit and has a test that failed first
+(`tests/test_miniapp_hardening.py`, `tests/test_market_lock.py`, `tests/test_china_bot.py`).
+- **A GET with a body is refused (400) and the connection closed.** Reproduced: `GET /api/status`
+  with `Content-Length: n` and a second request as the body got two answers on one connection —
+  the body ran as its own request. Behind Tailscale Funnel the proxy reuses one connection to the
+  server for several clients, so unread bytes are a request-smuggling primitive (the classic
+  outcome is one person receiving another person's answer). The cross-person leak itself was not
+  demonstrated through the tunnel; the primitive was, and the fix is five lines. Why not ignore
+  the body: reading and discarding it keeps the connection in step too, but a GET with a body is
+  never ours, so refusing is the smaller promise.

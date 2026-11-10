@@ -139,6 +139,10 @@ Rules:
 - Static files are served only from `miniapp/web/dist`. Paths are normalised, and anything that
   resolves outside that folder is a 404.
 - Rate limit: 60 requests a minute per user id, then 429. This protects the PC, not the data.
+- **Request framing (decision 099).** A request must leave nothing unread in its connection:
+  the tunnel reuses one connection to the server for several clients, so leftover bytes would
+  be run as somebody's next request. A GET that announces a body (`Content-Length` above 0 or
+  any `Transfer-Encoding`) is a 400 and the connection is closed.
 - **Household-ready:** access goes by Telegram **user id plus role**, never by chat id. In private
   chats the user id equals the chat id, so step 0 reads `TELEGRAM_CHAT_ID` (role `owner`) and
   `TELEGRAM_CHAT_ID_2` (role `adult`). Users and roles later replaces `people.py`'s source without
