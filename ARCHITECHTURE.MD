@@ -87,6 +87,11 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   `am:` buttons and the "🛒 Amazon search · what…" prompt reply go to `amazon/bot.py` through a
   fault-catching `_amazon` wrapper, exactly like `_china` (never through the Runner, never
   crashing the listener); `/help` and the command menu list `/amazon`. Existing routes unchanged.
+- `lib/logfile.py` (2026-11-10, housekeeping, decision 103): new module, nothing existing calls
+  changed. `append(path, line)` rotates a log over 2 MB (3 old copies kept) and appends;
+  `rotate()` renames, or copies and truncates when another process holds the file open (the
+  listener's `listener.log` on Windows). Never raises. Used by the China and Amazon workers'
+  `worker.log` and by housekeeping; `listener.py` is not changed.
 
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.
