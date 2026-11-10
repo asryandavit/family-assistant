@@ -1,7 +1,8 @@
 # MINI_APP.md — Telegram Mini App, steps 0 and 1 (built)
 
 Status: **step 0 done 2026-11-10 (decisions 094, 096) — owner demo passed: owner and adult, dark mode, Home list,
-back button, PC-not-reachable. Step 1 (China results, §12) built 2026-11-10 (decision 097), phone demo next.**
+back button, PC-not-reachable. Step 1 (China results, §12) built 2026-11-10 (decision 097), phone demo next.
+Reviewed 2026-11-10 (decision 099): fixes in §6 and §13.1, proposals for the owner in §13–§14.**
 Direction approved by the owner 2026-11-09 ("go with C"): our own small app, React + Vite + Telegram UI + Telegram's
 official script, Python API on the PC. Navigation became a Home list instead of the tabs in §1
 (decision 096). Direction and later screens:
@@ -302,3 +303,179 @@ off here (the Google checklist is the tick-off list).
 bought / remove on a temp dir, endpoints (auth, 403, permission, validation, limits), inbox and
 listener thread; `tsc` + build clean; owner phone demo: each screen opens, a China search from the
 form runs and its results appear, Basket / Travel / Market buttons answer in the chat.
+
+---
+
+## 13. Review, 2026-11-10 — findings and proposals (for the owner to decide)
+
+An independent review of steps 0 and 1 the day they were built (decision 099). Method: the full
+test suite; `tsc` and the build; an attacker's probes over raw sockets against a throwaway server
+with a test token; the lock under three processes; the page in a phone-sized browser with a
+test-signed initData and the real result fixture. The real token, the real chats and the live
+server were not touched.
+
+**Verdict.** The design is right for a family of two and the security core is sound: the
+signature check follows Telegram's algorithm; duplicate keys, a second `hash`, a string `id`, a
+missing `user`, 24 h 01 min of age and 6 minutes into the future are all refused; an unknown person
+gets 403 and nothing else; a person only ever reads their own chat's China result; the token never
+reaches the page; the tunnel hostname and the chat ids are not in Git or its history; path
+traversal on Windows (device names, `::$DATA`, encoded dots, backslashes) is a 404; the page
+computes nothing. What was wrong was at the edges that are hand-built: HTTP framing and the lock
+file.
+
+### 13.1 Fixed in this review (each its own commit, each with a test that failed first)
+
+| Severity | Finding | Fix |
+|---|---|---|
+| must | A GET's body ran as a second request on the same connection (request-smuggling primitive behind the tunnel's shared connection) | 400 and close |
+| must | The lock crashed with `PermissionError` on Windows when three writers re-took it (2 runs of 6) | retry; 0 of 6 |
+| should | The nightly job wrote the list without the lock (two windows) | both under the lock; busy = a line in the report |
+| should | A slow holder removed the next holder's lock file | removes only its own (token) |
+| should | A POST whose body never arrives: 500 after 20 s and a traceback | 408 and close |
+| should | A window open for more than 24 h said "This app is private" to the owner | "Session expired" + Close |
+| should | 👁 Watch twice added the product twice | "Already on Market watch" |
+| nice | The China card showed the listing price large and the delivered total small | delivered total first |
+
+### 13.2 Found and left (small; say the word)
+
+- **The Mini App server starts the China worker as its own child** (💬 Reviews →
+  `china/queue.start_worker`). Stopping the `FamilyAssistant-MiniApp` task while a reviews job
+  runs probably stops that job (not tested — it needs a real Chrome job). Recommendation: send
+  Reviews through the listener's inbox (decision 098) like the other commands.
+- **ok / refused is read from the reply's first words** (`👁 Added`, `👁 Already`, `⏳`). A
+  reworded chat message silently turns a success red. Recommendation: `china.bot` returns
+  `(ok, text)` to the server.
+- **One thread per connection, no cap.** 200 idle sockets held 200 threads for 20 s in the test.
+  The tunnel's proxy only opens a connection for a complete request header, so the internet
+  cannot do this directly; a cap (a semaphore of about 32) costs ten lines.
+- **`market/bot._mutate` holds the lock across the Google Sheet read and writes the Sheet after
+  releasing it.** Two edits within a second or two can let a stale Sheet row undo the other. Not
+  live while `watch_sheet_id` is unset. A lock file cannot close this (§13.3, SQLite).
+- **PC clock.** If the PC's clock is more than 5 minutes slow, every fresh sign-in is "in the
+  future" and refused for everyone. `selfcheck.py` could compare the clock with the `Date` header
+  of Telegram's API.
+- **The logon staleness audit does not cover this process yet** (§8 leftover, unchanged).
+- **No front-end test.** The method used here (a test-signed initData in the URL hash against a
+  server with a test token) makes a 30-line Playwright smoke test possible: Home, deep link,
+  Details, an ok and a refused action, dark mode.
+- **`Pick` does not jump to its card.**
+
+### 13.3 Architecture — is this the right way?
+
+For today, yes. For a household product, four things change, and all four belong to **Users and
+roles (ROADMAP #4)**, not to now. Doing them earlier would be building for users who do not exist.
+
+| Point | Risk now | Recommendation | Cost | When |
+|---|---|---|---|---|
+| **stdlib server → a small framework** (Starlette or FastAPI on uvicorn) | We own the HTTP details: two framing bugs in one day, body limits, timeouts, threads, routing by hand. Each new POST adds hand-written validation. | Keep stdlib while there are a handful of routes. Move when sessions and the People screen arrive: typed request models replace hand validation, and the framing is somebody else's tested code. `auth.py`, `people.py`, `china_view.py` are pure and move unchanged. | 1 session | Users and roles |
+| **JSON files + lock file → SQLite** | Three lock defects found in one review (crash, unlocked writer, wrong release) plus the Sheet window in §13.2. Every new shared file needs the same care again. | Put people, sessions, the watch list and the action log (§14) in SQLite with the CLAUDE.md §3 helper (`BEGIN IMMEDIATE`, WAL, one connection per thread). The Sheet becomes a view written from the database, not a second master. | 1–2 sessions, with a migration and a restore drill | Users and roles (the list can move first) |
+| **initData on every request → a session** | initData is a 24 h bearer string: whoever copies it has the person for a day, and removing a person does not take effect until it expires. Acceptable for two adults on their own phones. | Exchange initData once (accepted for about 1 h) for a random session id kept hashed in SQLite, 30 minutes sliding, deleted when the owner removes the person. The HMAC check stays as the way in. | half a session, after SQLite | Users and roles |
+| **Tailscale Funnel → a named Cloudflare Tunnel on our own domain** | Works. But: the URL is this PC's name; PC off = Telegram's blank error page; no rate limiting before the PC; the hostname is in public certificate logs. | Stay on Funnel for the family. With the first outside family (or when the blank page annoys): own domain (about $10/year), a static "PC is off" page, edge rate limits. The same step later moves the backend off the PC without changing the URL. | 1–2 hours + the domain | first beta family, or on request |
+| **React + Telegram UI → plain HTML?** | None worth acting on: 57 KB gzipped, native look, typed. The cost is upkeep of npm dependencies. | Keep. Versions are pinned; run `npm audit` monthly; add the smoke test from §13.2. Plain HTML would save little and lose the Telegram look. | — | — |
+
+Two things in the current design are better than the usual alternatives and should survive any
+move: **one origin** (no CORS, no public repo, a strict CSP) and **the app calls the chat's own
+code** (same numbers, same validation). Decision 098's inbox — the app asks, the listener runs an
+allow-listed command — is the right seed for §14.
+
+### 13.4 The China screen — how it could be better
+
+1. **Photos without breaking decision 090.** The model still never supplies a URL. The extraction
+   keeps each site's image *id* next to the item id; code builds the CDN URL from the id (as it
+   already builds links); the PC downloads a small thumbnail once into `.browser/` and serves it
+   from our own origin. The CSP stays `img-src 'self'`, the phone never contacts a Chinese CDN,
+   and a wrong id shows a placeholder, not somebody else's picture. A China-session change first.
+2. **Sort without arithmetic on the page.** The server sends the orders ready-made —
+   `orders: {"trust": [5,1,…], "delivered": […], "fastest": […]}` — and the page only re-orders
+   cards. Same for filters: per-card flags (`site`, `reviews_read`, `has_warning`).
+3. **Layout.** Ten cards are 5,954 px on a phone (measured), about seven screens. Proposal: a
+   compact card (photo left; delivered total; trust as a coloured chip; two buttons) about 150 px
+   high, opening to today's full card; the 🏆 pick pinned as the first card; the three site lines
+   folded into one ("Pinduoduo 5 · Taobao link · 1688 5").
+4. **Live state from the PC, not from the page's memory.** `watching: true` when the product is
+   already on the list (the server can tell since this review); "reviews being read…" from the
+   queue, and the card refreshes itself when they arrive.
+5. **History.** Keep the last few searches (not only the last, 24 h), and "search again".
+
+---
+
+## 14. Where this can go — a proposal for the far goal (5–10 years)
+
+The owner asked how far this can go, whether it can place and finish orders, and whether Telegram
+should stay. This is a proposal to react to, not a plan.
+
+**The goal in one sentence.** *A household agent that prepares, asks, and then carries out — the
+family decides, the agent does the work, and nothing is ever spent or sent without a rule or a tap
+that allowed it.*
+
+### 14.1 The ladder — from "tells us" to "does it for us"
+
+| Level | What it does | Example | Where we are |
+|---|---|---|---|
+| 0 Inform | reports, alerts | price dropped; tonight's menu | built |
+| 1 Prepare | does everything up to the last step | the week's basket as a filled cart; a China order sheet for the forwarder | partly (basket links) |
+| 2 Act on a tap | carries out one action after one explicit approval in the app | "Order this — 18,400 AMD — Approve" | not yet |
+| 3 Standing rules | acts inside limits the family set | "re-order the weekly basket up to 40,000 AMD"; "book if the fare is under €90" | not yet |
+| 4 Trusted routine | handles low-risk routine alone, reports after | restock, renewals, reminders | far |
+
+Each level needs the one below it to have been boring for months.
+
+### 14.2 What has to exist before the agent may act (levels 2–3)
+
+- **An action ledger** (SQLite): every action as a row — who asked, who approved, exactly what
+  was sent, the result, the cost — with an idempotency key so nothing runs twice, a dry-run mode
+  and, where the store allows, an undo window. This is CLAUDE.md §5 ("every decision carries a
+  reason") applied to deeds.
+- **Limits in code, not in a prompt:** per person, per module, per month; a second adult's
+  approval above a threshold. "Numbers are code, words are AI" becomes "**money is code plus a
+  person; the AI proposes**".
+- **Every capability is a named, validated command** — the inbox allow-list of decision 098 grown
+  into a tool list. The model chooses from the list; it never drives a browser freely with a
+  wallet attached.
+- **Payment is never typed by the agent.** In order of preference: the store's own checkout
+  opened with a filled cart (the person pays there); an official or partner API; a virtual card
+  with its own limit when a bank offers one.
+
+### 14.3 Honest limits
+
+- None of today's stores (Yerevan City, Parma, Taobao, Pinduoduo, 1688, Amazon) offers private
+  people an ordering API. Finishing a checkout by driving the owner's logged-in browser is
+  possible for this household, breaks when a page changes, may be against the store's terms, and
+  cannot be offered to other families. So: **level 1 everywhere within a year is realistic; level
+  2 first where a partner exists** (a forwarder, one grocery chain, flights through an affiliate
+  API); **level 3 for our own household where the store is stable**.
+- One Windows PC is the single point of failure. Before anything acts with money: an always-on
+  small machine or server for the core, the PC kept only for work that needs the owner's logins.
+- Health and children's data never leave the family's database without a deliberate export.
+
+### 14.4 Telegram — keep it or leave it?
+
+**Keep it as the front door; stop it being the foundation.** Telegram gives identity, push
+notifications, a chat, payments in Stars and no install, for free; a native app would spend a
+year re-buying those. But the core should not know it is Telegram:
+
+- our own user ids, with a Telegram id as one way to sign in (Users and roles is the moment);
+- the backend API and the ledger behind every channel; the bot and the Mini App are two clients;
+- the Mini App is already a web app — with its own sign-in (passkeys) it is also an installable
+  web app outside Telegram, sharing every screen.
+
+Add a second channel when one of these happens: a family member who is not on Telegram; Telegram
+restricting bots or Mini Apps; a need Telegram cannot meet (home-screen widgets, background
+location, voice at home, payments beyond Stars). A native app only if this becomes a product
+with paying families.
+
+### 14.5 A possible path
+
+- **Next 6 months:** the remaining Mini App screens; Users and roles on SQLite; the action ledger
+  with approvals (start with harmless actions: Watch, bought, add to basket); the "PC is off"
+  page; backup and a restore drill of the database.
+- **6–18 months:** level 1 in every module (filled carts, order sheets, booking links with the
+  dates in); Celebrations; Health records; voice notes in; the core off the single PC.
+- **2–3 years:** level 2 with limits where a partner API exists; 5–10 friendly families on an API
+  key with a cost cap (VISION §6); the web app beside Telegram.
+- **5–10 years:** standing rules (level 3) as the normal way a household runs its routine; our
+  own identity and app with Telegram as one channel; partners (forwarders, grocers, travel)
+  instead of scraping; the family's data in a database the family owns and can take away.
+
+**How we would know it works:** hours and drams saved per month — with zero wrong numbers and
+zero spending nobody approved.

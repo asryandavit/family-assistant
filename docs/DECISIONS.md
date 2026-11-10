@@ -988,3 +988,10 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   built in 097, 0 of 6 with a short retry. In real use this was a 👁 Watch or `/watch` command
   failing at random when two things wrote at once. The 097 test (two processes, 25 writes, a
   5 ms pause) was too gentle to show it.
+- **Proposed, not built (owner decides): `docs/briefs/MINI_APP.md` §13.3** — a framework server,
+  SQLite instead of JSON files with a lock, a session after the first initData check, a named
+  tunnel on our own domain; all four at Users and roles, none now. **§13.4** — China photos through
+  image ids and thumbnails served by the PC (decision 090 kept), sort orders sent ready-made by
+  the server, a compact card. **§14** — the far goal: a household agent on a ladder from "inform"
+  to "standing rules", an action ledger and limits in code before anything is spent, Telegram
+  kept as the front door but not as the foundation.
