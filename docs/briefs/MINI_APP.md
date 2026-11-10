@@ -270,3 +270,35 @@ returns Home. The query holds no personal data.
 (auth, 403, permission, body limits, bad input, only your own chat's result), the lock and the
 report button; `tsc` + build clean; owner opens a real `/china` result from the 📱 button and
 from Home, taps Open, 👁 Watch and 💬 Reviews.
+
+---
+
+## 13. Step 2 — every section a real screen (owner, 2026-11-10: "start and finish all job together")
+
+Built the same day (decision 098). Home → each row opens a screen that shows what the chat shows and
+offers the chat's own actions:
+
+| Screen | Shows | Does |
+|---|---|---|
+| **Today** | Today · Meals · Training · Week tabs (`coach/plan_text`, for the asking person) | read-only |
+| **China** | search form (All / PDD / Taobao / 1688) above the latest results (step 1) | `/china …` via the listener; polls the queue and loads the new results |
+| **Market** | watch list, best price to Yerevan per item | ✅ Bought · 🗑 Remove · add by store link · 🔄 Check prices now |
+| **Basket** | last priced list by shop, totals, cheaper-shop comparison | 🧺 price it again (`/basket`), Price check (`/price`) |
+| **Travel** | scan status, cheapest trips, best stays (Sheet, cached 5 min) | Scan now, Send digest, Search flights, Search stays |
+
+**Rule: the Mini App server never starts a job.** `POST /api/run {"job", "args"}` composes a chat
+command, validates it with the chat's own parsers (so the form shows the chat's error sentence) and
+queues it in `.browser/miniapp_inbox/`; `listener.inbox_loop` runs it through `handle_text` from the
+person's chat, so the one-job-at-a-time runner, the validation and the reply are exactly the chat's.
+The answer to a run arrives **in the chat**; the app says so. Market edits are direct (same
+`market.bot._mutate` and write lock as `/watch`, by item id).
+
+**Limits, honestly:** no photo search in the app (a Mini App cannot give the bot a photo); no
+editing of a watched item beyond bought/remove (weights and links: `/watch`); the app cannot see
+whether a run it queued has finished except for China (queue status); Basket items are not ticked
+off here (the Google checklist is the tick-off list).
+
+**Done means:** tests for blocks, views (real fixtures), composition accept/reject, market add /
+bought / remove on a temp dir, endpoints (auth, 403, permission, validation, limits), inbox and
+listener thread; `tsc` + build clean; owner phone demo: each screen opens, a China search from the
+form runs and its results appear, Basket / Travel / Market buttons answer in the chat.

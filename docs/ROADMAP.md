@@ -38,7 +38,7 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
 | # | Work |
 |---|---|
 | 5 | 🎉 Celebrations — calendar, early reminders, person notes, gift ideas priced and checked for arrival in time, tracking (VISION §5) |
-| 6 | 📱 Mini App screens, one session each (after step 0) — **China results built (step 1, decision 097; phone demo next)**, then Market, Basket/checklist, Today/Meals/Training, Travel, Celebrations. China photos need the China pipeline to keep image ids (China-session follow-up) |
+| 6 | 📱 Mini App screens, one session each (after step 0) — **built: China results and search form (decisions 097, 098), Today, Market, Basket, Travel (098) — phone demo next**; Celebrations when built. Open: China photos (the pipeline must keep image ids — China-session follow-up), photo search from the app (not possible), editing watched items |
 | 7 | Rich Messages for the older reports (Market report, Basket) where they read better as tables |
 
 ## Later — only if the owner decides on a product

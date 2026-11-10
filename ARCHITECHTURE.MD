@@ -45,6 +45,12 @@ Processes on the PC (each its own scheduled task):
   is a second writer of Market watch's `items.json` / `owner_prices.json` next to the
   listener: those read-modify-writes run under `market/state.write_lock` (a cross-process
   lock file; since decision 099 the nightly market job's two list writes take it too). Reviews still run as a queued China job; the answer arrives in the chat.
+  Step 2 (decision 098): every Home row is a screen. Read-only data comes from the same code the
+  chat uses (`miniapp/screens.py`: plan text, Market state, the basket job's file, the travel
+  Sheet), and the API grew `GET /api/plan/*, /market, /basket/*, /travel, /china/status` and
+  `POST /api/run, /market/action, /market/add`. Forms never start jobs: `POST /api/run` queues a
+  validated chat command in `.browser/miniapp_inbox/` and the listener's `inbox_loop` runs it
+  (see the platform log below).
 
 Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
 - `lib/telegram.py` inline buttons take three kinds: callback data (any string), a link
@@ -53,7 +59,7 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   are unchanged.
 - `listener.py` runs one more thread, `inbox_loop` (2026-11-10, Mini App forms, decision 098):
   every 2 s it takes the requests the Mini App queued in `.browser/miniapp_inbox/`
-  (`miniapp/inbox.py`: an allow-list of `/basket /scan /digest /flights /stays /price
+  (`miniapp/inbox.py`: an allow-list of `/basket /scan /digest /flights /stays /china /price
   /watch check`, chat id must be an allowed chat, older than 2 min dropped, at most once) and
   passes each text to the same `handle_text` as a typed message, replying to that chat. The
   Mini App server never starts jobs itself, so the chat's validation and the one-job-at-a-time

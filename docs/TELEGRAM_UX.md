@@ -287,7 +287,13 @@ Set from `listener.set_menu()` at startup so it can't drift:
   <name> · <role>", then one full-width row per section — icon, name, one-line description,
   chevron (Today · China · Market · Basket · Travel, "Coming soon" in step 0) — and a PC
   status card. No bottom tab bar: with five tabs the outer icons sat in the phone's rounded
-  corners. A row opens its screen; Telegram's back button returns Home. Icons avoid flag
+  corners. A row opens its screen; Telegram's back button returns Home. Since decision 098 every
+  row is a real screen: **Today** (Today · Meals · Training · Week tabs), **China** (a search form
+  above the results), **Market** (list, ✅ Bought, 🗑 Remove, add by link, 🔄 Check now),
+  **Basket** (last priced list by shop, 🧺 price it again, Price check) and **Travel** (cheapest
+  trips and stays, Scan now, Send digest, Search flights, Search stays). Buttons that start a bot
+  job queue the matching chat command for the listener; its answer arrives in the chat, as if
+  typed. Icons avoid flag
   emoji (Windows shows 🇨🇳 as "CN"; China is 🏮). It follows Telegram's light/dark theme. Anyone
   else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
   with Try again; a window left open for more than 24 h shows "Session expired" with Close

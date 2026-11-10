@@ -893,6 +893,47 @@ docs/TELEGRAM_UX.md §6, ARCHITECHTURE.MD (second writer, POST), docs/briefs/CHI
 (Mini App row), docs/ROADMAP.md (step 0 done, China screen built), market/state.py docstring.
 
 
+**098 — 2026-11-10 — Mini App step 2: every section is a real screen (Today, China search form, Market, Basket, Travel); forms hand commands to the listener through an inbox.**
+Owner, after trying step 1: the China screen only showed results ("we should have options" — a
+search form) and the other four said "Coming soon"; "start and finish all job together".
+**China:** a search box with All / PDD / Taobao / 1688 above the results; progress is polled
+(`GET /api/china/status`: queue running / yours waiting) and the new results appear by themselves;
+a vague request still gets its 1–2 questions in the chat; a photo search stays in the chat (a
+Mini App cannot hand a photo to the bot). **Today:** Today · Meals · Training · Week tabs — the
+chat's own text for the asking person (`coach/plan_text`), turned into display blocks by
+`miniapp/screens.html_blocks` (bold, italic, code, https links, folds; nothing else survives).
+**Market:** the watch list with best price to Yerevan, Open / ✅ Bought / 🗑 Remove (second tap),
+an add form (name, store link, optional weight — the chat dialog's checks, then `market.bot._finish`),
+and 🔄 Check prices now. Edits go through the same `_mutate` and write lock as `/watch`, by item
+id (not list number, so a changed list cannot hit another item). **Basket:** the last priced list
+(`.browser/basket_<kind>.json`) by shop with product links, totals and the cheaper-shop
+comparison; 🧺 price it again; a Price check box. **Travel:** the daily scan's status, the
+cheapest trips and best stays of the latest scan (Sheet tabs Trips and Stays, cached 5 min, an
+empty read is never cached), Scan now / Send digest, and Search flights / Search stays forms.
+**How commands run — the design decision:** the Mini App server never starts jobs. `POST /api/run`
+composes a chat command from validated fields, checks it with the parsers the chat uses
+(`flights.parse_command`, `parse_cmd.parse`, `china.bot.DESC_RE`, the price shape) so the form shows the
+chat's own error sentence, and writes it to `.browser/miniapp_inbox/` (`miniapp/inbox.py`:
+allow-list `/basket /scan /digest /flights /stays /china /price /watch check`, chat id must be an
+allowed chat, expires after 2 min, at most once). A new thread in `listener.py` (`inbox_loop`,
+its own additive commit 2506ea1, full suite as the regression check, ARCHITECHTURE.MD updated)
+passes each text to the same `handle_text` as a typed message, so it gets the chat's validation,
+the one-job-at-a-time runner and its "already running" reply, and the answer lands in the
+person's chat. Rejected alternatives: the server launching subprocesses itself (second runner, no
+mutual exclusion with the listener, Chrome profile clashes) and putting the commands behind new
+chat buttons. Limits: `/api/run` has its own 10 requests/minute per user on top of the 60/minute;
+all new routes need a known signed user and the module permission (`people.can`: owner and adult
+for plan, market, basket, travel, run). Bodies: JSON, only the expected keys, string values ≤ 300
+characters. **Checked** in a browser with a test token and the real read-only data (plan, basket
+file, travel Sheet rows) and fake actions: every screen, the China form's composed command and
+busy state. Tests: tests/test_miniapp_screens.py (blocks, plan, basket and travel on real
+fixtures, composition accept/reject, market add/bought/remove on a temp dir, endpoints incl.
+permission, validation, limits), tests/test_miniapp_inbox.py, tests/test_listener_inbox.py.
+**Not built:** photo search in the app; editing a watched item's weight or links (use /watch);
+tick-off of basket items (the Google checklist does that); the Today per-person health hook beyond
+what `today_text` already shows. Docs: docs/briefs/MINI_APP.md §13, docs/TELEGRAM_UX.md §6,
+docs/ROADMAP.md, ARCHITECHTURE.MD (inbox thread, new endpoints).
+
 **099 — 2026-11-10 — Mini App review (steps 0 and 1): what was checked, what was fixed, what is proposed.**
 An independent review of steps 0 and 1 the day they were built: tests, an attacker's probes against a
 throwaway server with a test token, the lock, the phone UI. Findings and larger proposals:
