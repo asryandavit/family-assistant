@@ -101,12 +101,15 @@ def section(root):
 # ------------------------------------------------------------- list edits
 
 def _mutate(cfg, root, fn):
-    """Merge phone edits from the Sheet, apply fn(items) -> message, save, rewrite the Sheet."""
+    """Merge phone edits from the Sheet, apply fn(items) -> message, save, rewrite the Sheet.
+    The read-modify-write of items.json runs under state.write_lock (the listener and the Mini
+    App server both call this); the Sheet rewrite after it does not need the lock."""
     sid = sheet_id(root)
-    items, problems = (sheet.sync_items(cfg, root, sid, write=False) if sid
-                       else (state.load_items(root), []))
-    msg = fn(items)
-    state.save_items(root, items)
+    with state.write_lock(root):
+        items, problems = (sheet.sync_items(cfg, root, sid, write=False) if sid
+                           else (state.load_items(root), []))
+        msg = fn(items)
+        state.save_items(root, items)
     if sid:
         try:
             from lib import sheets_checklist

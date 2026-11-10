@@ -7,6 +7,10 @@ nightly job never overwrite each other (written atomically: temp file + os.repla
     owner_prices.json  prices typed with /watch price (listener)
     runtime.json       last read offers, blocked-store streaks, daily history (nightly job)
 
+Since Mini App step 1 (decision 097) the Mini App server also adds items (👁 Watch on the
+China screen), so items.json and owner_prices.json have two writers: every read-modify-write
+of them runs under write_lock(), a lock file shared by all processes.
+
 The "Watch list" Google Sheet mirrors items/offers/history (market/sheet.py) and is where
 the list can be edited from a phone.
 
@@ -17,6 +21,8 @@ import json
 import os
 import re
 import tempfile
+import time
+from contextlib import contextmanager
 from datetime import datetime, timezone
 
 MAX_ITEMS = 20
@@ -47,6 +53,47 @@ def write_json(root, name, data):
     with os.fdopen(fd, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1, default=str)
     os.replace(tmp, _path(root, name))
+
+
+LOCK = "write.lock"
+
+
+class Busy(ValueError):
+    """The list is being changed by another process for longer than we wait. A ValueError so
+    callers that already show ValueError text to the person show this one too."""
+
+
+@contextmanager
+def write_lock(root, wait_s=30.0, stale_s=300.0):
+    """Cross-process lock for a read-modify-write of items.json / owner_prices.json.
+    O_EXCL lock file; a file older than stale_s is left over from a crash and removed. Not
+    re-entrant: never nest it."""
+    path = _path(root, LOCK)
+    deadline = time.monotonic() + wait_s
+    while True:
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            break
+        except FileExistsError:
+            try:
+                if time.time() - os.path.getmtime(path) > stale_s:
+                    os.remove(path)
+                    continue
+            except OSError:
+                continue                      # removed meanwhile: try again at once
+            if time.monotonic() > deadline:
+                raise Busy("The watch list is busy (another change is saving) — try again "
+                           "in a minute.") from None
+            time.sleep(0.1)
+    try:
+        os.write(fd, str(os.getpid()).encode())
+        os.close(fd)
+        yield
+    finally:
+        try:
+            os.remove(path)
+        except OSError:
+            pass
 
 
 def now_utc():
@@ -99,10 +146,12 @@ def load_owner_prices(root):
 
 
 def set_owner_price(root, item_id, store_key, price, currency, day_local):
-    d = load_owner_prices(root)
-    d["%s|%s" % (item_id, store_key)] = {"price": price, "currency": currency,
-                                         "date_local": day_local.isoformat(), "set_utc": now_utc()}
-    write_json(root, "owner_prices.json", d)
+    with write_lock(root):
+        d = load_owner_prices(root)
+        d["%s|%s" % (item_id, store_key)] = {"price": price, "currency": currency,
+                                             "date_local": day_local.isoformat(),
+                                             "set_utc": now_utc()}
+        write_json(root, "owner_prices.json", d)
 
 
 # ---------------------------------------------------------------- runtime
