@@ -50,6 +50,13 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   (`https://…`), and `{"web_app": url}`, which opens the Mini App at that https URL inside
   Telegram (2026-11-10, Mini App step 0, for step 1's "📱 Open" buttons). Existing buttons
   are unchanged.
+- `listener.py` runs one more thread, `inbox_loop` (2026-11-10, Mini App forms, decision 098):
+  every 2 s it takes the requests the Mini App queued in `.browser/miniapp_inbox/`
+  (`miniapp/inbox.py`: an allow-list of `/basket /scan /digest /flights /stays /price
+  /watch check`, chat id must be an allowed chat, older than 2 min dropped, at most once) and
+  passes each text to the same `handle_text` as a typed message, replying to that chat. The
+  Mini App server never starts jobs itself, so the chat's validation and the one-job-at-a-time
+  runner apply unchanged. Nothing else in the listener changes.
 - `listener.py` reads photos (2026-11-10, China photo search, decision 095): a message with
   a photo or a file and no text, from an allowed chat, goes to `china/bot.photo` (through
   the same fault-catching `_china` wrapper). Before this, every message without text was

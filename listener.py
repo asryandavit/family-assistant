@@ -648,6 +648,23 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
     return runner.launch("stays", args, ack=label, chat_id=chat_id)
 
 
+def inbox_loop(cfg, runner, allowed):
+    """Commands the Mini App queued (miniapp/inbox.py, decision 098): each one goes through the
+    same handle_text as a typed message, from the person's own chat, so it gets the chat's
+    validation, the one-job-at-a-time runner and its reply. Never raises."""
+    from miniapp import inbox
+    while True:
+        try:
+            for chat, text in inbox.take(ROOT, allowed):
+                log(f"app cmd: {text[:60]}")
+                reply = handle_text(cfg, runner, text, chat)
+                if reply:
+                    telegram.send_html(cfg, reply, silent=True, chat_id=chat)
+        except Exception as e:  # noqa: BLE001  the thread must never die
+            log(f"inbox error: {str(e)[:120]}")
+        time.sleep(2)
+
+
 def main():
     # single-instance guard: bind a localhost port for the process lifetime
     guard = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -668,6 +685,7 @@ def main():
     runner = Runner(cfg)
     api = f"https://api.telegram.org/bot{tok}"
     set_menu(tok)
+    threading.Thread(target=inbox_loop, args=(cfg, runner, allowed), daemon=True).start()
 
     # drop any backlog accumulated while offline
     offset = 0
