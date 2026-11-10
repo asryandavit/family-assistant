@@ -937,7 +937,7 @@ docs/ROADMAP.md, ARCHITECHTURE.MD (inbox thread, new endpoints).
 **099 — 2026-11-10 — Mini App review (steps 0 and 1): what was checked, what was fixed, what is proposed.**
 An independent review of steps 0 and 1 the day they were built: tests, an attacker's probes against a
 throwaway server with a test token, the lock, the phone UI. Findings and larger proposals:
-`docs/briefs/MINI_APP.md` §13–§14. Each fix below is its own commit and has a test that failed first
+`docs/briefs/MINI_APP.md` §14–§15. Each fix below is its own commit and has a test that failed first
 (`tests/test_miniapp_hardening.py`, `tests/test_market_lock.py`, `tests/test_china_bot.py`).
 - **A GET with a body is refused (400) and the connection closed.** Reproduced: `GET /api/status`
   with `Content-Length: n` and a second request as the body got two answers on one connection —
@@ -968,7 +968,7 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
 - **A lock holder removes the lock file only while it is still its own** (a random token in the
   file). Reproduced: a holder that outlived `stale_s` was taken over, then removed the new
   holder's file on its way out, and a third writer entered beside it.
-- **Known and left, for SQLite at Users and roles (MINI_APP.md §13):** `market/bot._mutate` holds
+- **Known and left, for SQLite at Users and roles (MINI_APP.md §14):** `market/bot._mutate` holds
   the lock across the Sheet read, and writes the Sheet after releasing it, so two edits within the
   same second or two can still let a stale Sheet row undo the other edit. A lock file around JSON
   files and a Sheet cannot close that; one database transaction can.
@@ -988,10 +988,10 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   built in 097, 0 of 6 with a short retry. In real use this was a 👁 Watch or `/watch` command
   failing at random when two things wrote at once. The 097 test (two processes, 25 writes, a
   5 ms pause) was too gentle to show it.
-- **Proposed, not built (owner decides): `docs/briefs/MINI_APP.md` §13.3** — a framework server,
+- **Proposed, not built (owner decides): `docs/briefs/MINI_APP.md` §14.3** — a framework server,
   SQLite instead of JSON files with a lock, a session after the first initData check, a named
-  tunnel on our own domain; all four at Users and roles, none now. **§13.4** — China photos through
+  tunnel on our own domain; all four at Users and roles, none now. **§14.4** — China photos through
   image ids and thumbnails served by the PC (decision 090 kept), sort orders sent ready-made by
-  the server, a compact card. **§14** — the far goal: a household agent on a ladder from "inform"
+  the server, a compact card. **§15** — the far goal: a household agent on a ladder from "inform"
   to "standing rules", an action ledger and limits in code before anything is spent, Telegram
   kept as the front door but not as the foundation.

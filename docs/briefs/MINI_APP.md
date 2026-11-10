@@ -2,7 +2,7 @@
 
 Status: **step 0 done 2026-11-10 (decisions 094, 096) — owner demo passed: owner and adult, dark mode, Home list,
 back button, PC-not-reachable. Step 1 (China results, §12) built 2026-11-10 (decision 097), phone demo next.
-Reviewed 2026-11-10 (decision 099): fixes in §6 and §13.1, proposals for the owner in §13–§14.**
+Reviewed 2026-11-10 (decision 099): fixes in §6 and §14.1, proposals for the owner in §14–§15.**
 Direction approved by the owner 2026-11-09 ("go with C"): our own small app, React + Vite + Telegram UI + Telegram's
 official script, Python API on the PC. Navigation became a Home list instead of the tabs in §1
 (decision 096). Direction and later screens:
@@ -306,7 +306,7 @@ form runs and its results appear, Basket / Travel / Market buttons answer in the
 
 ---
 
-## 13. Review, 2026-11-10 — findings and proposals (for the owner to decide)
+## 14. Review, 2026-11-10 — findings and proposals (for the owner to decide)
 
 An independent review of steps 0 and 1 the day they were built (decision 099). Method: the full
 test suite; `tsc` and the build; an attacker's probes over raw sockets against a throwaway server
@@ -323,7 +323,7 @@ traversal on Windows (device names, `::$DATA`, encoded dots, backslashes) is a 4
 computes nothing. What was wrong was at the edges that are hand-built: HTTP framing and the lock
 file.
 
-### 13.1 Fixed in this review (each its own commit, each with a test that failed first)
+### 14.1 Fixed in this review (each its own commit, each with a test that failed first)
 
 | Severity | Finding | Fix |
 |---|---|---|
@@ -336,7 +336,7 @@ file.
 | should | 👁 Watch twice added the product twice | "Already on Market watch" |
 | nice | The China card showed the listing price large and the delivered total small | delivered total first |
 
-### 13.2 Found and left (small; say the word)
+### 14.2 Found and left (small; say the word)
 
 - **The Mini App server starts the China worker as its own child** (💬 Reviews →
   `china/queue.start_worker`). Stopping the `FamilyAssistant-MiniApp` task while a reviews job
@@ -350,7 +350,7 @@ file.
   cannot do this directly; a cap (a semaphore of about 32) costs ten lines.
 - **`market/bot._mutate` holds the lock across the Google Sheet read and writes the Sheet after
   releasing it.** Two edits within a second or two can let a stale Sheet row undo the other. Not
-  live while `watch_sheet_id` is unset. A lock file cannot close this (§13.3, SQLite).
+  live while `watch_sheet_id` is unset. A lock file cannot close this (§14.3, SQLite).
 - **PC clock.** If the PC's clock is more than 5 minutes slow, every fresh sign-in is "in the
   future" and refused for everyone. `selfcheck.py` could compare the clock with the `Date` header
   of Telegram's API.
@@ -360,7 +360,7 @@ file.
   Details, an ok and a refused action, dark mode.
 - **`Pick` does not jump to its card.**
 
-### 13.3 Architecture — is this the right way?
+### 14.3 Architecture — is this the right way?
 
 For today, yes. For a household product, four things change, and all four belong to **Users and
 roles (ROADMAP #4)**, not to now. Doing them earlier would be building for users who do not exist.
@@ -368,17 +368,17 @@ roles (ROADMAP #4)**, not to now. Doing them earlier would be building for users
 | Point | Risk now | Recommendation | Cost | When |
 |---|---|---|---|---|
 | **stdlib server → a small framework** (Starlette or FastAPI on uvicorn) | We own the HTTP details: two framing bugs in one day, body limits, timeouts, threads, routing by hand. Each new POST adds hand-written validation. | Keep stdlib while there are a handful of routes. Move when sessions and the People screen arrive: typed request models replace hand validation, and the framing is somebody else's tested code. `auth.py`, `people.py`, `china_view.py` are pure and move unchanged. | 1 session | Users and roles |
-| **JSON files + lock file → SQLite** | Three lock defects found in one review (crash, unlocked writer, wrong release) plus the Sheet window in §13.2. Every new shared file needs the same care again. | Put people, sessions, the watch list and the action log (§14) in SQLite with the CLAUDE.md §3 helper (`BEGIN IMMEDIATE`, WAL, one connection per thread). The Sheet becomes a view written from the database, not a second master. | 1–2 sessions, with a migration and a restore drill | Users and roles (the list can move first) |
+| **JSON files + lock file → SQLite** | Three lock defects found in one review (crash, unlocked writer, wrong release) plus the Sheet window in §14.2. Every new shared file needs the same care again. | Put people, sessions, the watch list and the action log (§15) in SQLite with the CLAUDE.md §3 helper (`BEGIN IMMEDIATE`, WAL, one connection per thread). The Sheet becomes a view written from the database, not a second master. | 1–2 sessions, with a migration and a restore drill | Users and roles (the list can move first) |
 | **initData on every request → a session** | initData is a 24 h bearer string: whoever copies it has the person for a day, and removing a person does not take effect until it expires. Acceptable for two adults on their own phones. | Exchange initData once (accepted for about 1 h) for a random session id kept hashed in SQLite, 30 minutes sliding, deleted when the owner removes the person. The HMAC check stays as the way in. | half a session, after SQLite | Users and roles |
 | **Tailscale Funnel → a named Cloudflare Tunnel on our own domain** | Works. But: the URL is this PC's name; PC off = Telegram's blank error page; no rate limiting before the PC; the hostname is in public certificate logs. | Stay on Funnel for the family. With the first outside family (or when the blank page annoys): own domain (about $10/year), a static "PC is off" page, edge rate limits. The same step later moves the backend off the PC without changing the URL. | 1–2 hours + the domain | first beta family, or on request |
-| **React + Telegram UI → plain HTML?** | None worth acting on: 57 KB gzipped, native look, typed. The cost is upkeep of npm dependencies. | Keep. Versions are pinned; run `npm audit` monthly; add the smoke test from §13.2. Plain HTML would save little and lose the Telegram look. | — | — |
+| **React + Telegram UI → plain HTML?** | None worth acting on: 57 KB gzipped, native look, typed. The cost is upkeep of npm dependencies. | Keep. Versions are pinned; run `npm audit` monthly; add the smoke test from §14.2. Plain HTML would save little and lose the Telegram look. | — | — |
 
 Two things in the current design are better than the usual alternatives and should survive any
 move: **one origin** (no CORS, no public repo, a strict CSP) and **the app calls the chat's own
 code** (same numbers, same validation). Decision 098's inbox — the app asks, the listener runs an
-allow-listed command — is the right seed for §14.
+allow-listed command — is the right seed for §15.
 
-### 13.4 The China screen — how it could be better
+### 14.4 The China screen — how it could be better
 
 1. **Photos without breaking decision 090.** The model still never supplies a URL. The extraction
    keeps each site's image *id* next to the item id; code builds the CDN URL from the id (as it
@@ -399,7 +399,7 @@ allow-listed command — is the right seed for §14.
 
 ---
 
-## 14. Where this can go — a proposal for the far goal (5–10 years)
+## 15. Where this can go — a proposal for the far goal (5–10 years)
 
 The owner asked how far this can go, whether it can place and finish orders, and whether Telegram
 should stay. This is a proposal to react to, not a plan.
@@ -408,7 +408,7 @@ should stay. This is a proposal to react to, not a plan.
 family decides, the agent does the work, and nothing is ever spent or sent without a rule or a tap
 that allowed it.*
 
-### 14.1 The ladder — from "tells us" to "does it for us"
+### 15.1 The ladder — from "tells us" to "does it for us"
 
 | Level | What it does | Example | Where we are |
 |---|---|---|---|
@@ -420,7 +420,7 @@ that allowed it.*
 
 Each level needs the one below it to have been boring for months.
 
-### 14.2 What has to exist before the agent may act (levels 2–3)
+### 15.2 What has to exist before the agent may act (levels 2–3)
 
 - **An action ledger** (SQLite): every action as a row — who asked, who approved, exactly what
   was sent, the result, the cost — with an idempotency key so nothing runs twice, a dry-run mode
@@ -436,7 +436,7 @@ Each level needs the one below it to have been boring for months.
   opened with a filled cart (the person pays there); an official or partner API; a virtual card
   with its own limit when a bank offers one.
 
-### 14.3 Honest limits
+### 15.3 Honest limits
 
 - None of today's stores (Yerevan City, Parma, Taobao, Pinduoduo, 1688, Amazon) offers private
   people an ordering API. Finishing a checkout by driving the owner's logged-in browser is
@@ -448,7 +448,7 @@ Each level needs the one below it to have been boring for months.
   small machine or server for the core, the PC kept only for work that needs the owner's logins.
 - Health and children's data never leave the family's database without a deliberate export.
 
-### 14.4 Telegram — keep it or leave it?
+### 15.4 Telegram — keep it or leave it?
 
 **Keep it as the front door; stop it being the foundation.** Telegram gives identity, push
 notifications, a chat, payments in Stars and no install, for free; a native app would spend a
@@ -464,7 +464,7 @@ restricting bots or Mini Apps; a need Telegram cannot meet (home-screen widgets,
 location, voice at home, payments beyond Stars). A native app only if this becomes a product
 with paying families.
 
-### 14.5 A possible path
+### 15.5 A possible path
 
 - **Next 6 months:** the remaining Mini App screens; Users and roles on SQLite; the action ledger
   with approvals (start with harmless actions: Watch, bought, add to basket); the "PC is off"
