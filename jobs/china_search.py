@@ -8,12 +8,13 @@ Started by the listener when a /china job is queued; exits when the queue is emp
 import argparse
 import os
 import sys
+import time
 import traceback
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from china import data_dir, photo, queue, search
+from china import data_dir, photo, queue, search, watch
 from lib import config, logfile, telegram, ui  # noqa: E402
 
 
@@ -40,6 +41,7 @@ def drain(cfg):
     if not queue.acquire(ROOT):
         log("another worker is running; exiting")
         return
+    started = time.time()
     try:
         keep = search.load_cfg(ROOT).get("photo_keep_minutes", 0)
         n = photo.sweep(ROOT, keep)          # photos left by a crash or past their keep time
@@ -49,11 +51,17 @@ def drain(cfg):
             job = queue.pop(ROOT)
             if not job:
                 break
+            if watch.drop_if_stale(cfg, ROOT, job, started):
+                log(f"job {job.get('job')} dropped: stranded in the queue since {job.get('queued_utc')}")
+                continue
             queue.mark(job.get("job"), ROOT)
+            queue.set_current(job, ROOT)     # left behind only if this process dies mid-job
             log(f"job {job.get('job')} {job.get('kind')} from chat {photo.mask(job.get('chat_id'))}")
             try:
-                log("job %s -> %s" % (job.get("job"), run(job, cfg)))
-            except Exception as e:
+                log(f"job {job.get('job')} -> {run(job, cfg)}")
+                queue.clear_current(ROOT)
+            except Exception as e:  # noqa: BLE001 — told to the asker and the owner below
+                queue.clear_current(ROOT)
                 log("job %s crashed: %s\n%s" % (job.get("job"), e, traceback.format_exc()))
                 telegram.send_html(cfg, "⚠️ China search failed (%s). Try again or tell Davit."
                                    % telegram.esc(str(e)[:100]), silent=True,

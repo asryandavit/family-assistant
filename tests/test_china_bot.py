@@ -20,7 +20,7 @@ class Bot(unittest.TestCase):
         shutil.copy(os.path.join(ROOT, "config_china.json"), self.root)
         shutil.copy(os.path.join(ROOT, "market", "tariffs.json"), os.path.join(self.root, "market"))
         self.started = []
-        self.p1 = mock.patch.object(queue, "start_worker", lambda root=None: self.started.append(1))
+        self.p1 = mock.patch.object(queue, "start_worker", lambda root=None, **kw: self.started.append(1))
         self.p1.start()
         self.sent = []
         self.p2 = mock.patch.object(bot.telegram, "send_html",

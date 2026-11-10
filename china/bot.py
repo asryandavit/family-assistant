@@ -17,7 +17,7 @@ import re
 import time
 
 from china import photo as ph
-from china import queue, search
+from china import queue, search, watch
 from lib import telegram
 
 ESC = telegram.esc
@@ -41,7 +41,7 @@ def _enqueue(cfg, root, chat_id, job):
     job.update(chat_id=str(chat_id), kind=job.get("kind", "search"))
     busy = queue.running(root)
     place = queue.enqueue(job, root)
-    queue.start_worker(root)
+    watch.ensure_worker(cfg, root)          # starts and watches the worker (decision 104)
     if busy or place > 1:
         return "\n<i>Another China search is running — you are %s in line.</i>" % _nth(place)
     return ""

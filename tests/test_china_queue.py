@@ -51,10 +51,10 @@ class Queue(unittest.TestCase):
 
     def test_start_worker_only_when_none_runs(self):
         calls = []
-        self.assertTrue(queue.start_worker(self.root, popen=lambda *a, **k: calls.append(a)))
+        self.assertTrue(queue.start_worker(self.root, popen=lambda *a, **k: calls.append(a) or object()))
         self.assertIn("china_search.py", calls[0][0][1])
         queue.acquire(self.root)
-        self.assertFalse(queue.start_worker(self.root, popen=lambda *a, **k: calls.append(a)))
+        self.assertFalse(queue.start_worker(self.root, popen=lambda *a, **k: calls.append(a) or object()))
         self.assertEqual(len(calls), 1)
 
 

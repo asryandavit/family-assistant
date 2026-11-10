@@ -6,6 +6,7 @@ the only one. A lock left by a dead process is cleared. Searches from both chats
 login check share this queue, so they never overlap; a second request waits and is told its
 place. Platform-neutral: psutil for "is this pid alive", no Windows-only calls here.
 """
+import calendar
 import json
 import os
 import subprocess
@@ -152,11 +153,62 @@ def release(root=None):
         _drop(lock_path(root))
 
 
+ERR = "worker.err"
+ERR_MAX = 512 * 1024
+CURRENT = "current.json"
+
+
+def err_path(root=None):
+    return os.path.join(data_dir(root), ERR)
+
+
 def start_worker(root=None, popen=subprocess.Popen):
-    """Start jobs/china_search.py unless a live worker is already draining the queue."""
+    """Start jobs/china_search.py unless a live worker is already draining the queue.
+    Returns the process (for china/watch.py to wait on) or False. Its stderr goes to
+    worker.err — never DEVNULL: a worker that died on import on 2026-11-10 left no trace."""
     if running(root):
         return False
-    popen([sys.executable, os.path.join(root or ROOT, "jobs", "china_search.py")],
-          cwd=root or ROOT, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    return True
+    path = err_path(root)
+    try:
+        if os.path.getsize(path) > ERR_MAX:
+            os.remove(path)
+    except OSError:
+        pass
+    with open(path, "a", encoding="utf-8") as err:   # the child keeps its own handle
+        return popen([sys.executable, os.path.join(root or ROOT, "jobs", "china_search.py")],
+                     cwd=root or ROOT, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                     stdout=subprocess.DEVNULL, stderr=err)
+
+
+# ------------------------------------------------------------------ the job being worked on
+
+def set_current(job, root=None):
+    """The worker records the job it is on; cleared when the job is finished. Left behind,
+    it means the worker died mid-job (china/watch.py tells the asker and the owner)."""
+    keep = {k: job.get(k) for k in ("job", "kind", "chat_id", "description", "note")}
+    tmp = os.path.join(data_dir(root), CURRENT + ".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(dict(keep, since=time.time()), f, ensure_ascii=False)
+    os.replace(tmp, os.path.join(data_dir(root), CURRENT))
+
+
+def read_current(root=None):
+    try:
+        return _read(os.path.join(data_dir(root), CURRENT))
+    except (OSError, ValueError):
+        return None
+
+
+def clear_current(root=None):
+    _drop(os.path.join(data_dir(root), CURRENT))
+
+
+def is_stale(job, worker_started, minutes, now=None):
+    """A stranded job: queued BEFORE this worker started (so no worker was there to take it)
+    and older than `minutes`. A job waiting behind a live worker is never stale."""
+    try:
+        queued = calendar.timegm(time.strptime(job["queued_utc"][:19], "%Y-%m-%dT%H:%M:%S"))
+    except (KeyError, TypeError, ValueError):
+        return False
+    now = time.time() if now is None else now
+    return queued < worker_started and now - queued > minutes * 60

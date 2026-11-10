@@ -357,7 +357,7 @@ class BotPhoto(unittest.TestCase):
         for n in ("config_china.json", "config_miniapp.json"):
             shutil.copy(os.path.join(ROOT, n), self.root)
         shutil.copy(os.path.join(ROOT, "market", "tariffs.json"), os.path.join(self.root, "market"))
-        self.patches = [mock.patch.object(queue, "start_worker", lambda root=None: None),
+        self.patches = [mock.patch.object(queue, "start_worker", lambda root=None, **kw: None),
                         mock.patch.object(bot.telegram, "send_html",
                                           lambda cfg, text, **kw: self.sent.append((text, kw))),
                         mock.patch.dict(os.environ, {"TELEGRAM_CHAT_ID": "111",
