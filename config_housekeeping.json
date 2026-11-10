@@ -1,0 +1,26 @@
+{
+  "_doc": "Nightly housekeeping (jobs/housekeeping.py, decision 103). profiles: the bot's own Chromium profiles, folder names under .browser/ only (anything that resolves outside .browser/ is refused, so the owner's real Chrome can never be named here). cache_dirs: folders inside each profile that hold only Chrome's re-downloadable caches, checked against the real profiles on 2026-11-10; a path containing a protected name (Cookies, Login Data, Local Storage, IndexedDB, Network, Preferences, ...) is refused. Service Worker/ScriptCache is left out on purpose: it pairs with Service Worker/Database and is a few MB. logs: our append-only logs, rotated above log_max_bytes keeping log_keep old copies (miniapp.log rotates itself). inbox_tmp_max_age_h: leftover .tmp files in .browser/miniapp_inbox older than this are removed. min_free_gb: below this on the repo's disk, the home disk or the temp disk, the owner gets one message per run.",
+  "profiles": ["market", "wizz", "stays_booking", "stays_airbnb", "taobao", "market_chrome"],
+  "cache_dirs": [
+    "Default/Cache",
+    "Default/Code Cache",
+    "Default/GPUCache",
+    "Default/DawnGraphiteCache",
+    "Default/DawnWebGPUCache",
+    "Default/DawnCache",
+    "Default/Service Worker/CacheStorage",
+    "GrShaderCache",
+    "ShaderCache",
+    "GPUPersistentCache"
+  ],
+  "logs": [
+    ".browser/listener.log",
+    ".browser/amazon_data/worker.log",
+    ".browser/china_data/worker.log",
+    ".browser/housekeeping.log"
+  ],
+  "log_max_bytes": 2000000,
+  "log_keep": 3,
+  "inbox_tmp_max_age_h": 24,
+  "min_free_gb": 5
+}

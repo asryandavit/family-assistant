@@ -37,6 +37,15 @@ Processes on the PC (each its own scheduled task):
   run (plan, pick reason) and never reads a page. The profile has one owner at a time:
   `scrapers/market.Session` takes `scrapers/browser_lock` (lock file + pid, waits up to 20 min), so
   the nightly market scan and `/amazon` wait for each other instead of colliding.
+- `FamilyAssistant-Housekeeping` — `jobs/housekeeping.py --send`, daily 04:30 (decision 103):
+  deletes only Chrome's cache folders in the bot's own profiles under `.browser/` (never Cookies,
+  Login Data, Local Storage, IndexedDB, Network, Preferences; only folder names under `.browser/`,
+  so the owner's real Chrome is unreachable). A profile in use is skipped: `market` through
+  `scrapers/browser_lock` (no wait), every profile through Chrome's own `lockfile`/`SingletonLock`
+  and a `--user-data-dir=` process scan. Also rotates our logs (2 MB, 3 kept), removes Mini App
+  inbox `.tmp` files over a day old, and messages the owner when the repo, home or temp disk is
+  under 5 GB free (`config_housekeeping.json`). One report line in `.browser/housekeeping.log`,
+  state in `.browser/housekeeping.json` (read by `selfcheck.py`).
 - `FamilyAssistant-MiniApp` — `python -m miniapp.server` (since 2026-11-10, decision 094):
   stdlib HTTP server on 127.0.0.1:8790 only, serving the built Mini App
   (`miniapp/web/dist`, React + Vite + Telegram UI, built on the PC with Windows Node) and a

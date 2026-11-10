@@ -1100,3 +1100,38 @@ searches waiting, but nothing is running" when no worker is up, and refreshes th
 tap. The orphaned-job root cause is fixed separately in `china/` and the listener (China session).
 Docs: docs/briefs/MINI_APP.md §13 and §14.2, ARCHITECHTURE.MD,
 config_miniapp.json (`max_connections`).
+
+**103 — 2026-11-10 — Housekeeping: nightly cache cleanup in the bot's browser profiles, capped logs, a low-disk warning.**
+The owner: "make sure it will not fill the cache and cause memory issues." Measured first: the
+six bot profiles under `.browser/` held ≈ 1.4 GB, almost all Chrome's own caches (`market`
+638 MB, of it `Default/Cache` 454 MB and `Code Cache` 159 MB; `wizz` 518 MB); `listener.log` and
+both `worker.log`s were plain appends with no cap; C: had 9.8 GB free; process memory was fine
+(listener ≈ 44 MB, Mini App ≈ 28 MB). **Built:** `jobs/housekeeping.py`, nightly 04:30
+(`scheduler/register-housekeeping.ps1`, `config_housekeeping.json`). (1) In each listed profile
+it deletes only Chrome cache folders, checked against the real profile: `Default/Cache`,
+`Code Cache`, `GPUCache`, `DawnGraphiteCache`, `DawnWebGPUCache` (this Chrome has no
+`DawnCache`; listed for older ones), `Service Worker/CacheStorage`, top-level `GrShaderCache`,
+`ShaderCache`, `GPUPersistentCache`. `Service Worker/ScriptCache` is left out: it pairs with
+`Service Worker/Database` and is ≈ 7 MB. A configured path naming a login or settings store
+(Cookies, Login Data, Local Storage, IndexedDB, Network, Preferences, …), using `..`, or a
+profile resolving outside `.browser/` is refused and nothing in that profile is deleted.
+(2) In use = skipped, never waited for: `market` through `scrapers/browser_lock` (taken with no
+wait, held while cleaning, so the nightly scan and `/amazon` wait at most seconds); every
+profile through Chrome's own lock (measured on this PC: a running Chromium holds `lockfile`, which
+cannot even be opened, and removes it on a clean close; an openable leftover after a crash
+counts as free) plus a scan for `--user-data-dir=<profile>`; it is checked again before each
+folder. Unknown process list (no psutil) = left alone. (3) Logs: new `lib/logfile.py`
+(additive, own commit). The workers' `worker.log` now go through `logfile.append` (2 MB, 3
+kept). `listener.py` is not changed: housekeeping rotates `listener.log` nightly, and because the
+listener holds it open (no rename on Windows), the helper copies and truncates it. The
+listener's append handle continues at the new end, as tested with a second process.
+(4) `.tmp` files over 24 h old in `.browser/miniapp_inbox/` are removed. (5) The disks holding
+the repo, the home folder and temp (no drive letters in code) are checked; under 5 GB free the
+owner gets one plain message per run (`--send`), and `selfcheck.py` shows free space and the
+last run. A crash messages the owner. **Proved on the PC:** profiles 1.42 GB → 89 MB (`market`
+638 → 16 MB, `wizz` 518 → 29 MB); `Login Data` byte-identical, Local Storage untouched in all
+six; Amazon US/UK/DE/IT read in the cleaned `market` profile still show the bot's saved delivery
+postcodes (cookies), no new setup; with a market Session and a headed Chromium on
+`stays_airbnb` open, the run skipped both ("in use by proof busy job", "Chrome's profile lock is
+held") and cleaned the rest. Tests: `tests/test_housekeeping.py`, `tests/test_logfile.py`.
+Docs: ARCHITECHTURE.MD (process + `lib/` log), docs/SECRETS.md row 11, docs/ROADMAP.md.

@@ -14,17 +14,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from china import data_dir, photo, queue, search
-from lib import config, telegram, ui  # noqa: E402
+from lib import config, logfile, telegram, ui  # noqa: E402
 
 
 def log(msg):
     line = "%s %s" % (ui.now_local().strftime("%Y-%m-%d %H:%M:%S"), msg)
     print(line, flush=True)
-    try:
-        with open(os.path.join(data_dir(ROOT), "worker.log"), "a", encoding="utf-8") as f:
-            f.write(line + "\n")
-    except OSError:
-        pass
+    logfile.append(os.path.join(data_dir(ROOT), "worker.log"), line)   # capped, decision 103
 
 
 def run(job, cfg):

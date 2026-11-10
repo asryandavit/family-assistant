@@ -239,7 +239,8 @@ def check_tasks():
         return
     for name, required in (("FamilyAssistant-Travel", True),
                            ("FamilyAssistant-Listener", True),
-                           ("FamilyAssistant-MiniApp", False)):
+                           ("FamilyAssistant-MiniApp", False),
+                           ("FamilyAssistant-Housekeeping", False)):
         rc, out, _ = run(["schtasks", "/query", "/tn", name, "/fo", "LIST"])
         if rc == 0:
             status = ""
@@ -299,6 +300,33 @@ def check_miniapp(net=True):
              detail if ok else f"{detail} - run: python -m miniapp.setup_bot")
 
 
+def check_disk():
+    """Free space and the last housekeeping run (jobs/housekeeping.py, decision 103)."""
+    header("DISK AND HOUSEKEEPING")
+    import time
+    from datetime import datetime
+
+    from jobs import housekeeping
+    hcfg = housekeeping.load_cfg(ROOT)
+    for d in housekeeping.disks(ROOT):
+        gb = d["free"] / housekeeping.GB
+        low = d["free"] < hcfg["min_free_gb"] * housekeeping.GB
+        line(BAD if low else OK, "disk %s free" % d["label"],
+             "%.1f GB%s" % (gb, " (below %g GB)" % hcfg["min_free_gb"] if low else ""))
+    st = housekeeping.load_state(ROOT)
+    if not st:
+        line(WARN, "housekeeping last run", "never (scheduler\\register-housekeeping.ps1)")
+        return
+    try:
+        age_h = (time.time() - datetime.fromisoformat(st["last_run_utc"]).timestamp()) / 3600
+    except (KeyError, ValueError):
+        age_h = None
+    stale = age_h is None or age_h > 72
+    line(WARN if stale else OK, "housekeeping last run",
+         ("%.0f h ago" % age_h if age_h is not None else "unreadable") +
+         ", freed %.0f MB" % (st.get("freed_bytes", 0) / 1024 ** 2))
+
+
 def check_git():
     header("GIT")
     rc, out, _ = run(["git", "rev-parse", "--abbrev-ref", "HEAD"])
@@ -344,6 +372,7 @@ def main():
     check_gitignore()
     check_tasks()
     check_miniapp(net="--no-net" not in sys.argv)
+    check_disk()
     check_git()
     if "--no-net" not in sys.argv:
         check_sheets(cfg)

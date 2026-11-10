@@ -21,6 +21,11 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
   `market/customs.md` if it is in force.
 - 🇨🇳 China P3 — keep logged in (logon tabs, 09:00 login check, 🔑 message): the brief's old
   P2, moved after photo search by the owner (2026-11-10).
+- 🧹 Housekeeping go-live (decision 103): run `scheduler/register-housekeeping.ps1` (elevated).
+  Leftovers: `/auto` and the logon staleness audit do not list `FamilyAssistant-Housekeeping`
+  (`selfcheck.py` does: disk free + last run); the listener's log is capped nightly, not at the
+  source (`listener.py` keeps its own open handle, untouched); a stale Chrome `lockfile` after a
+  crash is treated as free only on Windows (macOS/Linux use `SingletonLock` + pid).
 - Leftovers: `/auto` does not list the market (and China) tasks; the logon staleness audit does
   not cover them, nor the Mini App server (`FamilyAssistant-MiniApp`) — `selfcheck.py` does.
 - AI usage: check Anthropic's "API credits for subscribers" page — if Max includes API credits,
