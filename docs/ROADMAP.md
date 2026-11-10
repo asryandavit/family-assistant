@@ -10,6 +10,7 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
 | 1 | 🇨🇳 China search P1 — `/china` text search, full answer: Pinduoduo + 1688 automatic, Taobao as a search link (its sign-in check blocks the bot) | built (decision 090); phone demo after a listener restart | `briefs/CHINA_SEARCH.md` §9 |
 | 2 | 🇨🇳 China search P2 — photo search: a photo with a `/china` caption (or "Search China?" yes) → 1688 by photo, Pinduoduo by the words read from the photo (its photo search is app-only), Taobao link + app tip → the same full answer | built (decision 095); phone demo after a listener restart | `briefs/CHINA_SEARCH.md` §10 |
 | 3 | 📱 Mini App step 0 — our own app (React + Vite + Telegram UI), served from the PC through a tunnel, Telegram signature checked on every request, empty sections | **done** (decisions 094, 096): owner demo 2026-11-10 passed — owner and adult (Karine), dark mode, Home list, back button, PC-not-reachable and recovery | `briefs/MINI_APP.md` |
+| 3a | 🛒 `/amazon` search — Amazon UK/DE/IT/US read by the bot's browser and a Python parser (no model reads pages), priced to Yerevan, seller trust; then a shared engine (rule of two), Armenian shops, Russia, and one merged `/find` | **P0 done** (decision 100): brief, findings table and fixtures; P1 waits for the owner's answers (brief §8) | `briefs/AMAZON_SEARCH.md` |
 
 ## Waiting on the owner or small checks
 

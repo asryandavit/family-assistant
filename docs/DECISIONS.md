@@ -1012,3 +1012,24 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
 - **Adding a link that is already on the watch list adds nothing** — the app's Add form and the
   chat's `/watch add` answer "Already on the list: <name> — nothing added." Reproduced: the same
   Amazon link added twice made two items. Same rule as 👁 Watch above (active items only).
+
+**100 — 2026-11-10 — `/amazon` search: P0 discovery done, brief written, nothing built (`docs/briefs/AMAZON_SEARCH.md`).**
+Captured 16 real pages (4 Amazons × electronics and baby query × search page + first result's
+product page) in the bot's signed-out browser, one attempt each, 3–6 s apart; trimmed fixtures in
+`tests/fixtures/amazon/` (scripts, hidden inputs, CSRF tokens and session ids removed).
+**Findings:** UK, DE, IT and US search pages and `/dp/` pages are all readable; no check page met
+(US search redirected to `/checkpoint/continue` on 2026-10-29 but worked twice today, so US keeps a
+fallback). Cards give ASIN, title, price + list price, currency (the store's own, from the
+`i18n-prefs` cookie), rating, review count, badges, a delivery line and a sponsored flag; **seller
+("sold by", "dispatches/ships from") is on the product page only**. The product price of the one ASIN
+compared did not change with the delivery address; delivery fee and date did. The profile had lost
+the UK/DE/IT postcodes ("Deliver to United States") and `scrapers/market.py --setup` restored them,
+so every run must check the `Deliver to` block first. **Decisions in the brief:** Amazon is read by
+Python against fixtures with **no model reading pages** (0 browsing tokens; the model only plans and
+phrases); seller trust = sold by Amazon > dispatched by Amazon > ships itself, with rating only when
+the review count is enough; the shared engine is **extracted after Amazon P1 works (rule of two)**,
+as its own refactor session guarded by China golden files, with a common offer shape used from the
+start; later markets are adapters of two reader kinds (Playwright + parser, or owner's Chrome + model);
+the merged `/find` ranks within markets and merges above a trust floor with arrival date. Wildberries/
+Ozon intra-EAEU customs are to be verified, not assumed. Phases P1, P1b, P2–P5 with "done means" and
+ten owner questions are in §7–§8. **Docs:** docs/briefs/AMAZON_SEARCH.md (new), docs/ROADMAP.md (row).
