@@ -530,6 +530,18 @@ def _amazon(fn, *args):
         return "⚠️ Amazon search is unavailable right now (%s)." % telegram.esc(str(e)[:80])
 
 
+def china_startup(cfg):
+    """At startup: China jobs left waiting with no worker get one now, and a job a dead
+    worker left unfinished is told to its asker and the owner (china/watch.py, decision 104).
+    Never takes the listener down."""
+    try:
+        from china import watch
+        if watch.ensure_worker(cfg, ROOT):
+            log("china: worker started for jobs left in the queue")
+    except Exception as e:  # noqa: BLE001 — a China fault never takes the listener down
+        log(f"china startup check failed: {str(e)[:120]}")
+
+
 def is_photo(msg):
     """A photo, or a file that may be an image (china/photo.py decides which files count)."""
     return bool(msg.get("photo") or msg.get("document"))
@@ -727,6 +739,7 @@ def main():
     except Exception:
         pass
     telegram.send_html(cfg, "\U0001f3a7 <i>Listener online</i>", silent=True)
+    china_startup(cfg)
 
     last_hb = time.time()
     backoff = 5

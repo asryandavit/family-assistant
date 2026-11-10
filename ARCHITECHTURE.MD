@@ -92,6 +92,12 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   "photo -> china" only (no file id, no chat id). Text messages and buttons are unchanged.
   When Health records lands it reads photos only inside an open `/health` conversation and
   must be checked before this route.
+- `listener.py` at startup calls `china_startup()` (2026-11-10, decision 104): China jobs left in
+  the queue with no live worker get one (`china/watch.ensure_worker`), and a job a dead worker
+  left unfinished is told to its asker and the owner. Wrapped so a China fault never stops the
+  listener. The China worker is now watched by a daemon thread in the listener (started with
+  each worker, `china/watch.py`); its stderr goes to `.browser/china_data/worker.err`, never
+  DEVNULL. Nothing else in the listener changed.
 - `listener.py` routes `/amazon` (2026-11-10, Amazon search P1, decision 101): the command, the
   `am:` buttons and the "🛒 Amazon search · what…" prompt reply go to `amazon/bot.py` through a
   fault-catching `_amazon` wrapper, exactly like `_china` (never through the Runner, never
