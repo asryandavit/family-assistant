@@ -90,6 +90,42 @@ class WriteLock(unittest.TestCase):
         with open(os.path.join(state.data_dir(self.root), "items.json"), encoding="utf-8") as f:
             self.assertEqual(len(json.load(f)), 50)
 
+FAST_WORKER = r"""
+import sys
+sys.path.insert(0, sys.argv[1])
+from market import state
+root, tag = sys.argv[2], sys.argv[3]
+for i in range(100):
+    with state.write_lock(root):
+        items = state.load_items(root)
+        items.append(tag + str(i))
+        state.save_items(root, items)
+"""
+
+
+class WindowsDeleteRace(unittest.TestCase):
+    """Review 2026-11-10 (decision 099): on Windows a lock file that its holder has just
+    deleted, while another process still has it open for the age check, can for a moment be
+    neither opened nor created — os.open raised PermissionError and the writer crashed.
+    Measured with three processes re-taking the lock at once: a crash in 2 runs of 6 before,
+    0 of 6 with the retry."""
+
+    def test_three_processes_retaking_the_lock_never_crash(self):
+        root = tempfile.mkdtemp()
+        try:
+            script = os.path.join(root, "w.py")
+            with open(script, "w") as f:
+                f.write(FAST_WORKER)
+            procs = [subprocess.Popen([sys.executable, script, ROOT, root, tag],
+                                      stderr=subprocess.PIPE, text=True) for tag in "abc"]
+            results = [(p.communicate(timeout=120)[1], p.returncode) for p in procs]
+            for err, code in results:
+                self.assertEqual(code, 0, err[-300:])
+            self.assertEqual(len(state.load_items(root)), 300)
+        finally:
+            shutil.rmtree(root, ignore_errors=True)
+
+
 class Release(unittest.TestCase):
     """Review 2026-11-10 (decision 099): a holder that outlived stale_s was taken over, and on
     its way out removed the NEW holder's lock file, letting a third writer in beside it."""

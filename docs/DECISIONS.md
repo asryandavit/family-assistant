@@ -980,3 +980,11 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   and "5,233 AMD ($14.52) via Onex sea" small and grey under it; what the family pays at the door
   is the number that decides. Now "Delivered <total>" on top, "Item <price>" under it. Same
   strings from `china_view.py`; the page still computes nothing.
+- **The lock no longer crashes on Windows when a holder re-takes it at once.** Found by running
+  the committed state in a clean worktree: `os.open(O_CREAT|O_EXCL)` raised `PermissionError`
+  when the previous holder had just deleted the lock file while another process still had it open
+  for its age check (Windows keeps such a file in a "delete pending" state). Measured with three
+  processes re-taking the lock 150 times each: a crashed writer in 2 runs of 6 with the lock as
+  built in 097, 0 of 6 with a short retry. In real use this was a 👁 Watch or `/watch` command
+  failing at random when two things wrote at once. The 097 test (two processes, 25 writes, a
+  5 ms pause) was too gentle to show it.

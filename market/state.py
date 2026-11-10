@@ -86,6 +86,14 @@ def write_lock(root, wait_s=30.0, stale_s=300.0):
                 raise Busy("The watch list is busy (another change is saving) — try again "
                            "in a minute.") from None
             time.sleep(0.1)
+        except PermissionError:
+            # Windows: the last holder has deleted the file but another process still has it
+            # open (its age check), so for a moment it can be neither opened nor created.
+            # Measured 2026-11-10: 3 processes re-taking the lock crashed here in 3 runs of 6.
+            if time.monotonic() > deadline:
+                raise Busy("The watch list is busy (another change is saving) — try again "
+                           "in a minute.") from None
+            time.sleep(0.01)
     token = f"{os.getpid()}-{os.urandom(8).hex()}"
     try:
         os.write(fd, token.encode())
