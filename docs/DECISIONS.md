@@ -931,3 +931,7 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   the lock across the Sheet read, and writes the Sheet after releasing it, so two edits within the
   same second or two can still let a stale Sheet row undo the other edit. A lock file around JSON
   files and a Sheet cannot close that; one database transaction can.
+- **👁 Watch on a product already on the list adds nothing** and answers "👁 Already on 🌍 Market
+  watch: <name> — nothing added." (chat and Mini App; the page shows it as done). Reproduced: two
+  taps made two items. Matched by the product link among active items, so a bought or removed
+  item can be watched again. This also makes the Mini App's POST safe to repeat.

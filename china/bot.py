@@ -108,6 +108,9 @@ def _watch(cfg, root, chat_id, job_id, n):
     added = {}
 
     def fn(items):
+        same = next((it for it in state.active(items) if p["link"] in (it.get("links") or [])), None)
+        if same:                                   # a second tap, in the chat or the Mini App
+            raise ValueError(f"👁 Already on 🌍 Market watch: {same['name']} — nothing added.")
         it = state.new_item(items, _short(p["title_en"]), [p["link"]], 1,
                             None if p["weight_assumed"] else p["kg"],
                             list(p["dims"]) if p.get("dims") else None, mbot.who(cfg, chat_id))

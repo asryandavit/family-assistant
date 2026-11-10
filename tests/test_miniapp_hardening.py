@@ -151,5 +151,26 @@ class Expired(Base):
         self.assertEqual((st, json.loads(body)), (401, {"error": "unauthorized"}))
 
 
+class WatchReply(Base):
+    """The page's ok / refused comes from the chat's reply text. A product already on the list
+    is "done" for the page (the button becomes 👁 Watching); a full list is a refusal."""
+
+    def act(self):
+        st, _, body = self.req("/api/china/action", "tma " + init_data(OWNER), method="POST",
+                               body=json.dumps({"action": "watch", "job": "0123abcd", "n": 1}),
+                               headers={"Content-Type": "application/json"})
+        return st, json.loads(body)
+
+    def test_already_watching_is_ok(self):
+        type(self).reply = "👁 Already on 🌍 Market watch: X &amp; Y — nothing added."
+        self.assertEqual(self.act(), (200, {"ok": True, "message":
+                                            "👁 Already on 🌍 Market watch: X & Y — nothing added."}))
+
+    def test_full_list_is_refused(self):
+        type(self).reply = "The list is full (20 items). Mark one bought or remove one first."
+        st, d = self.act()
+        self.assertEqual((st, d["ok"]), (200, False))
+
+
 if __name__ == "__main__":
     unittest.main()

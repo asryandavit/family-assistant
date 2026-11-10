@@ -252,7 +252,8 @@ China delivery, `⚠️ SHIPPING ESTIMATED FOR 1 KG — WEIGHT NOT LISTED`, ever
 mode with customs and total, seller class with its evidence, 🛡 the trust score with every part, specs, 👍/👎 reviews, the fixed
 Chinese seller message, the product link built from its id). Buttons in the message:
 `🔁 Only <site>`, `💬 Reviews N` (results whose reviews were not read), `👁 Watch N` (adds
-the item to Market watch with today's price as the owner's price). Silent.
+the item to Market watch with today's price as the owner's price; a product already on the
+list is not added again — "👁 Already on 🌍 Market watch", decision 099). Silent.
 
 **Photo search (decision 095).** Send a photo (or an image as a file) with the caption
 `/china`, `/china <note>` (e.g. `/china red, size 42`) or `/china only pinduoduo|taobao|1688

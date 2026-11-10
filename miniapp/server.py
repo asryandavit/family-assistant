@@ -177,7 +177,7 @@ class App:
         reply = self.china_action(str(person.user_id), "watch" if action == "watch" else "rev",
                                   job, n)
         text = "\n".join(china_view.plain(str(reply or "").replace("\n", "<br>")))
-        ok = text.startswith(("👁 Added", "⏳"))
+        ok = text.startswith(("👁 Added", "👁 Already", "⏳"))
         log.info("china %s %s #%d -> %s", action, job, n, "ok" if ok else "refused")
         return 200, {"ok": ok, "message": text}
 

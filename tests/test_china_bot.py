@@ -104,6 +104,28 @@ class Bot(unittest.TestCase):
         key = "%s|pinduoduo" % items[0]["id"]
         self.assertEqual(prices[key]["currency"], "CNY")
 
+    def test_watch_twice_adds_once(self):
+        """Review 2026-11-10 (decision 099): a second tap (chat or Mini App) on 👁 Watch for a
+        product already on the list added it again. A bought or removed one may be re-added."""
+        self._answered()
+        from market import state
+        with mock.patch.object(state, "data_dir", lambda root: os.path.join(self.root, "md")),                 mock.patch("market.bot.sheet_id", lambda root: None):
+            os.makedirs(os.path.join(self.root, "md"), exist_ok=True)
+            bot.callback({}, self.root, "cn:watch:ab12cd34:1", "222")
+            again = bot.callback({}, self.root, "cn:watch:ab12cd34:1", "222")
+            items = state.load_items(self.root)
+            self.assertEqual(len(items), 1)
+            self.assertTrue(again.startswith("👁 Already on 🌍 Market watch"), again)
+            self.assertIn(items[0]["name"].split()[0], again)
+            other = bot.callback({}, self.root, "cn:watch:ab12cd34:2", "222")
+            self.assertIn("Added to 🌍 Market watch", other)           # a different product
+            items = state.load_items(self.root)
+            items[0]["status"] = "bought"
+            state.save_items(self.root, items)
+            back = bot.callback({}, self.root, "cn:watch:ab12cd34:1", "222")
+            self.assertIn("Added to 🌍 Market watch", back)            # bought -> may watch again
+            self.assertEqual(len(state.load_items(self.root)), 3)
+
     def test_questions_then_search(self):
         plan = {"query_cn": "跑鞋", "category": "shoes", "vague": True,
                 "questions": [{"q": "Size?", "options": ["EU 42", "EU 43"]},
