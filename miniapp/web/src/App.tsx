@@ -11,7 +11,11 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { get, type Me, type Result, type Status } from "./api";
+import { BasketScreen } from "./BasketScreen";
 import { ChinaScreen } from "./ChinaScreen";
+import { MarketScreen } from "./MarketScreen";
+import { PlanScreen } from "./PlanScreen";
+import { TravelScreen } from "./TravelScreen";
 import { platform, webApp } from "./telegram";
 
 // Navigation: a Home list of full-width rows (Telegram's Settings pattern), not a bottom tab
@@ -26,14 +30,20 @@ const ICONS: Record<string, string> = {
   Travel: "✈️",
 };
 const ABOUT: Record<string, string> = {
-  Today: "Meals and training",
-  China: "Your latest /china results",
-  Market: "Price watch and deals",
-  Basket: "Shopping list",
-  Travel: "Flights and stays",
+  Today: "Today, meals, training, the week",
+  China: "Search, and your latest results",
+  Market: "Watch list, prices to Yerevan",
+  Basket: "Shopping list priced at two shops",
+  Travel: "Cheapest trips, stays, searches",
 };
-// Sections with a real screen (step 1: China). The rest show "Coming soon".
-const LIVE = new Set(["China"]);
+// Every section has a real screen now (steps 1 and 2); an unknown name still shows "Coming soon".
+const SCREENS: Record<string, (p: { onFail: (r: Result<unknown>) => void }) => JSX.Element> = {
+  Today: PlanScreen,
+  China: ChinaScreen,
+  Market: MarketScreen,
+  Basket: BasketScreen,
+  Travel: TravelScreen,
+};
 const STATUS_EVERY_MS = 30_000;
 
 // ?screen=china (the 📱 button under /china answers) opens that section directly.
@@ -204,8 +214,11 @@ export function App() {
       )}
       {screen.kind === "ready" &&
         (open ? (
-          LIVE.has(open) ? (
-            <ChinaScreen onFail={fail} />
+          SCREENS[open] ? (
+            (() => {
+              const Screen = SCREENS[open];
+              return <Screen onFail={fail} />;
+            })()
           ) : (
             <SectionScreen name={open} onHome={goHome} />
           )

@@ -92,3 +92,37 @@ body {
 .msg.bad {
   color: var(--tg-theme-destructive-text-color, var(--tgui--destructive_text_color, #e53935));
 }
+
+.center.short {
+  min-height: 0;
+  padding: 24px 16px;
+}
+
+.page-text {
+  padding: 4px 20px 12px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.page-text p,
+.fold p {
+  margin: 0 0 8px;
+}
+
+.fold {
+  padding: 0 0 4px;
+}
+
+.fold p {
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+.page-text a {
+  color: var(--tg-theme-link-color, var(--tgui--link_color));
+}
+
+.hintline {
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
+  padding-top: 0;
+}

@@ -6,6 +6,12 @@ stdlib ThreadingHTTPServer on 127.0.0.1 only:
     GET  /api/status        server time in Yerevan, version
     GET  /api/china         your chat's latest /china result as display JSON (step 1)
     POST /api/china/action  👁 Watch / 💬 Reviews, exactly as the chat buttons (step 1)
+    GET  /api/china/status  is a China search running / how many of yours wait (step 2)
+    GET  /api/plan/<today|meals|training|week>, /api/market, /api/basket/<weekly|monthly>,
+         /api/travel        read-only screens built from what the chat shows (step 2)
+    POST /api/run           run a chat command (basket, flights, stays, price, china, scan,
+                            digest, watch check) via the listener's inbox (step 2)
+    POST /api/market/action, /api/market/add   edit the Market watch list (step 2)
 Every /api request carries `Authorization: tma <initData>`, checked by miniapp.auth. The only
 request bodies accepted are JSON on POST /api/... up to MAX_BODY bytes.
 
@@ -33,11 +39,13 @@ from miniapp import (
     DIST,
     LOG_DIR,
     __version__,
+    actions,
     auth,
     bot_token,
     china_view,
     load_config,
     people,
+    screens,
 )
 
 log = logging.getLogger("miniapp")
@@ -94,11 +102,45 @@ def default_china_action(chat_id, action, job, n):
     return cbot.callback(config.load(), ROOT, f"cn:{action}:{job}:{n}", chat_id)
 
 
+class Services:
+    """The real work behind the step 2 screens and forms; tests pass a fake with the same
+    methods. Everything takes the asking person's chat id (private chat: the user id)."""
+
+    def __init__(self):
+        from lib import config
+        from miniapp import ROOT
+        self.root, self.cfg = ROOT, config.load()
+
+    def plan_page(self, chat_id, name):
+        return screens.plan_page(self.root, name, chat_id)
+
+    def market_view(self):
+        return screens.market_view(self.root)
+
+    def basket_view(self, kind):
+        return screens.basket_view(self.root, kind)
+
+    def travel_view(self):
+        return screens.travel_view(self.cfg, self.root)
+
+    def run(self, chat_id, job, args):
+        return actions.run(self.root, self.cfg, chat_id, job, args)
+
+    def china_status(self, chat_id):
+        return actions.china_status(self.root, chat_id)
+
+    def market_action(self, chat_id, action, item_id):
+        return actions.market_action(self.cfg, self.root, chat_id, action, item_id)
+
+    def market_add(self, chat_id, name, link, weight):
+        return actions.market_add(self.cfg, self.root, chat_id, name, link, weight)
+
+
 class App:
     """Everything a request needs; built once, shared read-only by the handler threads."""
 
     def __init__(self, cfg, token, persons, dist=DIST, clock=time.time, capture_path=None,
-                 china_load=default_china_load, china_action=default_china_action):
+                 china_load=default_china_load, china_action=default_china_action, svc=None):
         self.cfg = cfg
         self.token = token
         self.people = persons
@@ -110,6 +152,14 @@ class App:
         self.capture_lock = threading.Lock()
         self.china_load = china_load
         self.china_action = china_action
+        self._svc = svc
+        self.run_limiter = RateLimiter(int(cfg.get("run_limit_per_min", 10)))
+
+    @property
+    def svc(self):
+        if self._svc is None:                       # built on first use, so the static files
+            self._svc = Services()                  # and GET-only tests never load the config
+        return self._svc
 
     # ---- API
     def api(self, path, auth_header, method="GET", ctype="", body=b""):
@@ -181,6 +231,71 @@ class App:
         log.info("china %s %s #%d -> %s", action, job, n, "ok" if ok else "refused")
         return 200, {"ok": ok, "message": text}
 
+    # ---- step 2: screens and forms
+    @staticmethod
+    def _body(ctype, body, required, optional=()):
+        """Parse a JSON object body whose keys are `required` plus some of `optional`, every
+        value a short string. -> (dict, None) or (None, (status, error))."""
+        if ctype.split(";")[0].strip().lower() != "application/json":
+            return None, (415, {"error": "send JSON"})
+        try:
+            d = json.loads(body.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError):
+            return None, (400, {"error": "bad JSON"})
+        if (not isinstance(d, dict) or not set(required) <= set(d)
+                or not set(d) <= set(required) | set(optional)
+                or not all(isinstance(v, str) and len(v) <= 300 for v in d.values())):
+            return None, (400, {"error": "bad request"})
+        return d, None
+
+    def plan(self, person, name):
+        page = self.svc.plan_page(str(person.user_id), name)
+        return 200, ({"unreadable": True} if page is None else page)
+
+    def market(self, _person, _ctype, _body):
+        return 200, self.svc.market_view()
+
+    def basket(self, _person, kind):
+        v = self.svc.basket_view(kind)
+        return (200, v) if v is not None else (404, {"error": "not found"})
+
+    def travel(self, _person, _ctype, _body):
+        return 200, self.svc.travel_view()
+
+    def china_status(self, person, _ctype, _body):
+        return 200, self.svc.china_status(str(person.user_id))
+
+    def run_post(self, person, ctype, body):
+        d, err = self._body(ctype, body, ("job",), ("args",))
+        if err:
+            return err
+        if d["job"] not in actions.JOBS:
+            return 400, {"error": "unknown action"}
+        if not self.run_limiter.allow(person.user_id, self.clock()):
+            return 429, {"error": "slow down"}
+        ok, msg = self.svc.run(str(person.user_id), d["job"], d.get("args", ""))
+        log.info("run %s -> %s", d["job"], "queued" if ok else "refused")
+        return 200, {"ok": ok, "message": msg}
+
+    def market_action_post(self, person, ctype, body):
+        d, err = self._body(ctype, body, ("action", "id"))
+        if err:
+            return err
+        if d["action"] not in ("bought", "remove") or not actions.ID_RE.match(d["id"]):
+            return 400, {"error": "bad action or id"}
+        ok, msg = self.svc.market_action(str(person.user_id), d["action"], d["id"])
+        log.info("market %s -> %s", d["action"], "ok" if ok else "refused")
+        return 200, {"ok": ok, "message": msg}
+
+    def market_add_post(self, person, ctype, body):
+        d, err = self._body(ctype, body, ("name", "link"), ("weight",))
+        if err:
+            return err
+        ok, msg = self.svc.market_add(str(person.user_id), d["name"], d["link"],
+                                      d.get("weight", ""))
+        log.info("market add -> %s", "ok" if ok else "refused")
+        return 200, {"ok": ok, "message": msg}
+
     def _maybe_capture(self, raw):
         if not self.capture_path:
             return
@@ -215,7 +330,17 @@ ROUTES = {
     ("GET", "/api/status"): (None, App.status),
     ("GET", "/api/china"): ("china", App.china),
     ("POST", "/api/china/action"): ("china", App.china_post),
+    ("GET", "/api/china/status"): ("china", App.china_status),
+    ("GET", "/api/market"): ("market", App.market),
+    ("POST", "/api/market/action"): ("market", App.market_action_post),
+    ("POST", "/api/market/add"): ("market", App.market_add_post),
+    ("GET", "/api/travel"): ("travel", App.travel),
+    ("POST", "/api/run"): ("run", App.run_post),
 }
+for _n in screens.PLAN_NAMES:
+    ROUTES[("GET", f"/api/plan/{_n}")] = ("plan", lambda a, p, _c, _b, n=_n: a.plan(p, n))
+for _k in ("weekly", "monthly"):
+    ROUTES[("GET", f"/api/basket/{_k}")] = ("basket", lambda a, p, _c, _b, k=_k: a.basket(p, k))
 
 
 class Handler(BaseHTTPRequestHandler):

@@ -19,8 +19,8 @@ import uuid
 DIRNAME = "miniapp_inbox"
 MAX_AGE_S = 120               # an older request is dropped: nobody is waiting for it any more
 MAX_TEXT = 200
-# Commands the app may send. /watch is only "check"; /china is not here (it has its own call).
-COMMANDS = ("basket", "scan", "digest", "flights", "stays", "price", "watch")
+# Commands the app may send. /watch is only "check"; /china needs a description.
+COMMANDS = ("basket", "scan", "digest", "flights", "stays", "price", "watch", "china")
 TEXT_RE = re.compile(rf"^/(?P<cmd>[a-z]+)(?: (?P<rest>[^\x00-\x1f]{{1,{MAX_TEXT}}}))?$")
 
 
@@ -39,6 +39,8 @@ def check_text(text):
     if m["cmd"] == "watch" and rest != "check":
         return None
     if m["cmd"] in ("scan", "digest") and rest:
+        return None
+    if m["cmd"] in ("china", "price", "flights", "stays", "basket") and not rest:
         return None
     return m["cmd"], rest
 

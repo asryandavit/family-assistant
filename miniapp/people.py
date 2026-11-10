@@ -48,7 +48,8 @@ def lookup(people, user_id):
 
 # Which roles may use each module (household-ready, VISION §3). Owner answer 2026-11-10: Davit
 # (owner) and Karine (adult) both see everything. Users and roles replaces this table.
-PERMISSIONS = {"china": ("owner", "adult")}
+PERMISSIONS = {module: ("owner", "adult")
+               for module in ("china", "plan", "market", "basket", "travel", "run")}
 
 
 def can(person, module):

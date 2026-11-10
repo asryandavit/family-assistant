@@ -14,11 +14,12 @@ class Check(unittest.TestCase):
                         ("/digest", ("digest", "")), ("/flights BUD 01-30.11 7", ("flights", "BUD 01-30.11 7")),
                         ("/stays LCA 04-11.11 sea", ("stays", "LCA 04-11.11 sea")),
                         ("/price olive oil parma", ("price", "olive oil parma")),
-                        ("/watch check", ("watch", "check"))]:
+                        ("/watch check", ("watch", "check")),
+                        ("/china only 1688 socks", ("china", "only 1688 socks"))]:
             self.assertEqual(inbox.check_text(t), want, t)
 
     def test_refused(self):
-        for t in ["", None, "scan", "/china socks", "/watch add", "/watch", "/scan now", "/cancel",
+        for t in ["", None, "scan", "/china", "/price", "/basket", "/watch add", "/watch", "/scan now", "/cancel",
                   "/basket\nweekly", "/basket weekly\x00", "/start", "/x" * 5, "/" + "a" * 300,
                   "/price " + "a" * 201, "//scan", "/SCAN", "/auto"]:
             self.assertIsNone(inbox.check_text(t), t)

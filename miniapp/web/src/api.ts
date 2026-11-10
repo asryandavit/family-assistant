@@ -78,14 +78,16 @@ export type Result<T> =
   | { kind: "unreachable" };
 
 const TIMEOUT_MS = 8000;
+// the Travel screen may read Google Sheets on its first open
+const SLOW_GET_MS = 25000;
 // an action may wait for the watch-list lock (30 s) and the Google Sheet
 const ACTION_TIMEOUT_MS = 45000;
 
-export function get<T>(path: "/api/me" | "/api/status" | "/api/china"): Promise<Result<T>> {
+export function get<T>(path: `/api/${string}`): Promise<Result<T>> {
   return call<T>(path);
 }
 
-export function post<T>(path: "/api/china/action", body: object): Promise<Result<T>> {
+export function post<T>(path: `/api/${string}`, body: object): Promise<Result<T>> {
   return call<T>(path, body);
 }
 
@@ -93,7 +95,7 @@ async function call<T>(path: string, body?: object): Promise<Result<T>> {
   const raw = initData();
   if (!raw) return { kind: "private" };
   const ctl = new AbortController();
-  const timer = window.setTimeout(() => ctl.abort(), body ? ACTION_TIMEOUT_MS : TIMEOUT_MS);
+  const timer = window.setTimeout(() => ctl.abort(), body ? ACTION_TIMEOUT_MS : path === "/api/travel" ? SLOW_GET_MS : TIMEOUT_MS);
   try {
     const headers: Record<string, string> = { Authorization: `tma ${raw}` };
     if (body) headers["Content-Type"] = "application/json";

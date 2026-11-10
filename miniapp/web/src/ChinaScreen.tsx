@@ -1,98 +1,216 @@
-import { Button, Cell, List, Placeholder, Section, Spinner } from "@telegram-apps/telegram-ui";
-import { useCallback, useEffect, useState } from "react";
+import { Button, Cell, List, Placeholder, Section, Spinner, TabsList } from "@telegram-apps/telegram-ui";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { get, post, type ActionReply, type China, type ChinaCard, type Result } from "./api";
+import { Field, Notice, useAction } from "./common";
 import { webApp } from "./telegram";
+import type { ChinaStatus } from "./types";
 
 // Step 1 (docs/briefs/MINI_APP.md §12): the person's latest /china result. Every number is a
 // finished string from the PC (miniapp/china_view.py); this file only lays it out.
 
 type Load = { kind: "loading" } | { kind: "ok"; data: China } | { kind: "failed" };
 
+const SITES = [
+  ["", "All"],
+  ["pinduoduo", "PDD"],
+  ["taobao", "Taobao"],
+  ["1688", "1688"],
+] as const;
+const POLL_MS = 8000;
+const SETTLE_MS = 15000; // the bot needs a moment to pick the request up before "idle" means done
+
 export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
   const { onFail } = props;
   const [load, setLoad] = useState<Load>({ kind: "loading" });
+  const [status, setStatus] = useState<ChinaStatus | null>(null);
+  const [submittedAt, setSubmittedAt] = useState<number | null>(null);
+  const [outcome, setOutcome] = useState<string>("");
+  const jobBefore = useRef<string | null>(null);
 
-  const fetchIt = useCallback(async () => {
+  const fetchIt = useCallback(async (): Promise<string | null> => {
     const r = await get<China>("/api/china");
-    if (r.kind === "ok") setLoad({ kind: "ok", data: r.data });
-    else if (r.kind === "private" || r.kind === "expired") onFail(r);
+    if (r.kind === "ok") {
+      setLoad({ kind: "ok", data: r.data });
+      return r.data.empty ? null : r.data.job;
+    }
+    if (r.kind === "private" || r.kind === "expired") onFail(r);
     else setLoad({ kind: "failed" });
+    return null;
   }, [onFail]);
+
+  const pollStatus = useCallback(async () => {
+    const r = await get<ChinaStatus>("/api/china/status");
+    if (r.kind === "ok") setStatus(r.data);
+    return r.kind === "ok" ? r.data : null;
+  }, []);
 
   useEffect(() => {
     void fetchIt();
-  }, [fetchIt]);
+    void pollStatus();
+  }, [fetchIt, pollStatus]);
 
-  if (load.kind === "loading") {
-    return (
-      <div className="center">
-        <Spinner size="l" />
-      </div>
-    );
-  }
-  if (load.kind === "failed") {
-    return (
-      <div className="center">
-        <Placeholder
-          header="Could not load the results"
-          description="The PC did not answer. Try again in a moment."
-          action={
-            <Button size="m" onClick={() => void fetchIt()}>
-              Try again
-            </Button>
-          }
-        >
-          <span className="big">🏮</span>
-        </Placeholder>
-      </div>
-    );
-  }
-  const d = load.data;
-  if (d.empty) {
-    return (
-      <div className="center">
-        <Placeholder
-          header="No China search yet"
-          description="Results of your last /china search show here for 24 hours. In the chat, send /china and what you want — e.g. /china GaN charger 65W EU plug."
-        >
-          <span className="big">🏮</span>
-        </Placeholder>
-      </div>
-    );
-  }
+  const busy = !!status && (status.running || status.waiting > 0);
+  const watching = submittedAt !== null || busy;
+  useEffect(() => {
+    if (!watching) return;
+    const id = window.setInterval(async () => {
+      const st = await pollStatus();
+      if (!st || st.running || st.waiting > 0) return;
+      if (submittedAt !== null && Date.now() - submittedAt < SETTLE_MS) return;
+      const job = await fetchIt();
+      setSubmittedAt(null);
+      setOutcome(
+        job && job !== jobBefore.current
+          ? "Done — the new results are below."
+          : "No new results yet. If the bot asked you a question, answer it in the chat.",
+      );
+    }, POLL_MS);
+    return () => window.clearInterval(id);
+  }, [watching, submittedAt, pollStatus, fetchIt]);
 
-  const pick = d.results.find((r) => r.pick);
+  const d = load.kind === "ok" ? load.data : null;
+  const results = d && !d.empty ? d : null;
+  const pick = results?.results.find((r) => r.pick);
+
+  const started = () => {
+    jobBefore.current = results ? results.job : null;
+    setOutcome("");
+    setSubmittedAt(Date.now());
+  };
+
   return (
     <div className="page">
       <List>
-        <Section
-          header={d.kind === "photo" ? "China photo search" : "China search"}
-          footer={`Searched ${d.sent} · kept 24 h · most trusted first, then cheapest to Yerevan`}
-        >
-          <Cell multiline subtitle={d.query_cn ?? undefined}>
-            {d.query}
-          </Cell>
-          {d.sites.map((s) => (
-            <Cell key={s.site} multiline subtitle={s.line}>
-              {s.name}
-            </Cell>
-          ))}
-        </Section>
+        <SearchForm
+          busy={busy || submittedAt !== null}
+          outcome={outcome}
+          status={status}
+          onStarted={started}
+        />
 
-        {pick && (
-          <Section header="🏆 Pick">
-            <Cell multiline subtitle={d.pick_reason ?? undefined}>
-              {pick.n}. {pick.title}
-            </Cell>
+        {load.kind === "loading" && (
+          <div className="center short">
+            <Spinner size="l" />
+          </div>
+        )}
+        {load.kind === "failed" && (
+          <Section>
+            <Placeholder
+              header="Could not load the results"
+              description="The PC did not answer. Try again in a moment."
+              action={
+                <Button size="m" onClick={() => void fetchIt()}>
+                  Try again
+                </Button>
+              }
+            >
+              <span className="big">🏮</span>
+            </Placeholder>
           </Section>
         )}
+        {d && d.empty && (
+          <Section>
+            <Placeholder
+              header="No China search yet"
+              description="Type what you want above. Results of your last search stay here for 24 hours."
+            >
+              <span className="big">🏮</span>
+            </Placeholder>
+          </Section>
+        )}
+        {results && (
+          <>
+            <Section
+              header={results.kind === "photo" ? "China photo search" : "China search"}
+              footer={`Searched ${results.sent} · kept 24 h · most trusted first, then cheapest to Yerevan`}
+            >
+              <Cell multiline subtitle={results.query_cn ?? undefined}>
+                {results.query}
+              </Cell>
+              {results.sites.map((s) => (
+                <Cell key={s.site} multiline subtitle={s.line}>
+                  {s.name}
+                </Cell>
+              ))}
+            </Section>
 
-        {d.results.map((c) => (
-          <ResultCard key={c.n} job={d.job} c={c} />
-        ))}
+            {pick && (
+              <Section header="🏆 Pick">
+                <Cell multiline subtitle={results.pick_reason ?? undefined}>
+                  {pick.n}. {pick.title}
+                </Cell>
+              </Section>
+            )}
+
+            {results.results.map((c) => (
+              <ResultCard key={c.n} job={results.job} c={c} />
+            ))}
+          </>
+        )}
       </List>
     </div>
+  );
+}
+
+function SearchForm(props: {
+  busy: boolean;
+  outcome: string;
+  status: ChinaStatus | null;
+  onStarted: () => void;
+}) {
+  const [text, setText] = useState("");
+  const [site, setSite] = useState<string>("");
+  const act = useAction();
+  const args = site ? `only ${site} ${text.trim()}` : text.trim();
+  const submit = async () => {
+    if (await act.send("/api/run", { job: "china", args })) {
+      setText("");
+      props.onStarted();
+    }
+  };
+  const st = props.status;
+  const running = st
+    ? st.running
+      ? `A China search is running${st.waiting ? ` · ${st.waiting} of yours waiting` : ""}.`
+      : st.waiting
+        ? `${st.waiting} of your searches waiting.`
+        : ""
+    : "";
+  return (
+    <Section
+      header="Search China"
+      footer="PDD = Pinduoduo. Pinduoduo and 1688 are read automatically (about 5 minutes); Taobao gets a search link. If the bot needs to ask you something it asks in the chat. For a photo search, send the photo to the bot."
+    >
+      <Field
+        header="What are you looking for?"
+        value={text}
+        onChange={setText}
+        placeholder="GaN charger 65W EU plug"
+        onEnter={() => void submit()}
+      />
+      <TabsList>
+        {SITES.map(([id, label]) => (
+          <TabsList.Item key={id} selected={site === id} onClick={() => setSite(id)}>
+            {label}
+          </TabsList.Item>
+        ))}
+      </TabsList>
+      <div className="actions">
+        <Button
+          size="m"
+          loading={act.busy}
+          disabled={act.busy || props.busy || text.trim().length < 3}
+          onClick={() => void submit()}
+        >
+          🔎 Search
+        </Button>
+      </div>
+      {props.busy && !running && <div className="msg ok">Searching… results appear here by themselves.</div>}
+      {running && <div className="msg ok">{running} Results appear here by themselves.</div>}
+      {props.outcome && <div className="msg ok">{props.outcome}</div>}
+      <Notice msg={act.msg} />
+    </Section>
   );
 }
 

@@ -1,0 +1,234 @@
+{
+ "run_utc": "2026-10-19T10:05:00+00:00",
+ "kind": "weekly",
+ "totals": {
+  "yc": 12179,
+  "parma": 3342,
+  "all": 15521
+ },
+ "compare": {
+  "n": 22,
+  "yc": 17562,
+  "parma": 18240,
+  "cheapest": 15291
+ },
+ "partial": false,
+ "lines": [
+  {
+   "item": "Eggs",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "3 × 6 pcs",
+   "cost": 1440,
+   "product": "Eggs \"Arzni\" havkirt #0-1 6pcs",
+   "url": "https://yerevan-city.am/shop/product-details/173053"
+  },
+  {
+   "item": "Katnashor (tvorog)",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "0.8 kg",
+   "cost": 760,
+   "product": "Curd \"Igit\" 9% kg",
+   "url": "https://yerevan-city.am/shop/product-details/83452"
+  },
+  {
+   "item": "Matsun",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 × 1 kg",
+   "cost": 370,
+   "product": "Matsun \"Igit\" 3.2% 1000g",
+   "url": "https://yerevan-city.am/shop/product-details/170150"
+  },
+  {
+   "item": "Whole milk (son)",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "5 × 450 ml",
+   "cost": 1500,
+   "product": "Milk \"Marianna\" 3․2% 450ml",
+   "url": "https://parma.am/en/product/product?slug=milk-marianna-3%E2%80%A42-450ml_32274"
+  },
+  {
+   "item": "Chicken thighs",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 × 950 g",
+   "cost": 1210,
+   "product": "Fresh chicken thigh \"Ashtarak\" 950g",
+   "url": "https://yerevan-city.am/shop/product-details/32247"
+  },
+  {
+   "item": "Chicken breast",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 × 1 kg",
+   "cost": 1790,
+   "product": "Frozen chicken breast fillet \"Qualiko\" 1kg",
+   "url": "https://yerevan-city.am/shop/product-details/194929"
+  },
+  {
+   "item": "Trout",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "0.6 kg",
+   "cost": 2814,
+   "product": "Frozen trout fillet \"Okeanos\" kg",
+   "url": "https://yerevan-city.am/shop/product-details/154964"
+  },
+  {
+   "item": "Tomatoes",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "1 kg",
+   "cost": 405,
+   "product": "Cherry tomatoes long kg Sh",
+   "url": "https://parma.am/en/product/product?slug=cherry-tomatoes-long-kg-sh_86372"
+  },
+  {
+   "item": "Cucumbers",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 kg",
+   "cost": 155,
+   "product": "Cucumber (russian) kg",
+   "url": "https://yerevan-city.am/shop/product-details/18138"
+  },
+  {
+   "item": "Onions",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 kg",
+   "cost": 205,
+   "product": "Onion (armenian) kg",
+   "url": "https://yerevan-city.am/shop/product-details/51772"
+  },
+  {
+   "item": "Carrots",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 kg",
+   "cost": 295,
+   "product": "Carrots kg",
+   "url": "https://yerevan-city.am/shop/product-details/12085"
+  },
+  {
+   "item": "Potatoes",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "2 kg",
+   "cost": 550,
+   "product": "Potato (armenian) kg",
+   "url": "https://yerevan-city.am/shop/product-details/69658"
+  },
+  {
+   "item": "Zucchini",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 kg",
+   "cost": 295,
+   "product": "Zucchini (armenian) kg",
+   "url": "https://yerevan-city.am/shop/product-details/13749"
+  },
+  {
+   "item": "Bell peppers",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "0.5 kg",
+   "cost": 143,
+   "product": "Pepper sweet kg Sh",
+   "url": "https://parma.am/en/product/product?slug=pepper-sweet-kg-sh_85093"
+  },
+  {
+   "item": "Cabbage",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "0.5 kg",
+   "cost": 545,
+   "product": "Malakan cabbage kg",
+   "url": "https://yerevan-city.am/shop/product-details/26214"
+  },
+  {
+   "item": "Parsley",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 pc",
+   "cost": 275,
+   "product": "Parsley pc",
+   "url": "https://yerevan-city.am/shop/product-details/12634"
+  },
+  {
+   "item": "Coriander",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "1 pc",
+   "cost": 230,
+   "product": "Coriander",
+   "url": "https://parma.am/en/product/product?slug=coriander_14343"
+  },
+  {
+   "item": "Dill",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 pc",
+   "cost": 210,
+   "product": "Dill pc",
+   "url": "https://yerevan-city.am/shop/product-details/12660"
+  },
+  {
+   "item": "Spinach",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 pc",
+   "cost": 275,
+   "product": "Spinach pc",
+   "url": "https://yerevan-city.am/shop/product-details/9848"
+  },
+  {
+   "item": "Apples",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "1.5 kg",
+   "cost": 195,
+   "product": "Fuji Apples kg Sh",
+   "url": "https://parma.am/en/product/product?slug=fuji-apples-kg-sh_7973"
+  },
+  {
+   "item": "Bananas",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "1 kg",
+   "cost": 750,
+   "product": "Banana kg Sh",
+   "url": "https://parma.am/en/product/product?slug=banana-kg-sh_28111"
+  },
+  {
+   "item": "Pears",
+   "status": "ok",
+   "shop": "yc",
+   "buy": "1 kg",
+   "cost": 990,
+   "product": "Pear Forest Beauty (armenian) kg",
+   "url": "https://yerevan-city.am/shop/product-details/15152"
+  },
+  {
+   "item": "Garlic",
+   "status": "ok",
+   "shop": "parma",
+   "buy": "0.1 kg",
+   "cost": 119,
+   "product": "Garlic new kg",
+   "url": "https://parma.am/en/product/product?slug=garlic-kg_14022"
+  },
+  {
+   "item": "Scoolinary project ingredients",
+   "status": "skipped",
+   "shop": null,
+   "buy": null,
+   "cost": null,
+   "product": null,
+   "url": null
+  }
+ ]
+}
