@@ -310,3 +310,23 @@ Per run, estimated: 4 stores × (1 search + 3 product pages) = 16 page loads × 
   store; no Amazon account was used.
 - Open from P0 for P1: re-compare price across addresses on 3 more ASINs; how many cards a scroll
   loads on electronics pages; whether headless Chromium is served the same pages.
+
+---
+
+## 10. Owner's answers (2026-11-10)
+
+"Yes, we can run whatever is needed on my Chrome browser, I will do all necessary; for the questions,
+agree with you and do your best." Taken as: **every recommended default in §8 is accepted.**
+
+1. US in the default set, with automatic fallback to "send me links".
+2. Third-party sellers shown with the trust reason; an "Amazon only" switch (default off); Prime not ranked.
+3. Top 3 per store get a product-page read.
+4. Amazon terms risk accepted with the §6.3 limits (≤ 10 searches a day, 24 h pause after a check page, never logged in, no bypass).
+5. A visible window on the PC is fine; P1 may also use the owner's Chrome where the bot's browser is not enough (his Chrome is available for whatever is needed).
+6. The query is translated for DE/IT and the translated words are shown.
+7. One age/size button question before clothing searches.
+8. Chat answer + 📱 card, as `/china`.
+9. Order: P1 → P1b → P2 → P3 → P4 → P5.
+10. Russia (P4) runs in the owner's Chrome, same arrangement as China.
+
+Next: P1 in its own session (CLAUDE.md §9).
