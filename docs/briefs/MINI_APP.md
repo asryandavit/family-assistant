@@ -340,16 +340,24 @@ file.
 
 Step 2 (§13) was added to the review afterwards. Fixed there: the China form accepted the chat's
 command words (`cancel`, `last`) as a description, and Add accepted a link already on the list.
-Left from step 2:
-- **Listener not running → the page still says "Sent to the bot".** The request file is dropped
-  after 120 s and nobody is told. The server could check the listener's single-instance port
-  before answering.
-- **The Travel screen reads Google Sheets on the request thread with no timeout** (`lib/sheets`
-  sets none); the page gives up after 25 s but the thread waits on. Only a signed-in person can
-  cause it. A "one refresh at a time, others get the last copy" guard in `screens._sheet_rows`
-  would bound it without touching `lib/`.
-- **`only taobao` plus a 200-character description** passes the form's check and is then refused
-  by the inbox's 200-character limit with "That request was not accepted".
+Fixed from step 2 in the hardening pass (decision 102, each test written to fail first):
+- **Listener not running → the page said "Sent to the bot".** Now the server refuses with "The
+  bot is not running on the PC — nothing was sent." and writes no file. The check is a heartbeat:
+  the listener's inbox thread touches `.browser/miniapp_inbox/alive` every pass and a request is
+  accepted only if it is under 15 s old. The first idea, probing the listener's single-instance
+  port, was measured and rejected: the listener listens with a backlog of 1 and never accepts,
+  so after one connection further probes time out (1 of 60 got through on the live listener).
+  The heartbeat also covers an old listener that has no inbox thread yet.
+- **The Travel screen's Sheet read.** One background refresh per tab at a time; a request waits at
+  most 10 s for it, then gets the last copy (or an empty list). A stuck read now costs at most
+  two threads (Trips, Stays), not one per request. `lib/` untouched.
+- **`only <site>` plus a long description.** The inbox limit is now 220 (= `only pinduoduo ` + the
+  chat's own 200-character description), so what the chat accepts the form accepts. `compose()`
+  also checks the final command against that limit: a description over 200 characters gets the
+  "3–200 characters" sentence, any other too-long command "That is too long".
+- **One thread per connection, no cap.** `max_connections` (config, default 32): over the cap a
+  connection gets a quick 503 with `Retry-After: 2` and no thread; slots return when requests end.
+Still left from step 2:
 - **`.tmp` files left by a crash in the inbox folder are never removed** (harmless, they are
   never read).
 
@@ -362,9 +370,7 @@ Left from steps 0 and 1:
 - **ok / refused is read from the reply's first words** (`👁 Added`, `👁 Already`, `⏳`). A
   reworded chat message silently turns a success red. Recommendation: `china.bot` returns
   `(ok, text)` to the server.
-- **One thread per connection, no cap.** 200 idle sockets held 200 threads for 20 s in the test.
-  The tunnel's proxy only opens a connection for a complete request header, so the internet
-  cannot do this directly; a cap (a semaphore of about 32) costs ten lines.
+- ~~One thread per connection, no cap.~~ Capped at 32 (decision 102).
 - **`market/bot._mutate` holds the lock across the Google Sheet read and writes the Sheet after
   releasing it.** Two edits within a second or two can let a stale Sheet row undo the other. Not
   live while `watch_sheet_id` is unset. A lock file cannot close this (§14.3, SQLite).

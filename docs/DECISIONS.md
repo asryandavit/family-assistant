@@ -1064,3 +1064,30 @@ additive commit with `ARCHITECHTURE.MD`. The full suite is the travel regression
 exist). **Docs:** docs/briefs/AMAZON_SEARCH.md (status, §6 measured, new §11 results and phone demo),
 docs/ROADMAP.md (row 3a), docs/TELEGRAM_UX.md (§5f, `am:` buttons, Market menu, command list), ARCHITECHTURE.MD
 (worker, browser lock, listener route).
+
+**102 — 2026-11-10 — Mini App hardening pass 2: the bot's absence is said, the Sheet read is bounded, long commands are explained, threads are capped.**
+The owner parked Users and roles ("concentrate on improving"); this closes the four small items
+review §14.2 left for step 2, each with a test written to fail first
+(`tests/test_miniapp_robustness.py`, 20 tests). **(1) Listener down:** the page said "Sent to the
+bot" and the request file expired unseen after 2 minutes. Now `actions.run` refuses with "The bot
+is not running on the PC — nothing was sent." and writes nothing. Liveness is a heartbeat file the
+listener's inbox thread touches every pass (`inbox.heartbeat` / `listener_alive`, accepted while
+under 15 s old), not the listener's single-instance port as first suggested: measured on this
+machine, the listener listens with a backlog of 1 and never accepts, so after one connection
+further probes time out (1 of 60 reached the live listener) and a probe-based check would say
+"down" while the bot is fine; binding the port to test it risks making a starting listener exit.
+The heartbeat also tells an old listener without the inbox thread from a current one. This
+touches `listener.py` (one line in `inbox_loop`, its own additive commit, full suite as the
+regression check, ARCHITECHTURE.MD updated). Order matters on deploy: restart the listener, then
+the Mini App server. Validation sentences still come before this check. **(2) Travel's Sheet
+read:** `screens._sheet_rows` runs one background refresh per tab; callers join it and wait at
+most 10 s, then get the last copy; an empty or failed read is never cached and never wedges the
+guard. A stuck read costs at most two threads, not one per request (`lib/sheets` sets no timeout
+and was not touched). **(3) Long commands:** the inbox limit rose from 200 to 220 so that
+`only pinduoduo ` plus the chat's 200-character description fits, and `compose()` checks the
+final command against that limit: a China description over 200 gets the "3–200 characters"
+sentence, anything else "That is too long". **(4) Thread cap:** `max_connections` (config,
+default 32); over it a connection gets a 503 with `Retry-After: 2` without a thread (after a 50 ms
+read of the request, so the answer is not lost to a reset); idle keep-alive connections count
+until the 20 s handler timeout. Docs: docs/briefs/MINI_APP.md §14.2, ARCHITECHTURE.MD,
+config_miniapp.json (`max_connections`).
