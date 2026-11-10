@@ -142,6 +142,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/basket [monthly|all] \u2014 price the shopping list, fill the checklist\n"
         "/watch [add|check|price] \u2014 market watch: items priced to Yerevan\n"
         "/china &lt;item&gt; | only taobao &lt;item&gt; | last \u2014 search Pinduoduo, Taobao, 1688\n"
+        "/amazon &lt;item&gt; | only de &lt;item&gt; | last \u2014 search Amazon UK, DE, IT\n"
         "/auto \u2014 automation status, pause/enable\n"
         "/menu \u2014 the Home screen\n"
         "/today \u2014 today's meals and both sessions\n"
@@ -357,6 +358,7 @@ def set_menu(tok):
             {"command": "basket", "description": "Price the shopping list + checklist"},
             {"command": "watch", "description": "Market watch: items priced to Yerevan"},
             {"command": "china", "description": "Search Pinduoduo, Taobao, 1688: /china GaN 65W"},
+            {"command": "amazon", "description": "Search Amazon UK, DE, IT: /amazon usb c charger 65w"},
             {"command": "flights", "description": "Search flights: /flights VCE 01-30.11 7"},
             {"command": "stays", "description": "Search stays: /stays LCA 04-11.11 sea"},
             {"command": "scan", "description": "Run the flight scan now"},
@@ -418,6 +420,8 @@ def handle_text(cfg, runner, text, chat_id=None):
         return _market("handle", cfg, ROOT, text, chat_id)
     if cmd == "china":
         return _china("handle", cfg, ROOT, text, chat_id)
+    if cmd == "amazon":
+        return _amazon("handle", cfg, ROOT, text, chat_id)
     if cmd in JOBS:
         return runner.launch(cmd, chat_id=chat_id)
     if cmd == "cancel":
@@ -514,6 +518,18 @@ def _china(fn, *args):
         return "⚠️ China search is unavailable right now (%s)." % telegram.esc(str(e)[:80])
 
 
+def _amazon(fn, *args):
+    """Call amazon/bot.py lazily, like _china: a fault answers with a short message and never
+    takes the listener down. Amazon searches run in their own worker and queue
+    (amazon/queue.py), not in the Runner, so they never block other commands."""
+    try:
+        from amazon import bot
+        return getattr(bot, fn)(*args)
+    except Exception as e:
+        log("amazon %s failed: %s" % (fn, str(e)[:120]))
+        return "⚠️ Amazon search is unavailable right now (%s)." % telegram.esc(str(e)[:80])
+
+
 def is_photo(msg):
     """A photo, or a file that may be an image (china/photo.py decides which files count)."""
     return bool(msg.get("photo") or msg.get("document"))
@@ -539,6 +555,9 @@ def route_reply(text, reply_to_text):
     if reply_to_text and reply_to_text.startswith("🇨🇳 China search · what") and t \
             and not t.startswith("/"):
         return "/china " + t
+    if reply_to_text and reply_to_text.startswith("🛒 Amazon search · what") and t \
+            and not t.startswith("/"):
+        return "/amazon " + t
     return text
 
 
@@ -599,6 +618,10 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
     # cn:<action> -- China search (docs/briefs/CHINA_SEARCH.md §5)
     if parts and parts[0] == "cn":
         return _china("callback", cfg, ROOT, data, chat_id)
+
+    # am:<action> -- Amazon search (docs/briefs/AMAZON_SEARCH.md §1)
+    if parts and parts[0] == "am":
+        return _amazon("callback", cfg, ROOT, data, chat_id)
 
     # sw:<task key>:<0 off | 1 on | r run now | v refresh>
     if parts and parts[0] == "sw" and len(parts) == 3:

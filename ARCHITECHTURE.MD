@@ -29,6 +29,14 @@ Non-negotiable conventions (rationale in the doc):
 Processes on the PC (each its own scheduled task):
 - `FamilyAssistant-Listener` — `listener.py`, the one Telegram poller; launches jobs.
 - Scheduled jobs (travel scan, coach plan messages, market watch) — run, send, exit.
+- On-demand search workers (no scheduled task): `jobs/china_search.py` and, since decision 101,
+  `jobs/amazon_search.py` — started by the listener when a `/china` or `/amazon` job is queued
+  (file queue in `.browser/china_data/` / `.browser/amazon_data/`), one job at a time per worker,
+  exit when the queue is empty. `/amazon` reads Amazon UK/DE/IT in the bot's own browser profile
+  (`.browser/market`, signed out, read-only) with a Python parser; the model is called twice per
+  run (plan, pick reason) and never reads a page. The profile has one owner at a time:
+  `scrapers/market.Session` takes `scrapers/browser_lock` (lock file + pid, waits up to 20 min), so
+  the nightly market scan and `/amazon` wait for each other instead of colliding.
 - `FamilyAssistant-MiniApp` — `python -m miniapp.server` (since 2026-11-10, decision 094):
   stdlib HTTP server on 127.0.0.1:8790 only, serving the built Mini App
   (`miniapp/web/dist`, React + Vite + Telegram UI, built on the PC with Windows Node) and a
@@ -72,6 +80,10 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   "photo -> china" only (no file id, no chat id). Text messages and buttons are unchanged.
   When Health records lands it reads photos only inside an open `/health` conversation and
   must be checked before this route.
+- `listener.py` routes `/amazon` (2026-11-10, Amazon search P1, decision 101): the command, the
+  `am:` buttons and the "🛒 Amazon search · what…" prompt reply go to `amazon/bot.py` through a
+  fault-catching `_amazon` wrapper, exactly like `_china` (never through the Runner, never
+  crashing the listener); `/help` and the command menu list `/amazon`. Existing routes unchanged.
 
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.
