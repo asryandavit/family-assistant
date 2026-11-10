@@ -24,6 +24,17 @@ def load_cfg(root):
         return json.load(f)
 
 
+def app_url():
+    """The Mini App's China screen (machine.json miniapp_public_url), or None when the Mini App
+    is not set up on this machine — then the answers simply have no 📱 button."""
+    try:
+        from miniapp import public_url
+        u = public_url()
+    except (OSError, ValueError):
+        return None
+    return u + "?screen=china" if u else None
+
+
 def load_routes(root):
     with open(os.path.join(root, "market", "tariffs.json"), encoding="utf-8") as f:
         t = json.load(f)
@@ -154,7 +165,7 @@ def run_search(job, cfg, root, tg, today, log=print, read=read_site, plan_fn=run
     sites_out, pick, reason, groups, category, guidance = assemble(answers, ccfg, routes, rates, today)
     rich, plain, btns = report.build(job["job"], full, sites_out, pick, reason, groups, rates,
                                      tariffs_date, category if plan else "other", guidance,
-                                     search_query=plan.get("query_cn"))
+                                     search_query=plan.get("query_cn"), app_url=app_url())
     if not report.fits(rich):
         kind = "plain"
         tg.send_html(cfg, plain, silent=True, buttons=btns, chat_id=chat)
@@ -263,7 +274,8 @@ def run_photo(job, cfg, root, tg, today, log=print, plan_fn=runner.photo_plan, r
         seen = f"📷 {plan.get('seen') or plan['query_en']} · searched as {plan['query_cn']}"
         rich, plain, btns = report.build(job["job"], full, sites_out, pick, reason, groups, rates,
                                          tariffs_date, plan.get("category") or category, guidance,
-                                         search_query=plan["query_cn"], photo_line=seen)
+                                         search_query=plan["query_cn"], photo_line=seen,
+                                         app_url=app_url())
         if not report.fits(rich):
             kind = "plain"
             tg.send_html(cfg, plain, silent=True, buttons=btns, chat_id=chat)

@@ -1,0 +1,2616 @@
+{
+ "job": "0323fe44",
+ "description": "GaN charger 65W EU plug; What will it charge Phone only; Brand preference Known brands only",
+ "query_cn": "氮化镓充电器 65W 欧规",
+ "sites": [
+  {
+   "site": "pinduoduo",
+   "status": "ok",
+   "notice": "Product pages show prices only in the PDD app (前往APP查看价格, price shown as 1??.?? / 8?.?). Two product pages were opened to confirm. Results are built from search listings.",
+   "ranked": [
+    {
+     "site": "pinduoduo",
+     "id": "915753868540",
+     "title_cn": "联想新款65W氮化镓充电器适用手机平板笔记本小米苹果",
+     "title_en": "Lenovo new 65W GaN charger for phones, tablets, laptops, Xiaomi, Apple",
+     "shop_name": null,
+     "marks": [
+      "装壳不伤机",
+      "正品发票",
+      "正品险"
+     ],
+     "badges": [],
+     "variant": null,
+     "price_text": "¥69.1",
+     "price_kind": "list",
+     "list_price_text": null,
+     "single_price_text": null,
+     "domestic_delivery_text": null,
+     "weight_text": null,
+     "dims_text": null,
+     "sales_text": "全店总售62万+",
+     "review_count_text": null,
+     "min_order_text": null,
+     "specs": {},
+     "material": null,
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Listing price — may be a cheaper variant; the product page shows prices only in the PDD app. Known brand, low price, but the title does not mention an EU plug, so check the plug type.",
+     "price": 69.1,
+     "currency": "CNY",
+     "price_amd": 3732.7128999999995,
+     "price_usd": 10.356276946979994,
+     "single_price": null,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 1.0,
+     "weight_assumed": true,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "pinduoduo",
+      "price_amd": 3732.7128999999995,
+      "store_ship_amd": null,
+      "base_amd": 3732.7128999999995,
+      "value_eur": 9.254048244744148,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 6900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10632.712899999999,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 5232.7128999999995,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 8000.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 11732.712899999999,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 5232.7128999999995,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 4900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 8632.712899999999,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 5232.7128999999995,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "onex",
+      "mode": "sea",
+      "per_kg": 1500.0,
+      "chargeable_kg": 1.0,
+      "by_volume": false,
+      "ship_amd": 1500.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 5232.7128999999995,
+      "days": {
+       "min": 50,
+       "max": 70,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2027-01-21",
+       "latest": "2027-02-22",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 5232.7128999999995,
+     "total_usd": 14.517972699275864,
+     "value_eur": 9.254048244744148,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": 620000,
+     "reviews": null,
+     "flags": [],
+     "link": "https://mobile.yangkeduo.com/goods.html?goods_id=915753868540",
+     "suspicious": false
+    },
+    {
+     "site": "pinduoduo",
+     "id": "996089469661",
+     "title_cn": "Anker安克氮化镓充电器65W多口PD快充头适用笔记本苹果16iPhone17",
+     "title_en": "Anker 65W GaN multi-port PD fast charger, for laptops and Apple iPhone 16/17",
+     "shop_name": null,
+     "marks": [
+      "装壳不伤机",
+      "正品险",
+      "退货包运费"
+     ],
+     "badges": [],
+     "variant": null,
+     "price_text": "券后¥87.3",
+     "price_kind": "list",
+     "list_price_text": null,
+     "single_price_text": null,
+     "domestic_delivery_text": null,
+     "weight_text": null,
+     "dims_text": null,
+     "sales_text": "本店已拼1.2万",
+     "review_count_text": null,
+     "min_order_text": null,
+     "specs": {
+      "品牌": "ANKER/安克创新",
+      "发货地": "浙江省",
+      "充电器适用形式": "直充",
+      "3C认证证书编号": "2024180907053988",
+      "插口数量": "多口",
+      "是否支持快充": "支持快充"
+     },
+     "material": null,
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Listing price — may be a cheaper variant; the product page shows prices only in the PDD app. Anker brand with a 3C number, the cheapest known-brand option. The title does not mention an EU plug, so c…",
+     "price": 87.3,
+     "currency": "CNY",
+     "price_amd": 4715.8587,
+     "price_usd": 13.083979413478344,
+     "single_price": null,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 1.0,
+     "weight_assumed": true,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "pinduoduo",
+      "price_amd": 4715.8587,
+      "store_ship_amd": null,
+      "base_amd": 4715.8587,
+      "value_eur": 11.691438665212216,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 6900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 11615.8587,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 6215.8587,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 8000.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 12715.8587,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 6215.8587,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 4900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 9615.8587,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 6215.8587,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "onex",
+      "mode": "sea",
+      "per_kg": 1500.0,
+      "chargeable_kg": 1.0,
+      "by_volume": false,
+      "ship_amd": 1500.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 6215.8587,
+      "days": {
+       "min": 50,
+       "max": 70,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2027-01-21",
+       "latest": "2027-02-22",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 6215.8587,
+     "total_usd": 17.245675165774212,
+     "value_eur": 11.691438665212216,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": 12000,
+     "reviews": null,
+     "flags": [],
+     "link": "https://mobile.yangkeduo.com/goods.html?goods_id=996089469661",
+     "suspicious": false
+    },
+    {
+     "site": "pinduoduo",
+     "id": "616805280700",
+     "title_cn": "绿联65W氮化镓充电器100V英规欧规全球通用适用苹果华为手机电脑",
+     "title_en": "Ugreen 65W GaN charger, 100V, UK/EU plug, worldwide use, for Apple/Huawei phones and computers",
+     "shop_name": "绿联",
+     "marks": [
+      "品牌授权",
+      "正品险",
+      "假一赔十",
+      "即将恢复原价"
+     ],
+     "badges": [],
+     "variant": null,
+     "price_text": "¥159",
+     "price_kind": "list",
+     "list_price_text": null,
+     "single_price_text": null,
+     "domestic_delivery_text": null,
+     "weight_text": null,
+     "dims_text": null,
+     "sales_text": "已拼467件",
+     "review_count_text": null,
+     "min_order_text": null,
+     "specs": {
+      "品牌": "绿联",
+      "充电功率": "65W",
+      "3C认证证书编号": "2025010907813585",
+      "是否支持快充": "支持快充",
+      "插口数量": "多口",
+      "充电器适用形式": "直充"
+     },
+     "material": null,
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Listing price — may be a cheaper variant; the product page shows prices only in the PDD app. Brand-authorised Ugreen, 65W, 3C number listed. Title says UK/EU, so check that the EU plug is chosen.",
+     "price": 159.0,
+     "currency": "CNY",
+     "price_amd": 8589.021,
+     "price_usd": 23.829928141386677,
+     "single_price": null,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 1.0,
+     "weight_assumed": true,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "pinduoduo",
+      "price_amd": 8589.021,
+      "store_ship_amd": null,
+      "base_amd": 8589.021,
+      "value_eur": 21.293685541451804,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 6900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 15489.021,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10089.021,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 8000.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 16589.021,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10089.021,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 4900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 13489.021,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10089.021,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "onex",
+      "mode": "sea",
+      "per_kg": 1500.0,
+      "chargeable_kg": 1.0,
+      "by_volume": false,
+      "ship_amd": 1500.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 10089.021,
+      "days": {
+       "min": 50,
+       "max": 70,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2027-01-21",
+       "latest": "2027-02-22",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 10089.021,
+     "total_usd": 27.991623893682547,
+     "value_eur": 21.293685541451804,
+     "promo": "",
+     "seller": "authorised",
+     "seller_evidence": "品牌授权",
+     "sales": 467,
+     "reviews": null,
+     "flags": [],
+     "link": "https://mobile.yangkeduo.com/goods.html?goods_id=616805280700",
+     "suspicious": false
+    },
+    {
+     "site": "pinduoduo",
+     "id": "616556746723",
+     "title_cn": "绿联多国旅行充电器65W氮化镓PD快充英国欧洲美国全球通用充电头",
+     "title_en": "Ugreen multi-country travel charger 65W GaN PD fast charge, UK/Europe/US worldwide",
+     "shop_name": "绿联",
+     "marks": [
+      "品牌授权",
+      "立享9折",
+      "正品发票",
+      "正品险"
+     ],
+     "badges": [],
+     "variant": null,
+     "price_text": "券后¥159",
+     "price_kind": "list",
+     "list_price_text": null,
+     "single_price_text": null,
+     "domestic_delivery_text": null,
+     "weight_text": null,
+     "dims_text": null,
+     "sales_text": "全店总售528万+",
+     "review_count_text": null,
+     "min_order_text": null,
+     "specs": {},
+     "material": null,
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Listing price — may be a cheaper variant; the product page shows prices only in the PDD app. Brand-authorised Ugreen shop with high sales. It is a travel charger with several plug types, so it may in…",
+     "price": 159.0,
+     "currency": "CNY",
+     "price_amd": 8589.021,
+     "price_usd": 23.829928141386677,
+     "single_price": null,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 1.0,
+     "weight_assumed": true,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "pinduoduo",
+      "price_amd": 8589.021,
+      "store_ship_amd": null,
+      "base_amd": 8589.021,
+      "value_eur": 21.293685541451804,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 6900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 15489.021,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10089.021,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 8000.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 16589.021,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10089.021,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 4900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 13489.021,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 10089.021,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "onex",
+      "mode": "sea",
+      "per_kg": 1500.0,
+      "chargeable_kg": 1.0,
+      "by_volume": false,
+      "ship_amd": 1500.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 10089.021,
+      "days": {
+       "min": 50,
+       "max": 70,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2027-01-21",
+       "latest": "2027-02-22",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 10089.021,
+     "total_usd": 27.991623893682547,
+     "value_eur": 21.293685541451804,
+     "promo": "",
+     "seller": "authorised",
+     "seller_evidence": "品牌授权",
+     "sales": 5280000,
+     "reviews": null,
+     "flags": [],
+     "link": "https://mobile.yangkeduo.com/goods.html?goods_id=616556746723",
+     "suspicious": false
+    },
+    {
+     "site": "pinduoduo",
+     "id": "950825638455",
+     "title_cn": "【3C认证】绿联65W氮化镓充电器带转换头Switch2通用英标欧标国际",
+     "title_en": "[3C certified] Ugreen 65W GaN charger with plug adapter, Switch 2 compatible, UK/EU/international",
+     "shop_name": "绿联",
+     "marks": [
+      "品牌授权",
+      "正品险",
+      "假一赔十"
+     ],
+     "badges": [],
+     "variant": null,
+     "price_text": "券后¥179.1",
+     "price_kind": "list",
+     "list_price_text": null,
+     "single_price_text": null,
+     "domestic_delivery_text": null,
+     "weight_text": null,
+     "dims_text": null,
+     "sales_text": "全店总售900万+",
+     "review_count_text": null,
+     "min_order_text": null,
+     "specs": {
+      "3C认证": "有"
+     },
+     "material": null,
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Listing price — may be a cheaper variant; the product page shows prices only in the PDD app. Brand-authorised Ugreen, 3C certified, comes with a plug adapter.",
+     "price": 179.1,
+     "currency": "CNY",
+     "price_amd": 9674.802899999999,
+     "price_usd": 26.842390755486498,
+     "single_price": null,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 1.0,
+     "weight_assumed": true,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "pinduoduo",
+      "price_amd": 9674.802899999999,
+      "store_ship_amd": null,
+      "base_amd": 9674.802899999999,
+      "value_eur": 23.98552880801269,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 6900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 16574.8029,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 11174.802899999999,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 8000.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 17674.8029,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 11174.802899999999,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 4900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 14574.802899999999,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 11174.802899999999,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "onex",
+      "mode": "sea",
+      "per_kg": 1500.0,
+      "chargeable_kg": 1.0,
+      "by_volume": false,
+      "ship_amd": 1500.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 11174.802899999999,
+      "days": {
+       "min": 50,
+       "max": 70,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2027-01-21",
+       "latest": "2027-02-22",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 11174.802899999999,
+     "total_usd": 31.004086507782368,
+     "value_eur": 23.98552880801269,
+     "promo": "",
+     "seller": "authorised",
+     "seller_evidence": "品牌授权",
+     "sales": 9000000,
+     "reviews": null,
+     "flags": [],
+     "link": "https://mobile.yangkeduo.com/goods.html?goods_id=950825638455",
+     "suspicious": false
+    }
+   ]
+  },
+  {
+   "site": "taobao",
+   "status": "link",
+   "notice": null,
+   "ranked": []
+  },
+  {
+   "site": "1688",
+   "status": "ok",
+   "notice": null,
+   "ranked": [
+    {
+     "site": "1688",
+     "id": "1064189794158",
+     "title_cn": "65W GaN European standard charger with single Type-C port, suitable for Apple and Android phones, CE certified",
+     "title_en": "65W GaN EU charger, single USB-C, for Apple and Android",
+     "shop_name": "深圳市叁希电子科技有限公司",
+     "marks": [
+      "Free Return Shipping",
+      "7-Day No-Reason Return",
+      "48-Hour Shipping",
+      "Fast Refund",
+      "包邮",
+      "首单减1元且免运费"
+     ],
+     "badges": [
+      "入驻4年",
+      "五星供应链",
+      "品质达标率 99.9%"
+     ],
+     "variant": "【Full Power】European Standard 65W GaN Fast Charger【Compatible with Apple and Android】, Bare head",
+     "price_text": "$3.47",
+     "price_kind": "single",
+     "list_price_text": null,
+     "single_price_text": "$3.47",
+     "domestic_delivery_text": "包邮",
+     "weight_text": "115g",
+     "dims_text": "5.55x3.10x5.45",
+     "sales_text": "已售10+套",
+     "review_count_text": null,
+     "min_order_text": "1套起批",
+     "specs": {
+      "品牌": "SX",
+      "Output power": "65W",
+      "Plug standard": "European standard",
+      "Charging protocol": "PD",
+      "Interface type": "TYPE-C",
+      "Is it original?": "No2",
+      "3C证书": "2026010907889098",
+      "Implementation standard number": "GB17625.1-2022",
+      "Product certification": "Ce certification"
+     },
+     "material": "Pc flame retardant shell",
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Single-port 65W GaN charger with an EU plug, which is plenty for a phone. SX is an unknown brand and the page marks it 'not original'. Newly listed (2026年7月) with only 10+ sold. The headline 新人价 of $…",
+     "price": 3.47,
+     "currency": "USD",
+     "price_amd": 1250.6921,
+     "price_usd": 3.4699999999999998,
+     "single_price": 3.47,
+     "delivery_cny": 0.0,
+     "delivery_note": "free China delivery",
+     "kg": 0.115,
+     "weight_assumed": false,
+     "dims": [
+      5.55,
+      3.1,
+      5.45
+     ],
+     "dims_note": "",
+     "quote": {
+      "store": "1688",
+      "price_amd": 1250.6921,
+      "store_ship_amd": 0.0,
+      "base_amd": 1250.6921,
+      "value_eur": 3.1006845001983336,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1380.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2630.6921,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2750.6921,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1600.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2850.6921,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2750.6921,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 0.115,
+        "by_volume": false,
+        "ship_amd": 600.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 1850.6921,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2750.6921,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": []
+     },
+     "best": {
+      "forwarder": "buyforyou",
+      "mode": "air",
+      "per_kg": 4900.0,
+      "chargeable_kg": 0.115,
+      "by_volume": false,
+      "ship_amd": 600.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 1850.6921,
+      "days": {
+       "min": 7,
+       "max": 10,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2026-11-18",
+       "latest": "2026-11-23",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 1850.6921,
+     "total_usd": 5.134678300918347,
+     "value_eur": 3.1006845001983336,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": 10,
+     "reviews": null,
+     "flags": [],
+     "link": "https://detail.1688.com/offer/1064189794158.html",
+     "suspicious": false
+    },
+    {
+     "site": "1688",
+     "id": "1089369915475",
+     "title_cn": "跨境65W氮化镓欧规充电器A+C双口快充适用苹果华为手机全兼容充电",
+     "title_en": "Cross-border 65W GaN EU charger, A+C dual port, for Apple and Huawei phones",
+     "shop_name": "深圳市迎星电子科技有限公司",
+     "marks": [
+      "Free Return Shipping",
+      "晚发即赔",
+      "7-Day No-Reason Return",
+      "48-Hour Shipping",
+      "Fast Refund",
+      "包邮"
+     ],
+     "badges": [
+      "入驻5年",
+      "四星供应链",
+      "品质达标率 99.8%"
+     ],
+     "variant": "65W欧规充电器【双口】白色, 不配包装",
+     "price_text": "$3.60",
+     "price_kind": "single",
+     "list_price_text": "活动前￥4.00-29.50元",
+     "single_price_text": "$3.60",
+     "domestic_delivery_text": "包邮",
+     "weight_text": "118g",
+     "dims_text": "9.20x5.60x3.50",
+     "sales_text": "已售10+个",
+     "review_count_text": "1件",
+     "min_order_text": "2个起批",
+     "specs": {
+      "品牌": "YX",
+      "输出功率": "65W",
+      "插头标准": "欧标",
+      "充电协议": "PD3.0",
+      "半导体材料": "Gan",
+      "是否原装": "否",
+      "产品认证": "CE认证",
+      "ROHS": "HRL2601210061701",
+      "是否数显": "是"
+     },
+     "material": "PC/ABS",
+     "size_advice": null,
+     "liked": [
+      "5.0 rating, 100%, one 5-star review",
+      "Reviewer praised fast shipping and well-packed goods"
+     ],
+     "complaints": [
+      "Only one review",
+      "Promo price ($0.54 起) is for a cable, not the charger"
+     ],
+     "reviews_read": true,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Matches 65W + EU plug + GaN + PD3.0, with a ROHS certificate. Generic 'YX' brand, not original. The page lists 单口 and 双口 variants as the same $3.60, and the 券后 $0.54 headline is for a cable.",
+     "price": 3.6,
+     "currency": "USD",
+     "price_amd": 1297.548,
+     "price_usd": 3.6,
+     "single_price": 3.6,
+     "delivery_cny": 0.0,
+     "delivery_note": "free China delivery",
+     "kg": 0.118,
+     "weight_assumed": false,
+     "dims": [
+      9.2,
+      5.6,
+      3.5
+     ],
+     "dims_note": "",
+     "quote": {
+      "store": "1688",
+      "price_amd": 1297.548,
+      "store_ship_amd": 0.0,
+      "base_amd": 1297.548,
+      "value_eur": 3.2168484728282425,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1380.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2677.548,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2797.548,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1600.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2897.548,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2797.548,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 0.118,
+        "by_volume": false,
+        "ship_amd": 600.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 1897.548,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2797.548,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": []
+     },
+     "best": {
+      "forwarder": "buyforyou",
+      "mode": "air",
+      "per_kg": 4900.0,
+      "chargeable_kg": 0.118,
+      "by_volume": false,
+      "ship_amd": 600.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 1897.548,
+      "days": {
+       "min": 7,
+       "max": 10,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2026-11-18",
+       "latest": "2026-11-23",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 1897.548,
+     "total_usd": 5.264678300918347,
+     "value_eur": 3.2168484728282425,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": 10,
+     "reviews": 1,
+     "flags": [],
+     "link": "https://detail.1688.com/offer/1089369915475.html",
+     "suspicious": false
+    },
+    {
+     "site": "1688",
+     "id": "798735446115",
+     "title_cn": "65w充电头适用华为Matebook13小米笔记本pd65w氮化镓充电器typec",
+     "title_en": "65W charging head for Huawei Matebook13 and Xiaomi notebooks, PD65W GaN charger, Type-C",
+     "shop_name": "广州品瞬科技有限公司",
+     "marks": [
+      "四星供应链",
+      "严选品质不符包赔",
+      "严选晚发必赔",
+      "Free Return Shipping",
+      "7-Day No-Reason Return",
+      "美标手机充电器榜 第1名"
+     ],
+     "badges": [
+      "入驻3年",
+      "四星供应链",
+      "品质达标率 99.8%"
+     ],
+     "variant": "[no packaging] 65w super fast charge [separate head]",
+     "price_text": "¥23",
+     "price_kind": "single",
+     "list_price_text": null,
+     "single_price_text": "¥23",
+     "domestic_delivery_text": null,
+     "weight_text": "0.19",
+     "dims_text": "10 10 10",
+     "sales_text": "已售2.9万+套",
+     "review_count_text": "100+人好评",
+     "min_order_text": "1套起批",
+     "specs": {
+      "品牌": "Critious / 品瞬",
+      "Plug standard": "American standard",
+      "Output power": "65W",
+      "Charging protocol": "PD",
+      "Interface type": "TYPE-C",
+      "Is it original?": "No",
+      "Product certification": "3c certification",
+      "Is it digital display?": "Yes1"
+     },
+     "material": "Flame retardant material",
+     "size_advice": null,
+     "liked": [
+      "Rated 4.7, 96.4% positive",
+      "Reviewers called quality good and charging fast",
+      "Reviewers called it good value; one reviewer repurchased"
+     ],
+     "complaints": [
+      "Reviewers' scores are high but no negative review text was visible",
+      "Weight and size table is a placeholder (2g, 10x10x10)"
+     ],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Not a match: the plug standard is American (美标), not EU, and no EU variant is offered. It is a best-seller with 2.9万+ sold, but only the US plug is available. Weight and size cells are placeholders (…",
+     "price": 23.0,
+     "currency": "CNY",
+     "price_amd": 1242.437,
+     "price_usd": 3.4470965235968145,
+     "single_price": 23.0,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 1.0,
+     "weight_assumed": true,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "1688",
+      "price_amd": 1242.437,
+      "store_ship_amd": null,
+      "base_amd": 1242.437,
+      "value_eur": 3.080218663228877,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 6900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 8142.437,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2742.437,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 8000.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 9242.437,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2742.437,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 4900.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 6142.437,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 2742.437,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "onex",
+      "mode": "sea",
+      "per_kg": 1500.0,
+      "chargeable_kg": 1.0,
+      "by_volume": false,
+      "ship_amd": 1500.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 2742.437,
+      "days": {
+       "min": 50,
+       "max": 70,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2027-01-21",
+       "latest": "2027-02-22",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 2742.437,
+     "total_usd": 7.608792275892683,
+     "value_eur": 3.080218663228877,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": 29000,
+     "reviews": 100,
+     "flags": [],
+     "link": "https://detail.1688.com/offer/798735446115.html",
+     "suspicious": false
+    },
+    {
+     "site": "1688",
+     "id": "619422048696",
+     "title_cn": "Azeada海鸥氮化镓Pd30W/45W/65W充电器多口美/欧/英规快充适配器",
+     "title_en": "Azeada Seagull GaN PD 30W/45W/65W charger, US/EU/UK plugs",
+     "shop_name": "深圳睿智天时科技有限公司",
+     "marks": [
+      "Free Return Shipping",
+      "7-Day No-Reason Return",
+      "48-Hour Shipping",
+      "Fast Refund",
+      "满100减5券"
+     ],
+     "badges": [
+      "入驻14年"
+     ],
+     "variant": "65w european standard eu丨[a+c] white az-a19",
+     "price_text": "¥52",
+     "price_kind": "single",
+     "list_price_text": null,
+     "single_price_text": "¥52",
+     "domestic_delivery_text": null,
+     "weight_text": "100g",
+     "dims_text": null,
+     "sales_text": "已售100+套",
+     "review_count_text": null,
+     "min_order_text": "1套起批",
+     "specs": {
+      "品牌": "Azeada/i machine master1",
+      "Product certification": "Ce certification",
+      "Plug standard": "European standard",
+      "Charging protocol": "QC2.0",
+      "Interface type": "USB",
+      "Is it original?": "Yes2",
+      "Number of interfaces": "4",
+      "Output power": "10W"
+     },
+     "material": null,
+     "size_advice": null,
+     "liked": [],
+     "complaints": [],
+     "reviews_read": false,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "The only listing with a named brand (Azeada). It sells a true 65W EU variant at ¥52 and a 33W EU variant at ¥20.5, which may be enough for a phone. The attribute table is inconsistent: charging proto…",
+     "price": 52.0,
+     "currency": "CNY",
+     "price_amd": 2808.988,
+     "price_usd": 7.793435618566711,
+     "single_price": 52.0,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 0.1,
+     "weight_assumed": false,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "1688",
+      "price_amd": 2808.988,
+      "store_ship_amd": null,
+      "base_amd": 2808.988,
+      "value_eur": 6.963972629908766,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 0.1,
+        "by_volume": false,
+        "ship_amd": 690.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 3498.988,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 0.1,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4308.987999999999,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 0.1,
+        "by_volume": false,
+        "ship_amd": 800.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 3608.988,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 0.1,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4308.987999999999,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 0.1,
+        "by_volume": false,
+        "ship_amd": 490.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 3298.988,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4308.987999999999,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "buyforyou",
+      "mode": "air",
+      "per_kg": 4900.0,
+      "chargeable_kg": 0.1,
+      "by_volume": false,
+      "ship_amd": 490.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 3298.988,
+      "days": {
+       "min": 7,
+       "max": 10,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2026-11-18",
+       "latest": "2026-11-23",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 3298.988,
+     "total_usd": 9.15292289765003,
+     "value_eur": 6.963972629908766,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": 100,
+     "reviews": null,
+     "flags": [],
+     "link": "https://detail.1688.com/offer/619422048696.html",
+     "suspicious": false
+    },
+    {
+     "site": "1688",
+     "id": "853538700886",
+     "title_cn": "European gauge 65W gallium nitride charger A C port CE certification mobile phone tablet computer fast charging head GaN adapter",
+     "title_en": "EU-plug 65W GaN charger, A+C ports, CE certified",
+     "shop_name": "深圳市富尔博科技有限公司",
+     "marks": [
+      "Free Return Shipping",
+      "晚发即赔",
+      "48-Hour Shipping",
+      "Four times compensation for fakes",
+      "Fast Refund"
+     ],
+     "badges": [
+      "入驻13年",
+      "Certified Merchant (shown on the search card)"
+     ],
+     "variant": "Feb-401ac 65w european standard, White1",
+     "price_text": "$8.51",
+     "price_kind": "tier",
+     "list_price_text": null,
+     "single_price_text": null,
+     "domestic_delivery_text": null,
+     "weight_text": "116g",
+     "dims_text": null,
+     "sales_text": null,
+     "review_count_text": "1个",
+     "min_order_text": "20个起批",
+     "specs": {
+      "品牌": "Fulbo",
+      "Output power": "65W",
+      "Plug standard": "European standard",
+      "Charging protocol": "PD",
+      "Interface type": "TYPE-C+USB",
+      "Is it original?": "Yes2",
+      "Product certification": "Ce certification",
+      "Digital display": "No"
+     },
+     "material": null,
+     "size_advice": null,
+     "liked": [
+      "5-star review, rated 5.0",
+      "Shop rating 99.9% positive"
+     ],
+     "complaints": [
+      "Only one review visible, so little evidence",
+      "Shop fulfilment rate 81%"
+     ],
+     "reviews_read": true,
+     "likely_over_1kg": false,
+     "over_1kg_reason": null,
+     "restrict": [],
+     "why": "Best match: 65W, EU plug, GaN, PD, CE, two ports, from a 13-year supplier. Not a recognised brand. Wholesale only, 20-piece minimum, with tiers at $8.36 for 5000-19999 and $8.21 for 20000 or more. Th…",
+     "price": 8.51,
+     "currency": "USD",
+     "price_amd": 3067.2593,
+     "price_usd": 8.51,
+     "single_price": null,
+     "delivery_cny": null,
+     "delivery_note": "China delivery not shown",
+     "kg": 0.116,
+     "weight_assumed": false,
+     "dims": null,
+     "dims_note": "",
+     "quote": {
+      "store": "1688",
+      "price_amd": 3067.2593,
+      "store_ship_amd": null,
+      "base_amd": 3067.2593,
+      "value_eur": 7.604272362157874,
+      "lines": [
+       {
+        "forwarder": "onex",
+        "mode": "air",
+        "per_kg": 8000.0,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1380.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4447.2593,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "onex",
+        "mode": "sea",
+        "per_kg": 1500.0,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4567.2593,
+        "days": {
+         "min": 50,
+         "max": 70,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-21",
+         "latest": "2027-02-22",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "air",
+        "per_kg": 8000,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1600.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4667.2593,
+        "days": {
+         "min": 5,
+         "max": 11,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-16",
+         "latest": "2026-11-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "globbing",
+        "mode": "sea",
+        "per_kg": 1500,
+        "chargeable_kg": 0.2,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4567.2593,
+        "days": {
+         "min": 2.5,
+         "max": 3.5,
+         "unit": "months",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2027-01-24",
+         "latest": "2027-02-24",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "buyforyou",
+        "mode": "air",
+        "per_kg": 4900.0,
+        "chargeable_kg": 0.116,
+        "by_volume": false,
+        "ship_amd": 600.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 3667.2593,
+        "days": {
+         "min": 7,
+         "max": 10,
+         "unit": "working",
+         "from": "arrival"
+        },
+        "arrival": {
+         "earliest": "2026-11-18",
+         "latest": "2026-11-23",
+         "notes": [
+          "store time unknown"
+         ]
+        }
+       },
+       {
+        "forwarder": "easytrans",
+        "mode": "truck",
+        "per_kg": 1500.0,
+        "chargeable_kg": 1.0,
+        "by_volume": false,
+        "ship_amd": 1500.0,
+        "customs_amd": 0.0,
+        "customs_near": false,
+        "total_amd": 4567.2593,
+        "days": {
+         "min": 35,
+         "max": 35,
+         "unit": "working",
+         "from": "dispatch",
+         "up_to": true
+        },
+        "arrival": {
+         "earliest": "2026-12-28",
+         "latest": "2026-12-28",
+         "notes": [
+          "store time unknown",
+          "after dispatch"
+         ]
+        }
+       }
+      ],
+      "notes": [
+       "store delivery China delivery not shown"
+      ]
+     },
+     "best": {
+      "forwarder": "buyforyou",
+      "mode": "air",
+      "per_kg": 4900.0,
+      "chargeable_kg": 0.116,
+      "by_volume": false,
+      "ship_amd": 600.0,
+      "customs_amd": 0.0,
+      "customs_near": false,
+      "total_amd": 3667.2593,
+      "days": {
+       "min": 7,
+       "max": 10,
+       "unit": "working",
+       "from": "arrival"
+      },
+      "arrival": {
+       "earliest": "2026-11-18",
+       "latest": "2026-11-23",
+       "notes": [
+        "store time unknown"
+       ]
+      }
+     },
+     "total_amd": 3667.2593,
+     "total_usd": 10.174678300918348,
+     "value_eur": 7.604272362157874,
+     "promo": "",
+     "seller": "unmarked",
+     "seller_evidence": "",
+     "sales": null,
+     "reviews": 1,
+     "flags": [],
+     "link": "https://detail.1688.com/offer/853538700886.html",
+     "suspicious": false
+    }
+   ]
+  }
+ ],
+ "category": "electronics",
+ "buttons": [
+  [
+   [
+    "🔁 Only Pinduoduo",
+    "cn:only:pinduoduo:0323fe44"
+   ],
+   [
+    "🔁 Only Taobao",
+    "cn:only:taobao:0323fe44"
+   ],
+   [
+    "🔁 Only 1688",
+    "cn:only:1688:0323fe44"
+   ]
+  ],
+  [
+   [
+    "💬 Reviews 1",
+    "cn:rev:0323fe44:1"
+   ],
+   [
+    "💬 Reviews 2",
+    "cn:rev:0323fe44:2"
+   ],
+   [
+    "💬 Reviews 3",
+    "cn:rev:0323fe44:3"
+   ],
+   [
+    "💬 Reviews 4",
+    "cn:rev:0323fe44:4"
+   ]
+  ],
+  [
+   [
+    "💬 Reviews 5",
+    "cn:rev:0323fe44:5"
+   ],
+   [
+    "💬 Reviews 6",
+    "cn:rev:0323fe44:6"
+   ],
+   [
+    "💬 Reviews 8",
+    "cn:rev:0323fe44:8"
+   ],
+   [
+    "💬 Reviews 9",
+    "cn:rev:0323fe44:9"
+   ]
+  ],
+  [
+   [
+    "👁 Watch 1",
+    "cn:watch:0323fe44:1"
+   ],
+   [
+    "👁 Watch 2",
+    "cn:watch:0323fe44:2"
+   ],
+   [
+    "👁 Watch 3",
+    "cn:watch:0323fe44:3"
+   ],
+   [
+    "👁 Watch 4",
+    "cn:watch:0323fe44:4"
+   ]
+  ],
+  [
+   [
+    "👁 Watch 5",
+    "cn:watch:0323fe44:5"
+   ],
+   [
+    "👁 Watch 6",
+    "cn:watch:0323fe44:6"
+   ],
+   [
+    "👁 Watch 7",
+    "cn:watch:0323fe44:7"
+   ],
+   [
+    "👁 Watch 8",
+    "cn:watch:0323fe44:8"
+   ]
+  ]
+ ],
+ "sent_utc": "2026-11-09T19:38:38+00:00",
+ "saved": 1794253118.854573
+}

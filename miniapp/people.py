@@ -46,6 +46,15 @@ def lookup(people, user_id):
     return people.get(user_id)
 
 
+# Which roles may use each module (household-ready, VISION §3). Owner answer 2026-11-10: Davit
+# (owner) and Karine (adult) both see everything. Users and roles replaces this table.
+PERMISSIONS = {"china": ("owner", "adult")}
+
+
+def can(person, module):
+    return person is not None and person.role in PERMISSIONS.get(module, ())
+
+
 def mask(user_id):
     """For logs: never the full id."""
     s = str(user_id)

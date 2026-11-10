@@ -1,0 +1,17 @@
+{
+ "sent_html_button": "<tg-button type=\"web_app\" url=\"https://<app>/?screen=china\">📱 Open in app</tg-button>",
+ "returned_buttons_block": [
+  {
+   "type": "buttons",
+   "buttons": [
+    {
+     "text": "📱 Open in app",
+     "web_app": {
+      "url": "https://<app>/?screen=china"
+     }
+    }
+   ]
+  }
+ ],
+ "captured": "2026-11-10"
+}

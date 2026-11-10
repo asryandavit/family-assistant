@@ -1,6 +1,8 @@
 """miniapp.server over real HTTP on 127.0.0.1 (docs/briefs/MINI_APP.md §6, §8): auth on /api,
 path traversal, security headers, 403 for unknown users, 429, GET only, nothing secret in
-the log. Plus miniapp.setup_bot with a fake Bot API. Raw paths go out via http.client,
+the log; step 1: GET /api/china (only your own chat's result) and POST /api/china/action
+(body limits, validation, permission, the chat-button path). China data and actions are fakes
+recording what the server asked for. Plus miniapp.setup_bot with a fake Bot API. Raw paths go out via http.client,
 which sends them exactly as written."""
 import http.client
 import json
@@ -46,7 +48,18 @@ class Base(unittest.TestCase):
         # a file next to dist that traversal would reach
         with open(os.path.join(cls.tmp, "config.json"), "w") as f:
             f.write(SECRET)
-        cls.app = server.App(cls.cfg, TOKEN, PERSONS, dist=cls.dist)
+        cls.saved = {}           # chat id -> saved /china payload
+        cls.actions = []         # (chat id, action, job, n) the server asked for
+        cls.reply = "👁 Added to 🌍 Market watch: <b>X</b> at ¥9."
+
+        def load(chat_id):
+            return cls.saved.get(chat_id)
+
+        def act(chat_id, action, job, n):
+            cls.actions.append((chat_id, action, job, n))
+            return cls.reply
+        cls.app = server.App(cls.cfg, TOKEN, PERSONS, dist=cls.dist, china_load=load,
+                             china_action=act)
         cls.srv = server.Server(("127.0.0.1", 0), cls.app)
         cls.port = cls.srv.server_address[1]
         threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
@@ -57,9 +70,11 @@ class Base(unittest.TestCase):
         cls.srv.server_close()
         shutil.rmtree(cls.tmp, ignore_errors=True)
 
-    def req(self, path, header=None, method="GET"):
+    def req(self, path, header=None, method="GET", body=None, headers=None):
         c = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
-        c.request(method, path, headers={"Authorization": header} if header else {})
+        h = {"Authorization": header} if header else {}
+        h.update(headers or {})
+        c.request(method, path, body=body, headers=h)
         r = c.getresponse()
         body = r.read()
         c.close()
@@ -176,11 +191,22 @@ class Traversal(Base):
 
 
 class Methods(Base):
-    def test_get_only(self):
-        for m in ("POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"):
+    def test_only_get_and_post(self):
+        for m in ("PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"):
             st, h, _ = self.req("/api/me", "tma " + init_data(OWNER), method=m)
             self.assertEqual(st, 405, m)
-            self.assertEqual(h["Allow"], "GET")
+            self.assertEqual(h["Allow"], "GET, POST")
+
+    def test_post_to_get_route_405(self):
+        st, _, body = self.req("/api/me", "tma " + init_data(OWNER), method="POST", body=b"{}",
+                               headers={"Content-Type": "application/json"})
+        self.assertEqual((st, json.loads(body)), (405, {"error": "method not allowed"}))
+
+    def test_get_to_post_route_405(self):
+        self.assertEqual(self.api("/api/china/action")[0], 405)
+
+    def test_post_static_405(self):
+        self.assertEqual(self.req("/index.html", method="POST", body=b"x")[0], 405)
 
 
 class RateLimit(Base):

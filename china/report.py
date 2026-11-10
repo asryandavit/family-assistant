@@ -222,9 +222,14 @@ def site_status_line(s, query):
     return line
 
 
-def buttons(job, sites, shown):
-    """Rows of (label, callback data) — ids only, 64-byte cap (TELEGRAM_UX.md §3)."""
-    rows = [[("🔁 Only " + SITE_NAME[s], "cn:only:%s:%s" % (s, job)) for s in SITE_NAME]]
+APP_LABEL = "📱 Open in app"
+
+
+def buttons(job, sites, shown, app_url=None):
+    """Rows of (label, callback data) — ids only, 64-byte cap (TELEGRAM_UX.md §3). With
+    app_url, a first row opens the Mini App's China screen ({"web_app": url}, decision 097)."""
+    rows = [[(APP_LABEL, {"web_app": app_url})]] if app_url else []
+    rows.append([("🔁 Only " + SITE_NAME[s], "cn:only:%s:%s" % (s, job)) for s in SITE_NAME])
     rev = [("💬 Reviews %d" % n, "cn:rev:%s:%d" % (job, n)) for n, p in shown
            if not p.get("reviews_read")][:8]
     watch = [("👁 Watch %d" % n, "cn:watch:%s:%d" % (job, n)) for n, p in shown
@@ -244,8 +249,17 @@ def _context(query, sites, rates, tariffs_date):
     return ctx, foot
 
 
+def rich_button(label, data):
+    """A <tg-button>: callback data, or {"web_app": url} — accepted by sendRichMessage and
+    returned as {"web_app": {"url": …}} (captured 2026-11-10,
+    tests/fixtures/miniapp/rich_web_app_button.json)."""
+    if isinstance(data, dict) and "web_app" in data:
+        return f'<tg-button type="web_app" url="{attr(data["web_app"])}">{esc(label)}</tg-button>'
+    return f'<tg-button type="callback_data" data="{attr(data)}">{esc(label)}</tg-button>'
+
+
 def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category,
-          brand_guidance=None, search_query=None, photo_line=None):
+          brand_guidance=None, search_query=None, photo_line=None, app_url=None):
     """(rich_html, plain_html, button_rows). query is the owner's words (the header);
     search_query is the plan's short Chinese search words, used in the 'search it yourself'
     links — the owner's words with the question answers made Taobao match 'it' to the i.t
@@ -297,10 +311,9 @@ def build(job, query, sites, pick, reason, groups, rates, tariffs_date, category
         R.append("<details><summary>⚖️ Same product on several sites</summary><p>%s</p></details>"
                  % "<br><br>".join(x for x in g if x))
     R.append("<p><i>%s</i></p>" % esc(foot))
-    btns = buttons(job, [s["site"] for s in sites], shown)
+    btns = buttons(job, [s["site"] for s in sites], shown, app_url)
     R.append("".join("<tg-button-row>%s</tg-button-row>" % "".join(
-        '<tg-button type="callback_data" data="%s">%s</tg-button>' % (attr(d), esc(lbl))
-        for lbl, d in row) for row in btns))
+        rich_button(lbl, d) for lbl, d in row) for row in btns))
     rich = "".join(R)
 
     # ---------------------------------------------------------------- plain

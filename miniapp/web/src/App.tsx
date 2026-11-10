@@ -11,6 +11,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { get, type Me, type Result, type Status } from "./api";
+import { ChinaScreen } from "./ChinaScreen";
 import { platform, webApp } from "./telegram";
 
 // Navigation: a Home list of full-width rows (Telegram's Settings pattern), not a bottom tab
@@ -26,12 +27,20 @@ const ICONS: Record<string, string> = {
 };
 const ABOUT: Record<string, string> = {
   Today: "Meals and training",
-  China: "Results with photos, prices",
+  China: "Your latest /china results",
   Market: "Price watch and deals",
   Basket: "Shopping list",
   Travel: "Flights and stays",
 };
+// Sections with a real screen (step 1: China). The rest show "Coming soon".
+const LIVE = new Set(["China"]);
 const STATUS_EVERY_MS = 30_000;
+
+// ?screen=china (the 📱 button under /china answers) opens that section directly.
+function startSection(sections: string[]): string | null {
+  const want = new URLSearchParams(window.location.search).get("screen")?.toLowerCase();
+  return sections.find((s) => s.toLowerCase() === want) ?? null;
+}
 
 type Screen =
   | { kind: "loading" }
@@ -88,6 +97,7 @@ export function App() {
     const r = await get<Me>("/api/me");
     if (r.kind !== "ok") return fail(r);
     setScreen({ kind: "ready", me: r.data });
+    setOpen((cur) => cur ?? startSection(r.data.tabs.length ? r.data.tabs : DEFAULT_SECTIONS));
     void refreshStatus();
   }, [fail, refreshStatus]);
 
@@ -178,7 +188,11 @@ export function App() {
       )}
       {screen.kind === "ready" &&
         (open ? (
-          <SectionScreen name={open} onHome={goHome} />
+          LIVE.has(open) ? (
+            <ChinaScreen onFail={fail} />
+          ) : (
+            <SectionScreen name={open} onHome={goHome} />
+          )
         ) : (
           <Home
             me={screen.me}

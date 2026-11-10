@@ -1,10 +1,13 @@
 """Mini App server (docs/briefs/MINI_APP.md §3, §6): `python -m miniapp.server`.
 
-stdlib ThreadingHTTPServer on 127.0.0.1 only, GET only:
-    GET /            built web app (miniapp/web/dist), nothing outside that folder
-    GET /api/me      who you are: name, role, tabs
-    GET /api/status  server time in Yerevan, version
-Every /api request carries `Authorization: tma <initData>`, checked by miniapp.auth.
+stdlib ThreadingHTTPServer on 127.0.0.1 only:
+    GET  /                  built web app (miniapp/web/dist), nothing outside that folder
+    GET  /api/me            who you are: name, role, sections
+    GET  /api/status        server time in Yerevan, version
+    GET  /api/china         your chat's latest /china result as display JSON (step 1)
+    POST /api/china/action  👁 Watch / 💬 Reviews, exactly as the chat buttons (step 1)
+Every /api request carries `Authorization: tma <initData>`, checked by miniapp.auth. The only
+request bodies accepted are JSON on POST /api/... up to MAX_BODY bytes.
 
 Never logged: initData, hashes, tokens, full user ids. A log line is masked user id, path
 (no query string), status and duration. --capture-initdata saves the first valid initData
@@ -32,6 +35,7 @@ from miniapp import (
     __version__,
     auth,
     bot_token,
+    china_view,
     load_config,
     people,
 )
@@ -48,6 +52,7 @@ COMMON_HEADERS = {
     "Content-Security-Policy": CSP,
     "Strict-Transport-Security": "max-age=31536000",
 }
+MAX_BODY = 1024            # the largest POST body (an action is ~50 bytes)
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
          ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png",
          ".ico": "image/x-icon", ".json": "application/json", ".woff2": "font/woff2",
@@ -73,10 +78,27 @@ class RateLimiter:
             return True
 
 
+def default_china_load(chat_id):
+    """The chat's latest /china result (china/search.load_last, kept 24 h) or None."""
+    from china import search
+    from miniapp import ROOT
+    return search.load_last(ROOT, chat_id, 24)
+
+
+def default_china_action(chat_id, action, job, n):
+    """Exactly what a tap on 👁 Watch / 💬 Reviews in the chat does (china/bot.callback).
+    Returns the reply text the chat would show (HTML)."""
+    from china import bot as cbot
+    from lib import config
+    from miniapp import ROOT
+    return cbot.callback(config.load(), ROOT, f"cn:{action}:{job}:{n}", chat_id)
+
+
 class App:
     """Everything a request needs; built once, shared read-only by the handler threads."""
 
-    def __init__(self, cfg, token, persons, dist=DIST, clock=time.time, capture_path=None):
+    def __init__(self, cfg, token, persons, dist=DIST, clock=time.time, capture_path=None,
+                 china_load=default_china_load, china_action=default_china_action):
         self.cfg = cfg
         self.token = token
         self.people = persons
@@ -86,10 +108,13 @@ class App:
         self.limiter = RateLimiter(int(cfg.get("rate_limit_per_min", 60)))
         self.capture_path = capture_path
         self.capture_lock = threading.Lock()
+        self.china_load = china_load
+        self.china_action = china_action
 
     # ---- API
-    def api(self, path, auth_header):
-        """(status, body dict, masked user) for an /api path."""
+    def api(self, path, auth_header, method="GET", ctype="", body=b""):
+        """(status, body dict, masked user) for an /api request. Order for every request:
+        signature -> rate limit (per user) -> known person -> route -> module permission."""
         try:
             raw = auth.init_data_from_header(auth_header)
             checked = auth.check(raw, self.token, int(self.clock()), self.max_age_s)
@@ -106,14 +131,51 @@ class App:
         if person is None:
             return 403, {"error": "private"}, who
         self._maybe_capture(raw)
-        if path == "/api/me":
-            return 200, {"name": person.name, "role": person.role,
-                         "tabs": list(self.cfg.get("tabs", []))}, who
-        if path == "/api/status":
-            now = now_local()
-            return 200, {"ok": True, "time_local": now.strftime("%Y-%m-%d %H:%M"),
-                         "tz": "Asia/Yerevan", "version": __version__}, who
-        return 404, {"error": "not found"}, who
+        route = ROUTES.get((method, path))
+        if route is None:
+            known = any(p == path for _, p in ROUTES)
+            return (405, {"error": "method not allowed"}, who) if known else \
+                   (404, {"error": "not found"}, who)
+        module, fn = route
+        if module and not people.can(person, module):
+            return 403, {"error": "not allowed"}, who
+        status, out = fn(self, person, ctype, body)
+        return status, out, who
+
+    def me(self, person, _ctype, _body):
+        return 200, {"name": person.name, "role": person.role,
+                     "tabs": list(self.cfg.get("tabs", []))}
+
+    def status(self, _person, _ctype, _body):
+        now = now_local()
+        return 200, {"ok": True, "time_local": now.strftime("%Y-%m-%d %H:%M"),
+                     "tz": "Asia/Yerevan", "version": __version__}
+
+    def china(self, person, _ctype, _body):
+        # in a private chat the chat id is the user id: a person only ever sees their own chat
+        return 200, china_view.view(self.china_load(str(person.user_id)))
+
+    def china_post(self, person, ctype, body):
+        """{"action": "watch"|"reviews", "job": "<8 hex>", "n": 1..99} -> the chat's reply."""
+        if ctype.split(";")[0].strip().lower() != "application/json":
+            return 415, {"error": "send JSON"}
+        try:
+            d = json.loads(body.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError):
+            return 400, {"error": "bad JSON"}
+        if not isinstance(d, dict) or set(d) != {"action", "job", "n"}:
+            return 400, {"error": "expected action, job, n"}
+        action, job, n = d["action"], d["job"], d["n"]
+        if (action not in ("watch", "reviews") or not isinstance(job, str)
+                or not china_view.JOB_RE.match(job) or not isinstance(n, int)
+                or isinstance(n, bool) or not 1 <= n <= 99):
+            return 400, {"error": "bad action, job or n"}
+        reply = self.china_action(str(person.user_id), "watch" if action == "watch" else "rev",
+                                  job, n)
+        text = "\n".join(china_view.plain(str(reply or "").replace("\n", "<br>")))
+        ok = text.startswith(("👁 Added", "⏳"))
+        log.info("china %s %s #%d -> %s", action, job, n, "ok" if ok else "refused")
+        return 200, {"ok": ok, "message": text}
 
     def _maybe_capture(self, raw):
         if not self.capture_path:
@@ -142,6 +204,14 @@ class App:
         if os.path.commonpath([full, self.dist]) != self.dist or not os.path.isfile(full):
             return None
         return full
+
+
+ROUTES = {
+    ("GET", "/api/me"): (None, App.me),
+    ("GET", "/api/status"): (None, App.status),
+    ("GET", "/api/china"): ("china", App.china),
+    ("POST", "/api/china/action"): ("china", App.china_post),
+}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -212,13 +282,47 @@ class Handler(BaseHTTPRequestHandler):
             log.info("%s %s %d %dms", who, urlsplit(self.path).path, status,
                      (time.monotonic() - t0) * 1000)
 
-    def _not_allowed(self):
+    def do_POST(self):
+        t0 = time.monotonic()
+        who, status = "-", 500
+        path = urlsplit(self.path).path
+        try:
+            if not path.startswith("/api/"):
+                status = 405
+                self._not_allowed(log_it=False)
+                return
+            try:
+                length = int(self.headers.get("Content-Length") or "-1")
+            except ValueError:
+                length = -1
+            if length < 0 or length > MAX_BODY or self.headers.get("Transfer-Encoding"):
+                status = 413 if length > MAX_BODY else 411
+                self.close_connection = True      # an unread body would corrupt the next request
+                self._json(status, {"error": "body too large" if status == 413 else
+                                    "length required"})
+                return
+            body = self.rfile.read(length)
+            status, out, who = self.app.api(path, self.headers.get("Authorization"), "POST",
+                                            self.headers.get("Content-Type") or "", body)
+            self._json(status, out)
+        except Exception as e:  # noqa: BLE001  any failure -> 500, never a trace to the page
+            log.error("error on POST %s: %s", path, type(e).__name__)
+            status = 500
+            try:
+                self._json(500, {"error": "server error"})
+            except OSError:
+                pass
+        finally:
+            log.info("%s POST %s %d %dms", who, path, status, (time.monotonic() - t0) * 1000)
+
+    def _not_allowed(self, log_it=True):
         self.close_connection = True
         self._send(405, b"Method not allowed", "text/plain; charset=utf-8",
-                   {"Allow": "GET", "Cache-Control": "no-store"})
-        log.info("- %s %s 405", self.command, urlsplit(self.path).path)
+                   {"Allow": "GET, POST", "Cache-Control": "no-store"})
+        if log_it:
+            log.info("- %s %s 405", self.command, urlsplit(self.path).path)
 
-    do_POST = do_PUT = do_DELETE = do_PATCH = do_OPTIONS = do_HEAD = _not_allowed
+    do_PUT = do_DELETE = do_PATCH = do_OPTIONS = do_HEAD = _not_allowed
 
 
 class Server(ThreadingHTTPServer):

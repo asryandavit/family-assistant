@@ -29,3 +29,66 @@ body {
   font-size: 56px;
   line-height: 1;
 }
+
+.hint {
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
+  font-size: 14px;
+  text-align: right;
+}
+
+.card-notes,
+.details {
+  padding: 4px 20px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--tg-theme-text-color, var(--tgui--text_color));
+}
+
+.card-notes {
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
+}
+
+.lines {
+  margin: 0 0 8px;
+}
+
+.label {
+  margin: 8px 0 2px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--tg-theme-section-header-text-color, var(--tgui--section_header_text_color, #6d6d72));
+}
+
+.why {
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.copy {
+  user-select: all;
+  -webkit-user-select: all;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--tg-theme-secondary-bg-color, var(--tgui--secondary_bg_color));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px 14px;
+}
+
+.msg {
+  padding: 0 20px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.msg.ok {
+  color: var(--tg-theme-link-color, var(--tgui--link_color));
+}
+
+.msg.bad {
+  color: var(--tg-theme-destructive-text-color, var(--tgui--destructive_text_color, #e53935));
+}

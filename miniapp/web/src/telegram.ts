@@ -19,7 +19,12 @@ export interface TelegramWebApp {
     onClick(cb: () => void): void;
     offClick(cb: () => void): void;
   };
-  HapticFeedback?: { selectionChanged(): void };
+  HapticFeedback?: {
+    selectionChanged(): void;
+    notificationOccurred(type: "error" | "success" | "warning"): void;
+  };
+  // Opens a link outside the app (the phone's browser, or the store's app for its links).
+  openLink(url: string): void;
 }
 
 declare global {
