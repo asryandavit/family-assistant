@@ -678,6 +678,7 @@ def inbox_loop(cfg, runner, allowed):
     from miniapp import inbox
     while True:
         try:
+            inbox.heartbeat(ROOT)               # proof of life for the Mini App (decision 102)
             for chat, text in inbox.take(ROOT, allowed):
                 log(f"app cmd: {text[:60]}")
                 reply = handle_text(cfg, runner, text, chat)

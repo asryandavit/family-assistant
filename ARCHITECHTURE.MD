@@ -71,7 +71,10 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   /watch check`, chat id must be an allowed chat, older than 2 min dropped, at most once) and
   passes each text to the same `handle_text` as a typed message, replying to that chat. The
   Mini App server never starts jobs itself, so the chat's validation and the one-job-at-a-time
-  runner apply unchanged. Nothing else in the listener changes.
+  runner apply unchanged. Since decision 102 each pass also touches
+  `.browser/miniapp_inbox/alive` (`inbox.heartbeat`): the Mini App server accepts a request only
+  while that file is under 15 s old, so it can say "the bot is not running" instead of queueing
+  a request nobody will read. Nothing else in the listener changes.
 - `listener.py` reads photos (2026-11-10, China photo search, decision 095): a message with
   a photo or a file and no text, from an allowed chat, goes to `china/bot.photo` (through
   the same fault-catching `_china` wrapper). Before this, every message without text was

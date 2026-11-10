@@ -18,7 +18,9 @@ import uuid
 
 DIRNAME = "miniapp_inbox"
 MAX_AGE_S = 120               # an older request is dropped: nobody is waiting for it any more
-MAX_TEXT = 200
+MAX_TEXT = 220                # "only pinduoduo " (15) + the chat's 200-character description fits
+ALIVE = "alive"               # touched by the listener thread every pass (decision 102)
+ALIVE_S = 15                  # a heartbeat older than this means the listener is not draining us
 # Commands the app may send. /watch is only "check"; /china needs a description.
 COMMANDS = ("basket", "scan", "digest", "flights", "stays", "price", "watch", "china")
 TEXT_RE = re.compile(rf"^/(?P<cmd>[a-z]+)(?: (?P<rest>[^\x00-\x1f]{{1,{MAX_TEXT}}}))?$")
@@ -28,6 +30,26 @@ def inbox_dir(root):
     d = os.path.join(root, ".browser", DIRNAME)
     os.makedirs(d, exist_ok=True)
     return d
+
+
+def heartbeat(root, now=None):
+    """Called by the listener's inbox thread every pass: proof it is alive and draining."""
+    d = inbox_dir(root)
+    tmp = os.path.join(d, ALIVE + ".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(repr(now or time.time()))
+    os.replace(tmp, os.path.join(d, ALIVE))
+
+
+def listener_alive(root, now=None):
+    """True if the listener's inbox thread ticked within ALIVE_S. A request queued while this
+    is False would expire unseen, so the server refuses it instead."""
+    try:
+        with open(os.path.join(inbox_dir(root), ALIVE), encoding="utf-8") as f:
+            ts = float(f.read())
+    except (OSError, ValueError):
+        return False
+    return -5 < (now or time.time()) - ts < ALIVE_S
 
 
 def check_text(text):

@@ -21,7 +21,7 @@ class Check(unittest.TestCase):
     def test_refused(self):
         for t in ["", None, "scan", "/china", "/price", "/basket", "/watch add", "/watch", "/scan now", "/cancel",
                   "/basket\nweekly", "/basket weekly\x00", "/start", "/x" * 5, "/" + "a" * 300,
-                  "/price " + "a" * 201, "//scan", "/SCAN", "/auto"]:
+                  "/price " + "a" * (inbox.MAX_TEXT + 1), "//scan", "/SCAN", "/auto"]:
             self.assertIsNone(inbox.check_text(t), t)
 
 
