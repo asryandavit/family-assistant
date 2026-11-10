@@ -3,23 +3,33 @@ import {
   Button,
   Cell,
   List,
+  Navigation,
   Placeholder,
   Section,
   Spinner,
-  Tabbar,
 } from "@telegram-apps/telegram-ui";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { get, type Me, type Result, type Status } from "./api";
 import { platform, webApp } from "./telegram";
 
-const DEFAULT_TABS = ["Today", "China", "Market", "Basket", "Travel"];
+// Navigation: a Home list of full-width rows (Telegram's Settings pattern), not a bottom tab
+// bar — five tabs left the outer icons in the phone's rounded corners (owner, 2026-11-10).
+// Each row opens its screen; Telegram's back button returns Home.
+const DEFAULT_SECTIONS = ["Today", "China", "Market", "Basket", "Travel"];
 const ICONS: Record<string, string> = {
   Today: "📅",
-  China: "🇨🇳",
+  China: "🏮", // not the 🇨🇳 flag: Windows has no flag emoji and shows "CN"
   Market: "🌍",
   Basket: "🧺",
   Travel: "✈️",
+};
+const ABOUT: Record<string, string> = {
+  Today: "Meals and training",
+  China: "Results with photos, prices",
+  Market: "Price watch and deals",
+  Basket: "Shopping list",
+  Travel: "Flights and stays",
 };
 const STATUS_EVERY_MS = 30_000;
 
@@ -47,8 +57,7 @@ export function App() {
   const [screen, setScreen] = useState<Screen>({ kind: "loading" });
   const [status, setStatus] = useState<Status | null>(null);
   const [checkedAt, setCheckedAt] = useState<string>("");
-  const [history, setHistory] = useState<string[]>([DEFAULT_TABS[0]]);
-  const tab = history[history.length - 1];
+  const [open, setOpen] = useState<string | null>(null); // null = Home
 
   useEffect(() => {
     const tg = webApp();
@@ -66,7 +75,9 @@ export function App() {
     const r = await get<Status>("/api/status");
     if (r.kind === "ok") {
       setStatus(r.data);
-      setCheckedAt(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }));
+      setCheckedAt(
+        new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }),
+      );
     } else {
       fail(r);
     }
@@ -93,10 +104,10 @@ export function App() {
     return () => window.clearInterval(id);
   }, [screen.kind, refreshStatus]);
 
-  // Telegram's back button walks back through the tabs visited
-  const goBack = useCallback(() => setHistory((h) => (h.length > 1 ? h.slice(0, -1) : h)), []);
-  const backRef = useRef(goBack);
-  backRef.current = goBack;
+  // Telegram's back button: shown inside a section, returns Home
+  const goHome = useCallback(() => setOpen(null), []);
+  const backRef = useRef(goHome);
+  backRef.current = goHome;
   useEffect(() => {
     const bb = webApp()?.BackButton;
     if (!bb) return;
@@ -107,14 +118,14 @@ export function App() {
   useEffect(() => {
     const bb = webApp()?.BackButton;
     if (!bb) return;
-    if (history.length > 1 && screen.kind === "ready") bb.show();
+    if (open && screen.kind === "ready") bb.show();
     else bb.hide();
-  }, [history.length, screen.kind]);
+  }, [open, screen.kind]);
 
-  const openTab = (name: string) => {
-    if (name === tab) return;
+  const openSection = (name: string) => {
     webApp()?.HapticFeedback?.selectionChanged();
-    setHistory((h) => [...h.filter((t) => t !== name), name]);
+    setOpen(name);
+    window.scrollTo(0, 0);
     void refreshStatus();
   };
 
@@ -165,50 +176,65 @@ export function App() {
           </Placeholder>
         </div>
       )}
-      {screen.kind === "ready" && (
-        <Ready
-          me={screen.me}
-          tab={tab}
-          status={status}
-          checkedAt={checkedAt}
-          onTab={openTab}
-          onRefresh={() => void refreshStatus()}
-        />
-      )}
+      {screen.kind === "ready" &&
+        (open ? (
+          <SectionScreen name={open} onHome={goHome} />
+        ) : (
+          <Home
+            me={screen.me}
+            status={status}
+            checkedAt={checkedAt}
+            onOpen={openSection}
+            onRefresh={() => void refreshStatus()}
+          />
+        ))}
     </AppRoot>
   );
 }
 
-function Ready(props: {
+function Home(props: {
   me: Me;
-  tab: string;
   status: Status | null;
   checkedAt: string;
-  onTab: (t: string) => void;
+  onOpen: (name: string) => void;
   onRefresh: () => void;
 }) {
-  const { me, tab, status, checkedAt, onTab, onRefresh } = props;
-  const tabs = me.tabs.length ? me.tabs : DEFAULT_TABS;
+  const { me, status, checkedAt, onOpen, onRefresh } = props;
+  const sections = me.tabs.length ? me.tabs : DEFAULT_SECTIONS;
   return (
     <div className="page">
       <List>
         <Section>
-          <Cell before={<span className="icon">🏠</span>} subtitle={`Signed in as ${me.name} · ${me.role}`}>
+          <Cell
+            before={<span className="icon">🏠</span>}
+            subtitle={`Signed in as ${me.name} · ${me.role}`}
+          >
             Family
           </Cell>
         </Section>
 
-        <Section header={tab}>
-          <Placeholder header="Coming soon" description={`${tab} will appear here.`}>
-            <span className="big">{ICONS[tab] ?? "✨"}</span>
-          </Placeholder>
+        <Section>
+          {sections.map((s) => (
+            <Cell
+              key={s}
+              before={<span className="icon">{ICONS[s] ?? "•"}</span>}
+              subtitle={ABOUT[s]}
+              after={<Navigation />}
+              onClick={() => onOpen(s)}
+            >
+              {s}
+            </Cell>
+          ))}
         </Section>
 
         <Section
           header="PC status"
           footer={status ? `Checked ${checkedAt} · version ${status.version}` : "Checking…"}
         >
-          <Cell after={status ? status.time_local.slice(11) : "…"} subtitle={status?.time_local.slice(0, 10)}>
+          <Cell
+            after={status ? status.time_local.slice(11) : "…"}
+            subtitle={status?.time_local.slice(0, 10)}
+          >
             Server time (Yerevan)
           </Cell>
           <Cell after={status?.ok ? "✅ reachable" : "…"} onClick={onRefresh}>
@@ -216,14 +242,31 @@ function Ready(props: {
           </Cell>
         </Section>
       </List>
+    </div>
+  );
+}
 
-      <Tabbar>
-        {tabs.map((t) => (
-          <Tabbar.Item key={t} text={t} selected={t === tab} onClick={() => onTab(t)}>
-            <span className="icon">{ICONS[t] ?? "•"}</span>
-          </Tabbar.Item>
-        ))}
-      </Tabbar>
+function SectionScreen(props: { name: string; onHome: () => void }) {
+  const { name, onHome } = props;
+  // Telegram's back button covers every current client; this row is the fallback for
+  // a client too old to have one (Bot API < 6.1).
+  const noBackButton = !webApp()?.isVersionAtLeast("6.1");
+  return (
+    <div className="page">
+      <List>
+        <Section header={name}>
+          <Placeholder header="Coming soon" description={ABOUT[name] ?? `${name} will appear here.`}>
+            <span className="big">{ICONS[name] ?? "✨"}</span>
+          </Placeholder>
+        </Section>
+        {noBackButton && (
+          <Section>
+            <Cell before={<span className="icon">⬅️</span>} onClick={onHome}>
+              Home
+            </Cell>
+          </Section>
+        )}
+      </List>
     </div>
   );
 }

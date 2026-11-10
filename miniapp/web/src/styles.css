@@ -7,8 +7,7 @@ body {
 
 .page {
   min-height: 100vh;
-  /* room for the fixed tab bar */
-  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 

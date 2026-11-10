@@ -282,9 +282,12 @@ Set from `listener.set_menu()` at startup so it can't drift:
   the Mini App (docs/briefs/MINI_APP.md) inside Telegram. Set per chat for Davit and Karine by
   `python -m miniapp.setup_bot` (`--check` shows it, `--remove` puts back Telegram's default);
   `set_menu()` does not touch it. With it set, the command list is still there by typing `/`.
-  The app opens with "Signed in as <name> · <role>", five tabs (Today · China · Market ·
-  Basket · Travel, "Coming soon" in step 0) and a PC status card; it follows Telegram's
-  light/dark theme, and Telegram's back button walks back through the tabs visited. Anyone
+  The app opens on a Home list (Telegram's Settings pattern, decision 096): "Signed in as
+  <name> · <role>", then one full-width row per section — icon, name, one-line description,
+  chevron (Today · China · Market · Basket · Travel, "Coming soon" in step 0) — and a PC
+  status card. No bottom tab bar: with five tabs the outer icons sat in the phone's rounded
+  corners. A row opens its screen; Telegram's back button returns Home. Icons avoid flag
+  emoji (Windows shows 🇨🇳 as "CN"; China is 🏮). It follows Telegram's light/dark theme. Anyone
   else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
   with Try again. Later, messages get "📱 Open" buttons (`lib/telegram` `{"web_app": url}`)
   that open the matching screen.

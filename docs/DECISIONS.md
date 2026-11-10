@@ -842,3 +842,17 @@ masked. Household-ready (089): photo jobs carry the sender's Telegram user id an
 (~$0.07 list-equivalent of Max quota), 1688 by photo 3.8 min (~$0.66). Docs:
 docs/briefs/CHINA_SEARCH.md §6/§10, docs/TELEGRAM_UX.md §5e, docs/ROADMAP.md, ARCHITECHTURE.MD
 (listener).
+
+**096 — 2026-11-10 — Mini App: Home list instead of a bottom tab bar; initData hash covers `signature` (from the real capture).**
+Owner, first look (Telegram Desktop): with five bottom tabs the outer icons sit in the phone's
+rounded corners and are hard to tap; "find a better solution". The app now opens on a Home list
+— Telegram's own Settings pattern: signed-in line, one full-width row per section (icon, name,
+one-line description, chevron), then the PC status card. A row opens its screen; Telegram's back
+button returns Home (an in-page Home row only for clients older than Bot API 6.1). New sections
+(Celebrations) add rows without crowding. China's icon is 🏮: Windows has no flag emoji and
+showed 🇨🇳 as "CN". Checked at phone width with a test-signed initData (rows, open, back).
+Auth tightened: a real initData captured on this PC (`--capture-initdata`, tmp/, never
+committed) has fields auth_date, hash, query_id, signature, user, and its hash matches only with
+`signature` included. Decision 094's fallback (also accepting a hash that skips `signature`) is
+removed; that form is now a rejection test, and the real-capture test passes (no skips).
+Docs: docs/TELEGRAM_UX.md §6.

@@ -8,10 +8,10 @@ The page sends Telegram.WebApp.initData (the raw signed string) as
 
 data_check_string is every received field except `hash`, as key=value, sorted by key,
 joined by "\\n". Since Bot API 8.0 initData also carries `signature` (an Ed25519 signature
-for third-party checks). The hash is checked over all fields first and, if that fails,
-over all fields except `signature`; which form Telegram signs is settled by the captured
-payload test (tests/test_miniapp_auth.py, RealCapture). Accepting both forges nothing:
-every field we use is covered by the HMAC either way.
+for third-party checks); the HMAC covers it like any other field. Settled by a real
+initData captured on this PC on 2026-11-10 (fields auth_date, hash, query_id, signature,
+user): its hash matches with `signature` included and not without
+(tests/test_miniapp_auth.py, RealCapture).
 
 Every rejection raises AuthError. Its `reason` is for tests and the local log only and
 never reaches the page (the page only ever learns "unauthorized" or "private").
@@ -83,10 +83,7 @@ def check(raw, bot_token, now, max_age_s):
     fields = parse_fields(raw)
     got = fields["hash"]
     key = secret_key(bot_token)
-    ok = hmac.compare_digest(_expected(fields, key, ("hash",)), got)
-    if not ok and "signature" in fields:
-        ok = hmac.compare_digest(_expected(fields, key, ("hash", "signature")), got)
-    if not ok:
+    if not hmac.compare_digest(_expected(fields, key, ("hash",)), got):
         raise AuthError("bad hash")
 
     try:

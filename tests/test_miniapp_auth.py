@@ -47,9 +47,6 @@ class Accept(unittest.TestCase):
     def test_signature_covered(self):
         auth.check(signed(signature="sig-abc"), TOKEN, NOW, DAY)
 
-    def test_signature_excluded_form(self):
-        auth.check(resign_without_signature(fields(signature="sig-abc")), TOKEN, NOW, DAY)
-
     def test_known_vector(self):
         # hand-computed with the documented formula, independent of auth.sign
         import hashlib
@@ -81,6 +78,12 @@ class Reject(unittest.TestCase):
         d = dict(parse_qsl(signed(signature="sig-abc")))
         d["signature"] = "sig-xyz"
         self.assertEqual(self.reason(urlencode(d)), "bad hash")
+
+    def test_hash_without_signature_rejected(self):
+        # the real capture showed Telegram's hash covers `signature`; a hash that skips it
+        # is not Telegram's and lets `signature` be swapped freely
+        raw = resign_without_signature(fields(signature="sig-abc"))
+        self.assertEqual(self.reason(raw), "bad hash")
 
     def test_wrong_hash(self):
         d = dict(parse_qsl(signed()))
