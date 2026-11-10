@@ -8,6 +8,7 @@ or already computed by the code that produced it.
 """
 import html as htmlmod
 import json
+import logging
 import os
 import re
 import threading
@@ -18,6 +19,7 @@ from html.parser import HTMLParser
 from lib.fmt_grocery import money
 from lib.ui import BAR, YEREVAN, now_local
 
+log = logging.getLogger("miniapp")
 SAFE_URL = re.compile(r"^https?://", re.IGNORECASE)
 PLAN_NAMES = ("today", "meals", "training", "week")
 
@@ -207,22 +209,45 @@ def basket_view(root, kind):
 
 _cache = {}
 _cache_lock = threading.Lock()
+_inflight = {}        # tab -> Event, set when that tab's refresh has finished
 CACHE_S = 300
+WAIT_S = 10.0       # most a request waits for a Sheet refresh; then it gets the last copy
 
 
-def _sheet_rows(cfg, tab, now=None):
-    """Sheet rows, cached for a few minutes: the screen must not hit Google on every open."""
-    from lib import sheets
+def _sheet_rows(cfg, tab, now=None, wait_s=WAIT_S):
+    """Sheet rows for a tab. Fresh cache: no read. Otherwise ONE background refresh per tab runs
+    (callers during it join it, they do not start another) and a caller waits at most wait_s for
+    it, then gets the last copy (or [] if there never was one). lib/sheets sets no timeout, so a
+    stuck read costs one thread per tab, never one per request. An empty read counts as failed
+    and is never cached."""
     now = now or time.time()
     with _cache_lock:
         hit = _cache.get(tab)
         if hit and now - hit[0] < CACHE_S:
             return hit[1]
-    rows = sheets.read_all(cfg, tab)
-    if rows:                                   # an empty answer is a failed read: don't cache it
+        ev = _inflight.get(tab)
+        if ev is None:
+            ev = _inflight[tab] = threading.Event()
+            threading.Thread(target=_refresh, args=(cfg, tab, ev, now), daemon=True).start()
+    ev.wait(wait_s)
+    with _cache_lock:
+        hit = _cache.get(tab)
+    return hit[1] if hit else []
+
+
+def _refresh(cfg, tab, ev, now):
+    from lib import sheets
+    try:
+        rows = sheets.read_all(cfg, tab)
+        if rows:
+            with _cache_lock:
+                _cache[tab] = (now, rows)
+    except Exception as e:  # noqa: BLE001  a failed read leaves the last copy; the next call retries
+        log.info("sheet refresh of %s failed: %s", tab, type(e).__name__)
+    finally:
         with _cache_lock:
-            _cache[tab] = (now, rows)
-    return rows
+            _inflight.pop(tab, None)
+        ev.set()
 
 
 def _short_date(s):

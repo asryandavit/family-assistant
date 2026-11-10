@@ -476,11 +476,48 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class Server(ThreadingHTTPServer):
+    """One thread per connection, but at most `max_connections` (config, default 32) at once:
+    over the cap a connection gets a quick 503 and is closed (decision 102). Idle keep-alive
+    connections count until Handler.timeout (20 s) closes them."""
     daemon_threads = True
 
     def __init__(self, addr, app):
         super().__init__(addr, Handler)
         self.app = app
+        self.max_connections = int(app.cfg.get("max_connections", 32))
+        self._slots = threading.BoundedSemaphore(self.max_connections)
+
+    def process_request(self, request, client_address):
+        if not self._slots.acquire(blocking=False):
+            self._refuse(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except BaseException:
+            self._slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._slots.release()
+
+    def _refuse(self, request):
+        """503 without a thread. A short read first, so the client's request is not left unread
+        (closing on unread bytes can reset the connection and lose the answer)."""
+        try:
+            request.settimeout(0.05)
+            try:
+                request.recv(4096)
+            except OSError:
+                pass
+            request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nRetry-After: 2\r\n"
+                            b"Connection: close\r\nContent-Length: 0\r\n\r\n")
+        except OSError:
+            pass
+        finally:
+            self.shutdown_request(request)
 
 
 def setup_logging():

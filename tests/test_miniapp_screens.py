@@ -181,13 +181,14 @@ class Compose(unittest.TestCase):
     def test_run_queues_for_the_listener(self):
         root = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, root, True)
+        inbox.heartbeat(root)                    # the listener's inbox thread is alive (decision 102)
         ok, msg = actions.run(root, self.cfg, 111, "basket", "weekly")
         self.assertTrue(ok)
         self.assertIn("arrives in your chat", msg)
         self.assertEqual(inbox.take(root, ["111"]), [("111", "/basket weekly")])
         ok, msg = actions.run(root, self.cfg, 111, "flights", "BUD")
         self.assertFalse(ok)
-        self.assertEqual(os.listdir(inbox.inbox_dir(root)), [])
+        self.assertEqual([n for n in os.listdir(inbox.inbox_dir(root)) if n.endswith(".json")], [])
 
 
 class MarketActions(unittest.TestCase):

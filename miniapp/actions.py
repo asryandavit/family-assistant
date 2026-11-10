@@ -21,6 +21,8 @@ BASKET_KINDS = ("weekly", "monthly", "all")
 SITE_WORDS = ("pinduoduo", "taobao", "1688")
 JOBS = ("basket", "scan", "digest", "market", "flights", "stays", "price", "china")
 SENT = "Sent to the bot. {what}The answer arrives in your chat."
+BOT_DOWN = "The bot is not running on the PC — nothing was sent."
+DESC_HELP = "Describe the item in 3–200 characters, e.g. GaN charger 65W EU plug."
 
 
 def _err(e):
@@ -28,7 +30,17 @@ def _err(e):
 
 
 def compose(job, args, cfg):
-    """(command text, None) or (None, error sentence) for a run request."""
+    """(command text, None) or (None, error sentence) for a run request. The text is also
+    checked against the inbox's own limit, so a request the inbox would refuse is refused
+    here with a clear sentence (decision 102)."""
+    text, err = _compose(job, args, cfg)
+    if text and len(text) - len(job) - 2 > inbox.MAX_TEXT:
+        return None, DESC_HELP if job == "china" else (
+            f"That is too long — keep it under {inbox.MAX_TEXT} characters.")
+    return text, err
+
+
+def _compose(job, args, cfg):
     args = " ".join(str(args or "").split())
     if job not in JOBS:
         return None, "Unknown action."
@@ -65,7 +77,7 @@ def compose(job, args, cfg):
     if m and m.group(1).lower() not in cbot.SITES:
         return None, "Which site? Pinduoduo, Taobao or 1688."
     if args.lower() in ("last", "cancel") or not cbot.DESC_RE.match(desc):
-        return None, "Describe the item in 3–200 characters, e.g. GaN charger 65W EU plug."
+        return None, DESC_HELP
     return f"/china {args}", None
 
 
@@ -73,6 +85,8 @@ def run(root, cfg, chat_id, job, args):
     text, err = compose(job, args, cfg)
     if err:
         return False, err
+    if not inbox.listener_alive(root):
+        return False, BOT_DOWN
     if not inbox.put(root, chat_id, text):
         return False, "That request was not accepted."
     what = {"china": "I'll post progress there. ", "basket": "", "price": ""}.get(job, "")

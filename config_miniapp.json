@@ -1,8 +1,9 @@
 {
-  "_doc": "Mini App step 0 (docs/briefs/MINI_APP.md, decision 094). port: the server listens on 127.0.0.1 only; Tailscale Funnel forwards the public https URL here. The public URL is machine-specific and lives in machine.json `miniapp_public_url`, never in Git. max_age_hours: oldest Telegram initData accepted. rate_limit_per_min: API requests per user id per minute, then 429. people: who may enter, by Telegram user id taken from these environment variables (in a private chat the user id equals the chat id); replaced by Users and roles later. menu_button_text: the chat menu button set by `python -m miniapp.setup_bot`. tabs: shown in the app, each 'Coming soon' in step 0.",
+  "_doc": "Mini App step 0 (docs/briefs/MINI_APP.md, decision 094). port: the server listens on 127.0.0.1 only; Tailscale Funnel forwards the public https URL here. The public URL is machine-specific and lives in machine.json `miniapp_public_url`, never in Git. max_age_hours: oldest Telegram initData accepted. rate_limit_per_min: API requests per user id per minute, then 429. max_connections: server threads at once, then a quick 503 (default 32). people: who may enter, by Telegram user id taken from these environment variables (in a private chat the user id equals the chat id); replaced by Users and roles later. menu_button_text: the chat menu button set by `python -m miniapp.setup_bot`. tabs: shown in the app, each 'Coming soon' in step 0.",
   "port": 8790,
   "max_age_hours": 24,
   "rate_limit_per_min": 60,
+  "max_connections": 32,
   "people": [
     {"env": "TELEGRAM_CHAT_ID", "name": "Davit", "role": "owner"},
     {"env": "TELEGRAM_CHAT_ID_2", "name": "Karine", "role": "adult"}
