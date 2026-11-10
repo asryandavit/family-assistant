@@ -289,8 +289,13 @@ Set from `listener.set_menu()` at startup so it can't drift:
   corners. A row opens its screen; Telegram's back button returns Home. Icons avoid flag
   emoji (Windows shows 🇨🇳 as "CN"; China is 🏮). It follows Telegram's light/dark theme. Anyone
   else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
-  with Try again. Later, messages get "📱 Open" buttons (`lib/telegram` `{"web_app": url}`)
-  that open the matching screen.
+  with Try again.
+- **📱 Open in app** (decision 097) — first button row on every `/china` answer (rich and
+  plain). Opens the app straight on the China screen (`?screen=china`): the latest result as
+  cards in the chat's numbering — 🏆 pick, price, delivered total, warnings, a Details fold
+  (routes, weight, trust parts, specs, reviews read, "ask the seller" text to copy) and per
+  card **Open on <site>**, **👁 Watch**, **💬 Reviews** (the reviews answer arrives in the
+  chat). Same numbers as the chat: the PC builds them with the report helpers.
 
 ## 7. Copy
 

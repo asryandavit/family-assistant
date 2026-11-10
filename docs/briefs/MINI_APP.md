@@ -1,12 +1,10 @@
-# MINI_APP.md — Telegram Mini App, step 0 (built)
+# MINI_APP.md — Telegram Mini App, steps 0 and 1 (built)
 
-Status: **built 2026-11-10 (decision 094).** Direction approved by the owner 2026-11-09 ("go
-with C"): our own small app, React + Vite + Telegram UI + Telegram's official script, Python API
-on the PC. This brief covers step 0 only; §10 answered 2026-11-10. Server, auth, web app,
-scheduled task and menu-button tool are in; Tailscale Funnel is live and 🏠 Family is set in
-both chats. Owner demo 2026-11-10: opened as owner, and the "PC is not reachable" state and
-recovery work. Navigation became a Home list instead of the tabs in §1 (decision 096). Still to
-see on a phone: dark mode and Karine's "· adult" (§8 demo steps 3 and 5). Direction and later screens:
+Status: **step 0 done 2026-11-10 (decisions 094, 096) — owner demo passed: owner and adult, dark mode, Home list,
+back button, PC-not-reachable. Step 1 (China results, §12) built 2026-11-10 (decision 097), phone demo next.**
+Direction approved by the owner 2026-11-09 ("go with C"): our own small app, React + Vite + Telegram UI + Telegram's
+official script, Python API on the PC. Navigation became a Home list instead of the tabs in §1
+(decision 096). Direction and later screens:
 `docs/VISION.md` §4, `docs/ROADMAP.md`.
 
 ---
@@ -218,3 +216,49 @@ here so step 1's "📱 Open" buttons under China answers aren't a mid-phase surp
 One session: about half on the server, auth and tests, a quarter on the web shell, a quarter on the
 tunnel, the scheduled task and docs. The `lib/telegram.py` change is a separate short commit in the
 same session. The tunnel's one-time install (§5) needs about 10 minutes of the owner's time.
+
+---
+
+## 12. Step 1 — China results screen (owner: "go next and implement all together", 2026-11-10)
+
+Step 0 is done (owner demo 2026-11-10: owner and adult, dark mode, Home list, PC-not-reachable).
+Step 1 follows in the same session at the owner's request.
+
+**What it shows.** 🏠 Family → China (or the new **📱 Open in app** button under every `/china`
+answer) opens the asking person's latest `/china` result (`last_<chat>.json`, kept 24 h):
+query, when, each site's status, then one card per result in the chat's order and numbering —
+🏆 pick marked, title, site, seller class, 🛡 trust, price (¥ → AMD · $), delivered total and
+route, warnings (promo, suspiciously cheap, PDD listing price, no weight), and a fold with
+every route, weight, trust parts, specs, reviews read, restrictions and the model's "why".
+Buttons per card: **Open on <site>** (Telegram opens the link; on a phone the store app takes
+it), **👁 Watch**, **💬 Reviews** (when not read yet).
+
+**Numbers are code.** The server turns the saved result into display JSON with the same
+`china/report.py` helpers the chat uses (HTML stripped), and the 🏆 pick with
+`china/pricing.best_pick`. The page does no arithmetic.
+
+**Actions reuse the chat buttons.** `POST /api/china/action {"action": "watch"|"reviews",
+"job", "n"}` calls `china.bot.callback` exactly as a tap on 👁 / 💬 in the chat does: Watch
+adds to Market watch now; Reviews queues the Chrome job and the answer arrives in the chat. First
+POST endpoint: JSON only, ≤ 1 KB, job id and number validated, same auth, rate limit and 403
+as the GETs, plus a per-module permission (`people.can(person, "china")`: owner and adult).
+Market watch writes get a cross-process lock (`market/state.items_lock`), because the Mini App
+server becomes a second writer next to the listener.
+
+**Found while preparing (captured, not guessed):**
+- Saved results carry **no product photos**: the pipeline rejects URLs from the model by design
+  (decision 090) and rebuilds links from ids. Photos need a change to the China extraction
+  (image ids per site, built into CDN URLs in code) — a China-session follow-up, not this step.
+- A `web_app` button **inside a Rich Message** works: `<tg-button type="web_app" url="…">`
+  was accepted on 2026-11-10 and came back as `{"web_app": {"url": …}}`
+  (`tests/fixtures/miniapp/rich_web_app_button.json`).
+
+**Deep link.** `https://<app>/?screen=china` opens straight on China; Telegram's back button
+returns Home. The query holds no personal data.
+
+**Not in step 1:** photos (above), sort and filters, editing a watched item, other screens.
+
+**Done means:** tests for the view (real result fixture, product data only), the endpoints
+(auth, 403, permission, body limits, bad input, only your own chat's result), the lock and the
+report button; `tsc` + build clean; owner opens a real `/china` result from the 📱 button and
+from Home, taps Open, 👁 Watch and 💬 Reviews.

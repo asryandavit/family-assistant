@@ -856,3 +856,38 @@ committed) has fields auth_date, hash, query_id, signature, user, and its hash m
 `signature` included. Decision 094's fallback (also accepting a hash that skips `signature`) is
 removed; that form is now a rejection test, and the real-capture test passes (no skips).
 Docs: docs/TELEGRAM_UX.md §6.
+
+**097 — 2026-11-10 — Mini App step 0 done; step 1 built: China results screen, 📱 Open in app on every /china answer, first POST endpoint, Market watch write lock.**
+Step 0 owner demo passed 2026-11-10 (owner and Karine as adult, dark mode, Home list, back
+button, PC-not-reachable and recovery). Owner: "go next and implement all together" — step 1
+in the same session, scoped in docs/briefs/MINI_APP.md §12 before building. **Screen:** 🏠 Family
+→ China, or the new first button row **📱 Open in app** on every `/china` answer (rich and
+plain; `?screen=china`), shows the asking person's latest saved result (`last_<chat>.json`,
+24 h; in a private chat the chat id is the user id, so nobody sees another person's search):
+sites' status, 🏆 pick, one card per result in the chat's numbering with price, delivered
+total and route, warnings, and a Details fold (routes, weight, trust parts, specs, reviews read,
+restrictions, the model's "why", the ask-the-seller text). **Numbers are code:**
+`miniapp/china_view.py` builds display strings with the same `china/report.py` helpers the chat
+uses (HTML stripped) and the pick with `china/pricing.best_pick`; the page does no arithmetic.
+Results saved before the trust score (092) show no pick. **Actions:** `POST /api/china/action`
+`{"action": "watch"|"reviews", "job", "n"}` calls `china.bot.callback` exactly as the chat's 👁 / 💬
+buttons — Watch adds to Market watch, Reviews queues the Chrome job and the answer arrives in the
+chat. First POST: JSON only (415 otherwise), ≤ 1 KB (413, connection closed so an unread body
+can't corrupt the next request), exactly these keys, job `[0-9a-f]{8}`, n 1–99, same signature /
+rate limit / 403 as the GETs, plus a per-module permission (`people.can(person, "china")`,
+owner and adult). Routes are a table; a wrong method on a known path is 405. **Lock:** the Mini
+App server is now a second writer of `items.json` / `owner_prices.json`; their
+read-modify-writes run under `market/state.write_lock` (O_EXCL lock file, 30 s wait, a file older
+than 5 min is a crash leftover). Measured: two processes adding 25 items each kept 25 of 50
+without the lock (and Windows refused one `os.replace` with PermissionError); 50 of 50 with it.
+**Captured, not guessed:** a `web_app` `<tg-button>` inside a Rich Message is accepted and
+returned as `{"web_app": {"url": …}}` (one test message to the owner's chat,
+tests/fixtures/miniapp/rich_web_app_button.json). **Not built:** product photos — saved results
+carry no image ids because the pipeline rejects model-reported URLs by design (090); photos need
+the China extraction to keep per-site image ids and build CDN URLs in code (a China-session
+follow-up). Sort and filters later. Checked in a browser with a test-signed initData and the
+real result fixture (deep link, pick, Details, Watch through the server with a fake action, back
+button, own-chat only). Tests: tests/test_miniapp_china.py, tests/test_market_lock.py, server
+method tests updated; 564 passed. Docs: docs/briefs/MINI_APP.md §12 and status,
+docs/TELEGRAM_UX.md §6, ARCHITECHTURE.MD (second writer, POST), docs/briefs/CHINA_SEARCH.md
+(Mini App row), docs/ROADMAP.md (step 0 done, China screen built), market/state.py docstring.

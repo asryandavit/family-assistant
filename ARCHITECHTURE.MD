@@ -32,12 +32,18 @@ Processes on the PC (each its own scheduled task):
 - `FamilyAssistant-MiniApp` — `python -m miniapp.server` (since 2026-11-10, decision 094):
   stdlib HTTP server on 127.0.0.1:8790 only, serving the built Mini App
   (`miniapp/web/dist`, React + Vite + Telegram UI, built on the PC with Windows Node) and a
-  GET-only JSON API. Every API request carries Telegram's signed initData
+  JSON API (GET; since step 1 one POST, `/api/china/action`, JSON ≤ 1 KB, decision 097).
+  Every API request carries Telegram's signed initData
   (`Authorization: tma …`), checked with the bot token (HMAC, `miniapp/auth.py`); access by
   Telegram user id + role (`miniapp/people.py`), 60 requests/min per user. Not inside the
-  listener; it shares no state with it. Reached from Telegram only through **Tailscale
+  listener and no shared memory with it; the only shared files are below (step 1). Reached from Telegram only through **Tailscale
   Funnel** (`https://<pc>.<tailnet>.ts.net/` → 127.0.0.1:8790, no open router port; the
   hostname lives in gitignored `machine.json`). PC off → the app is unreachable.
+  Step 1 (China screen) reads the asking person's own `/china` result and runs 👁 Watch /
+  💬 Reviews through the same `china.bot.callback` as the chat buttons, so the Mini App server
+  is a second writer of Market watch's `items.json` / `owner_prices.json` next to the
+  listener: those read-modify-writes run under `market/state.write_lock` (a cross-process
+  lock file). Reviews still run as a queued China job; the answer arrives in the chat.
 
 Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
 - `lib/telegram.py` inline buttons take three kinds: callback data (any string), a link
