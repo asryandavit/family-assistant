@@ -935,3 +935,7 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   watch: <name> — nothing added." (chat and Mini App; the page shows it as done). Reproduced: two
   taps made two items. Matched by the product link among active items, so a bought or removed
   item can be watched again. This also makes the Mini App's POST safe to repeat.
+- **China card: the delivered total is the headline.** The card showed the listing price large
+  and "5,233 AMD ($14.52) via Onex sea" small and grey under it; what the family pays at the door
+  is the number that decides. Now "Delivered <total>" on top, "Item <price>" under it. Same
+  strings from `china_view.py`; the page still computes nothing.

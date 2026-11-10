@@ -155,8 +155,10 @@ function ResultCard(props: { job: string; c: ChinaCard }) {
       <Cell multiline subtitle={c.seller + (c.trust !== null ? ` · 🛡 ${c.trust}` : "")} description={c.title_cn}>
         {c.title}
       </Cell>
-      <Cell multiline subtitle={c.total ?? "No delivered total (no price or no route)"}>
-        {c.price}
+      {/* What it costs at the door is the headline; the listing price sits under it
+          (review 2026-11-10, decision 099). Both are finished strings from the PC. */}
+      <Cell multiline subtitle={c.total ? `Item ${c.price}` : "No delivered total (no price or no route)"}>
+        {c.total ? `Delivered ${c.total}` : c.price}
       </Cell>
       {(c.notes.length > 0 || c.flags.length > 0) && (
         <div className="card-notes">

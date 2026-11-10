@@ -296,7 +296,7 @@ Set from `listener.set_menu()` at startup so it can't drift:
   plain). Opens the app straight on the China screen (`?screen=china`): the latest result as
   cards in the chat's numbering — 🏆 pick, price, delivered total, warnings, a Details fold
   (routes, weight, trust parts, specs, reviews read, "ask the seller" text to copy) and per
-  card **Open on <site>**, **👁 Watch**, **💬 Reviews** (the reviews answer arrives in the
+  card the delivered total first and the item price under it (decision 099), **Open on <site>**, **👁 Watch**, **💬 Reviews** (the reviews answer arrives in the
   chat). Same numbers as the chat: the PC builds them with the report helpers.
 
 ## 7. Copy
