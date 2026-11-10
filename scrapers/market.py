@@ -77,13 +77,27 @@ COOKIE_BUTTONS = ["#sp-cc-rejectall-link", "input#sp-cc-rejectall-link",
 class Session:
     """One browser for the whole run. read() makes exactly one attempt per URL."""
 
-    def __init__(self, headless=False, pause=(3.0, 6.0), log=print):
+    def __init__(self, headless=False, pause=(3.0, 6.0), log=print, who="market scan",
+                 lock_wait_s=1200):
         self.headless, self.pause, self.log = headless, pause, log
+        self.who, self.lock_wait_s = who, lock_wait_s
         self._pw = self._ctx = self._page = None
+        self._locked = False
         self._last = 0.0
 
     def __enter__(self):
         from playwright.sync_api import sync_playwright
+        from scrapers import browser_lock
+        # one owner of the profile at a time: the nightly scan and /amazon wait for each other
+        browser_lock.acquire(self.who, self.lock_wait_s, ROOT, log=self.log)
+        self._locked = True
+        try:
+            return self._open(sync_playwright)
+        except BaseException:
+            self.__exit__(None, None, None)
+            raise
+
+    def _open(self, sync_playwright):
         os.makedirs(PROFILE, exist_ok=True)
         self._pw = sync_playwright().start()
         self._ctx = self._pw.chromium.launch_persistent_context(
@@ -97,9 +111,17 @@ class Session:
 
     def __exit__(self, *exc):
         try:
-            self._ctx.close()
+            if self._ctx:
+                self._ctx.close()
         finally:
-            self._pw.stop()
+            try:
+                if self._pw:
+                    self._pw.stop()
+            finally:
+                if self._locked:
+                    from scrapers import browser_lock
+                    browser_lock.release(ROOT)
+                    self._locked = False
 
     def _polite(self):
         wait = random.uniform(*self.pause) - (time.time() - self._last)
