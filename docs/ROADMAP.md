@@ -34,6 +34,8 @@ phase. One phase per session (CLAUDE.md §9); each phase has its own brief and d
 |---|---|---|
 | 4 | 👥 Users and roles — invite links, roles (owner/adult/member/viewer), permissions per module, remove/change, change log, private items | everything after it (Celebrations privacy, Mini App login, a product) stands on it |
 
+**Parked by the owner 2026-11-10** ("omit this for now, concentrate on improving"). Already agreed for when it starts: permission levels per module **None / View / Use / Manage**; managed in the Mini App (People screen) plus short chat commands (`/invite`, `/people`); **no custom roles** (the four built-in ones only); first people to add: not decided. Known gaps it must close: the chat side has no roles (any allowed chat runs every command), the Mini App's `/api/run` is one coarse `run` permission, and who is allowed is still two env chat ids (`lib/telegram.allowed_chats`, `config_miniapp.json`).
+
 ## Then
 
 | # | Work |
