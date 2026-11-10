@@ -274,6 +274,12 @@ answer searches by the photo's words (the photo is deleted when the answer is se
 `photo_keep_minutes` > 0 keeps it so 🔁 repeats the photo search). Health records, when
 built, reads photos only inside an open `/health` conversation.
 
+**When a search cannot run (decision 104).** The asker gets one plain line, with sound:
+"⚠️ Your China search for “…” didn't start — please send it again." (the worker crashed before
+it, or the job was stranded in the queue for more than 30 min with no worker) or "⚠️ Your China
+search for “…” stopped before it finished — please send it again." (the worker died mid-job). The
+owner gets the same line plus a "⚠️ SYSTEM:" reason; one message when the owner asked.
+
 ### 5f. Amazon search (decision 101)
 
 🌍 Market has `🛒 Amazon search` (`am:ask`, next to 🇨🇳 China search): a force-reply prompt "🛒 Amazon

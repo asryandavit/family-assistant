@@ -432,3 +432,16 @@ Once: restart the listener so it loads the new code (stop / wait 3 s / start the
 3. Caption `/china only 1688 black` on a photo → 1688 only, by photo.
 4. `/china last` shows the photo answer; 🔁 Only Pinduoduo on it searches by the photo's words.
 5. Check: `.browser\china_data\photos\` is empty after each answer.
+
+## 11. Worker supervision (2026-11-10, decision 104)
+
+| Failure | What happens now |
+|---|---|
+| Jobs wait and no worker is alive (it died, or the PC restarted) | A worker is started on the next enqueue and at listener startup (`china/watch.ensure_worker`) |
+| The worker crashes before taking a job (e.g. an import error) | The watcher thread drops that job, tells its asker "didn't start — please send it again" and the owner with the last line of `.browser/china_data/worker.err`; other waiting jobs get a new worker |
+| The worker dies in the middle of a job (killed, PC off) | `current.json` is left behind → the asker gets "stopped before it finished — please send it again", the owner the same with the reason; found by the watcher, or at the next startup / enqueue |
+| A job was stranded in the queue | Dropped when a worker starts if it was queued before that worker and is older than `stale_job_minutes` (30): "Your China search for “…” didn't start — please send it again." |
+| An exception inside a job | Unchanged: "⚠️ China search failed (…)" to the asker, SYSTEM line to the owner |
+
+The worker's stderr is kept in `worker.err` (never DEVNULL); `worker.log` is unchanged.
+

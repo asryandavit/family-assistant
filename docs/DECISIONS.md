@@ -1135,3 +1135,28 @@ postcodes (cookies), no new setup; with a market Session and a headed Chromium o
 `stays_airbnb` open, the run skipped both ("in use by proof busy job", "Chrome's profile lock is
 held") and cleaned the rest. Tests: `tests/test_housekeeping.py`, `tests/test_logfile.py`.
 Docs: ARCHITECHTURE.MD (process + `lib/` log), docs/SECRETS.md row 11, docs/ROADMAP.md.
+
+**104 — 2026-11-10 — /china worker: started whenever jobs wait, watched, its crashes told to the asker and the owner; stranded jobs dropped.**
+A search queued at 00:45 ("finish dishwasher rinse") waited ~22 h. The worker the listener started
+for it died on import — china/runner.py was half-edited in the shared checkout by the photo-search
+session (095) — its stdout and stderr went to DEVNULL, and a worker was only ever started when a
+new job was queued; the Mini App showed one waiting job and disabled Search. CLAUDE.md §5 (fail
+loudly, a job that did not run must be visible) is now enforced in code, `china/watch.py`:
+`ensure_worker()` starts the worker whenever jobs wait and no live worker holds the lock — on every
+enqueue and when the listener starts (listener change in its own commit); a daemon thread in the
+listener waits for each worker, and when one exits leaving a job marked in progress
+(`current.json`, written by the worker) or crashes before taking any job, the person who asked
+gets one plain line ("Your China search for “…” stopped before it finished / didn't start —
+please send it again") and the owner the same plus the worker's last stderr line (bot token
+removed; one message when the owner asked). The job that crashed the worker before it started is
+dropped so it cannot crash it in a loop; any other waiting jobs get a new worker. The worker's
+stderr now appends to `.browser/china_data/worker.err` (capped at 512 KB). A job that was already
+in the queue when a worker started and is older than `stale_job_minutes` (30,
+`config_china.json`) is dropped with "didn't start — please send it again"; a job waiting behind
+a live search is never dropped, so the limit cannot cut a normal queue. Tests no longer write
+the live `.browser/listener.log` (tests/conftest.py points the listener's log at a temp file; the
+mocked "disk full" faults had made a real disk problem look likely). Working rule taken from
+this: code the running listener can spawn is edited in a separate git worktree and reaches the
+shared checkout only as finished commits. Not changed here: `amazon/queue.py` is a copy of the
+old China queue with the same DEVNULL / no-restart gap (follow-up). Docs:
+docs/briefs/CHINA_SEARCH.md §11, docs/TELEGRAM_UX.md §5e, ARCHITECHTURE.MD (listener).
