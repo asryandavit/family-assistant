@@ -44,7 +44,7 @@ Processes on the PC (each its own scheduled task):
   💬 Reviews through the same `china.bot.callback` as the chat buttons, so the Mini App server
   is a second writer of Market watch's `items.json` / `owner_prices.json` next to the
   listener: those read-modify-writes run under `market/state.write_lock` (a cross-process
-  lock file). Reviews still run as a queued China job; the answer arrives in the chat.
+  lock file; since decision 099 the nightly market job's two list writes take it too). Reviews still run as a queued China job; the answer arrives in the chat.
 
 Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
 - `lib/telegram.py` inline buttons take three kinds: callback data (any string), a link

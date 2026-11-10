@@ -915,3 +915,19 @@ throwaway server with a test token, the lock, the phone UI. Findings and larger 
   when the signature is valid and only `auth_date` is too old, and the page shows "Session
   expired" with Close. This tells an attacker nothing new: to see it they need a string Telegram
   signed for this bot. A bad signature, a future date and an unknown person are unchanged.
+- **The nightly job writes the watch list under the same lock as everyone else.** Asked by the
+  owner: can the job clobber an add made during its run? During the minutes of page reading, no —
+  it re-reads `items.json` before each write. In two windows, yes (reproduced with a slowed write,
+  `tests/test_market_lock.py` NightlyJob): the Sheet merge at the start (read list → read Sheet for
+  seconds → write list; only once `watch_sheet_id` is set, which it is not yet) and the page-weight
+  fill (milliseconds). Both now run under `market/state.write_lock`
+  (`jobs/market_watch.sync_list`, `apply_filled`). A list that stays busy is never a crash: the
+  job uses the list on disk and the report says the Sheet edits were not merged; page weights are
+  read again the next night.
+- **A lock holder removes the lock file only while it is still its own** (a random token in the
+  file). Reproduced: a holder that outlived `stale_s` was taken over, then removed the new
+  holder's file on its way out, and a third writer entered beside it.
+- **Known and left, for SQLite at Users and roles (MINI_APP.md §13):** `market/bot._mutate` holds
+  the lock across the Sheet read, and writes the Sheet after releasing it, so two edits within the
+  same second or two can still let a stale Sheet row undo the other edit. A lock file around JSON
+  files and a Sheet cannot close that; one database transaction can.

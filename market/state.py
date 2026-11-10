@@ -67,7 +67,8 @@ class Busy(ValueError):
 def write_lock(root, wait_s=30.0, stale_s=300.0):
     """Cross-process lock for a read-modify-write of items.json / owner_prices.json.
     O_EXCL lock file; a file older than stale_s is left over from a crash and removed. Not
-    re-entrant: never nest it."""
+    re-entrant: never nest it. Writers: market/bot._mutate (listener, Mini App server),
+    set_owner_price, and the nightly job (jobs/market_watch.sync_list, apply_filled)."""
     path = _path(root, LOCK)
     deadline = time.monotonic() + wait_s
     while True:
@@ -85,13 +86,19 @@ def write_lock(root, wait_s=30.0, stale_s=300.0):
                 raise Busy("The watch list is busy (another change is saving) — try again "
                            "in a minute.") from None
             time.sleep(0.1)
+    token = f"{os.getpid()}-{os.urandom(8).hex()}"
     try:
-        os.write(fd, str(os.getpid()).encode())
+        os.write(fd, token.encode())
         os.close(fd)
         yield
     finally:
+        # Remove the file only while it is still ours. A holder that outlived stale_s has been
+        # taken over; removing the new holder's file would let a third writer in (decision 099).
         try:
-            os.remove(path)
+            with open(path, encoding="utf-8") as f:
+                mine = f.read() == token
+            if mine:
+                os.remove(path)
         except OSError:
             pass
 

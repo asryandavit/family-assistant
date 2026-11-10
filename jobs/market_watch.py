@@ -169,6 +169,40 @@ def choose(key, fresh, owner, last):
     return "none", None
 
 
+def sync_list(cfg, root, sheet_id, wait_s=120.0):
+    """(items, problems): the list with the Sheet's edits merged in. The merge is a
+    read-modify-write of items.json, so it runs under state.write_lock like every other writer
+    (decision 099: unlocked, it overwrote an item added while the Sheet was being read). A list
+    that stays busy is used as it is on disk, and the report says so."""
+    if not sheet_id:
+        return state.load_items(root), []
+    try:
+        with state.write_lock(root, wait_s=wait_s):
+            return sheet.sync_items(cfg, root, sheet_id, write=False)
+    except state.Busy:
+        return state.load_items(root), ["the watch list was busy — Sheet edits not merged this run"]
+
+
+def apply_filled(root, filled, act, log=print, wait_s=30.0):
+    """Weight/size read from a product page fill the items that had none, in items.json and
+    in tonight's working copies (`act`). Under state.write_lock (decision 099). A list that
+    stays busy keeps tonight's working copies only; the page is read again the next night."""
+    def fill(items):
+        for iid, kg, dims, src in filled:
+            for it in items:
+                if it["id"] == iid and not it.get("weight_kg"):
+                    it["weight_kg"], it["size_cm"] = kg, list(dims) if dims else it.get("size_cm")
+                    it["size_from"] = f"page ({src or 'product'})"
+    fill(act)
+    try:
+        with state.write_lock(root, wait_s=wait_s):
+            cur = state.load_items(root)
+            fill(cur)
+            state.save_items(root, cur)
+    except state.Busy:
+        log("watch list busy: page weights not saved this run")
+
+
 def run(cfg, today, session_factory, root=ROOT, send=False, write_sheet=True, sender=None,
         rates_get=None, log=print):
     sender = sender or telegram
@@ -178,8 +212,7 @@ def run(cfg, today, session_factory, root=ROOT, send=False, write_sheet=True, se
     table = load_tariffs()
     rule = customs_rule(root)
 
-    items, problems = sheet.sync_items(cfg, root, sheet_id, write=False) if sheet_id \
-        else (state.load_items(root), [])
+    items, problems = sync_list(cfg, root, sheet_id)
     act = state.active(items)
     for n, it in enumerate(act, start=1):
         it["_n"] = n
@@ -192,13 +225,7 @@ def run(cfg, today, session_factory, root=ROOT, send=False, write_sheet=True, se
 
     # weight/size read from the page fill items that had none (marked "page")
     if filled:
-        cur = state.load_items(root)
-        for iid, kg, dims, src in filled:
-            for it in cur + act:
-                if it["id"] == iid and not it.get("weight_kg"):
-                    it["weight_kg"], it["size_cm"] = kg, list(dims) if dims else it.get("size_cm")
-                    it["size_from"] = "page (%s)" % (src or "product")
-        state.save_items(root, cur)
+        apply_filled(root, filled, act, log)
 
     results, alerts, offers_rows = {}, [], []
     for it in act:
