@@ -239,3 +239,34 @@ class ConnectionCap(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CancelWaiting(unittest.TestCase):
+    """The China screen's "✖ Cancel my waiting searches" (decision 102): what /china cancel does
+    in the chat, for the signed person's chat only."""
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.root, True)
+
+    def queue(self, chat, n=1):
+        from china import queue
+        for i in range(n):
+            queue.enqueue({"chat_id": str(chat), "kind": "search", "description": f"x{i}"}, self.root)
+
+    def test_removes_only_my_waiting_searches(self):
+        self.queue(111, 2)
+        self.queue(222, 1)
+        ok, msg = actions.china_cancel(self.root, 111)
+        self.assertTrue(ok)
+        self.assertIn("2", msg)
+        self.assertEqual(actions.china_status(self.root, 111)["waiting"], 0)
+        self.assertEqual(actions.china_status(self.root, 222)["waiting"], 1)
+
+    def test_nothing_waiting_says_so(self):
+        ok, msg = actions.china_cancel(self.root, 111)
+        self.assertFalse(ok)
+        self.assertIn("Nothing of yours is waiting", msg)
+
+    def test_a_running_search_is_not_touched(self):
+        self.assertIn("already running", actions.china_cancel(self.root, 111)[1])

@@ -270,6 +270,10 @@ class FakeSvc:
     def china_status(self, chat_id):
         return {"running": False, "waiting": 0}
 
+    def china_cancel(self, chat_id):
+        self.calls.append(("ccancel", chat_id))
+        return True, "Removed 1 waiting China search."
+
     def run(self, chat_id, job, args):
         self.calls.append(("run", chat_id, job, args))
         return self.run_ok
@@ -379,6 +383,26 @@ class Endpoints(Base):
                           ("/api/market/add", {"name": 1, "link": "y"})]:
             self.assertEqual(self.post(path, obj)[0], 400, (path, obj))
         self.assertEqual(self.svc.calls, [])
+
+    def test_china_cancel_is_for_the_signed_person_only(self):
+        st, _, body = self.post("/api/china/cancel", {})
+        self.assertEqual((st, json.loads(body)), (200, {"ok": True, "message": "Removed 1 waiting China search."}))
+        self.assertEqual(self.svc.calls[-1], ("ccancel", str(OWNER)))
+        self.post("/api/china/cancel", {}, uid=ADULT)
+        self.assertEqual(self.svc.calls[-1], ("ccancel", str(ADULT)))
+
+    def test_china_cancel_needs_auth_permission_and_an_empty_body(self):
+        self.assertEqual(self.req("/api/china/cancel", None, "POST", b"{}", {"Content-Type": "application/json"})[0], 401)
+        self.assertEqual(self.post("/api/china/cancel", {}, uid=STRANGER)[0], 403)
+        self.assertEqual(self.post("/api/china/cancel", {"chat_id": "999"})[0], 400)   # no chat id from the page
+        self.assertEqual(self.post("/api/china/cancel", {}, ctype="text/plain")[0], 415)
+        self.assertEqual(self.api("/api/china/cancel")[0], 405)
+        self.app.people[OWNER] = people.Person(OWNER, "Davit", "viewer")
+        try:
+            self.assertEqual(self.post("/api/china/cancel", {})[0], 403)
+        finally:
+            self.app.people[OWNER] = people.Person(OWNER, "Davit", "owner")
+        self.assertEqual([c for c in self.svc.calls if c[0] == "ccancel"], [])
 
     def test_wrong_method(self):
         self.assertEqual(self.api("/api/run")[0], 405)

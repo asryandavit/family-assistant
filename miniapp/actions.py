@@ -112,6 +112,17 @@ def china_status(root, chat_id):
     return {"running": bool(info), "waiting": waiting}
 
 
+def china_cancel(root, chat_id):
+    """What `/china cancel` does in the chat (china.bot.handle): drop this chat's WAITING searches
+    through china.queue.remove_for_chat. A search already running finishes on its own. Only the
+    signed person's own chat is touched; the id comes from the signature, never from the page."""
+    from china import queue
+    n = queue.remove_for_chat(str(chat_id), root)
+    if n:
+        return True, f"Removed {n} waiting China search{'' if n == 1 else 'es'}."
+    return False, "Nothing of yours is waiting. (A search already running finishes on its own.)"
+
+
 # ------------------------------------------------------------------ Market watch edits
 
 def market_action(cfg, root, chat_id, action, item_id):

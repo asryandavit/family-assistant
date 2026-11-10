@@ -282,7 +282,7 @@ offers the chat's own actions:
 | Screen | Shows | Does |
 |---|---|---|
 | **Today** | Today · Meals · Training · Week tabs (`coach/plan_text`, for the asking person) | read-only |
-| **China** | search form (All / PDD / Taobao / 1688) above the latest results (step 1) | `/china …` via the listener; polls the queue and loads the new results |
+| **China** | search form (All / PDD / Taobao / 1688) above the latest results (step 1) | `/china …` via the listener; polls the queue and loads the new results; **✖ Cancel my waiting searches** (= `/china cancel`, your chat only) when something of yours is waiting |
 | **Market** | watch list, best price to Yerevan per item | ✅ Bought · 🗑 Remove · add by store link · 🔄 Check prices now |
 | **Basket** | last priced list by shop, totals, cheaper-shop comparison | 🧺 price it again (`/basket`), Price check (`/price`) |
 | **Travel** | scan status, cheapest trips, best stays (Sheet, cached 5 min) | Scan now, Send digest, Search flights, Search stays |

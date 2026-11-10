@@ -1089,5 +1089,14 @@ final command against that limit: a China description over 200 gets the "3–200
 sentence, anything else "That is too long". **(4) Thread cap:** `max_connections` (config,
 default 32); over it a connection gets a 503 with `Retry-After: 2` without a thread (after a 50 ms
 read of the request, so the answer is not lost to a reset); idle keep-alive connections count
-until the 20 s handler timeout. Docs: docs/briefs/MINI_APP.md §14.2, ARCHITECHTURE.MD,
+until the 20 s handler timeout. **(5) Cancel from the China screen** (owner: "search is not active,
+how can I cancel it?"): an orphaned queued job with no live worker made `china_status` report
+`waiting=1`, which disables Search, and the form rightly refuses `cancel` as a description, so
+there was no way out in the app. `POST /api/china/cancel` (body `{}` — whose chat is decided by
+the signature, never by the page; `china` permission) calls `china.queue.remove_for_chat` for the
+signed person's chat only, exactly what `/china cancel` does; a search already running is not
+touched. The screen shows "✖ Cancel my waiting searches" whenever `waiting > 0`, says "N of your
+searches waiting, but nothing is running" when no worker is up, and refreshes the status after the
+tap. The orphaned-job root cause is fixed separately in `china/` and the listener (China session).
+Docs: docs/briefs/MINI_APP.md §13 and §14.2, ARCHITECHTURE.MD,
 config_miniapp.json (`max_connections`).

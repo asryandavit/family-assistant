@@ -87,6 +87,11 @@ export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
           outcome={outcome}
           status={status}
           onStarted={started}
+          onCancelled={() => {
+            setSubmittedAt(null);
+            setOutcome("");
+            void pollStatus();
+          }}
         />
 
         {load.kind === "loading" && (
@@ -158,10 +163,12 @@ function SearchForm(props: {
   outcome: string;
   status: ChinaStatus | null;
   onStarted: () => void;
+  onCancelled: () => void;
 }) {
   const [text, setText] = useState("");
   const [site, setSite] = useState<string>("");
   const act = useAction();
+  const cancel = useAction();
   const args = site ? `only ${site} ${text.trim()}` : text.trim();
   const submit = async () => {
     if (await act.send("/api/run", { job: "china", args })) {
@@ -169,12 +176,17 @@ function SearchForm(props: {
       props.onStarted();
     }
   };
+  // What /china cancel does in the chat: drop your WAITING searches (a running one finishes).
+  const doCancel = async () => {
+    await cancel.send("/api/china/cancel", {});
+    props.onCancelled();
+  };
   const st = props.status;
   const running = st
     ? st.running
       ? `A China search is running${st.waiting ? ` · ${st.waiting} of yours waiting` : ""}.`
       : st.waiting
-        ? `${st.waiting} of your searches waiting.`
+        ? `${st.waiting} of your searches waiting, but nothing is running. Cancel them to search again.`
         : ""
     : "";
   return (
@@ -206,8 +218,21 @@ function SearchForm(props: {
           🔎 Search
         </Button>
       </div>
+      {st && st.waiting > 0 && (
+        <div className="actions">
+          <Button size="s" mode="bezeled" loading={cancel.busy} disabled={cancel.busy} onClick={() => void doCancel()}>
+            ✖ Cancel my waiting searches
+          </Button>
+        </div>
+      )}
+      <Notice msg={cancel.msg} />
       {props.busy && !running && <div className="msg ok">Searching… results appear here by themselves.</div>}
-      {running && <div className="msg ok">{running} Results appear here by themselves.</div>}
+      {running && (
+        <div className="msg ok">
+          {running}
+          {st?.running ? " Results appear here by themselves." : ""}
+        </div>
+      )}
       {props.outcome && <div className="msg ok">{props.outcome}</div>}
       <Notice msg={act.msg} />
     </Section>

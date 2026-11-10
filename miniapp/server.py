@@ -129,6 +129,9 @@ class Services:
     def china_status(self, chat_id):
         return actions.china_status(self.root, chat_id)
 
+    def china_cancel(self, chat_id):
+        return actions.china_cancel(self.root, chat_id)
+
     def market_action(self, chat_id, action, item_id):
         return actions.market_action(self.cfg, self.root, chat_id, action, item_id)
 
@@ -265,6 +268,16 @@ class App:
     def china_status(self, person, _ctype, _body):
         return 200, self.svc.china_status(str(person.user_id))
 
+    def china_cancel_post(self, person, ctype, body):
+        """POST {} : drop the signed person's waiting China searches (the body carries nothing:
+        whose chat is decided by the signature)."""
+        _, err = self._body(ctype, body, ())
+        if err:
+            return err
+        ok, msg = self.svc.china_cancel(str(person.user_id))
+        log.info("china cancel -> %s", "removed" if ok else "nothing")
+        return 200, {"ok": ok, "message": msg}
+
     def run_post(self, person, ctype, body):
         d, err = self._body(ctype, body, ("job",), ("args",))
         if err:
@@ -331,6 +344,7 @@ ROUTES = {
     ("GET", "/api/china"): ("china", App.china),
     ("POST", "/api/china/action"): ("china", App.china_post),
     ("GET", "/api/china/status"): ("china", App.china_status),
+    ("POST", "/api/china/cancel"): ("china", App.china_cancel_post),
     ("GET", "/api/market"): ("market", App.market),
     ("POST", "/api/market/action"): ("market", App.market_action_post),
     ("POST", "/api/market/add"): ("market", App.market_add_post),
