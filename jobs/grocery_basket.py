@@ -28,6 +28,7 @@ from jobs.grocery_search import load_words  # noqa: E402
 from lib import basket, config, fmt_basket, sheets, sheets_checklist, telegram, ui  # noqa: E402
 from lib.fmt_grocery import money  # noqa: E402
 from scrapers import grocery  # noqa: E402
+from shopping import quality
 
 JOB = "grocery_basket"
 MAPPING = os.path.join("plan", "meals", "basket.md")
@@ -46,6 +47,25 @@ def load_coach(root=ROOT):
 def load_rows(root=ROOT):
     with open(os.path.join(root, MAPPING), encoding="utf-8") as f:
         return basket.parse_mapping(f.read())
+
+
+def load_rules(root=ROOT, rows=None):
+    """The quality rules table of basket.md (shopping/quality.py, decision 106)."""
+    with open(os.path.join(root, MAPPING), encoding="utf-8") as f:
+        return quality.parse_rules(f.read(), rows)
+
+
+def price(rows, results, words, rules):
+    """price_basket with the quality picker; a row whose candidates all failed its
+    rules says why instead of a bare "no match"."""
+    b = basket.price_basket(rows, results, words, picker=quality.make_picker(rules))
+    for e in b["lines"]:
+        if e["status"] == "no match":
+            items = (results.get(e["row"]["search"]) or {}).get("items") or []
+            why = quality.explain_none(e["row"], items, words, rules.get(e["row"]["item"]))
+            if why:
+                e["reason"] = why
+    return b
 
 
 def searches_for(rows):
@@ -94,7 +114,9 @@ def _save_local(cfg, kind, b, when):
                           "buy": e["line"]["buy"] if e["line"] else None,
                           "cost": e["line"]["cost"] if e["line"] else None,
                           "product": e["line"]["item"]["name"] if e["line"] else None,
-                          "url": e["line"]["item"]["url"] if e["line"] else None}
+                          "url": e["line"]["item"]["url"] if e["line"] else None,
+                          "app_url": e["line"]["item"].get("app_url") if e["line"] else None,
+                          "reason": (e["line"].get("reason") if e["line"] else e.get("reason"))}
                          for e in b["lines"]]}
         with open(os.path.join(d, "basket_%s.json" % kind), "w", encoding="utf-8") as f:
             json.dump(rec, f, ensure_ascii=False, indent=1)
@@ -112,20 +134,23 @@ def run(cfg, kinds=("weekly",), send=False, write_sheet=True, fixtures=None, now
     sheet_id = coach.get("shopping_sheet_id")
     when = now or ui.now_local()
 
-    rows = [r for r in load_rows(root) if r["list"] in kinds]
+    all_rows = load_rows(root)
+    rules = load_rules(root, all_rows)
+    rows = [r for r in all_rows if r["list"] in kinds]
     words = load_words(root)
     qs = searches_for(rows)
     results = load_fixtures(fixtures, qs) if fixtures else fetch(qs, search_fn, sleep=sleep)
 
-    baskets = {k: basket.price_basket([r for r in rows if r["list"] == k], results, words)
+    baskets = {k: price([r for r in rows if r["list"] == k], results, words, rules)
                for k in kinds}
     totals = {k: baskets[k]["totals"]["all"] for k in kinds}
 
     messages = {k: fmt_basket.build(k, baskets[k], when, budget, totals) for k in kinds}
     if send:
-        btn = [[("\U0001f4cb Open checklist", sheets_checklist.sheet_url(sheet_id))]] if sheet_id else None
+        btn = [[("\U0001f4cb Sheet", sheets_checklist.sheet_url(sheet_id))]] if sheet_id else None
         for k in kinds:
-            telegram.send_family(cfg, messages[k], silent=True, buttons=btn)
+            row = [("✅ Tick list", f"gl:o:{k[0]}"), *(btn[0] if btn else [])]
+            telegram.send_family(cfg, messages[k], silent=True, buttons=[row])
 
     errors = []
     for k in kinds:
@@ -162,6 +187,8 @@ def _print(kind, b):
             ln = e["line"]
             print("    %-26s %-5s %-14s %9s  %s" % (e["row"]["item"][:26], e["shop"], ln["buy"],
                                                   money(ln["cost"]), ln["item"]["name"][:50]))
+            if ln.get("reason"):
+                print(f"    {'':26}   why: {ln['reason']}")
         else:
             print("    %-26s %s" % (e["row"]["item"][:26], fmt_basket._status_text(e)))
 

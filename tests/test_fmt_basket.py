@@ -171,8 +171,9 @@ class Job(unittest.TestCase):
         for p in self.posts:
             self.assertTrue(p["disable_notification"])
             kb = json.loads(p["reply_markup"])["inline_keyboard"]
-            self.assertEqual(kb[0][0]["text"], "\U0001f4cb Open checklist")
-            self.assertTrue(kb[0][0]["url"].startswith("https://docs.google.com/spreadsheets/d/"))
+            self.assertEqual(kb[0][0], {"text": "✅ Tick list", "callback_data": "gl:o:w"})
+            self.assertEqual(kb[0][1]["text"], "\U0001f4cb Sheet")         # decision 106
+            self.assertTrue(kb[0][1]["url"].startswith("https://docs.google.com/spreadsheets/d/"))
 
     def test_sheet_written_after_sending(self):
         order = []
