@@ -83,6 +83,7 @@ messages keep `send_html()`.
 | `mk:<action>` | Market watch actions (`mk:add` starts the add dialog) | new (decision 087) |
 | `cn:<action>` | China search: `cn:ask` (prompt), `cn:only:<site>:<job>`, `cn:rev:<job>:<n>`, `cn:watch:<job>:<n>`, `cn:q:<job>:<q>:<option>` | new (decision 088) |
 | `am:<action>` | Amazon search: `am:ask` (prompt), `am:q:<job>:<q>:<option>`, `am:watch:<job>:<n>` | new (decision 101) |
+| `gl:<action>:<w\|m>` | Tick list: `gl:o` send, `gl:v` refresh, `gl:t:<w\|m>:<version>:<n>` tick item n, `gl:r` ask / `gl:R` clear every tick | new (decision 106) |
 | `st:` `o:` `g:` | stays search / filter panel | existing, kept |
 | `sw:` | automation switches | existing, kept |
 | `co:` | reserved for coach actions (COACH_SPEC §11) | reserved |
@@ -133,15 +134,18 @@ answers to a person go back to that person; family content uses `send_family()`.
 
 ### 5b. Basket (decision 084)
 
-🛒 Shopping shows `🔍 Price check` · `🧺 Basket` (`cmd:basket`, weekly) and link buttons
-`📋 Checklist` (the Shopping list Sheet, `shopping_sheet_id` in config_coach.json) and
-`📄 Shopping plan`. `/basket [weekly|monthly|all]` is the typed shortcut. The result is one
+🛒 Shopping shows `🔍 Price check` · `🧺 Basket` (`cmd:basket`, weekly), `✅ Tick list`
+(`gl:o:w`, §5g) and link buttons `📋 Checklist` (the Shopping list Sheet, `shopping_sheet_id`
+in config_coach.json) and `📄 Shopping plan`. `/basket [weekly|monthly|all]` is the typed shortcut. The result is one
 silent message to both chats: header `🧺 Basket · weekly|monthly`, total and per-shop
 totals, the month vs the budget, one-shop-only vs cheapest-of-each (items found at both
-shops), then one fold per shop (Yerevan City first) and a "Not priced" fold, with a
-`📋 Open checklist` link button. Each item line is the product link with the amount, line
-cost and the 📱 app link for Yerevan City; product names are dropped before the message
-would split (they stay in the Sheet).
+shops), then one fold per shop (Yerevan City first) and a "Not priced" fold, with the buttons
+`✅ Tick list` (`gl:o:w` / `gl:o:m`) and `📋 Sheet` (link). Each item line is the product link
+with the amount, line cost and the 📱 app link for Yerevan City; a pick that is not simply the
+cheapest has a second line `↳ <reason>` (decision 106: "Campagna is 2,000 ֏ less but not extra
+virgin"); an item where nothing passed its quality rules is in "Not priced" with the reason.
+Product names are dropped, then the 📱 links, before the message would split (both stay in the
+Sheet, which also has a **Why** column).
 
 ### 5c. The plan in the bot (decision 085)
 
@@ -305,6 +309,22 @@ the list is not added again). No 📱 Open in app and no 💬 Reviews yet: the M
 answer (brief §4.1: it becomes the generic results screen in P1b). Silent. Limits in code: at most 10
 searches a day, 3–6 s between pages, a store that shows a check page is skipped and not opened again for
 24 h.
+
+### 5g. Tick list (decision 106)
+
+`/list` (this week) or `/list monthly`, 🛒 Shopping → `✅ Tick list`, or `✅ Tick list` under a basket
+message. One silent message to the chat that asked: header `✅ Shopping list · this week` with the
+week (`week 9 Nov – 15 Nov`) or the month, `N of M in the cart · last: Karine ticked Eggs 10:42`,
+then the items grouped by aisle in walking order (Vegetables, Greens, Fruit, Dairy & eggs, Meat &
+fish, Bread, Grains & legumes, Oils, cans & jars, Frozen, Other) — `☐ <item>` / `✅ <s>item</s>`,
+the amount to buy and the shop dot from the last 🧺 Basket, the item name linking to the product.
+Buttons: one per item, two per row (`☐ Eggs` / `✅ Eggs`), then `🔄 Refresh` · `📦 Staples` (or
+`🥬 This week`), then `♻️ New week` / `♻️ New month`, which first asks "Clear all N ticks…?" with
+`Yes, clear the ticks` · `Cancel`. A tap ticks or unticks for the household and edits the list
+message in **both** chats (the latest list message per chat is remembered); a button from an older
+list (items changed since) redraws the list and says "tap the item once more". A new ISO week
+(Monday, Yerevan time) or month starts with nothing ticked. The Shopping list Sheet's boxes follow
+each tick (one way). The Mini App shows the same list through `shopping/checklist.py`.
 
 ## 6. Bot profile
 

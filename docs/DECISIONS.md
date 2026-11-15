@@ -1188,3 +1188,51 @@ It proves our use of the API, not Telegram's clients. Also in `tests/test_miniap
 travel age notes and the China orders. **Check on a phone:** the bottom button's place and look,
 CloudStorage remembering the tab after closing the app, the home-screen row, the header colour, the
 "leave without sending?" prompt. Docs: docs/briefs/MINI_APP.md §16, docs/TELEGRAM_UX.md §6.
+
+**106 — 2026-11-15 — Groceries: a shared ✅ tick list for both of us, and basket picks judged by quality rules instead of the cheapest name.**
+The owner asked for a checklist and noticed the basket "takes the cheapest ones, which frequently
+are not the good ones"; better picks only if feasible, otherwise keep it as it is.
+**Discovery (CLAUDE.md §8, captured data):** Yerevan City's search JSON has a name (EN/HY/RU),
+price, a numeric `brandId`, a category name and price per unit; Parma's search page has only the name
+and price. Neither has ratings, ingredients, origin or a "premium" line, so palm oil or fish origin
+cannot be judged. What the names do carry is enough for real rules: brand in quotes, fat %,
+"Extra Virgin" / "refined" / "extra light", "fresh" / "frozen", "marinated", "in … sauce", "(armenian)".
+The cheap-but-bad picks seen in the captured runs (19 Oct, 29 Oct) and a live run today:
+**olive oil** — `"Campagna"` (not extra virgin) and live today `"Van Food" extra light, refined`;
+**chicken breast** — frozen imported fillet over fresh local; **apples / tomatoes** — Parma loose items
+whose price is for **100 g** with no per-kg text (`Fuji Apples kg Sh`, 130 for 0.1 kg), which the basket
+costed as 130 per kg: not cheap, mispriced (decision 077's normalisation only works when Parma prints
+"1 kg / …"). **Built (shopping/quality.py, tested on the captured searches):** a "Quality rules and
+aisles" table in `plan/meals/basket.md` — Aisle, Avoid (never picked), Require (one of), Prefer (may
+cost up to Premium %, default 20, more than the cheapest acceptable, at either shop: `lib.basket.choose`
+reads the line's `rank` = cost / (1 + premium)), Min fat % (unknown fat = rejected), Max price (AMD per
+the row's unit, on what is actually bought). Always on: a loose item without a price per kg is skipped.
+The pick is the best value among acceptable products; every pick that is not simply the cheapest
+carries a reason (`↳ Campagna is 2,000 ֏ less but not extra virgin; 1 more skipped`, `↳ fresh, +13% over
+Qualiko (limit 15%)`, `↳ Fuji Apples kg Sh skipped: no price per kg shown`) in the message and in the
+Sheet's new **Why** column; a row where nothing passes is "not priced" with the reason, never guessed.
+A row without a rule picks exactly what `best_per_shop` picks (tested over every captured row). Seeded
+from the family profile: son's milk ≥ 3.2% fat, plain katnashor and matsun (no fruit/sugar), olive oil
+extra virgin only (≤ 8,000 ֏/l), chicken — no processed (marinated, sauces, sausage…), fresh preferred
+within 15% (breast ≤ 3,500 ֏/kg), trout fresh or frozen, not breaded or canned (≤ 9,000 ֏/kg); the
+owner refines the table. **Effect** (live, 15 Nov): weekly 16,050 → 16,828 ֏, monthly 43,540 →
+45,760 ֏ — about +5,600 ֏ a month (778 × 4.33 + 2,220). **Tick list (shopping/checklist.py + shopping/bot.py):** `/list`
+`[monthly]`, 🛒 Shopping → ✅ Tick list, and a ✅ Tick list button on every basket message. One message
+per chat, grouped by aisle in walking order, the item name linked to the product the last basket
+picked, a button per item; a tap ticks for the household and edits the list message in **both** chats
+(message ids remembered per chat). State: `.browser/shopping/<household>/checklist_<kind>.json`, JSON
+written atomically under a lock file shared with the Mini App server (the market-watch pattern; the
+SQLite coach.db does not exist yet) — keyed per household, each tick records the Telegram user id (in a
+private chat = the chat id) and UTC time (decision 089). Ticks belong to the ISO week (weekly) or the
+month (staples); a new period starts empty; ♻️ New week asks first. Functions for the Mini App: `load`,
+`tick`, `reset` (plain dicts) and `bot.refresh_messages`. **Sheet:** kept, in sync one way — each tick
+sets that item's box in the Shopping list Sheet in a background thread (the owner hears of a failure
+once a day); boxes ticked directly in the Sheet are not read back (two sources of truth would disagree;
+the Sheet is rewritten by every basket run anyway). Not done, with reasons: no Rich Message for the list
+(its buttons live inside its HTML and editing one in place was not tried; a plain message with inline
+buttons is edited cleanly in both chats with the existing helpers); the list follows `basket.md`, not yet the
+generated menus (meals-variety has not published an ingredient function). Platform changes, additive:
+`lib/basket.price_basket(picker=)`, `choose` honouring `rank`, `lib/fmt_basket` reason lines + a compact
+level without 📱 links (keeps the message to one), Sheet **Why** column, `lib/ui` ✅ Tick list button,
+`listener.py` `/list` and `gl:` routing. Docs: plan/meals/basket.md, plan/meals/shopping.md,
+docs/TELEGRAM_UX.md §3, §5b, §5g, docs/ROADMAP.md, ARCHITECHTURE.MD.

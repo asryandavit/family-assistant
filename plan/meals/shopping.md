@@ -20,9 +20,12 @@ first, with discounts and a link to each product. From a computer:
 **The basket and the checklist:** in Telegram tap 🏠 Home → 🛒 Shopping → 🧺 **Basket**
 (or send `/basket`, `/basket monthly`, `/basket all`). The bot prices this list at both
 shops, picks the cheaper shop per item and sends the list to both of us; it also fills the
-**Shopping list** Google Sheet (Drive → Family Coach, 📋 Checklist button) — tick items off
-on the phone as they go into the cart, tapping a product to open it in the shop (📱 opens the
-Yerevan City app). How each row below is read (amounts, search words) is in
+**Shopping list** Google Sheet (Drive → Family Coach, 📋 Checklist button). To tick items off
+together, tap ✅ **Tick list** (or send `/list`, `/list monthly`): the week's list by aisle,
+one button per item — when one of us ticks, the other's list updates too (the Sheet's boxes
+follow). Tapping an item's name opens its product in the shop. The basket no longer simply
+takes the cheapest product: it skips what the [quality rules](basket.md#quality-rules-and-aisles)
+rule out (e.g. olive oil that isn't extra virgin) and says why. How each row below is read (amounts, search words) is in
 [basket.md](basket.md); edit it there. The bot never orders — you add to the cart yourself.
 
 ## Monthly staples (buy once a month) — ≈ 25,000–30,000 AMD
