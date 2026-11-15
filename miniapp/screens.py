@@ -111,20 +111,22 @@ def plain(text):
 # ------------------------------------------------------------ Today / Meals / Training / Week
 
 def plan_page(root, name, chat_id):
-    """The chat's own text for the person, as blocks; None if the plan can't be read."""
+    """A plan page for the person as display blocks; None if the plan can't be read. Today and the
+    menus come from miniapp/menus.py (full detail: recipe links, the week under today); training is
+    the chat's own text."""
     from coach import plan_text, plan_view
+    from miniapp import menus
     if name not in PLAN_NAMES:
         return None
     try:
+        if name == "today":
+            return menus.today_page(root, chat_id)
+        if name in ("meals", "week"):
+            return menus.menu_page(root, name)
         plan = plan_view.load_plan(root)
-        day = now_local().date()
-        text = {"today": lambda: plan_text.today_text(plan, day, chat_id=chat_id),
-                "meals": lambda: plan_text.meals_text(plan, day),
-                "training": lambda: plan_text.training_text(plan, day),
-                "week": lambda: plan_text.week_text(plan, day)}[name]()
+        return html_blocks(plan_text.training_text(plan, now_local().date()))
     except Exception:  # noqa: BLE001  a broken plan file must show "unreadable", not a 500
         return None
-    return html_blocks(text)
 
 
 # ------------------------------------------------------------ Market

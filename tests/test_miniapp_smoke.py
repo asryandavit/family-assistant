@@ -77,10 +77,16 @@ def china_action(chat_id, action, job, n):
 @unittest.skipIf(sync_playwright is None, "playwright is not installed")
 @unittest.skipUnless(os.path.isfile(os.path.join(DIST, "index.html")),
                      "miniapp/web/dist is not built (npm run build)")
-class Smoke(unittest.TestCase):
+class SmokeBase(unittest.TestCase):
+    """The server, the browser and the helpers; the tests are in Smoke (and tests/test_miniapp_smoke_b.py)."""
+
+    @classmethod
+    def make_svc(cls):
+        return FakeSvc()
+
     @classmethod
     def setUpClass(cls):
-        cls.svc = FakeSvc()
+        cls.svc = cls.make_svc()
         data = current()
         cls.app = server.App(CFG, TOKEN, PERSONS, svc=cls.svc, china_action=china_action,
                              china_load=lambda chat: data if chat == str(OWNER) else None)
@@ -134,6 +140,8 @@ class Smoke(unittest.TestCase):
             time.sleep(0.05)
         self.fail(f"timed out waiting for: {js}")
 
+
+class Smoke(SmokeBase):
     # ---------------------------------------------------------------- Home, deep link, back
 
     def test_home_lists_the_sections_and_who_you_are(self):
@@ -227,9 +235,9 @@ class Smoke(unittest.TestCase):
 
     def test_tab_choice_is_remembered(self):
         self.open("today")
-        self.page.get_by_text("Meals", exact=True).wait_for()
-        self.page.get_by_text("Meals", exact=True).click()
-        self.until("__tg.store.ui_plan_tab === 'meals'")
+        self.page.get_by_text("Next week", exact=True).wait_for()
+        self.page.get_by_text("Next week", exact=True).click()
+        self.until("__tg.store.ui_plan_tab === 'week'")
 
     # ---------------------------------------------------------------- dark mode
 

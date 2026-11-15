@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import type { Result } from "./api";
 import { Field, Notice, RunButton, openLink, useAction, useLoad, Waiting } from "./common";
+import { TickList } from "./TickList";
 import { useClosingConfirmation, useMainButton, usePref } from "./hooks";
 import { confirmAsk, haptic } from "./telegram";
 import type { Basket } from "./types";
@@ -101,7 +102,9 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
           ))}
         </TabsList>
 
-        <Section footer="The bot prices the list at both shops (about 2 minutes), fills the checklist and sends it to both of you.">
+        <TickList kind={kind} onFail={props.onFail} />
+
+        <Section header="Prices" footer="The bot prices the list at both shops (about 2 minutes), fills the checklist and sends it to both of you.">
           {!mainButton && (
             <div className="actions">
               <RunButton job="basket" args={kind} label={`🧺 Price the ${kind} list now`} action={run} confirm={ASK} />

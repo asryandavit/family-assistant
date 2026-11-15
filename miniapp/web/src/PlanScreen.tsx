@@ -6,12 +6,12 @@ import { usePref } from "./hooks";
 import { haptic } from "./telegram";
 import type { Page } from "./types";
 
-// Today · Meals · Training · Week: the chat's own text for you (coach/plan_text.py), as blocks.
+// Today (today's meals with recipe links, the batch note and training, this week's menu under it),
+// Next week (the Sunday menu), Training — built on the PC from the plan code (miniapp/menus.py).
 const TABS = [
   ["today", "Today"],
-  ["meals", "Meals"],
+  ["week", "Next week"],
   ["training", "Training"],
-  ["week", "Week"],
 ] as const;
 const NAMES = TABS.map(([id]) => id);
 

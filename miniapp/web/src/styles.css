@@ -168,6 +168,44 @@ body {
   }
 }
 
+/* the tick box is drawn, not an emoji: the same on every platform */
+.box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border: 2px solid var(--tg-theme-hint-color, var(--tgui--hint_color));
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+}
+
+.box.on {
+  background: var(--tg-theme-button-color, var(--tgui--button_color));
+  border-color: var(--tg-theme-button-color, var(--tgui--button_color));
+  color: var(--tg-theme-button-text-color, #fff);
+}
+
+.struck {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.info {
+  min-width: 44px;
+  min-height: 44px;
+  margin: -8px -8px -8px 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 20px;
+  color: var(--tg-theme-link-color, var(--tgui--link_color));
+}
+
 .hintline {
   color: var(--tg-theme-hint-color, var(--tgui--hint_color));
   padding-top: 0;

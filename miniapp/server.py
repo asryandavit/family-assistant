@@ -12,6 +12,8 @@ stdlib ThreadingHTTPServer on 127.0.0.1 only:
     POST /api/run           run a chat command (basket, flights, stays, price, china, scan,
                             digest, watch check) via the listener's inbox (step 2)
     POST /api/market/action, /api/market/add   edit the Market watch list (step 2)
+    GET  /api/list/<weekly|monthly>, POST /api/list/tick, /api/list/reset   the shared tick list,
+         the same state as /list in the chat (decision 108)
 Every /api request carries `Authorization: tma <initData>`, checked by miniapp.auth. The only
 request bodies accepted are JSON on POST /api/... up to MAX_BODY bytes.
 
@@ -25,6 +27,7 @@ import json
 import logging
 import os
 import posixpath
+import re
 import sys
 import threading
 import time
@@ -46,6 +49,7 @@ from miniapp import (
     load_config,
     people,
     screens,
+    shopping_view,
 )
 
 log = logging.getLogger("miniapp")
@@ -60,6 +64,7 @@ COMMON_HEADERS = {
     "Content-Security-Policy": CSP,
     "Strict-Transport-Security": "max-age=31536000",
 }
+LIST_KEY = re.compile(r"^[a-z0-9-]{1,40}$")      # shopping/checklist.slug: a-z, 0-9, hyphen, <= 24
 MAX_BODY = 1024            # the largest POST body (an action is ~50 bytes)
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
          ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png",
@@ -102,6 +107,10 @@ def default_china_action(chat_id, action, job, n):
     return cbot.callback(config.load(), ROOT, f"cn:{action}:{job}:{n}", chat_id)
 
 
+def _spawn(fn, *args):
+    threading.Thread(target=fn, args=args, daemon=True).start()
+
+
 class Services:
     """The real work behind the step 2 screens and forms; tests pass a fake with the same
     methods. Everything takes the asking person's chat id (private chat: the user id)."""
@@ -110,6 +119,7 @@ class Services:
         from lib import config
         from miniapp import ROOT
         self.root, self.cfg = ROOT, config.load()
+        self._bg = _spawn
 
     def plan_page(self, chat_id, name):
         return screens.plan_page(self.root, name, chat_id)
@@ -128,6 +138,46 @@ class Services:
 
     def china_status(self, chat_id):
         return actions.china_status(self.root, chat_id)
+
+    def list_view(self, kind, names):
+        return shopping_view.view(self.root, kind, names)
+
+    def list_tick(self, user_id, kind, key, done, names):
+        """Tick / untick / toggle one item of the shared list: (ok, message, view). The state is
+        shopping/checklist.py's, the same as /list; both chats' list messages are edited and the
+        Sheet's box is set afterwards, off the request thread."""
+        from shopping import checklist
+        try:
+            raw = checklist.tick(self.root, kind, key, user_id, done)
+        except ValueError as e:                       # Busy, or an item that left the list
+            return False, screens.plain(str(e)), None
+        item = next(i for i in raw["items"] if i["key"] == key)
+        self._after_list_change(kind, {item["item"]: item["done"]})
+        return True, "", shopping_view.shape(raw, names)
+
+    def list_reset(self, user_id, kind, names):
+        from shopping import checklist
+        try:
+            raw = checklist.reset(self.root, kind, user_id)
+        except ValueError as e:
+            return False, screens.plain(str(e)), None
+        self._after_list_change(kind, {i["item"]: False for i in raw["items"]})
+        return True, "", shopping_view.shape(raw, names)
+
+    def _after_list_change(self, kind, changes):
+        """What the chat does after a tick: bring both chats' list messages up to date and set the
+        Sheet's boxes. A Telegram or Sheet failure never undoes the tick (it is already saved)."""
+        def work():
+            from shopping import bot
+            try:
+                bot.refresh_messages(self.cfg, self.root, kind)
+            except Exception as e:  # noqa: BLE001  the tick is saved; the chats catch up on the next one
+                log.info("list message refresh failed: %s", type(e).__name__)
+            try:
+                bot.mirror_to_sheet(self.cfg, self.root, kind, changes)
+            except Exception as e:  # noqa: BLE001
+                log.info("list sheet mirror failed: %s", type(e).__name__)
+        self._bg(work)
 
     def china_cancel(self, chat_id):
         return actions.china_cancel(self.root, chat_id)
@@ -278,6 +328,36 @@ class App:
         log.info("china cancel -> %s", "removed" if ok else "nothing")
         return 200, {"ok": ok, "message": msg}
 
+    # ---- the shared tick list (decision 108)
+    def _names(self):
+        return {uid: p.name for uid, p in self.people.items()}
+
+    def list_get(self, _person, kind):
+        v = self.svc.list_view(kind, self._names())
+        return (200, v) if v is not None else (404, {"error": "not found"})
+
+    def list_tick_post(self, person, ctype, body):
+        d, err = self._body(ctype, body, ("kind", "key"), ("done",))
+        if err:
+            return err
+        if (d["kind"] not in ("weekly", "monthly") or not LIST_KEY.match(d["key"])
+                or d.get("done", "toggle") not in ("toggle", "1", "0")):
+            return 400, {"error": "bad kind, key or done"}
+        done = {"1": True, "0": False}.get(d.get("done", "toggle"))
+        ok, msg, view = self.svc.list_tick(person.user_id, d["kind"], d["key"], done, self._names())
+        log.info("list tick -> %s", "ok" if ok else "refused")
+        return 200, {"ok": ok, "message": msg, "view": view}
+
+    def list_reset_post(self, person, ctype, body):
+        d, err = self._body(ctype, body, ("kind",))
+        if err:
+            return err
+        if d["kind"] not in ("weekly", "monthly"):
+            return 400, {"error": "bad kind"}
+        ok, msg, view = self.svc.list_reset(person.user_id, d["kind"], self._names())
+        log.info("list reset -> %s", "ok" if ok else "refused")
+        return 200, {"ok": ok, "message": msg, "view": view}
+
     def run_post(self, person, ctype, body):
         d, err = self._body(ctype, body, ("job",), ("args",))
         if err:
@@ -350,7 +430,11 @@ ROUTES = {
     ("POST", "/api/market/add"): ("market", App.market_add_post),
     ("GET", "/api/travel"): ("travel", App.travel),
     ("POST", "/api/run"): ("run", App.run_post),
+    ("POST", "/api/list/tick"): ("basket", App.list_tick_post),
+    ("POST", "/api/list/reset"): ("basket", App.list_reset_post),
 }
+for _k in ("weekly", "monthly"):
+    ROUTES[("GET", f"/api/list/{_k}")] = ("basket", lambda a, p, _c, _b, k=_k: a.list_get(p, k))
 for _n in screens.PLAN_NAMES:
     ROUTES[("GET", f"/api/plan/{_n}")] = ("plan", lambda a, p, _c, _b, n=_n: a.plan(p, n))
 for _k in ("weekly", "monthly"):

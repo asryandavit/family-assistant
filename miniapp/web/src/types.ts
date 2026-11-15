@@ -92,6 +92,31 @@ export interface ChinaStatus {
   waiting: number;
 }
 
+// The shared tick list (miniapp/shopping_view.py): names, not ids; Yerevan time
+export interface ShopItem {
+  key: string;
+  item: string;
+  amount: string;
+  shop_name: string | null;
+  buy: string | null;
+  product: string | null;
+  url: string | null;
+  reason: string | null;
+  done: boolean;
+  by_name: string | null;
+  at: string | null;
+}
+export interface ShopList {
+  kind: string;
+  period_label: string;
+  version: string;
+  done: number;
+  total: number;
+  groups: { aisle: string; items: ShopItem[] }[];
+  last: { item: string; by_name: string; at: string } | null;
+  reset: { by_name: string; at: string } | null;
+}
+
 export interface Reply {
   ok: boolean;
   message: string;

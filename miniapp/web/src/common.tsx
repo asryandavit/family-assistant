@@ -202,7 +202,7 @@ function Fold(props: { title: string; lines: { k: "p"; s: Seg[] }[] }) {
   const [open, setOpen] = useState(/today/i.test(props.title));
   return (
     <div className="fold">
-      <Cell onClick={() => setOpen((o) => !o)} after={<span className="hint">{open ? "▴" : "▾"}</span>}>
+      <Cell multiline onClick={() => setOpen((o) => !o)} after={<span className="hint">{open ? "▴" : "▾"}</span>}>
         {props.title || "More"}
       </Cell>
       {open &&
