@@ -1236,3 +1236,46 @@ generated menus (meals-variety has not published an ingredient function). Platfo
 level without 📱 links (keeps the message to one), Sheet **Why** column, `lib/ui` ✅ Tick list button,
 `listener.py` `/list` and `gl:` routing. Docs: plan/meals/basket.md, plan/meals/shopping.md,
 docs/TELEGRAM_UX.md §3, §5b, §5g, docs/ROADMAP.md, ARCHITECHTURE.MD.
+
+**107 — 2026-11-15 — Weekly menus: a dish library and a deterministic week generator, never a fallback to week 1; the Sunday menu as a Rich Message.**
+The week-5 "🍽 Next week's menu" message showed week 1 again: only `plan/meals/week-01.md` existed
+and `plan_view.load_week()` fell back to the latest file. The owner asked for real variety
+("not the same every week, every day, even monthly include something new, frequently
+Mediterranean") and listed fixes. **Content:** `plan/meals/dishes.md` is now the dish library with
+machine-readable columns (slot, protein, status staple/new, side, group, prep, son, tip, buy, ref):
+the family's staples plus 27 dishes new to the family, Mediterranean (mujaddara, gigantes, sheet-pan
+salmon, trout en papillote, souvlaki, tabbouleh, briam, Greek lentil and chickpea soups…) and
+Armenian (spas, eetch, harissa, vospov kufteh, cabbage tolma). Every `ref` was opened on
+15 Nov 2026 (HTTP 200, page title = that dish); 404 guesses were dropped, not kept; The
+Mediterranean Dish joins the recipe allowlist. Nutrition values are not stored or computed
+anywhere (portions, not calories — decision 073). **Generator** (`coach/menu_gen.py`, no model,
+unit-tested): a fixed weekly layout (Sunday batch → lunch A + soup Mon–Tue; Wednesday batch →
+legume lunch B Wed–Thu; fish Wed dinner and Fri lunch; egg dinner Thu; light dinner Fri; weekend
+lunches with a protein; Scoolinary Saturday dinner; Sunday dinner = Sunday lunch, small, with
+salad). Rules: fish 2×; legumes 4 meals and never two in a day (lunch B is a legume, exactly one of
+lunch A and the soup is); chicken or turkey ≥ 2 meals; oats ≥ 3 breakfasts; red meat none; a lunch
+or dinner dish never returns the week after and dishes not eaten for two weeks are tried first
+(the first draft alternated two menus A/B/A/B, caught by a test); no two dolma-type dishes in a
+week; 1–2 new dishes a week in library order (3 only while a list is still short), joining the
+rotation after their first week. Least-recently-used choice with library order as tie-break makes
+it deterministic. Weeks 2–4 show week 1 (the trial ran four weeks); from week 5 a week without a
+file is generated, a week file always wins (hand edits are respected and later weeks are built
+around them), and weeks 5–8 are written (`python -m coach.menu_gen --write 5 8`). A week that
+can't be built (e.g. no fish left) shows one plain sentence and the scheduled job tells the owner;
+so do rule breaks in a hand-edited week and "fewer than 5 new dishes left" (about week 13 with
+today's library). **Review fixes:** walnuts ground for the son (a tested library rule), porridge
+"cooked in water or lactose-free milk, topped with matsun", Saturday lunch always has a protein,
+fish 2×, no "leftover" lunch that contradicts the day, dish names without "or" options or cooking
+notes, sides written in lower case ("+ buckwheat"), one recipe link per dish; week 1's garbled
+cells fixed too. **Message:** `coach/plan_text.week_rich()` — a Rich Message with one `<details>`
+per day (title = the day's lunch and dinner), ✨ new dishes, batch dates, 👶 son and 💡 tips lines,
+"Every day" fold, and the week's balance counted in code; buttons 📱 Today / 🧺 Basket in the Mini
+App (or the chat's 🧺 button) replace the "Home → Shopping → Basket" footer; no file path is ever
+shown. The plain HTML fallback (also Meals and the Mini App week page) fits one message by dropping
+tips, then son lines, then links. `jobs/coach_brief.py --week --owner-only` sends for review; the
+schedule is unchanged. For the groceries side: `coach.menu_gen.week_ingredients(root, week)` gives
+the week's shopping words (names, no amounts; `plan/meals/shopping.md` lists the words basket.md
+has no row for). Tests: `tests/test_menu_gen.py` (55 weeks of rules, novelty, determinism,
+hand edits, the failure path, the Rich message), `tests/test_plan_text.py`, `tests/test_plan_view.py`.
+Docs: plan/meals/dishes.md, principles.md (the weekly rules), shopping.md, week-05..08.md,
+plan/README.md, docs/TELEGRAM_UX.md §5c, docs/ROADMAP.md. No `lib/` or `listener.py` change.
