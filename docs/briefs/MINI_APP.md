@@ -551,3 +551,37 @@ Basket, remembered tab, dark mode. Telegram's script is replaced by a small stub
 it proves our code's use of the API, **not Telegram's clients**: MainButton placement, CloudStorage,
 `addToHomeScreen`, header colours and the closing confirmation still need a look on a phone (demo
 list in decision 105).
+
+---
+
+## 17. Improvement pass, stage B — Today with the generated menu, Basket as the shared tick list (2026-11-15)
+
+Built after `meals-variety` (decision 107) and `groceries-quality` (decision 106) pushed; uses only the
+functions those decisions document.
+
+| Screen | Shows | Does |
+|---|---|---|
+| **Today** | today's meals with recipe links, 👶 son and 💡 tip lines, today's batch session, both adults' training; **this week's menu under it** (new dishes, batch dates, a fold per day with today open, the week's balance); the safety fold | read-only |
+| **Next week** | the Sunday menu (the generated week) at full detail | read-only |
+| **Basket** | the **tick list** (`shopping/checklist.py`, the same state as `/list`) by aisle, with who ticked and when, ⓘ → shop, product, the quality-rule reason; then the priced list and Price check | tap = tick for the household; ♻️ New week/month (asks first); `Price the list now` as before |
+
+**Today is built here, not from the chat text.** `coach/plan_text` fits one Telegram message, so it drops
+recipe links, then son lines, then tips. `miniapp/menus.py` builds the page from the same public pieces at the
+richest level (`week_parts(detail=DETAIL[0])`, `meal_lines(refs=True)`), so dishes and the generated week
+still come from one source (`menu_gen` via `plan_view`). `tests/test_miniapp_menus.py` compares the app's
+meal lines and day titles with the chat's own text so the two cannot drift apart; the week balance is
+counted by `menu_gen.balance`, never here.
+
+**The tick list is the chat's list.** `GET /api/list/<weekly|monthly>`, `POST /api/list/tick`
+`{kind, key, done: "1"|"0"|"toggle"}`, `POST /api/list/reset {kind}`; module `basket`, signature on every
+request. The person ticking is the signed user (never a field of the body). After a tick the server does what
+the chat does — edits both chats' list messages (`shopping.bot.refresh_messages`) and sets the Sheet's box
+(`mirror_to_sheet`) — off the request thread; a Telegram or Sheet failure never undoes the tick, which is
+already saved under the list's lock. The page shows names (Davit, Karine, "someone"), Yerevan time and
+https links only; no Telegram id leaves the server. The tap shows at once and the server's answer replaces
+it (or undoes it with the reason). A quiet refresh every 15 s brings the other person's ticks.
+
+**Verified in a real browser** (`tests/test_miniapp_smoke_b.py`, 8 tests): Today with links and the open day,
+a recipe link opens outside the app, Next week, a tick lands in the shared state and edits the chats, the other
+person's tick is shown by name, ⓘ shows the reason, New week asks first and clears, Monthly is separate.
+Not tested in a browser: the 15 s refresh itself (a timer) and Telegram's real clients.

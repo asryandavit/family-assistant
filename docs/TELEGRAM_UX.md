@@ -366,7 +366,14 @@ Set from `listener.set_menu()` at startup so it can't drift:
   most-trusted-first or cheapest-delivered-first and filtered by site, and tapping the 🏆 pick jumps to
   its card; Travel says how old its data is ("15 days old — Search stays for fresh prices"); today's
   day starts open in Meals; Telegram's header takes the app's colour; Home offers "Add to home screen"
-  once where the client supports it. It follows Telegram's light/dark theme. Anyone
+  once where the client supports it. Decision 108 (stage B): **Today** shows today's meals with recipe
+  links, the batch session and training on top and this week's whole menu under it (days folded, today's
+  open; the son's and tip lines and every recipe link, which the one-message chat texts have to drop);
+  **Next week** is the Sunday menu; **Training** as before. **Basket** opens on the **shared tick list**,
+  the same state as `/list`: tap a row to tick it for both of you (the name and time of who ticked show,
+  the other person's ticks arrive within 15 s), ⓘ shows the shop, the product and why that pick, ♻️ New
+  week asks first; a tick also edits both chats' list messages and the Sheet's box, as a tap in the chat
+  does. Prices and "Price the list now" are below it. It follows Telegram's light/dark theme. Anyone
   else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
   with Try again; a window left open for more than 24 h shows "Session expired" with Close
   (decision 099 — it used to say "private" to the owner).

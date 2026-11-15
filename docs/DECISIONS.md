@@ -1279,3 +1279,38 @@ has no row for). Tests: `tests/test_menu_gen.py` (55 weeks of rules, novelty, de
 hand edits, the failure path, the Rich message), `tests/test_plan_text.py`, `tests/test_plan_view.py`.
 Docs: plan/meals/dishes.md, principles.md (the weekly rules), shopping.md, week-05..08.md,
 plan/README.md, docs/TELEGRAM_UX.md §5c, docs/ROADMAP.md. No `lib/` or `listener.py` change.
+
+**108 — 2026-11-15 — Mini App stage B: Today with the generated menu and recipe links, Basket as the shared tick list.**
+The owner asked (via the main session) for the improvement pass's second stage once `meals-variety`
+(107) and `groceries-quality` (106) had pushed. **Today:** `miniapp/menus.py` builds the page from the
+meals session's public pieces at full detail — today's meals with recipe links and the 👶 / 💡 lines, today's
+batch session, both adults' training, and this week's whole menu under it (a fold per day, today's
+open, new dishes, batch dates, the balance counted in code). The chat texts could not be reused: they fit
+one Telegram message and drop links first. Drift is tested: the app's meal lines and day titles equal the
+chat's (tests/test_miniapp_menus.py), and the page is never a second source of the menu. Tabs are now
+Today · Next week · Training (the old "Meals" page is the week under Today; the server route stays).
+Two private helpers of `coach/plan_text` (`_week_and_monday`, `_week_line`) are re-implemented in six lines
+each in `menus.py` rather than imported, with the drift test as the guard; no file of the other sessions
+was edited. **Basket:** the shared tick list from decision 106 (`checklist.load/tick/reset`), the same state
+as `/list`: `GET /api/list/<kind>`, `POST /api/list/tick`, `POST /api/list/reset` (module `basket`, signature
+checked, the ticker is the signed user, body validated: kind, a key of `[a-z0-9-]{1,40}`, done one of
+1/0/toggle). A tick does what the chat's does afterwards, off the request thread: both chats' list
+messages are edited (`shopping.bot.refresh_messages`) and the Sheet's box set (`mirror_to_sheet`); a
+failure there never undoes the tick. The view (`miniapp/shopping_view.py`) turns Telegram ids into names,
+UTC into Yerevan time, keeps https links only and drops internal fields; the page ticks optimistically and
+the server's answer replaces it, a 15 s quiet refresh shows the other person's ticks, ⓘ opens the shop,
+product and the quality-rule reason, ♻️ New week/month asks first (a native confirm). The tick box is drawn in
+CSS: the emoji square looked different on every platform in the first review. **Tests:** 40+ new
+(menus, shopping view and endpoints, the real checklist on a temp household with Telegram and the Sheet as
+recorders) and 8 browser tests (tests/test_miniapp_smoke_b.py; the smoke harness became a reusable base).
+**Deployment (15 Nov, tree clean of code changes, no job running):** the listener was restarted first so
+decision 106's `/list` and its listener change are live (inbox heartbeat fresh within 10 s), then the
+Mini App server so stage A's Python (`orders`, Travel's age notes) and this stage are live. Checked live
+with signed read-only requests to the running server: signed in as the owner, the tick list (24 items, 3
+pick reasons, no Telegram id in the payload), Today (links, the week under it), Next week, Travel's
+"15 days old" note, a bad list kind → 404; the public URL 200, unsigned API 401, selfcheck's four Mini App
+lines ok. `/list` itself can only be proven by sending it from a phone (demo list). **Observed, not
+changed (frozen platform):** `listener.log`'s poll-error lines include the first ~30 characters of the bot
+token (the failing URL, `str(e)[:120]`): a masked log line is a small additive listener fix to schedule on
+its own. Docs:
+docs/briefs/MINI_APP.md §17, docs/TELEGRAM_UX.md §6, docs/ROADMAP.md (3b).
