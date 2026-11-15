@@ -1160,3 +1160,31 @@ this: code the running listener can spawn is edited in a separate git worktree a
 shared checkout only as finished commits. Not changed here: `amazon/queue.py` is a copy of the
 old China queue with the same DEVNULL / no-restart gap (follow-up). Docs:
 docs/briefs/CHINA_SEARCH.md §11, docs/TELEGRAM_UX.md §5e, ARCHITECHTURE.MD (listener).
+
+**105 — 2026-11-15 — Mini App improvement pass, stage A: labels, Telegram's bottom button, remembered choices, China order and filter, stale-data notes, a smoke test in a real browser.**
+Owner ("update miniapp best possible way"), relayed with a two-stage plan; stage A uses only what
+exists, stage B (Today's generated menu, Basket as the shared checklist) waits for the two sessions
+building those. **Method:** all screens captured at phone size in light and dark and reviewed;
+Telegram's features read from the live docs (Bot API to 10.1) and from the real script's object — the
+script exposes every method whatever the client can do, so each use is behind `isVersionAtLeast` and a
+try/catch (docs/briefs/MINI_APP.md §16.1). **Defects found and fixed:** form labels never rendered
+(a typed field had no name; own labels now), prices wrapped mid-figure, Travel showed stays from 31 Oct
+with no warning (`screens.age_note`: "N days old — … for fresh prices" from 3 days, built on the PC),
+the 🏆 pick was not tappable. **Telegram features:** MainButton for the screen's main action (China
+Search, Market Add, Basket price) with an in-page fallback; a native confirm before anything that
+messages both chats (Basket, Check prices now); closing confirmation for half-typed forms; haptics
+through one gated helper; CloudStorage for small per-person UI choices only (tab, basket kind, China
+site and order, the home-screen row), localStorage as the fallback, stored values validated against an
+allow-list; header and background colours; "Add to home screen" offered once. **China:** the server
+now sends `orders` (`trust` = the chat's ranking across sites via `pricing.order_key`, `delivered` =
+cheapest total first, unpriced last) and the page re-orders and filters by site without calculating
+(§14.4 point 2). **Not used, with reasons:** fullscreen and safe-area insets (list screens under
+Telegram's header; fullscreen would hide it and Back), SecondaryButton, DeviceStorage/SecureStorage.
+**Test in a real browser:** `tests/test_miniapp_smoke.py` (10 tests, ~10 s) drives the built app in
+Chromium with the production CSP on — it found that Playwright's `wait_for_function` needs
+`unsafe-eval`, which the CSP rightly refuses, so the tests poll with plain evaluates — against a test
+token and a stub of Telegram's script; it is skipped when Chromium or `miniapp/web/dist` is missing.
+It proves our use of the API, not Telegram's clients. Also in `tests/test_miniapp_polish.py`:
+travel age notes and the China orders. **Check on a phone:** the bottom button's place and look,
+CloudStorage remembering the tab after closing the app, the home-screen row, the header colour, the
+"leave without sending?" prompt. Docs: docs/briefs/MINI_APP.md §16, docs/TELEGRAM_UX.md §6.

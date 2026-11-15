@@ -328,7 +328,17 @@ Set from `listener.set_menu()` at startup so it can't drift:
   trips and stays, Scan now, Send digest, Search flights, Search stays). Buttons that start a bot
   job queue the matching chat command for the listener; its answer arrives in the chat, as if
   typed. Icons avoid flag
-  emoji (Windows shows 🇨🇳 as "CN"; China is 🏮). It follows Telegram's light/dark theme. Anyone
+  emoji (Windows shows 🇨🇳 as "CN"; China is 🏮). Decision 105 (improvement pass): the screen's one
+  main action sits in **Telegram's bottom button** (MainButton) — 🔎 Search on China once there are
+  3 characters, ➕ Add on Market once name and link are filled, 🧺 Price the list now on Basket — and
+  an in-page button stands in on a client without it; actions whose result goes to the whole family
+  (Basket, Check prices now) ask first in a native popup; a half-typed form asks before closing; every
+  field has a visible label; your **tab choices are remembered** (Today tab, Basket weekly/monthly,
+  China site and order; small UI choices only, in Telegram CloudStorage); China cards can be shown
+  most-trusted-first or cheapest-delivered-first and filtered by site, and tapping the 🏆 pick jumps to
+  its card; Travel says how old its data is ("15 days old — Search stays for fresh prices"); today's
+  day starts open in Meals; Telegram's header takes the app's colour; Home offers "Add to home screen"
+  once where the client supports it. It follows Telegram's light/dark theme. Anyone
   else sees "This app is private"; a PC that stops answering shows "PC is not reachable"
   with Try again; a window left open for more than 24 h shows "Session expired" with Close
   (decision 099 — it used to say "private" to the owner).

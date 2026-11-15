@@ -502,3 +502,52 @@ with paying families.
 
 **How we would know it works:** hours and drams saved per month — with zero wrong numbers and
 zero spending nobody approved.
+
+---
+
+## 16. Improvement pass, stage A (owner: "update miniapp best possible way", 2026-11-15)
+
+Stage A uses only what exists. Stage B (Today with the generated weekly menu, Basket as the shared
+tickable checklist with quality-pick reasons) waits for the `meals-variety` and `groceries-quality`
+sessions to push; it is **not built yet**.
+
+**Method.** Every screen was captured at 375×812 in light and dark (Playwright, test-signed initData
+against a test-token server, real read-only data) and reviewed. Telegram features were checked against
+the live docs and the real `telegram-web-app.js` object, not assumed (§16.2).
+
+**Fixed from the review:** form labels never rendered (the kit's `header` prop shows nothing on this
+layout, so a typed field had no name) — own visible labels now; prices wrapped mid-figure in Basket and
+Travel — fixed, Travel shows the total with the club price under it; Travel's stays were 15 days old and
+said nothing — the server now sends "N days old — Scan now / Search stays for fresh prices" (3 days or
+more; the page does no date arithmetic); the 🏆 pick could not be tapped — it jumps to its card; ten
+China cards were one long list — **Most trusted / Cheapest delivered** and a site filter, the orders
+computed in `china_view` (`orders`), the page only re-orders; today's day starts open in Meals.
+
+### 16.1 Telegram features used
+
+| Feature | Needs | Used for |
+|---|---|---|
+| MainButton | 6.0 | China 🔎 Search, Market ➕ Add, Basket 🧺 Price now; in-page button where absent |
+| `showConfirm` | 6.2 | before a result goes to both chats (Basket, Check prices now) |
+| `enableClosingConfirmation` | 6.2 | a form holds text that was not sent |
+| HapticFeedback | 6.1 | select on tab and chip changes, success / warning / error on actions |
+| CloudStorage | 6.9 | per-person UI choices only (`ui_plan_tab`, `ui_basket_kind`, `ui_china_site`, `ui_china_order`, `ui_home_shortcut`); falls back to localStorage; a stored value is used only if it is one of the allowed ones |
+| `setHeaderColor` / `setBackgroundColor` | 6.1 | the header and the page behind it take the app's background |
+| `addToHomeScreen` / `checkHomeScreenStatus` | 8.0 | one "Add to home screen" row on Home (status `missed` or `unknown`), hidden after a tap or "Not now" |
+
+Every use is behind `isVersionAtLeast` and a try/catch. **Not used, on purpose:** fullscreen
+(`requestFullscreen`, 8.0) and the safe-area insets — these screens are lists that scroll under
+Telegram's own header, fullscreen would hide that header and its Back button for no gain, and the
+page already respects `env(safe-area-inset-bottom)`; SecondaryButton (7.10) — no screen has two main
+actions; DeviceStorage / SecureStorage — nothing secret is kept in the app. No family data goes into
+CloudStorage or into a URL.
+
+### 16.2 What is verified and what is not
+
+`tests/test_miniapp_smoke.py` drives the **built** app (`miniapp/web/dist`) in Chromium with the
+production CSP on: Home and who you are, the deep link and Back, an unknown person, China Details, one
+ok and one refused action, the pick jump, order and filter, the MainButton search, the confirm before
+Basket, remembered tab, dark mode. Telegram's script is replaced by a small stub of the same shape, so
+it proves our code's use of the API, **not Telegram's clients**: MainButton placement, CloudStorage,
+`addToHomeScreen`, header colours and the closing confirmation still need a look on a phone (demo
+list in decision 105).
