@@ -107,6 +107,13 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   `rotate()` renames, or copies and truncates when another process holds the file open (the
   listener's `listener.log` on Windows). Never raises. Used by the China and Amazon workers'
   `worker.log` and by housekeeping; `listener.py` is not changed.
+- `lib/basket.py`, `lib/fmt_basket.py`, `lib/ui.py` (2026-11-15, groceries, decision 106), additive:
+  `price_basket(rows, results, words, picker=None)` — a picker replaces `best_per_shop` when given
+  (`shopping/quality.py`: quality rules); `choose()` compares a line's optional `rank` instead of its
+  cost (absent = cost, as before). `fmt_basket` shows a line's optional `reason` as `↳ …` (message)
+  and in a new last Sheet column **Why**, shows an entry's `reason` for a not-priced item, and has one
+  more compact level that drops the 📱 links before the message would split. `ui.section("shop")`
+  gains a `✅ Tick list` button (`gl:o:w`). Callers without a picker get exactly the old picks.
 
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.

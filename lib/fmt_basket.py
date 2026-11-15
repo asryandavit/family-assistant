@@ -20,7 +20,9 @@ from lib.telegram import esc
 TITLES = {"weekly": "weekly", "monthly": "monthly"}
 TABS = {"weekly": "This week", "monthly": "Monthly staples"}
 MAX_CHARS = 3900          # one Telegram message, with headroom
-NAME_LENGTHS = (60, 40, 28, 0)   # product names shrink until the message fits
+NAME_LENGTHS = (60, 40, 28, 0, -1)   # product names shrink until the message fits;
+                                     # -1: compact without the 📱 links (decision 106)
+REASON_CHARS = 110               # a pick's reason line (decision 106)
 
 
 def k(v):
@@ -29,6 +31,8 @@ def k(v):
 
 
 def _status_text(e):
+    if e.get("reason"):                    # set by the job: why nothing passed the rules
+        return e["reason"]
     if e["status"] == "skipped":
         return "skipped — %s" % (e["row"]["note"] or "not priced")
     if e["status"] == "unavailable":
@@ -83,17 +87,19 @@ def compare_line(cmp):
 def _item_line(e, name_len):
     """name_len > 0: '• Eggs 2 × 10 pcs · <product name> · 📱 app · 1,980 ֏'.
     name_len 0 (compact): '• <Eggs> 2 × 10 pcs · 1,980 ֏ 📱' -- the item name is
-    the product link; the full product name stays in the Sheet."""
+    the product link; the full product name stays in the Sheet. name_len -1: compact
+    without the 📱 app link (it stays in the Sheet and the tick list)."""
     ln = e["line"]
     i = ln["item"]
     minimum = " <i>(shop minimum)</i>" if ln["min_order"] else ""
-    if not name_len:
-        app = (' <a href="%s">\U0001f4f1</a>' % i["app_url"]) if i.get("app_url") else ""
-        return '• <a href="%s">%s</a> %s%s · %s%s' % (i["url"], esc(e["row"]["item"]), esc(ln["buy"]),
-                                                    minimum, format(ln["cost"], ","), app)
-    return '• <b>%s</b> %s%s · <a href="%s">%s</a>%s · %s' % (
-        esc(e["row"]["item"]), esc(ln["buy"]), minimum, i["url"], esc(i["name"][:name_len]),
-        _app(i), money(ln["cost"]))
+    # why this product and not the cheapest one (shopping/quality.py, decision 106)
+    why = f"\n   <i>↳ {esc(ln['reason'][:REASON_CHARS])}</i>" if ln.get("reason") else ""
+    item, buy = esc(e["row"]["item"]), esc(ln["buy"])
+    if name_len <= 0:
+        app = f' <a href="{i["app_url"]}">\U0001f4f1</a>' if i.get("app_url") and name_len == 0 else ""
+        return f'• <a href="{i["url"]}">{item}</a> {buy}{minimum} · {ln["cost"]:,}{app}{why}'
+    return (f'• <b>{item}</b> {buy}{minimum} · <a href="{i["url"]}">{esc(i["name"][:name_len])}</a>'
+            f'{_app(i)} · {money(ln["cost"])}{why}')
 
 
 def _build(kind, b, when, budget, totals, name_len):
@@ -140,7 +146,7 @@ def build(kind, b, when, budget, totals):
 
 # ------------------------------------------------------------------ Sheet
 
-HEADER = ["Done", "Item", "Buy", "Shop", "Product", "App", "Price", "Line cost"]
+HEADER = ["Done", "Item", "Buy", "Shop", "Product", "App", "Price", "Line cost", "Why"]
 MONEY_COL = 7
 
 
@@ -183,7 +189,7 @@ def sheet_rows(kind, b, when, budget, totals):
                  ln["buy"] + (" (shop minimum)" if ln["min_order"] else ""),
                  SHOP_NAMES[shop], link(i["url"], i["name"]),
                  link(i["app_url"], "\U0001f4f1") if i.get("app_url") else "",
-                 _price_text(i), ln["cost"]], box=True)
+                 _price_text(i), ln["cost"], ln.get("reason") or ""], box=True)
         add(["", "%s total" % SHOP_NAMES[shop], "", "", "", "", "", sub], strong=True)
     add(["", "Total", "", "", "", "", "", b["totals"]["all"]], strong=True)
     rest = bk.not_priced(b)

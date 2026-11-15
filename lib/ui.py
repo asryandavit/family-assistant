@@ -85,6 +85,7 @@ def plan_links(root):
 
 
 BASKET_BUTTON = "\U0001f9fa Basket"
+TICK_LIST_BUTTON = "✅ Tick list"
 
 
 def checklist_url(root):
@@ -178,8 +179,11 @@ def section(name, root, chat_id=None):
                      "first, with a comparison and product links.",
                      "English or Armenian works: lentils, ոսպ, katnashor.",
                      "\U0001f9fa <b>Basket</b> prices this week's list at both shops (~2 min), fills "
-                     "the shared checklist and sends the list to both of you."])
-        rows = ([[(KEY_PRICE, "ui:price"), (BASKET_BUTTON, "cmd:basket")]]
+                     "the shared checklist and sends the list to both of you.",
+                     ("✅ <b>Tick list</b>: the week's list by aisle — tap items as they go in "
+                      "the cart; you both see the same ticks.")])
+        rows = ([[(KEY_PRICE, "ui:price"), (BASKET_BUTTON, "cmd:basket")],
+                 [(TICK_LIST_BUTTON, "gl:o:w")]]          # shopping/bot.py (decision 106)
                 + _links(dict(links, checklist=checklist_url(root)),
                          [("\U0001f4cb Checklist", "checklist"), ("\U0001f4c4 Shopping plan", "shopping")]))
     elif name == "market":

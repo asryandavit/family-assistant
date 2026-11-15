@@ -9,6 +9,7 @@ product is "no match" and stays out of every total.
     line_for(row, item)          what buying `row` as `item` costs
     best_per_shop(row, items)    cheapest sensible product at each shop
     price_basket(rows, results)  chosen shop per item, totals, comparison
+                                 (picker= swaps in another per-shop choice)
     month_projection / budget_verdict   the monthly budget check
 """
 import re
@@ -218,18 +219,23 @@ def best_per_shop(row, items, words=None):
 
 def choose(row, per_shop):
     """(shop, line) for the row: the preferred shop when it has a match, else the
-    cheaper line (Yerevan City on a tie). (None, None) without any match."""
+    cheaper line (Yerevan City on a tie) -- or the lower "rank" when the picker set
+    one. (None, None) without any match."""
     if row.get("shop") in per_shop:
         return row["shop"], per_shop[row["shop"]]
     if not per_shop:
         return None, None
-    shop = min(per_shop, key=lambda s: (per_shop[s]["cost"], SHOPS.index(s) if s in SHOPS else 9))
+    # A line may carry "rank" (shopping/quality.py: a preferred product within its
+    # premium); without it the cost decides, as before.
+    shop = min(per_shop, key=lambda s: (per_shop[s].get("rank", per_shop[s]["cost"]),
+                                        SHOPS.index(s) if s in SHOPS else 9))
     return shop, per_shop[shop]
 
 
-def price_basket(rows, results, words=None):
+def price_basket(rows, results, words=None, picker=None):
     """rows: parse_mapping() rows of one list. results: {search text: grocery.search()
-    result}. -> {
+    result}. picker(row, items, words) -> {shop: line} replaces best_per_shop when
+    given (shopping/quality.py: quality rules, decision 106). -> {
         "lines": [{"row", "status": "ok"|"no match"|"skipped"|"unavailable",
                    "shop", "line", "per_shop"}],
         "totals": {"yc": int, "parma": int, "all": int},
@@ -246,7 +252,7 @@ def price_basket(rows, results, words=None):
         res = results.get(row["search"]) or {"items": [], "status": {s: "error: not searched" for s in SHOPS}}
         bad = [s for s, st in res.get("status", {}).items() if st != "ok"]
         failed.update(bad)
-        per_shop = best_per_shop(row, res.get("items") or [], words)
+        per_shop = (picker or best_per_shop)(row, res.get("items") or [], words)
         shop, line = choose(row, per_shop)
         if line is None:
             status = "unavailable" if bad else "no match"
