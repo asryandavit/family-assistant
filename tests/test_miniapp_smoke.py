@@ -195,6 +195,17 @@ class Smoke(unittest.TestCase):
         self.assertTrue(heads and all("1688" in h for h in heads), heads)
         self.assertLess(len(heads), len(orders["delivered"]))
 
+    def test_china_still_shows_cards_when_the_server_sends_no_orders(self):
+        """The bundle is served live; the Python server restarts later. A page newer than the server
+        must not crash on a missing `orders` (it showed an error screen before this was handled)."""
+        from unittest import mock
+
+        from miniapp import china_view
+        with mock.patch.object(china_view, "_orders", return_value=None):
+            self.open("china")
+            self.page.locator("[id^=card-]").first.wait_for()
+        self.assertGreater(len(self.card_ids()), 1)
+
     # ---------------------------------------------------------------- MainButton, confirm, prefs
 
     def test_main_button_searches(self):

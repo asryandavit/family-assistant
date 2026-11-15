@@ -83,7 +83,8 @@ export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
   const [order, setOrder] = usePref("china_order", ORDER_IDS, "trust");
   const [siteFilter, setSiteFilter] = useState<string>("all");
   const byN = new Map((results?.results ?? []).map((r) => [r.n, r]));
-  const shown = (results?.orders[order] ?? [])
+  // a server without `orders` (older code still running) shows the cards in the chat's numbering
+  const shown = (results?.orders?.[order] ?? results?.results.map((r) => r.n) ?? [])
     .map((n) => byN.get(n))
     .filter((r): r is ChinaCard => !!r && (siteFilter === "all" || r.site === siteFilter));
   const siteOptions = [...new Map((results?.results ?? []).map((r) => [r.site, r.site_name])).entries()];
