@@ -114,6 +114,10 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   and in a new last Sheet column **Why**, shows an entry's `reason` for a not-priced item, and has one
   more compact level that drops the 📱 links before the message would split. `ui.section("shop")`
   gains a `✅ Tick list` button (`gl:o:w`). Callers without a picker get exactly the old picks.
+- `listener.py` routes `/list` and `gl:` buttons (2026-11-15, decision 106) to `shopping/bot.py`
+  through a fault-catching `_shopping` wrapper like `_market` (never the Runner, never crashing the
+  listener); the chat id is passed as the ticking user's id (private chats). `/help` and the command
+  menu list `/list`. Existing routes unchanged.
 
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.

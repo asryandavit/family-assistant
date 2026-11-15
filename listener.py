@@ -140,6 +140,7 @@ HELP = ("\U0001f9ed <b>Commands</b>\n"
         "/flights &lt;city&gt; &lt;window&gt; [nights] \u2014 search flights\n"
         "/price &lt;product&gt; [parma|yc] \u2014 grocery prices + links\n"
         "/basket [monthly|all] \u2014 price the shopping list, fill the checklist\n"
+        "/list [monthly] — the tick list, shared by both of you\n"
         "/watch [add|check|price] \u2014 market watch: items priced to Yerevan\n"
         "/china &lt;item&gt; | only taobao &lt;item&gt; | last \u2014 search Pinduoduo, Taobao, 1688\n"
         "/amazon &lt;item&gt; | only de &lt;item&gt; | last \u2014 search Amazon UK, DE, IT\n"
@@ -356,6 +357,7 @@ def set_menu(tok):
             {"command": "today", "description": "Today's meals and training"},
             {"command": "price", "description": "Grocery prices: /price lentils"},
             {"command": "basket", "description": "Price the shopping list + checklist"},
+            {"command": "list", "description": "Tick list for this week (both of you)"},
             {"command": "watch", "description": "Market watch: items priced to Yerevan"},
             {"command": "china", "description": "Search Pinduoduo, Taobao, 1688: /china GaN 65W"},
             {"command": "amazon", "description": "Search Amazon UK, DE, IT: /amazon usb c charger 65w"},
@@ -422,6 +424,8 @@ def handle_text(cfg, runner, text, chat_id=None):
         return _china("handle", cfg, ROOT, text, chat_id)
     if cmd == "amazon":
         return _amazon("handle", cfg, ROOT, text, chat_id)
+    if cmd == "list":
+        return _shopping("handle", cfg, ROOT, text, chat_id)
     if cmd in JOBS:
         return runner.launch(cmd, chat_id=chat_id)
     if cmd == "cancel":
@@ -530,6 +534,17 @@ def _amazon(fn, *args):
         return "⚠️ Amazon search is unavailable right now (%s)." % telegram.esc(str(e)[:80])
 
 
+def _shopping(fn, *args):
+    """Call shopping/bot.py lazily, like _market: a fault in the tick list answers with a
+    short message and never takes the listener down (decision 106)."""
+    try:
+        from shopping import bot
+        return getattr(bot, fn)(*args)
+    except Exception as e:  # noqa: BLE001  the listener must outlive any tick-list fault
+        log(f"shopping {fn} failed: {str(e)[:120]}")
+        return f"⚠️ The tick list is unavailable right now ({telegram.esc(str(e)[:80])})."
+
+
 def china_startup(cfg):
     """At startup: China jobs left waiting with no worker get one now, and a job a dead
     worker left unfinished is told to its asker and the owner (china/watch.py, decision 104).
@@ -634,6 +649,11 @@ def handle_callback(cfg, runner, data, chat_id=None, message_id=None):
     # am:<action> -- Amazon search (docs/briefs/AMAZON_SEARCH.md §1)
     if parts and parts[0] == "am":
         return _amazon("callback", cfg, ROOT, data, chat_id)
+
+    # gl:<action>:<w|m>... -- the shared tick list (docs/TELEGRAM_UX.md §5g). In a private
+    # chat the chat id is the user id, so it is recorded on the tick (decision 089).
+    if parts and parts[0] == "gl":
+        return _shopping("callback", cfg, ROOT, data, chat_id, message_id)
 
     # sw:<task key>:<0 off | 1 on | r run now | v refresh>
     if parts and parts[0] == "sw" and len(parts) == 3:
