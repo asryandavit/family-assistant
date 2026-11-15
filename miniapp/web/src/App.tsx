@@ -16,7 +16,8 @@ import { ChinaScreen } from "./ChinaScreen";
 import { MarketScreen } from "./MarketScreen";
 import { PlanScreen } from "./PlanScreen";
 import { TravelScreen } from "./TravelScreen";
-import { platform, webApp } from "./telegram";
+import { useHomeScreen, usePref } from "./hooks";
+import { atLeast, haptic, platform, webApp } from "./telegram";
 
 // Navigation: a Home list of full-width rows (Telegram's Settings pattern), not a bottom tab
 // bar — five tabs left the outer icons in the phone's rounded corners (owner, 2026-11-10).
@@ -85,6 +86,24 @@ export function App() {
     tg?.expand();
   }, []);
 
+  // Telegram's header and the page behind it take the app's background (6.1), so there is no
+  // white flash or band above the list; repainted when the theme changes.
+  useEffect(() => {
+    const tg = webApp();
+    if (!tg || !atLeast("6.1")) return;
+    const paint = () => {
+      try {
+        tg.setHeaderColor?.("secondary_bg_color");
+        tg.setBackgroundColor?.("secondary_bg_color");
+      } catch {
+        /* a client that refuses keeps its colours */
+      }
+    };
+    paint();
+    tg.onEvent("themeChanged", paint);
+    return () => tg.offEvent("themeChanged", paint);
+  }, []);
+
   const fail = useCallback((r: Result<unknown>) => {
     if (r.kind === "private" || r.kind === "expired" || r.kind === "unreachable" || r.kind === "slow") {
       setScreen({ kind: r.kind });
@@ -144,7 +163,7 @@ export function App() {
   }, [open, screen.kind]);
 
   const openSection = (name: string) => {
-    webApp()?.HapticFeedback?.selectionChanged();
+    haptic("select");
     setOpen(name);
     window.scrollTo(0, 0);
     void refreshStatus();
@@ -244,6 +263,9 @@ function Home(props: {
 }) {
   const { me, status, checkedAt, onOpen, onRefresh } = props;
   const sections = me.tabs.length ? me.tabs : DEFAULT_SECTIONS;
+  // "Add to home screen" (8.0): offered once, where the client can do it and has not already
+  const shortcut = useHomeScreen();
+  const [shortcutPref, setShortcutPref, shortcutReady] = usePref("home_shortcut", ["show", "hide"] as const, "show");
   return (
     <div className="page">
       <List>
@@ -269,6 +291,33 @@ function Home(props: {
             </Cell>
           ))}
         </Section>
+
+        {shortcut.available && shortcutReady && shortcutPref === "show" && (
+          <Section>
+            <Cell
+              multiline
+              before={<span className="icon">📲</span>}
+              subtitle="Open Family straight from your phone's home screen"
+            >
+              Add to home screen
+            </Cell>
+            <div className="actions">
+              <Button
+                size="s"
+                mode="bezeled"
+                onClick={() => {
+                  shortcut.add();
+                  setShortcutPref("hide"); // the client cannot always say whether it was added
+                }}
+              >
+                Add
+              </Button>
+              <Button size="s" mode="plain" onClick={() => setShortcutPref("hide")}>
+                Not now
+              </Button>
+            </div>
+          </Section>
+        )}
 
         <Section
           header="PC status"

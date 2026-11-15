@@ -269,9 +269,30 @@ def _usd(x):
     return f"{x:,.0f}"
 
 
-def travel_view(cfg, root=None, rows_fn=None):
+STALE_DAYS = 3        # data this old or older gets a note (a nightly scan makes 1–2 days normal)
+
+
+def age_note(day, today, action):
+    """"5 days old — Scan now for fresh prices" for data STALE_DAYS or more old, else None. The page
+    shows the sentence; it does no date arithmetic."""
+    if not isinstance(day, date):
+        return None
+    age = (today - day).days
+    return f"{age} days old — {action} for fresh prices" if age >= STALE_DAYS else None
+
+
+def _day(s):
+    try:
+        return date.fromisoformat(s)
+    except (TypeError, ValueError):
+        return None
+
+
+def travel_view(cfg, root=None, rows_fn=None, today=None):
     rows_fn = rows_fn or (lambda tab: _sheet_rows(cfg, tab))
-    out = {"scan": None, "trips": [], "stays": [], "run_date": None, "unavailable": False}
+    today = today or now_local().date()
+    out = {"scan": None, "trips": [], "stays": [], "run_date": None, "unavailable": False,
+           "trips_note": None, "stays_note": None}
     try:
         from lib import tasks
         info = tasks.query("travel")
@@ -289,6 +310,7 @@ def travel_view(cfg, root=None, rows_fn=None):
     if trips:
         day = max(r[0] for r in trips)
         out["run_date"] = day
+        out["trips_note"] = age_note(_day(day), today, "Scan now")
         cur = [r for r in trips if r[0] == day and _num(r[8]) is not None]
         cur.sort(key=lambda r: _num(r[8]))
         for r in cur[:8]:
@@ -309,4 +331,5 @@ def travel_view(cfg, root=None, rows_fn=None):
                 "night": _usd(_num(r[9])) if _num(r[9]) is not None else r[9],
                 "why": r[13], "url": r[15] if SAFE_URL.match(r[15] or "") else None})
         out["stays_date"] = day
+        out["stays_note"] = age_note(_day(day), today, "Search stays")
     return out

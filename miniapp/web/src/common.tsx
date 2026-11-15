@@ -1,9 +1,9 @@
 import { Button, Cell, Input, Placeholder, Spinner } from "@telegram-apps/telegram-ui";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { get, post, type Result } from "./api";
 import type { Block, Reply, Seg } from "./types";
-import { webApp } from "./telegram";
+import { confirmAsk, haptic, webApp } from "./telegram";
 
 export function openLink(url: string) {
   const tg = webApp();
@@ -18,11 +18,13 @@ export type Loaded<T> =
   | { kind: "ok"; data: T }
   | { kind: "failed" };
 
-export function useLoad<T>(path: `/api/${string}`, onFail: (r: Result<unknown>) => void) {
+// path null = not yet (the screen is still reading a stored preference): stays "loading".
+export function useLoad<T>(path: `/api/${string}` | null, onFail: (r: Result<unknown>) => void) {
   const [state, setState] = useState<Loaded<T>>({ kind: "loading" });
   const failRef = useRef(onFail);
   failRef.current = onFail;
   const reload = useCallback(async () => {
+    if (!path) return;
     const r = await get<T>(path);
     if (r.kind === "ok") setState({ kind: "ok", data: r.data });
     else if (r.kind === "private" || r.kind === "expired") failRef.current(r);
@@ -72,10 +74,9 @@ export function useAction() {
     setMsg(null);
     const r = await post<Reply>(path, body);
     setBusy(false);
-    const tg = webApp();
     if (r.kind === "ok") {
       setMsg({ ok: r.data.ok, text: r.data.message });
-      tg?.HapticFeedback?.notificationOccurred(r.data.ok ? "success" : "warning");
+      haptic(r.data.ok ? "ok" : "warn");
       return r.data.ok;
     }
     const text =
@@ -87,7 +88,7 @@ export function useAction() {
             ? "This app is private."
             : "The PC did not answer — try again.";
     setMsg({ ok: false, text });
-    tg?.HapticFeedback?.notificationOccurred("error");
+    haptic("error");
     return false;
   }, []);
   return { busy, msg, send, clear: () => setMsg(null) };
@@ -105,16 +106,17 @@ export function RunButton(props: {
   label: string;
   action: ReturnType<typeof useAction>;
   mode?: "bezeled" | "filled" | "outline";
+  // ask first (a native popup) for an action whose result goes to the whole family
+  confirm?: string;
 }) {
-  const { job, args, label, action, mode } = props;
+  const { job, args, label, action, mode, confirm } = props;
+  const go = async () => {
+    if (confirm && !(await confirmAsk(confirm))) return;
+    haptic("tap");
+    await action.send("/api/run", args === undefined ? { job } : { job, args });
+  };
   return (
-    <Button
-      size="s"
-      mode={mode ?? "bezeled"}
-      loading={action.busy}
-      disabled={action.busy}
-      onClick={() => void action.send("/api/run", args === undefined ? { job } : { job, args })}
-    >
+    <Button size="s" mode={mode ?? "bezeled"} loading={action.busy} disabled={action.busy} onClick={() => void go()}>
       {label}
     </Button>
   );
@@ -129,18 +131,24 @@ export function Field(props: {
   onEnter?: () => void;
   after?: ReactNode;
 }) {
+  const id = useId();
   return (
-    <Input
-      header={props.header}
-      placeholder={props.placeholder}
-      value={props.value}
-      maxLength={200}
-      after={props.after}
-      onChange={(e) => props.onChange(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") props.onEnter?.();
-      }}
-    />
+    <div className="field">
+      <label className="field-label" htmlFor={id}>
+        {props.header}
+      </label>
+      <Input
+        id={id}
+        placeholder={props.placeholder}
+        value={props.value}
+        maxLength={200}
+        after={props.after}
+        onChange={(e) => props.onChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") props.onEnter?.();
+        }}
+      />
+    </div>
   );
 }
 
@@ -191,7 +199,7 @@ export function Blocks(props: { blocks: Block[] }) {
 }
 
 function Fold(props: { title: string; lines: { k: "p"; s: Seg[] }[] }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(/today/i.test(props.title));
   return (
     <div className="fold">
       <Cell onClick={() => setOpen((o) => !o)} after={<span className="hint">{open ? "▴" : "▾"}</span>}>

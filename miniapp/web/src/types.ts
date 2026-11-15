@@ -82,6 +82,9 @@ export interface Travel {
     url: string | null;
   }[];
   stays_date?: string;
+  // "5 days old — Scan now for fresh prices", built on the PC; null when fresh
+  trips_note: string | null;
+  stays_note: string | null;
 }
 
 export interface ChinaStatus {

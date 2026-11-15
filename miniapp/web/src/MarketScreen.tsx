@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import type { Result } from "./api";
 import { Field, Notice, RunButton, openLink, useAction, useLoad, Waiting } from "./common";
+import { useClosingConfirmation, useMainButton } from "./hooks";
 import type { Market, MarketItem } from "./types";
 
 // Market watch (docs/briefs/MARKET_WATCH.md): the list, mark bought / remove, add by link,
@@ -28,7 +29,12 @@ export function MarketScreen(props: { onFail: (r: Result<unknown>) => void }) {
             <ItemRow key={it.id} it={it} onChanged={() => void reload()} />
           ))}
           <div className="actions">
-            <RunButton job="market" label="🔄 Check prices now" action={check} />
+            <RunButton
+              job="market"
+              label="🔄 Check prices now"
+              action={check}
+              confirm="Read the watch list's stores now? It takes a minute or two per store and the report goes to both of you."
+            />
           </div>
           <Notice msg={check.msg} />
         </Section>
@@ -85,6 +91,8 @@ function AddForm(props: { stores: string[]; onAdded: () => void }) {
   const [link, setLink] = useState("");
   const [weight, setWeight] = useState("");
   const act = useAction();
+  const ready = name.trim().length > 0 && link.trim().length > 0;
+  useClosingConfirmation(!!(name.trim() || link.trim() || weight.trim()));
   const submit = async () => {
     const body: { name: string; link: string; weight?: string } = { name, link };
     if (weight.trim()) body.weight = weight;
@@ -95,16 +103,26 @@ function AddForm(props: { stores: string[]; onAdded: () => void }) {
       props.onAdded();
     }
   };
+  // the form's one action is Telegram's bottom button once both fields are filled
+  const mainButton = useMainButton({
+    text: "➕ Add to the watch list",
+    visible: ready,
+    active: ready && !act.busy,
+    loading: act.busy,
+    onClick: () => void submit(),
+  });
   return (
     <Section header="Add an item" footer={`Stores watched: ${props.stores.join(", ")}. One link per store, the exact item.`}>
       <Field header="Name" value={name} onChange={setName} placeholder="e.g. USB-C cable 2 m" />
       <Field header="Store link (https://…)" value={link} onChange={setLink} placeholder="https://www.amazon.com/dp/…" />
       <Field header="Weight, optional" value={weight} onChange={setWeight} placeholder="0.2 kg" onEnter={() => void submit()} />
-      <div className="actions">
-        <Button size="m" loading={act.busy} disabled={act.busy || !name.trim() || !link.trim()} onClick={() => void submit()}>
-          ➕ Add to the watch list
-        </Button>
-      </div>
+      {!mainButton && (
+        <div className="actions">
+          <Button size="m" loading={act.busy} disabled={act.busy || !ready} onClick={() => void submit()}>
+            ➕ Add to the watch list
+          </Button>
+        </div>
+      )}
       <Notice msg={act.msg} />
     </Section>
   );

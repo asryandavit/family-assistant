@@ -105,6 +105,17 @@ def card(n, p, category, pick_n):
     }
 
 
+def _orders(numbered):
+    """Sort orders as lists of result numbers, computed here so the page only re-orders cards:
+    `trust` = the chat's ranking across sites (pricing.order_key), `delivered` = cheapest delivered
+    total first. A result with no total goes last in both."""
+    priced = [(n, p) for n, p in numbered if p.get("total_amd") is not None]
+    unpriced = [n for n, p in numbered if p.get("total_amd") is None]
+    trust = sorted(priced, key=lambda x: (pricing.order_key(x[1]), x[0]))
+    cheap = sorted(priced, key=lambda x: (x[1]["total_amd"], x[0]))
+    return {"trust": [n for n, _ in trust] + unpriced, "delivered": [n for n, _ in cheap] + unpriced}
+
+
 def view(last):
     """Saved payload -> {"empty": True} or the screen's data."""
     if not last or not last.get("sites"):
@@ -123,5 +134,6 @@ def view(last):
                    "status": s["status"], "line": _site_line(s)} for s in last["sites"]],
         "pick": pick_n,
         "pick_reason": why or None,
+        "orders": _orders(numbered),
         "results": [card(n, p, category, pick_n) for n, p in numbered],
     }

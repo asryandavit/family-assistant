@@ -3,20 +3,41 @@ import { useState } from "react";
 
 import type { Result } from "./api";
 import { Field, Notice, RunButton, openLink, useAction, useLoad, Waiting } from "./common";
+import { useClosingConfirmation, useMainButton, usePref } from "./hooks";
+import { confirmAsk, haptic } from "./telegram";
 import type { Basket } from "./types";
+
+const KINDS = ["weekly", "monthly"] as const;
 
 // Basket: the last priced shopping list (Yerevan City + Parma), run it again, price one product.
 export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
-  const [kind, setKind] = useState<"weekly" | "monthly">("weekly");
-  const { state, reload } = useLoad<Basket>(`/api/basket/${kind}`, props.onFail);
+  const [kind, setKind, ready] = usePref("basket_kind", KINDS, "weekly");
+  const { state, reload } = useLoad<Basket>(ready ? `/api/basket/${kind}` : null, props.onFail);
   const run = useAction();
   const price = useAction();
   const [product, setProduct] = useState("");
+  useClosingConfirmation(product.trim().length > 0);
+
+  // The list goes to BOTH chats, so it is asked first. The screen's main action lives in
+  // Telegram's bottom bar (MainButton); an in-page button stands in where there is none.
+  const ASK = `Price the ${kind} list at both shops? It takes about 2 minutes and the list is sent to both of you.`;
+  const runBasket = async () => {
+    if (!(await confirmAsk(ASK))) return;
+    haptic("tap");
+    await run.send("/api/run", { job: "basket", args: kind });
+  };
+  const mainButton = useMainButton({
+    text: `🧺 Price the ${kind} list now`,
+    visible: ready,
+    active: !run.busy,
+    loading: run.busy,
+    onClick: () => void runBasket(),
+  });
 
   const body =
     state.kind !== "ok" ? null : state.data.empty ? (
       <Section>
-        <Placeholder header="No basket priced yet" description="Tap “Price it now” — it takes about 2 minutes.">
+        <Placeholder header="No basket priced yet" description="Price it now — it takes about 2 minutes.">
           <span className="big">🧺</span>
         </Placeholder>
       </Section>
@@ -37,7 +58,7 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
                 key={i.item + i.product}
                 multiline
                 subtitle={`${i.buy}${i.product ? ` · ${i.product}` : ""}`}
-                after={<span className="hint">{i.cost}</span>}
+                after={<span className="hint nowrap">{i.cost}</span>}
                 onClick={i.url ? () => openLink(i.url as string) : undefined}
               >
                 {i.item}
@@ -66,18 +87,26 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
     <div className="page">
       <List>
         <TabsList>
-          <TabsList.Item selected={kind === "weekly"} onClick={() => setKind("weekly")}>
-            Weekly
-          </TabsList.Item>
-          <TabsList.Item selected={kind === "monthly"} onClick={() => setKind("monthly")}>
-            Monthly
-          </TabsList.Item>
+          {KINDS.map((k) => (
+            <TabsList.Item
+              key={k}
+              selected={kind === k}
+              onClick={() => {
+                if (k !== kind) haptic("select");
+                setKind(k);
+              }}
+            >
+              {k === "weekly" ? "Weekly" : "Monthly"}
+            </TabsList.Item>
+          ))}
         </TabsList>
 
         <Section footer="The bot prices the list at both shops (about 2 minutes), fills the checklist and sends it to both of you.">
-          <div className="actions">
-            <RunButton job="basket" args={kind} label={`🧺 Price the ${kind} list now`} action={run} />
-          </div>
+          {!mainButton && (
+            <div className="actions">
+              <RunButton job="basket" args={kind} label={`🧺 Price the ${kind} list now`} action={run} confirm={ASK} />
+            </div>
+          )}
           <Notice msg={run.msg} />
         </Section>
 

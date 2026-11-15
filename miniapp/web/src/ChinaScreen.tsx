@@ -3,7 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { get, post, type ActionReply, type China, type ChinaCard, type Result } from "./api";
 import { Field, Notice, useAction } from "./common";
-import { webApp } from "./telegram";
+import { useClosingConfirmation, useMainButton, usePref } from "./hooks";
+import { haptic, webApp } from "./telegram";
 import type { ChinaStatus } from "./types";
 
 // Step 1 (docs/briefs/MINI_APP.md §12): the person's latest /china result. Every number is a
@@ -12,11 +13,17 @@ import type { ChinaStatus } from "./types";
 type Load = { kind: "loading" } | { kind: "ok"; data: China } | { kind: "failed" };
 
 const SITES = [
-  ["", "All"],
+  ["all", "All"],
   ["pinduoduo", "PDD"],
   ["taobao", "Taobao"],
   ["1688", "1688"],
 ] as const;
+const SITE_IDS = SITES.map(([id]) => id);
+const ORDERS = [
+  ["trust", "Most trusted"],
+  ["delivered", "Cheapest delivered"],
+] as const;
+const ORDER_IDS = ORDERS.map(([id]) => id);
 const POLL_MS = 8000;
 const SETTLE_MS = 15000; // the bot needs a moment to pick the request up before "idle" means done
 
@@ -72,6 +79,27 @@ export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
   const d = load.kind === "ok" ? load.data : null;
   const results = d && !d.empty ? d : null;
   const pick = results?.results.find((r) => r.pick);
+  // how the cards are shown: your order choice is remembered; the site filter is not
+  const [order, setOrder] = usePref("china_order", ORDER_IDS, "trust");
+  const [siteFilter, setSiteFilter] = useState<string>("all");
+  const byN = new Map((results?.results ?? []).map((r) => [r.n, r]));
+  const shown = (results?.orders[order] ?? [])
+    .map((n) => byN.get(n))
+    .filter((r): r is ChinaCard => !!r && (siteFilter === "all" || r.site === siteFilter));
+  const siteOptions = [...new Map((results?.results ?? []).map((r) => [r.site, r.site_name])).entries()];
+  // tapping the pick scrolls to its card (clearing the filter so it is there) and flashes it
+  const jumpTo = (n: number) => {
+    haptic("tap");
+    setSiteFilter("all");
+    window.setTimeout(() => {
+      const el = document.getElementById(`card-${n}`);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      el.classList.remove("flash");
+      void el.offsetWidth;
+      el.classList.add("flash");
+    }, 60);
+  };
 
   const started = () => {
     jobBefore.current = results ? results.job : null;
@@ -142,13 +170,53 @@ export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
 
             {pick && (
               <Section header="🏆 Pick">
-                <Cell multiline subtitle={results.pick_reason ?? undefined}>
+                <Cell
+                  multiline
+                  subtitle={results.pick_reason ?? undefined}
+                  after={<span className="hint nowrap">↓</span>}
+                  onClick={() => jumpTo(pick.n)}
+                >
                   {pick.n}. {pick.title}
                 </Cell>
               </Section>
             )}
 
-            {results.results.map((c) => (
+            {results.results.length > 1 && (
+              <Section header="Show">
+                <TabsList>
+                  {ORDERS.map(([id, label]) => (
+                    <TabsList.Item
+                      key={id}
+                      selected={order === id}
+                      onClick={() => {
+                        if (id !== order) haptic("select");
+                        setOrder(id);
+                      }}
+                    >
+                      {label}
+                    </TabsList.Item>
+                  ))}
+                </TabsList>
+                {siteOptions.length > 1 && (
+                  <TabsList>
+                    {[["all", "All sites"], ...siteOptions].map(([id, label]) => (
+                      <TabsList.Item
+                        key={id}
+                        selected={siteFilter === id}
+                        onClick={() => {
+                          if (id !== siteFilter) haptic("select");
+                          setSiteFilter(id);
+                        }}
+                      >
+                        {label}
+                      </TabsList.Item>
+                    ))}
+                  </TabsList>
+                )}
+              </Section>
+            )}
+
+            {shown.map((c) => (
               <ResultCard key={c.n} job={results.job} c={c} />
             ))}
           </>
@@ -166,16 +234,27 @@ function SearchForm(props: {
   onCancelled: () => void;
 }) {
   const [text, setText] = useState("");
-  const [site, setSite] = useState<string>("");
+  // the site you searched last is remembered per person
+  const [site, setSite] = usePref("china_site", SITE_IDS, "all");
   const act = useAction();
   const cancel = useAction();
-  const args = site ? `only ${site} ${text.trim()}` : text.trim();
+  useClosingConfirmation(text.trim().length > 0);
+  const args = site !== "all" ? `only ${site} ${text.trim()}` : text.trim();
   const submit = async () => {
     if (await act.send("/api/run", { job: "china", args })) {
       setText("");
       props.onStarted();
     }
   };
+  // The screen's main action is Telegram's bottom button once there is something to search for.
+  const canSearch = text.trim().length >= 3 && !props.busy;
+  const mainButton = useMainButton({
+    text: "🔎 Search",
+    visible: canSearch || act.busy,
+    active: canSearch && !act.busy,
+    loading: act.busy,
+    onClick: () => void submit(),
+  });
   // What /china cancel does in the chat: drop your WAITING searches (a running one finishes).
   const doCancel = async () => {
     await cancel.send("/api/china/cancel", {});
@@ -203,21 +282,30 @@ function SearchForm(props: {
       />
       <TabsList>
         {SITES.map(([id, label]) => (
-          <TabsList.Item key={id} selected={site === id} onClick={() => setSite(id)}>
+          <TabsList.Item
+            key={id}
+            selected={site === id}
+            onClick={() => {
+              if (id !== site) haptic("select");
+              setSite(id);
+            }}
+          >
             {label}
           </TabsList.Item>
         ))}
       </TabsList>
-      <div className="actions">
-        <Button
-          size="m"
-          loading={act.busy}
-          disabled={act.busy || props.busy || text.trim().length < 3}
-          onClick={() => void submit()}
-        >
-          🔎 Search
-        </Button>
-      </div>
+      {!mainButton && (
+        <div className="actions">
+          <Button
+            size="m"
+            loading={act.busy}
+            disabled={act.busy || props.busy || text.trim().length < 3}
+            onClick={() => void submit()}
+          >
+            🔎 Search
+          </Button>
+        </div>
+      )}
       {st && st.waiting > 0 && (
         <div className="actions">
           <Button size="s" mode="bezeled" loading={cancel.busy} disabled={cancel.busy} onClick={() => void doCancel()}>
@@ -294,7 +382,7 @@ function ResultCard(props: { job: string; c: ChinaCard }) {
 
   const rv = c.reviews;
   return (
-    <Section header={`${c.n}. ${c.site_name}${c.pick ? " · 🏆 pick" : ""}`}>
+    <Section id={`card-${c.n}`} header={`${c.n}. ${c.site_name}${c.pick ? " · 🏆 pick" : ""}`}>
       <Cell multiline subtitle={c.seller + (c.trust !== null ? ` · 🛡 ${c.trust}` : "")} description={c.title_cn}>
         {c.title}
       </Cell>

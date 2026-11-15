@@ -122,6 +122,52 @@ body {
   color: var(--tg-theme-link-color, var(--tgui--link_color));
 }
 
+.field {
+  padding: 4px 0 0;
+}
+
+.field-label {
+  display: block;
+  padding: 8px 20px 0;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--tg-theme-section-header-text-color, var(--tgui--section_header_text_color, #6d6d72));
+}
+
+.nowrap,
+.price {
+  white-space: nowrap;
+}
+
+.price {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.25;
+}
+
+.price small {
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
+}
+
+.flash {
+  animation: flash 1.2s ease-out;
+}
+
+@keyframes flash {
+  from {
+    outline: 2px solid var(--tg-theme-button-color, var(--tgui--button_color));
+    outline-offset: -2px;
+  }
+  to {
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+  }
+}
+
 .hintline {
   color: var(--tg-theme-hint-color, var(--tgui--hint_color));
   padding-top: 0;

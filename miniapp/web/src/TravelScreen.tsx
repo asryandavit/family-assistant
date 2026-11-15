@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import type { Result } from "./api";
 import { Field, Notice, RunButton, openLink, useAction, useLoad, Waiting } from "./common";
+import { useClosingConfirmation } from "./hooks";
 import type { Travel } from "./types";
 
 // Travel: the latest flight and stay results from the daily scan, a scan on demand, and the
@@ -39,18 +40,16 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
         )}
 
         {t.trips.length > 0 && (
-          <Section header={`Cheapest trips · scan of ${t.run_date}`} footer="Return trip, total for everyone in the party; club = with the Wizz Discount Club.">
+          <Section
+            header={`Cheapest trips · scan of ${t.run_date}`}
+            footer={`${t.trips_note ? `⚠️ ${t.trips_note}. ` : ""}Return trip, total for everyone in the party; club = with the Wizz Discount Club.`}
+          >
             {t.trips.map((x, i) => (
               <Cell
                 key={i}
                 multiline
                 subtitle={`${x.out} → ${x.back} · ${x.nights} nights · ${x.pax}`}
-                after={
-                  <span className="hint">
-                    {x.total} {x.currency}
-                    {x.club ? ` (club ${x.club})` : ""}
-                  </span>
-                }
+                after={<Price main={`${x.total} ${x.currency}`} sub={x.club ? `club ${x.club}` : undefined} />}
               >
                 {x.route}
               </Cell>
@@ -59,18 +58,17 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
         )}
 
         {t.stays.length > 0 && (
-          <Section header={`Best stays · scan of ${t.stays_date}`}>
+          <Section
+            header={`Best stays · scan of ${t.stays_date}`}
+            footer={t.stays_note ? `⚠️ ${t.stays_note}.` : undefined}
+          >
             {t.stays.map((s, i) => (
               <Cell
                 key={i}
                 multiline
                 subtitle={`${s.city} · ${s.in} → ${s.out} (${s.nights} nights) · ${s.source} · rating ${s.rating}`}
                 description={s.why}
-                after={
-                  <span className="hint">
-                    {s.total} {s.currency}
-                  </span>
-                }
+                after={<Price main={`${s.total} ${s.currency}`} sub={`${s.night} a night`} />}
                 onClick={s.url ? () => openLink(s.url as string) : undefined}
               >
                 {s.name}
@@ -86,11 +84,22 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
   );
 }
 
+// The amount on the right of a row: the figure, and a smaller line under it. Never wraps mid-figure.
+function Price(props: { main: string; sub?: string }) {
+  return (
+    <span className="price">
+      <b>{props.main}</b>
+      {props.sub && <small>{props.sub}</small>}
+    </span>
+  );
+}
+
 function FlightsForm() {
   const [where, setWhere] = useState("");
   const [when, setWhen] = useState("");
   const [nights, setNights] = useState("7");
   const act = useAction();
+  useClosingConfirmation(!!(where.trim() || when.trim()));
   const args = [where.trim(), when.trim(), nights.trim()].filter(Boolean).join(" ");
   const go = () => void act.send("/api/run", { job: "flights", args });
   return (
@@ -113,6 +122,7 @@ function StaysForm() {
   const [when, setWhen] = useState("");
   const [words, setWords] = useState("");
   const act = useAction();
+  useClosingConfirmation(!!(where.trim() || when.trim()));
   const args = [where.trim(), when.trim(), words.trim()].filter(Boolean).join(" ");
   const go = () => void act.send("/api/run", { job: "stays", args });
   return (

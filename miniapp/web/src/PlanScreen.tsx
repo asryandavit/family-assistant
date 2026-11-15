@@ -1,8 +1,9 @@
 import { List, Placeholder, Section, TabsList } from "@telegram-apps/telegram-ui";
-import { useState } from "react";
 
 import type { Result } from "./api";
 import { Blocks, useLoad, Waiting } from "./common";
+import { usePref } from "./hooks";
+import { haptic } from "./telegram";
 import type { Page } from "./types";
 
 // Today · Meals · Training · Week: the chat's own text for you (coach/plan_text.py), as blocks.
@@ -12,18 +13,25 @@ const TABS = [
   ["training", "Training"],
   ["week", "Week"],
 ] as const;
-
-type Name = (typeof TABS)[number][0];
+const NAMES = TABS.map(([id]) => id);
 
 export function PlanScreen(props: { onFail: (r: Result<unknown>) => void }) {
-  const [name, setName] = useState<Name>("today");
-  const { state, reload } = useLoad<Page>(`/api/plan/${name}`, props.onFail);
+  // the tab you used last is remembered per person (CloudStorage); nothing but the tab name
+  const [name, setName, ready] = usePref("plan_tab", NAMES, "today");
+  const { state, reload } = useLoad<Page>(ready ? `/api/plan/${name}` : null, props.onFail);
   return (
     <div className="page">
       <List>
         <TabsList>
           {TABS.map(([id, label]) => (
-            <TabsList.Item key={id} selected={id === name} onClick={() => setName(id)}>
+            <TabsList.Item
+              key={id}
+              selected={id === name}
+              onClick={() => {
+                if (id !== name) haptic("select");
+                setName(id);
+              }}
+            >
               {label}
             </TabsList.Item>
           ))}

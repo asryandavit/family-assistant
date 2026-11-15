@@ -58,6 +58,9 @@ export type China =
       sites: { site: string; name: string; status: string; line: string }[];
       pick: number | null;
       pick_reason: string | null;
+      // result numbers in display order, computed on the PC (miniapp/china_view.py): the page
+      // only re-orders cards, it never calculates
+      orders: { trust: number[]; delivered: number[] };
       results: ChinaCard[];
     };
 
