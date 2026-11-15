@@ -74,3 +74,13 @@ rule out (e.g. olive oil that isn't extra virgin) and says why. How each row bel
 ≈ 25–30k staples + 4 × 15–18k fresh ≈ **85,000–100,000 AMD** — inside the budget, near
 the top. To land closer to 80k: fish once a week only (canned mackerel the other time),
 fewer walnuts, more lentils/beans.
+
+## What the week's menu needs (decision 107)
+
+The menus now change every week, so the fresh list follows the menu: each dish in
+[dishes.md](dishes.md) has a **buy** column, and `coach.menu_gen.week_ingredients(root, week)`
+returns that week's shopping words (names only — no amounts; the amounts stay in
+[basket.md](basket.md)). The basket does not read it yet. Words the menus use that
+[basket.md](basket.md) has no row for (15 Nov 2026): bread, canned sardines, dried apricots,
+eggplant, feta, fresh mackerel, pearl barley, pumpkin, salmon, turkey mince, shelled wheat,
+white fish.

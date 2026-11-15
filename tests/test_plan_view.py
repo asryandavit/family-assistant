@@ -50,7 +50,7 @@ class RealFiles(unittest.TestCase):
         wed = menu["days"]["Wed"]
         self.assertEqual(pv.ids_in(wed["lunch"]), ["ln-lobi", "ln-bulgur"])
         self.assertEqual(wed["prep"], "Batch: lobi")
-        self.assertFalse(menu["fell_back"])
+        self.assertEqual(menu["source"], "file")
         self.assertEqual([b[0] for b in menu["batch"]], ["Sunday", "Wednesday"])
 
     def test_calendar_and_times(self):
@@ -148,17 +148,23 @@ class Fallbacks(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.root, ignore_errors=True)
 
-    def test_missing_week_falls_back_to_latest(self):
-        w = pv.load_week(self.root, 5)
-        self.assertEqual((w["number"], w["fell_back"]), (1, True))
+    def test_trial_weeks_then_generated_never_a_silent_fallback(self):
+        """Weeks 2-4 were the trial (week 1 repeated); from week 5 a week without a file
+        is generated (decision 107) -- no week ever shows another week's menu."""
+        w = pv.load_week(self.root, 3)
+        self.assertEqual((w["number"], w["source"]), (1, "trial"))
         shutil.copy(os.path.join(self.root, "plan", "meals", "week-01.md"),
                     os.path.join(self.root, "plan", "meals", "week-03.md"))
-        self.assertEqual(pv.load_week(self.root, 5)["number"], 3)
-        self.assertEqual(pv.load_week(self.root, 1)["number"], 1)
+        self.assertEqual((pv.load_week(self.root, 3)["number"], pv.load_week(self.root, 3)["source"]),
+                         (3, "file"))
+        w = pv.load_week(self.root, 20)
+        self.assertEqual((w["number"], w["source"]), (20, "generated"))
+        self.assertEqual(sorted(w["days"]), sorted(pv.DAYS))
 
     def test_no_week_file_at_all(self):
         os.remove(os.path.join(self.root, "plan", "meals", "week-01.md"))
-        self.assertIsNone(pv.load_week(self.root, 1))
+        self.assertTrue(pv.load_week(self.root, 1)["missing"])
+        self.assertEqual(pv.load_week(self.root, 20)["source"], "generated")
 
     def test_no_start_date(self):
         with open(os.path.join(self.root, "config_coach.json"), "w", encoding="utf-8") as f:

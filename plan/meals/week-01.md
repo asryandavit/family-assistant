@@ -14,13 +14,13 @@ boil 6–8 eggs.
 
 | Day | Breakfast | Lunch | Dinner (≤ 19:00) | Prep for tomorrow |
 |---|---|---|---|---|
-| **Mon** | `bf-hercules` | `ln-lentil-soup` + salad | `dn-leftover` (tray chicken + veg) | — |
-| **Tue** | `bf-eggs-boiled` | tray chicken + `ln-buckwheat` + veg | `dn-soup-blend` (lentil) + egg | Soak beans |
+| **Mon** | `bf-hercules` | `ln-lentil-soup` + `sd-salad` | `ln-chicken-tray` (from Sunday's tray) + `sd-salad` | — |
+| **Tue** | `bf-eggs-boiled` | `ln-chicken-tray` + `sd-buckwheat` | `ln-lentil-soup` (blended) + `sd-egg` | Soak beans |
 | **Wed** | `bf-katnashor` | `ln-lobi` + `ln-bulgur` + greens | `dn-omelette` | Batch: lobi |
 | **Thu** | `bf-eggs-scrambled` | `ln-lobi` + salad | `ln-fish-bake` (25 min) | — |
 | **Fri** | `bf-hercules` | `ln-chicken-plov` | `dn-soup-blend` (vegetable) | — |
-| **Sat** | `bf-eggs-boiled` | `dn-matsun-bowl` + boiled potato | **`wk-scoolinary`** — pizza week? | Shopping list for Sunday |
-| **Sun** | `bf-katnashor` | `ln-dolma-lean` or `ln-veg-stew` (also starts next week's batch) | `dn-salad-egg` | Batch session |
+| **Sat** | `bf-eggs-boiled` | `dn-matsun-bowl` + `sd-egg` | **`wk-scoolinary`** — pizza week? | Shopping list for Sunday |
+| **Sun** | `bf-katnashor` | `ln-dolma-lean` + `sd-matsun` | `dn-salad-egg` | Batch session |
 
 **Son:** same dishes — whole-fat dairy, his portion taken out before salt, soft cuts.
 **Coffee:** ~08:00 and ~15:30. **Snack:** fruit or matsun with coffee #2.

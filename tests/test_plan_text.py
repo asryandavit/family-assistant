@@ -8,6 +8,7 @@ from datetime import date, datetime, timedelta
 from unittest import mock
 
 import listener
+from coach import menu_gen
 from coach import plan_text as pt
 from coach import plan_view as pv
 from jobs import coach_brief
@@ -85,11 +86,16 @@ class RealPlanMessages(unittest.TestCase):
         for line in t.splitlines():
             self.assertLessEqual(line.count("recipe:"), 1, line)       # at most one per meal
 
-    def test_week_message_points_to_basket(self):
-        t = pt.week_text(self.plan, date(2026, 10, 25))
-        self.assertIn("Week 2", t)
-        self.assertIn("showing week 1's", t)                           # week-02.md not written
-        self.assertIn("Basket", t)
+    def test_week_message_no_path_no_footer_path_buttons_instead(self):
+        t = pt.week_text(self.plan, date(2026, 11, 15))
+        self.assertIn("<i>Week 5 · 16–22 Nov</i>", t)                  # header = what's shown
+        self.assertNotIn("plan/meals", t)                              # never a file path
+        self.assertNotIn("week-0", t)
+        self.assertNotIn("Home →", t)                                  # the footer is a button now
+        self.assertNotIn("](http", t)                                  # no raw Markdown links
+        self.assertEqual(pt.week_buttons(None), [[("🧺 Price the list at both shops", "cmd:basket")]])
+        app = pt.week_buttons("https://app.example")
+        self.assertEqual(app[0][0][1], {"web_app": "https://app.example?screen=today"})
 
     def test_training_section_has_safety_and_cues(self):
         t = pt.training_text(self.plan, date(2026, 10, 21))
@@ -177,7 +183,12 @@ class EdgeCases(unittest.TestCase):
     def test_missing_week_said_out_loud(self):
         plan = pv.load_plan(self.root)
         t = pt.today_text(plan, date(2026, 11, 4))                     # week 3, no week-03.md
-        self.assertIn("No menu for week 3 yet — showing week 1's.", t)
+        self.assertNotIn("showing week", t)                            # trial week 3 = week 1
+        with mock.patch("coach.menu_gen.generate",
+                        side_effect=menu_gen.GenerationError("week 9: no fish dish left")):
+            t = pt.today_text(plan, date(2026, 12, 16))                # week 9, no file
+            self.assertIn(pt.MISSING, t)                               # said plainly
+            self.assertNotIn("Breakfast", t)                           # no other week's menu
 
     def test_section_survives_a_broken_plan(self):
         shutil.rmtree(os.path.join(self.root, "plan", "family"))
@@ -235,10 +246,36 @@ class Delivery(unittest.TestCase):
         self.assertEqual((status, posted), ("dropped", []))
         self.assertEqual(self._run("morning", (9, 59))[0], "sent")
 
-    def test_week_to_both_chats(self):
-        status, posted = self._run("week", (18, 0), day=date(2026, 10, 25))
+    def _week(self, **kw):
+        rich, notes = [], []
+        fake = lambda cfg, r, plain, **k: rich.append((r, plain, k)) or ("rich", 1)  # noqa: E731
+        with mock.patch.object(telegram, "send_rich", fake),                 mock.patch.object(telegram, "notify", lambda cfg, t: notes.append(t)),                 mock.patch.object(coach_brief, "app_url", lambda: "https://app.example"):
+            status, posted = self._run("week", (18, 0), day=date(2026, 11, 15), **kw)
+        return status, posted, rich, notes
+
+    def test_week_to_both_chats_as_rich_with_fallback_and_buttons(self):
+        status, posted, rich, notes = self._week()
         self.assertEqual(status, "sent")
-        self.assertEqual(sorted(p["chat_id"] for p in posted), ["111", "222"])
+        self.assertEqual(posted, [])                                    # nothing via plain sendMessage
+        self.assertEqual([k["chat_id"] for _, _, k in rich], ["111", "222"])
+        r, plain, k = rich[0]
+        self.assertEqual(r.count("<details>"), 8)                       # 7 days + "Every day"
+        self.assertIn('type="web_app" url="https://app.example?screen=today"', r)
+        self.assertIn("Next week's menu", plain)
+        self.assertEqual(k["buttons"][0][0][1], {"web_app": "https://app.example?screen=today"})
+        self.assertEqual(notes, [])                                     # week 5 keeps every rule
+
+    def test_week_owner_only_for_review(self):
+        status, _, rich, _ = self._week(owner_only=True)
+        self.assertEqual((status, [k["chat_id"] for _, _, k in rich]), ("sent", ["111"]))
+
+    def test_week_that_cannot_be_made_says_so_and_tells_owner(self):
+        with mock.patch("coach.menu_gen.week_menu",
+                        side_effect=menu_gen.GenerationError("week 5: no fish dish left")):
+            status, _, rich, notes = self._week()
+        self.assertEqual(status, "sent")
+        self.assertIn(pt.MISSING, rich[0][0])                          # plain words to the family
+        self.assertIn("no fish dish left", notes[0])                    # the owner is told
 
     def test_failure_tells_owner_only(self):
         notes = []

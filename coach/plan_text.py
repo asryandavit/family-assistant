@@ -1,7 +1,8 @@
 """Plan messages and Home sections from the parsed plan (decision 085).
 
-Templates only -- every name, dose and time comes from plan/ through plan_view; no
-model call, no number computed here. Layout follows docs/TELEGRAM_UX.md §2 via
+Templates only -- every name, dose and time comes from plan/ through plan_view, the week
+menu from coach/menu_gen (decision 107); no model call, no number computed here (the
+weekly balance is counted in menu_gen). Layout follows docs/TELEGRAM_UX.md §2 via
 lib.ui (header / fold / page). Links (the hard rule, §5c): a video URL only from
 exercise-videos.md rows the video job verified, a recipe URL only from an allowlisted
 `ref` in dishes.md, otherwise a search URL built in plan_view -- nothing else.
@@ -9,6 +10,7 @@ exercise-videos.md rows the video job verified, a recipe URL only from an allowl
 import re
 from datetime import timedelta
 
+from coach import menu_gen as mg
 from coach import plan_view as pv
 from lib import ui
 from lib.telegram import LIMIT, esc
@@ -19,6 +21,14 @@ FORBIDDEN = ("patient", "condition", "disease", "illness", "diagnosis", "treatme
 NAMES = {"davit": "Davit", "karine": "Karine"}
 MEAL_LABELS = (("breakfast", "Breakfast"), ("lunch", "Lunch"), ("dinner", "Dinner"),
                ("prep", "Prep for tomorrow"))
+MISSING = ("This week's menu couldn't be put together from the dish list. "
+           "Davit has been told and will fix it.")
+EVERY_DAY = ("Son: the same dishes — his portion taken out before salt, soft pieces, "
+             "nuts only ground or finely chopped, full-fat dairy.",
+             "Coffee ~08:00 and ~15:30, after food. Snack with coffee #2: fruit or matsun.",
+             "Plate: ½ vegetables · ¼ protein · ¼ grains or legumes · a little lavash.")
+RECIPE_NOTE = "Recipe links are for technique; dishes and portions stay ours."
+WEEK_TITLE = "Next week's menu"
 
 
 def today_extras(plan, person, day, chat_id=None):
@@ -53,22 +63,55 @@ def _ex(plan, text):
     return inline(text, plan["exercises"], "exercise library")
 
 
+def _main_ids(plan, cell):
+    """The dish ids of a cell that aren't sides (a side never gets a link or a mark)."""
+    return [i for i in pv.ids_in(cell) if (plan["dishes"].get(i) or {}).get("slot") != "side"]
+
+
 def _recipe(plan, cell):
-    """At most one recipe reference per meal: the first dish in the cell with a ref."""
-    for i in pv.ids_in(cell):
-        ref = pv.recipe_ref(plan["dishes"].get(i))
-        if ref:
-            return ' · <a href="%s">recipe: %s</a>' % (esc(ref[0]), esc(ref[1]))
-    return ""
+    """One link per dish that has an allowlisted ref -- every option gets its own, so a
+    cell never carries a link for one dish only while naming two."""
+    refs = [(i, pv.recipe_ref(plan["dishes"].get(i))) for i in _main_ids(plan, cell)]
+    refs = [(i, r) for i, r in refs if r]
+    if len(refs) == 1:
+        return ' · <a href="%s">recipe</a>' % esc(refs[0][1][0])
+    return "".join(' · <a href="%s">%s</a>' % (esc(r[0]), esc(short(plan, i))) for i, r in refs)
 
 
-def meal_lines(plan, meals, refs=False):
-    out = []
+def short(plan, dish_id):
+    d = plan["dishes"].get(dish_id)
+    return mg.short_name(d["name"]) if d else dish_id
+
+
+def short_cell(plan, cell):
+    """'`ln-x` · `sp-y` · boil 6 eggs' -> 'Mujaddara · Spas · boil 6 eggs' (escaped)."""
+    return esc(pv.ID_RE.sub(lambda m: short(plan, m.group(1)), (cell or "").replace("**", "")))
+
+
+def _notes(values):
+    return [x for x in dict.fromkeys(v.strip() for v in values) if x and x not in ("—", "-")]
+
+
+def meal_lines(plan, meals, refs=False, new=(), notes=False, tips_too=True):
+    """Breakfast / Lunch / Dinner / Prep lines for one day; with notes, one 👶 line for
+    the son and one 💡 line of tips from the day's dishes (dishes.md son / tip)."""
+    out, son, tips = [], [], []
     for key, label in MEAL_LABELS:
         cell = (meals or {}).get(key, "").strip()
         if not cell or cell in ("—", "-"):
             continue
-        out.append("<b>%s</b> %s%s" % (label, _dish(plan, cell), _recipe(plan, cell) if refs else ""))
+        mark = " ✨ <i>new</i>" if any(i in new for i in _main_ids(plan, cell)) else ""
+        link = _recipe(plan, cell) if refs and key != "prep" else ""
+        out.append("<b>%s</b> %s%s%s" % (label, _dish(plan, cell), mark, link))
+        if key != "prep":
+            for i in _main_ids(plan, cell):
+                d = plan["dishes"].get(i) or {}
+                son.append(d.get("son") or "")
+                tips.append(d.get("tip") or "")
+    if notes and _notes(son):
+        out.append("👶 " + esc("; ".join(_notes(son))))
+    if notes and tips_too and _notes(tips):
+        out.append("💡 " + esc("; ".join(_notes(tips))))
     return out
 
 
@@ -190,18 +233,24 @@ def _fit(build, levels=LEVELS):
 def today_text(plan, day, chat_id=None, title="Today"):
     info = pv.today_info(plan, day)
     menu = info["menu"]
+    for son, tips in ((True, True), (True, False), (False, False)):
+        text = _today(plan, day, chat_id, title, info, menu, son, tips)
+        if len(text) <= LIMIT:
+            break
+    return text
 
+
+def _today(plan, day, chat_id, title, info, menu, son, tips):
     def build(n_cues, full):
         body = []
-        if menu is None:
-            body.append("<i>No week menu file in plan/meals/.</i>")
+        if menu.get("missing"):
+            body.append(esc(MISSING))
         else:
-            if menu["fell_back"]:
-                body.append("<i>No menu for week %d yet — showing week %d's.</i>"
-                            % (info["week"], menu["number"]))
-            body += meal_lines(plan, info["meals"]) or ["<i>No menu row for %s.</i>" % info["weekday"]]
-            for name, effort, text in info["batch"]:
-                body.append("<b>Batch cooking</b> (%s) %s" % (esc(effort), _dish(plan, text)))
+            body += meal_lines(plan, info["meals"], new=menu.get("new") or (), notes=son,
+                               tips_too=tips) or [
+                "<i>No menu row for %s.</i>" % info["weekday"]]
+            for _name, effort, text in info["batch"]:
+                body.append("<b>Batch cooking</b> (%s) %s" % (esc(effort), short_cell(plan, text)))
         body.append("")
         for p in pv.PEOPLE:
             body.append(session_summary(plan, p, info["people"][p]))
@@ -221,29 +270,70 @@ def morning_text(plan, day):
 
 # ------------------------------------------------------------------ Meals + week plan
 
-def week_parts(plan, week, monday, today=None):
-    """(subtitle, body, folded) for one plan week's menu, one fold per day."""
-    menu = pv.load_week(plan["root"], week)
-    if menu is None:
-        return "Week %d" % week, ["<i>No week menu file in plan/meals/.</i>"], ""
-    body = []
-    if menu["fell_back"]:
-        body.append("<i>No menu for week %d yet (plan/meals/week-%02d.md) — showing week %d's.</i>"
-                    % (week, week, menu["number"]))
-    for name, effort, text in menu["batch"]:
-        body.append("<b>Batch %s</b> (%s) %s" % (esc(name), esc(effort), _dish(plan, text)))
-    folds = []
+def _range(monday):
+    end = monday + timedelta(days=6)
+    if monday.month == end.month:
+        return "%d–%d %s" % (monday.day, end.day, end.strftime("%b"))
+    return "%d %s – %d %s" % (monday.day, monday.strftime("%b"), end.day, end.strftime("%b"))
+
+
+def _batch_day(monday, name):
+    """'Sunday' batch = the Sunday before the week; 'Wednesday' = that week's Wednesday."""
+    i = pv.DAYS.index(name[:3].title())
+    return monday + timedelta(days=i - 7 if i == 6 else i)
+
+
+# How much each day fold carries: (recipe links, 👶 son line, 💡 tips). The Rich Message
+# always has all three; one plain HTML message takes the richest that fits (≤ LIMIT).
+DETAIL = ((True, True, True), (True, True, False), (True, False, False), (False, False, False))
+
+
+def week_model(plan, week, monday, today=None, detail=DETAIL[0]):
+    """Everything a week message shows, built once for the HTML and the Rich layout:
+    {sub, missing, menu, new, batch: [line], days: [(title, summary, lines)], balance}.
+    No number is typed here -- the balance is counted by coach/menu_gen.balance()."""
+    menu = pv.load_week(plan["root"], week, plan["dishes"])
+    sub = "Week %d · %s" % (week, _range(monday))
+    if menu.get("missing"):
+        return {"sub": sub, "missing": True, "menu": menu}
+    new = menu.get("new") or []
+    batch = ["%s (%s): %s" % (ui.day_label(_dt(_batch_day(monday, n))), esc(e), short_cell(plan, t))
+             for n, e, t in menu["batch"]]
+    days = []
     for i, d in enumerate(pv.DAYS):
         date_ = monday + timedelta(days=i)
-        lines = meal_lines(plan, menu["days"].get(d), refs=True) or ["<i>No menu row.</i>"]
-        mark = " · today" if today == date_ else ""
-        folds.append(ui.fold(lines, "%s%s" % (ui.day_label(_dt(date_)), mark)))
-    notes = [_dish(plan, n) for n in menu["notes"]]
-    if notes:
-        folds.append(ui.fold(notes, "Notes"))
-    end = monday + timedelta(days=6)
-    sub = "Week %d · %d %s – %d %s" % (week, monday.day, monday.strftime("%b"), end.day, end.strftime("%b"))
-    return sub, body, "\n".join(folds)
+        meals = menu["days"].get(d) or {}
+        refs, son, tips = detail
+        lines = meal_lines(plan, meals, refs=refs, new=new, notes=son, tips_too=tips) or [
+            "<i>No menu row.</i>"]
+        mains = [short(plan, pv.ids_in(meals.get(k, ""))[0]) for k in ("lunch", "dinner")
+                 if pv.ids_in(meals.get(k, ""))]
+        title = "%s%s" % (ui.day_label(_dt(date_)), " · today" if today == date_ else "")
+        days.append((title, " · ".join([title] + [esc(x) for x in dict.fromkeys(mains)]), lines))
+    c = mg.balance(plan["dishes"], menu)
+    bal = ("fish %d× · legumes %d× · chicken or turkey %d× · eggs %d× · red meat %d×"
+           % (c["fish"], c["legume"], c["poultry"], c["egg"], c["red_meat"]))
+    return {"sub": sub, "missing": False, "menu": menu, "batch": batch, "days": days,
+            "new": ", ".join(esc(short(plan, i)) for i in new), "balance": bal}
+
+
+def week_parts(plan, week, monday, today=None, detail=DETAIL[0]):
+    """(subtitle, body, folded) for one plan week's menu: new dishes, batch cooking, one
+    fold per day (title = the day and its lunch and dinner), an 'Every day' fold and the
+    week's balance line."""
+    m = week_model(plan, week, monday, today, detail)
+    if m["missing"]:
+        return m["sub"], [esc(MISSING)], ""
+    body = []
+    if m["new"]:
+        body.append("✨ <b>New this week:</b> %s" % m["new"])
+    if m["batch"]:
+        body.append("<b>Batch cooking</b>")
+        body += m["batch"]
+    folds = [ui.fold(lines, summary) for _, summary, lines in m["days"]]
+    folds.append(ui.fold([esc(x) for x in EVERY_DAY], "Every day"))
+    folds.append("<i>This week: %s</i>" % m["balance"])
+    return m["sub"], body, "\n".join(folds)
 
 
 def _week_and_monday(plan, day):
@@ -256,19 +346,86 @@ def _week_and_monday(plan, day):
 
 def meals_text(plan, day):
     week, monday = _week_and_monday(plan, day)
-    sub, body, folded = week_parts(plan, week, monday, today=day)
-    return ui.page(ui.header("\U0001f37d", "Meals", None, sub), body, folded,
-                   "<i>Recipe links are for technique; dishes and portions stay ours.</i>")
+
+    def build(detail):
+        sub, body, folded = week_parts(plan, week, monday, today=day, detail=detail)
+        return ui.page(ui.header("\U0001f37d", "Meals", None, sub), body, folded,
+                       "<i>%s</i>" % RECIPE_NOTE if detail[0] else None)
+    return _fit_detail(build)
+
+
+def _fit_detail(build):
+    """The richest DETAIL level that keeps one message (Meals is edited in place)."""
+    for detail in DETAIL:
+        text = build(detail)
+        if len(text) <= LIMIT:
+            return text
+    return text
+
+
+def _next_week(plan, day):
+    monday = pv.next_monday(day)
+    return max(pv.week_of(monday, plan["start"]), 1), monday
 
 
 def week_text(plan, day):
-    """Sunday 18:00: next week's menu + where to price it."""
-    monday = pv.next_monday(day)
-    week = max(pv.week_of(monday, plan["start"]), 1)
-    sub, body, folded = week_parts(plan, week, monday)
-    return ui.page(ui.header("\U0001f37d", "Next week's menu", None, sub), body, folded,
-                   "<i>To price it at both shops: \U0001f3e0 Home → \U0001f6d2 Shopping → "
-                   "\U0001f9fa Basket.</i>")
+    """Sunday 18:00, plain HTML: next week's menu -- also the Rich Message's fallback and
+    the Mini App's week page. Buttons (week_buttons) replace the old 'Home → Shopping'
+    footer line; no file path is ever shown."""
+    week, monday = _next_week(plan, day)
+
+    def build(detail):
+        sub, body, folded = week_parts(plan, week, monday, detail=detail)
+        return ui.page(ui.header("\U0001f37d", WEEK_TITLE, None, sub), body, folded,
+                       "<i>%s</i>" % RECIPE_NOTE if detail[0] else None)
+    return _fit_detail(build)
+
+
+def week_buttons(app_url=None):
+    """📱 Today and 🧺 Basket in the Mini App when it is set up on this machine, else the
+    chat's own 🧺 button (cmd:basket prices the list at both shops)."""
+    if app_url:
+        return [[("\U0001f4f1 Today", {"web_app": app_url + "?screen=today"}),
+                 ("\U0001f9fa Basket", {"web_app": app_url + "?screen=basket"})]]
+    return [[("\U0001f9fa Price the list at both shops", "cmd:basket")]]
+
+
+def _attr(s):
+    return esc(s).replace('"', "&quot;")
+
+
+def rich_button(label, data):
+    """A <tg-button> (same form as china/report.py: web_app url=, callback data=)."""
+    if isinstance(data, dict) and "web_app" in data:
+        return '<tg-button type="web_app" url="%s">%s</tg-button>' % (_attr(data["web_app"]), esc(label))
+    return '<tg-button type="callback_data" data="%s">%s</tg-button>' % (_attr(data), esc(label))
+
+
+def week_rich(plan, day, app_url=None):
+    """(rich_html, plain_html, buttons, menu) for the Sunday message: a Telegram Rich
+    Message with one <details> per day (a newline is a space there, so <br>), and the
+    plain HTML as its fallback (lib/telegram.send_rich)."""
+    week, monday = _next_week(plan, day)
+    m = week_model(plan, week, monday)
+    plain = week_text(plan, day)
+    btns = week_buttons(app_url)
+    R = ["<p><b>\U0001f37d %s</b><br><i>%s</i></p>" % (esc(WEEK_TITLE), esc(m["sub"]))]
+    if m["missing"]:
+        R.append("<p>%s</p>" % esc(MISSING))
+    else:
+        if m["new"]:
+            R.append("<p>✨ <b>New this week:</b> %s</p>" % m["new"])
+        if m["batch"]:
+            R.append("<p><b>Batch cooking</b><br>%s</p>" % "<br>".join(m["batch"]))
+        for _, summary, lines in m["days"]:
+            R.append("<details><summary>%s</summary><p>%s</p></details>" % (summary, "<br>".join(lines)))
+        R.append("<details><summary>Every day</summary><p>%s</p></details>"
+                 % "<br>".join(esc(x) for x in EVERY_DAY))
+        R.append("<p><i>This week: %s</i></p>" % m["balance"])
+        R.append("<p><i>%s</i></p>" % esc(RECIPE_NOTE))
+    R.append("".join("<tg-button-row>%s</tg-button-row>" % "".join(rich_button(lbl, d) for lbl, d in row)
+                     for row in btns))
+    return "".join(R), plain, btns, m["menu"]
 
 
 # ------------------------------------------------------------------ Training

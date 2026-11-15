@@ -1,11 +1,11 @@
 """Read the family plan (plan/) by its stable ids -- decision 085.
 
 Parsing and day/week arithmetic only; coach/plan_text.py lays it out. Nothing here
-invents a dish, an exercise or a number: an unknown id comes back as the id, a missing
-week file as an explicit fallback the message says out loud.
+invents a dish, an exercise or a number: an unknown id comes back as the id; a week
+without a file is generated from the dish library (coach/menu_gen.py, decision 107).
 
     plan/meals/week-NN.md           the week's menu (Breakfast / Lunch / Dinner / Prep)
-    plan/meals/dishes.md            dish ids -> names, optional recipe `ref`
+    plan/meals/dishes.md            the dish library: ids -> name, slot, protein, ..., `ref`
     plan/daily-rhythm.md            weekly training calendar + session times
     plan/family/<person>.md         the 12-week blocks (Strength A, Session 1, ...)
     plan/training/exercises.md      exercise ids -> name + "how" cues
@@ -33,6 +33,7 @@ RECIPE_SITES = {
     "www.bbcgoodfood.com": "BBC Good Food",
     "www.armenianinstitute.org.uk": "Armenian Institute",
     "thearmeniankitchen.com": "The Armenian Kitchen",
+    "www.themediterraneandish.com": "The Mediterranean Dish",
 }
 YOUTUBE_SEARCH = "https://www.youtube.com/results?search_query="
 
@@ -123,22 +124,27 @@ def weekday(day):
 # ------------------------------------------------------------------ dishes
 
 def parse_dishes(md):
-    """dishes.md -> {id: {id, name, ref}} across all its tables."""
+    """dishes.md -> {id: {id, name, ref, <every other column by its header>}} across all
+    its tables, in file order (the generator's novelty queue follows that order)."""
     out = {}
     for t in tables(md):
         h = t["header"]
         if not h or h[0] != "id":
             continue
         name_col = next((i for i, c in enumerate(h) if c in ("dish", "what", "name")), 1)
-        ref_col = h.index("ref") if "ref" in h else None
         for r in t["rows"]:
             ids = ids_in(r[0])
             if not ids:
                 continue
-            ref = r[ref_col].strip() if ref_col is not None and ref_col < len(r) else ""
-            out[ids[0]] = {"id": ids[0], "name": r[name_col] if name_col < len(r) else ids[0],
-                           "ref": ref or None}
+            row = {c: (r[i].strip() if i < len(r) else "") for i, c in enumerate(h) if i}
+            row.update(id=ids[0], name=r[name_col] if name_col < len(r) else ids[0],
+                       ref=row.get("ref") or None)
+            out[ids[0]] = row
     return out
+
+
+def read_dishes(root):
+    return _read(root, "plan", "meals", "dishes.md")
 
 
 def recipe_ref(dish):
@@ -166,13 +172,8 @@ def week_numbers(root):
     return sorted(out)
 
 
-def pick_week_file(root, week):
-    """(number used, fell_back). Missing week-NN.md -> the latest week file."""
-    nums = week_numbers(root)
-    if not nums:
-        return None, True
-    want = max(week, 1)
-    return (want, False) if want in nums else (nums[-1], True)
+def read_week_file(root, week):
+    return _read(root, "plan", "meals", "week-%02d.md" % week)
 
 
 def parse_week(md):
@@ -222,17 +223,19 @@ def parse_week(md):
     return {"days": days, "batch": batch, "notes": notes}
 
 
-def load_week(root, week):
-    """{number, fell_back, days, batch, notes} for a plan week, or None without any file."""
-    num, fell_back = pick_week_file(root, week)
-    if num is None:
-        return None
-    md = _read(root, "plan", "meals", "week-%02d.md" % num)
-    if md is None:
-        return None
-    w = parse_week(md)
-    w.update(number=num, fell_back=fell_back)
-    return w
+def load_week(root, week, dishes=None):
+    """{number, source, days, batch, notes, new, warnings} for any plan week: its file,
+    week 1 for the trial weeks 2-4, otherwise generated (coach/menu_gen.py, decision 107).
+    {missing: True, error} when no menu can be made -- the message then says so plainly
+    and the scheduled jobs tell the owner. Never a silent fallback to another week."""
+    from coach import menu_gen
+    if dishes is None:
+        dishes = parse_dishes(read_dishes(root))
+    try:
+        return menu_gen.week_menu(root, dishes, week)
+    except menu_gen.GenerationError as e:
+        return {"missing": True, "error": str(e), "number": week, "days": {}, "batch": [],
+                "notes": [], "new": [], "warnings": [str(e)]}
 
 
 # ------------------------------------------------------------------ exercises + videos
@@ -528,18 +531,26 @@ def today_info(plan, day):
     start = plan["start"]
     week = week_of(day, start)
     wk_for_files = max(week, 1)
-    menu = load_week(plan["root"], wk_for_files)
+    menu = load_week(plan["root"], wk_for_files, plan["dishes"])
     d = weekday(day)
     return {
         "day": day, "weekday": d, "week": week, "start": start,
         "before_start": start is not None and day < start,
         "past_plan": week > PLAN_WEEKS,
         "menu": menu,
-        "meals": (menu or {}).get("days", {}).get(d),
-        "batch": [b for b in (menu or {}).get("batch", []) if b[0][:3] == d],
+        "meals": menu["days"].get(d),
+        "batch": _batch_today(plan, menu, wk_for_files, d),
         "people": {p: person_day(plan, p, wk_for_files, day) for p in PEOPLE},
         "nudge": nudge_for(plan["habits"], day),
     }
+
+
+def _batch_today(plan, menu, week, d):
+    """Batch sessions cooked today. A week's 'Sunday' batch is cooked the Sunday before
+    its Monday, so on a Sunday it is next week's Sunday batch that is due."""
+    if d == "Sun":
+        menu = load_week(plan["root"], week + 1, plan["dishes"])
+    return [b for b in menu["batch"] if b[0][:3] == d]
 
 
 def next_monday(day):

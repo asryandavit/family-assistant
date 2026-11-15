@@ -11,14 +11,14 @@ are for their doctors and physio; this plan is everyday food and movement around
 
 | If you want… | Open |
 |---|---|
-| **What do I do today?** | the bot: 🏠 Home → 📅 Today, or `/today` · or [daily-rhythm.md](daily-rhythm.md) + this week's menu [meals/week-01.md](meals/week-01.md) |
+| **What do I do today?** | the bot: 🏠 Home → 📅 Today, or `/today` · or [daily-rhythm.md](daily-rhythm.md) + this week's menu `meals/week-NN.md` (e.g. [week 5](meals/week-05.md)) |
 | Davit's full plan | [family/davit.md](family/davit.md) |
 | Karine's full plan | [family/karine.md](family/karine.md) |
 | The son's plan | [family/son.md](family/son.md) |
 | How an exercise is done | [training/exercises.md](training/exercises.md) |
 | When to make exercises harder / easier, safety | [training/progression.md](training/progression.md) |
 | Food rules | [meals/principles.md](meals/principles.md) |
-| Dish list | [meals/dishes.md](meals/dishes.md) |
+| Dish library (and what's new next) | [meals/dishes.md](meals/dishes.md) |
 | What to buy | [meals/shopping.md](meals/shopping.md) |
 | How to keep it going | [habits.md](habits.md) |
 | Tracking (light, optional) | [tracking.md](tracking.md) |
@@ -44,9 +44,11 @@ tracking, Sunday 10-minute review, Saturday Scoolinary project as the planned tr
 - **Rules that keep it flexible:** exercises live only in `training/exercises.md` and
   dishes only in `meals/dishes.md`, referenced by id everywhere else. Add a new one there
   first, then use it. Times live only in `daily-rhythm.md`.
-- **Each new week:** copy `meals/week-01.md` to `week-02.md` and adjust. Week 1 started
-  Mon 19 Oct 2026 (`plan_start_local` in `config_coach.json`); until a week's file exists
-  the bot shows the latest one and says so.
+- **Each new week** is built from the dish library by fixed rules (see "The weekly rules"
+  in [meals/principles.md](meals/principles.md), decision 107) — nobody writes it. Weeks 1–4
+  were the manual trial (`week-01.md`); weeks 5–8 are written out; later weeks are built the
+  same way when shown. Edit any `week-NN.md` by hand and that file wins. Week 1 started
+  Mon 19 Oct 2026 (`plan_start_local` in `config_coach.json`).
 
 ## Roadmap
 
