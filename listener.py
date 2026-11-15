@@ -160,9 +160,19 @@ START = time.time()
 _log_f = None
 
 
+# A Bot API URL carries the token ("https://api.telegram.org/bot<id>:<secret>/getUpdates"), and
+# requests puts the URL into its exception text. Every log line is redacted before it is written.
+_TOKEN_RE = re.compile(r"bot\d+:[A-Za-z0-9_-]+")
+
+
+def redact(text):
+    """Text with any Telegram bot token replaced by bot<token>."""
+    return _TOKEN_RE.sub("bot<token>", str(text))
+
+
 def log(msg):
     global _log_f
-    line = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} {msg}"
+    line = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} {redact(msg)}"
     print(line, flush=True)
     try:
         if _log_f is None:

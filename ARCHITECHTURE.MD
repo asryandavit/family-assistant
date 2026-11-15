@@ -118,6 +118,11 @@ Shared platform (`lib/`, frozen rule in CLAUDE.md §1) — additive changes log:
   through a fault-catching `_shopping` wrapper like `_market` (never the Runner, never crashing the
   listener); the chat id is passed as the ticking user's id (private chats). `/help` and the command
   menu list `/list`. Existing routes unchanged.
+- `listener.py` `log()` redacts Telegram bot tokens (2026-11-15): `requests` puts the Bot API URL,
+  token included, into its exception text, so poll-error lines had written up to ~45 characters of
+  the token into `listener.log` (1,133 lines, local and gitignored; found by the Mini App session).
+  Every line now passes `redact()` (`bot<id>:<secret>` → `bot<token>`, also when cut short) before it
+  is printed or written. The existing log was scrubbed the same day. Callers unchanged.
 
 Working style: be honest and push back on weak ideas rather than agreeing; recommendation
 first with a short reason; small verifiable steps; no validation filler.
