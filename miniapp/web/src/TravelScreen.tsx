@@ -20,7 +20,7 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
           header="Daily scan"
           footer={
             t.scan
-              ? `${t.scan.enabled ? "On" : "Paused"} · last ${t.scan.last ?? "—"} · next ${t.scan.next ?? "—"}`
+              ? `${t.scan.enabled ? "On" : "Paused"} · last run ${t.scan.last ?? "—"} · next ${t.scan.next ?? "—"}`
               : undefined
           }
         >
@@ -41,9 +41,10 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
 
         {t.trips.length > 0 && (
           <Section
-            header={`Cheapest trips · scan of ${t.run_date}`}
-            footer={`${t.trips_note ? `⚠️ ${t.trips_note}. ` : ""}Return trip, total for everyone in the party; club = with the Wizz Discount Club.`}
+            header={`Cheapest trips · scan of ${t.run_label ?? t.run_date}`}
+            footer="Return trip, total for everyone in the party; club = with the Wizz Discount Club."
           >
+            {t.trips_note && <div className="msg warn">⚠️ {t.trips_note}.</div>}
             {t.trips.map((x, i) => (
               <Cell
                 key={i}
@@ -59,15 +60,14 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
 
         {t.stays.length > 0 && (
           <Section
-            header={`Best stays · scan of ${t.stays_date}`}
-            footer={t.stays_note ? `⚠️ ${t.stays_note}.` : undefined}
-          >
+            header={`Best stays · scan of ${t.stays_label ?? t.stays_date}`}>
+            {t.stays_note && <div className="msg warn">⚠️ {t.stays_note}.</div>}
             {t.stays.map((s, i) => (
               <Cell
                 key={i}
                 multiline
                 subtitle={`${s.city} · ${s.in} → ${s.out} (${s.nights} nights) · ${s.source} · rating ${s.rating}`}
-                description={s.why}
+                description={s.why ?? undefined}
                 after={<Price main={`${s.total} ${s.currency}`} sub={`${s.night} a night`} />}
                 onClick={s.url ? () => openLink(s.url as string) : undefined}
               >

@@ -8,9 +8,10 @@ export interface Seg {
   c?: 1;
   a?: string;
 }
-export type Block =
-  | { k: "p"; s: Seg[] }
-  | { k: "fold"; title: string; b: { k: "p"; s: Seg[] }[] };
+export type Para = { k: "p"; s: Seg[] };
+export type Gap = { k: "gap" };
+// a "gap" is an empty line in the chat's text: the page starts a new card there
+export type Block = Para | Gap | { k: "fold"; title: string; b: (Para | Gap)[] };
 
 export type Page = { unreadable: true } | { unreadable?: false; title: string; blocks: Block[] };
 
@@ -44,6 +45,8 @@ export type Basket =
       empty: false;
       kind: string;
       when: string;
+      // "28 days old — Price the list now for fresh prices", built on the PC; null when fresh
+      stale: string | null;
       total: string;
       partial: boolean;
       compare: string | null;
@@ -55,6 +58,7 @@ export type Basket =
 export interface Travel {
   scan: { enabled: boolean; next: string | null; last: string | null } | null;
   run_date: string | null;
+  run_label?: string;
   unavailable: boolean;
   trips: {
     route: string;
@@ -78,10 +82,11 @@ export interface Travel {
     currency: string;
     total: string;
     night: string;
-    why: string;
+    why: string | null;
     url: string | null;
   }[];
   stays_date?: string;
+  stays_label?: string;
   // "5 days old — Scan now for fresh prices", built on the PC; null when fresh
   trips_note: string | null;
   stays_note: string | null;
@@ -102,6 +107,7 @@ export interface ShopItem {
   product: string | null;
   url: string | null;
   reason: string | null;
+  cost: string | null;
   done: boolean;
   by_name: string | null;
   at: string | null;

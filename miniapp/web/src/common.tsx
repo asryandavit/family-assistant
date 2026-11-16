@@ -1,4 +1,4 @@
-import { Button, Cell, Input, Placeholder, Spinner } from "@telegram-apps/telegram-ui";
+import { Button, Cell, Input, Placeholder, Section, Spinner } from "@telegram-apps/telegram-ui";
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { get, post, type Result } from "./api";
@@ -182,36 +182,104 @@ function Segs({ s }: { s: Seg[] }) {
   );
 }
 
-export function Blocks(props: { blocks: Block[] }) {
+// A line that opens with a bold word ("Breakfast …", "Davit 18:15 …", "✨ New this week: …")
+// shows the word as a small label over the rest; a line that is only bold is a subheading.
+function splitLabel(s: Seg[]): { label: string; rest: Seg[] } | null {
+  let i = 0;
+  let lead = "";
+  if (s.length > 1 && !s[0].b && !/\p{L}/u.test(s[0].t)) {
+    lead = s[0].t; // an emoji in front of the label stays with it
+    i = 1;
+  }
+  const first = s[i];
+  if (!first || !first.b || first.a || first.t.trim().length > 28 || s.length <= i + 1) return null;
+  const rest = s.slice(i + 1);
+  if (rest[0]) rest[0] = { ...rest[0], t: rest[0].t.replace(/^\s*[·:]?\s*/, "") };
+  return { label: (lead + first.t).trim().replace(/:$/, ""), rest: rest.filter((x) => x.t) };
+}
+
+function Para(props: { s: Seg[] }) {
+  const { s } = props;
+  if (s.length === 1 && s[0].b && !s[0].a) return <p className="subhead">{s[0].t}</p>;
+  const split = splitLabel(s);
+  if (split) {
+    return (
+      <p className="labelled">
+        <span className="lbl">{split.label}</span>
+        <Segs s={split.rest} />
+      </p>
+    );
+  }
   return (
-    <div className="page-text">
+    <p>
+      <Segs s={s} />
+    </p>
+  );
+}
+
+function Lines(props: { blocks: Block[] }) {
+  return (
+    <>
       {props.blocks.map((b, i) =>
         b.k === "p" ? (
-          <p key={i}>
-            <Segs s={b.s} />
-          </p>
+          <Para key={i} s={b.s} />
+        ) : b.k === "gap" ? (
+          <div key={i} className="spacer" />
         ) : (
           <Fold key={i} title={b.title} lines={b.b} />
         ),
       )}
-    </div>
+    </>
   );
 }
 
-function Fold(props: { title: string; lines: { k: "p"; s: Seg[] }[] }) {
+// The chat's text as cards: an empty line in it starts a new card; the first card carries the
+// page title. A card that opens with a line in bold (e.g. "🍽 This week's menu · …") uses that
+// line as its header.
+export function BlockCards(props: { title: string; blocks: Block[] }) {
+  const groups: Block[][] = [[]];
+  for (const b of props.blocks) {
+    if (b.k === "gap") {
+      if (groups[groups.length - 1].length) groups.push([]);
+    } else groups[groups.length - 1].push(b);
+  }
+  return (
+    <>
+      {groups
+        .filter((g) => g.length)
+        .map((g, n) => {
+          let header: string | undefined = n === 0 ? props.title : undefined;
+          let body = g;
+          const head = g[0];
+          if (n > 0 && head.k === "p" && head.s.some((x) => x.b) && head.s.every((x) => x.b || x.i || !/\p{L}/u.test(x.t))) {
+            header = head.s.map((x) => x.t).join("").trim();
+            body = g.slice(1);
+          }
+          return (
+            <Section key={n} header={header}>
+              <div className="page-text">
+                <Lines blocks={body} />
+              </div>
+            </Section>
+          );
+        })}
+    </>
+  );
+}
+
+function Fold(props: { title: string; lines: Block[] }) {
   // today's day opens by itself, except on Today where its meals are already on top
   const [open, setOpen] = useState(/· today(?! \()/i.test(props.title));
   return (
-    <div className="fold">
-      <Cell multiline onClick={() => setOpen((o) => !o)} after={<span className="hint">{open ? "▴" : "▾"}</span>}>
+    <div className={open ? "fold open" : "fold"}>
+      <Cell multiline onClick={() => setOpen((o) => !o)} after={<span className="chev" aria-hidden="true" />} aria-expanded={open}>
         {props.title || "More"}
       </Cell>
-      {open &&
-        props.lines.map((l, i) => (
-          <p key={i}>
-            <Segs s={l.s} />
-          </p>
-        ))}
+      {open && (
+        <div className="fold-body">
+          <Lines blocks={props.lines} />
+        </div>
+      )}
     </div>
   );
 }

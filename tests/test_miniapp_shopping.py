@@ -77,7 +77,8 @@ class Shape(unittest.TestCase):
                "groups": [{"aisle": "Dairy", "items": [{
                    "key": "eggs", "item": "Eggs", "aisle": "Dairy", "amount": "6", "shop": "yc",
                    "shop_name": "Yerevan City", "buy": "1 pack", "product": "Eggs", "url": "javascript:alert(1)",
-                   "app_url": "yc://x", "reason": "↳ fresh", "done": False, "by": None, "at_utc": None}]}],
+                   "app_url": "yc://x", "reason": "↳ fresh", "cost": 1440, "done": False, "by": None,
+                   "at_utc": None}]}],
                "items": []}
         with mock.patch.object(checklist, "load", return_value=raw):
             v = shopping_view.view(self.root, "weekly", NAMES)
@@ -85,6 +86,7 @@ class Shape(unittest.TestCase):
         self.assertIsNone(item["url"])
         self.assertNotIn("app_url", item)
         self.assertEqual(item["reason"], "↳ fresh")
+        self.assertEqual(item["cost"], "1,440 ֏")     # the basket's own figure, formatted only
 
     def test_unknown_kind_and_malformed_list(self):
         self.assertIsNone(shopping_view.view(self.root, "yearly", NAMES))

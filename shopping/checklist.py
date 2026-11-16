@@ -179,7 +179,7 @@ def menu_words(root, day):
 
 
 def items_for(root, kind, day=None):
-    """[{key, item, aisle, amount, shop, shop_name, buy, product, url, app_url, reason}]
+    """[{key, item, aisle, amount, shop, shop_name, buy, product, url, app_url, reason, cost}]
     in aisle order, then list order. Raises ValueError when basket.md is malformed.
     The weekly list also carries the week's menu items basket.md doesn't have (aisle
     MENU_AISLE, amount "for <dishes>"), for the menu week of `day` (menu_monday)."""
@@ -201,7 +201,8 @@ def items_for(root, kind, day=None):
                     "amount": amount_text(r), "shop": p.get("shop"),
                     "shop_name": SHOP_NAMES.get(p.get("shop")), "buy": p.get("buy"),
                     "product": p.get("product"), "url": p.get("url"),
-                    "app_url": p.get("app_url"), "reason": p.get("reason"), "_n": n})
+                    "app_url": p.get("app_url"), "reason": p.get("reason"),
+                    "cost": p.get("cost"), "_n": n})
     if kind == "weekly":
         known = {r["item"].lower() for r in all_rows}
         for n, (word, dishes) in enumerate(menu_words(root, day or today_local()), len(rows)):
@@ -214,7 +215,7 @@ def items_for(root, kind, day=None):
             out.append({"key": key, "item": word, "aisle": MENU_AISLE,
                         "amount": "for " + ", ".join(dishes), "shop": None, "shop_name": None,
                         "buy": None, "product": None, "url": None, "app_url": None,
-                        "reason": None, "_n": n})
+                        "reason": None, "cost": None, "_n": n})
     out.sort(key=lambda i: (_aisle_order(i["aisle"]), i["_n"]))
     for i in out:
         del i["_n"]
@@ -281,7 +282,7 @@ def load(root, kind="weekly", household=HOUSEHOLD, today=None):
     """The list as a dict: {household, kind, period, period_label, version, done,
     total, groups: [{aisle, items}], items: [...], last, reset}. Each item:
     {key, item, aisle, amount, shop, shop_name, buy, product, url, app_url, reason,
-    done, by (user id), at_utc}."""
+    cost (AMD of the last basket's pick, or None), done, by (user id), at_utc}."""
     day = today or today_local()
     return _view(root, household, kind, day, _state(root, household, kind, day))
 

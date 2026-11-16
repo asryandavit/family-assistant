@@ -29,23 +29,32 @@ PLAN_NAMES = ("today", "meals", "training", "week")
 class _Blocks(HTMLParser):
     """Telegram's HTML subset (b, i, code, a, blockquote expandable, newlines) -> blocks:
     {"k": "p", "s": [{"t": text, "b": 1, "i": 1, "c": 1, "a": url}]} and
-    {"k": "fold", "title": str, "b": [paragraph blocks]}."""
+    {"k": "fold", "title": str, "b": [paragraph blocks]} and {"k": "gap"} for an empty line
+    (the app starts a new card there)."""
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.blocks, self.flags, self.line, self.fold = [], [], [], None
         self.href = None
+        self.nl = False         # the last thing read was a newline (two in a row = an empty line)
 
-    def _flush(self):
+    def _flush(self, blank=False):
         segs = [s for s in self.line if s["t"]]
         self.line = []
         if not segs:
+            # an empty line in the text (not a tag boundary) separates groups: the app draws
+            # each group as its own card. Never two in a row, never first.
+            target = self.fold["b"] if self.fold is not None else self.blocks
+            if blank and self.nl and target and target[-1]["k"] != "gap":
+                target.append({"k": "gap"})
             return
         if "".join(s["t"] for s in segs).strip(" ") and set("".join(s["t"] for s in segs).strip()) <= set(BAR):
             return                                                  # the ━━━ divider
         (self.fold["b"] if self.fold is not None else self.blocks).append({"k": "p", "s": segs})
 
     def handle_starttag(self, tag, attrs):
+        if tag in ("br", "blockquote"):
+            self.nl = False
         if tag == "br":
             self._flush()
         elif tag == "blockquote":
@@ -58,13 +67,19 @@ class _Blocks(HTMLParser):
             self.flags.append(tag)
 
     def handle_endtag(self, tag):
+        if tag == "blockquote":
+            self.nl = False
         if tag == "blockquote" and self.fold is not None:
             self._flush()
             fold, self.fold = self.fold, None
+            while fold["b"] and fold["b"][-1]["k"] == "gap":
+                fold["b"].pop()
             if fold["b"]:
                 first = fold["b"][0]
-                if len(first["s"]) == 1 and first["s"][0].get("b"):
+                if first["k"] == "p" and len(first["s"]) == 1 and first["s"][0].get("b"):
                     fold["title"] = first["s"][0]["t"].strip()
+                    fold["b"] = fold["b"][1:]
+                while fold["b"] and fold["b"][0]["k"] == "gap":
                     fold["b"] = fold["b"][1:]
                 self.blocks.append(fold)
         elif tag == "a":
@@ -76,8 +91,10 @@ class _Blocks(HTMLParser):
         parts = data.split("\n")
         for n, part in enumerate(parts):
             if n:
-                self._flush()
+                self._flush(blank=True)
+                self.nl = True
             if part:
+                self.nl = False
                 seg = {"t": part}
                 for f in self.flags:
                     seg[{"b": "b", "i": "i", "code": "c"}[f]] = 1
@@ -88,6 +105,9 @@ class _Blocks(HTMLParser):
     def close(self):
         super().close()
         self._flush()
+        for blocks in [self.blocks] + [b["b"] for b in self.blocks if b["k"] == "fold"]:
+            while blocks and blocks[-1]["k"] == "gap":
+                blocks.pop()
 
 
 def html_blocks(text):
@@ -100,6 +120,8 @@ def html_blocks(text):
     if blocks and blocks[0]["k"] == "p":
         title = "".join(s["t"] for s in blocks[0]["s"]).strip()
         blocks = blocks[1:]
+        while blocks and blocks[0]["k"] == "gap":
+            blocks = blocks[1:]
     return {"title": title, "blocks": blocks}
 
 
@@ -161,7 +183,7 @@ SHOP_NAMES = {"yc": "Yerevan City", "parma": "Parma"}
 SHOP_DOT = {"yc": "🔴", "parma": "🟢"}
 
 
-def basket_view(root, kind):
+def basket_view(root, kind, today=None):
     """The last saved basket run (jobs/grocery_basket.py -> .browser/basket_<kind>.json)."""
     if kind not in ("weekly", "monthly"):
         return None
@@ -172,9 +194,11 @@ def basket_view(root, kind):
     except (OSError, ValueError):
         return {"empty": True, "kind": kind}
     try:
-        when = datetime.fromisoformat(b["run_utc"]).astimezone(YEREVAN).strftime("%d %b %H:%M")
-    except (KeyError, ValueError):
-        when = ""
+        local = datetime.fromisoformat(b["run_utc"]).astimezone(YEREVAN)
+        when = f"{local.day} {local:%b %H:%M}"
+        stale = age_note(local.date(), today or now_local().date(), "Price the list now")
+    except (KeyError, ValueError, TypeError):
+        when, stale = "", None
     groups = {}
     skipped, unpriced = [], []
     for e in b.get("lines", []):
@@ -202,7 +226,7 @@ def basket_view(root, kind):
         compare = (f"{cmp['n']} items at both shops: all {SHOP_DOT['yc']} {money(cmp['yc'])} · "
                    f"all {SHOP_DOT['parma']} {money(cmp['parma'])} · cheapest of each "
                    f"{money(cmp['cheapest'])}")
-    return {"empty": False, "kind": kind, "when": when, "total": money(t.get("all") or 0),
+    return {"empty": False, "kind": kind, "when": when, "stale": stale, "total": money(t.get("all") or 0),
             "partial": bool(b.get("partial")), "compare": compare, "groups": out_groups,
             "unpriced": unpriced, "skipped": skipped}
 
@@ -274,6 +298,24 @@ def _usd(x):
 STALE_DAYS = 3        # data this old or older gets a note (a nightly scan makes 1–2 days normal)
 
 
+def task_time(s):
+    """The Windows task time as the rest of the app writes times: '11/17/2026 8:00:00 AM'
+    (schtasks, this PC's US locale) or '17/11/2026 08:00:00' -> '17 Nov 08:00'. Anything else
+    passes through unchanged; None for none."""
+    if not s or str(s).upper().startswith("N/A"):
+        return None
+    for fmt in ("%m/%d/%Y %I:%M:%S %p", "%d/%m/%Y %H:%M:%S", "%d.%m.%Y %H:%M:%S", "%Y-%m-%d %H:%M:%S"):
+        try:
+            d = datetime.strptime(str(s).strip(), fmt)
+            return f"{d.day} {d:%b %H:%M}"
+        except ValueError:
+            continue
+    return str(s)
+
+
+NO_ZONE = "no zone data"
+
+
 def age_note(day, today, action):
     """"5 days old — Scan now for fresh prices" for data STALE_DAYS or more old, else None. The page
     shows the sentence; it does no date arithmetic."""
@@ -300,8 +342,8 @@ def travel_view(cfg, root=None, rows_fn=None, today=None):
         info = tasks.query("travel")
         if info.get("exists"):
             out["scan"] = {"enabled": bool(info.get("enabled")),
-                           "next": tasks._short_dt(info.get("next_run")) if info.get("next_run") else None,
-                           "last": tasks._short_dt(info.get("last_run")) if info.get("last_run") else None}
+                           "next": task_time(info.get("next_run")),
+                           "last": task_time(info.get("last_run"))}
     except Exception as e:  # noqa: BLE001  the Windows task query is a nicety, not required
         out["scan_error"] = type(e).__name__
     trips = [r for r in rows_fn("Trips") if len(r) >= 11]
@@ -312,6 +354,7 @@ def travel_view(cfg, root=None, rows_fn=None, today=None):
     if trips:
         day = max(r[0] for r in trips)
         out["run_date"] = day
+        out["run_label"] = _short_date(day)
         out["trips_note"] = age_note(_day(day), today, "Scan now")
         cur = [r for r in trips if r[0] == day and _num(r[8]) is not None]
         cur.sort(key=lambda r: _num(r[8]))
@@ -331,7 +374,8 @@ def travel_view(cfg, root=None, rows_fn=None, today=None):
                 "source": r[5], "name": r[6], "rating": r[7], "currency": r[11],
                 "total": _usd(_num(r[10])) if _num(r[10]) is not None else r[10],
                 "night": _usd(_num(r[9])) if _num(r[9]) is not None else r[9],
-                "why": r[13], "url": r[15] if SAFE_URL.match(r[15] or "") else None})
+                "why": None if (r[13] or "").strip() == NO_ZONE else r[13], "url": r[15] if SAFE_URL.match(r[15] or "") else None})
         out["stays_date"] = day
+        out["stays_label"] = _short_date(day)
         out["stays_note"] = age_note(_day(day), today, "Search stays")
     return out

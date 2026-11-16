@@ -28,6 +28,7 @@ export function MarketScreen(props: { onFail: (r: Result<unknown>) => void }) {
           {m.items.map((it) => (
             <ItemRow key={it.id} it={it} onChanged={() => void reload()} />
           ))}
+          {m.items.length > 0 && (
           <div className="actions">
             <RunButton
               job="market"
@@ -36,6 +37,7 @@ export function MarketScreen(props: { onFail: (r: Result<unknown>) => void }) {
               confirm="Read the watch list's stores now? It takes a minute or two per store and the report goes to both of you."
             />
           </div>
+          )}
           <Notice msg={check.msg} />
         </Section>
         <AddForm stores={m.stores} onAdded={() => void reload()} />

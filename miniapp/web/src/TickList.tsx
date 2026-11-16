@@ -15,8 +15,8 @@ type Answer = Reply & { view: ShopList | null };
 
 const POLL_MS = 15_000;
 
-function sameDay(list: ShopList): string {
-  return list.last ? `Last: ${list.last.item} · ${list.last.by_name} ${list.last.at}` : "Nothing ticked yet";
+function lastTick(list: ShopList): string | undefined {
+  return list.last ? `Last ticked: ${list.last.item} · ${list.last.by_name} ${list.last.at}` : undefined;
 }
 
 export function TickList(props: { kind: "weekly" | "monthly"; onFail: (r: Result<unknown>) => void }) {
@@ -131,7 +131,24 @@ export function TickList(props: { kind: "weekly" | "monthly"; onFail: (r: Result
 
   return (
     <>
-      <Section header={`Tick list · ${data.period_label} · ${data.done} of ${data.total}`} footer={sameDay(data)}>
+      <Section header={`Tick list · ${data.period_label}`} footer={lastTick(data)}>
+        {data.total > 0 && (
+          <div className="progress-row">
+            <div
+              className="progress"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={data.total}
+              aria-valuenow={data.done}
+              aria-label="Items in the cart"
+            >
+              <div className="progress-fill" style={{ width: `${(100 * data.done) / data.total}%` }} />
+            </div>
+            <span className="progress-text">
+              {data.done === data.total ? `All ${data.total} in the cart 🎉` : `${data.done} of ${data.total} in the cart`}
+            </span>
+          </div>
+        )}
         {data.total === 0 && (
           <Placeholder header="Nothing on this list" description="basket.md has no rows for it.">
             <span className="big">✅</span>
@@ -171,18 +188,23 @@ function Row(props: { item: ShopItem; open: boolean; onTick: () => void; onInfo:
         before={<span className={i.done ? "box on" : "box"} aria-hidden="true">{i.done ? "✓" : ""}</span>}
         subtitle={`${where}${who}` || undefined}
         after={
-          hasInfo ? (
-            <button
-              type="button"
-              className="info"
-              aria-label={`Why this pick: ${i.item}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                onInfo();
-              }}
-            >
-              ⓘ
-            </button>
+          hasInfo || i.cost ? (
+            <span className="row-after">
+              {i.cost && <span className="hint nowrap">{i.cost}</span>}
+              {hasInfo && (
+                <button
+                  type="button"
+                  className="info"
+                  aria-label={`Why this pick: ${i.item}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onInfo();
+                  }}
+                >
+                  ⓘ
+                </button>
+              )}
+            </span>
           ) : undefined
         }
         onClick={(e: MouseEvent) => {

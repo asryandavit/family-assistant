@@ -109,13 +109,128 @@ body {
   margin: 0 0 8px;
 }
 
-.fold {
-  padding: 0 0 4px;
+.page-text {
+  padding-top: 10px;
 }
 
-.fold p {
-  padding: 0 20px;
+/* a line that opens with a bold word: the word as a small label over the rest */
+.page-text p.labelled {
+  margin-bottom: 12px;
+}
+
+.lbl {
+  display: block;
+  margin-bottom: 1px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
+}
+
+.page-text p.subhead {
+  margin: 14px 0 6px;
+  font-weight: 600;
+}
+
+.page-text p.subhead:first-child {
+  margin-top: 0;
+}
+
+.spacer {
+  height: 6px;
+}
+
+/* the folds sit edge to edge inside the card, with a line between them */
+.fold {
+  margin: 0 -20px;
+  border-top: 1px solid var(--tgui--divider, rgba(0, 0, 0, 0.08));
+}
+
+.fold:last-child {
+  margin-bottom: -12px;
+}
+
+.fold-body {
+  margin: 0 20px 12px 24px;
+  padding: 2px 0 0 14px;
+  border-left: 2px solid var(--tg-theme-button-color, var(--tgui--button_color));
+}
+
+.fold-body p {
+  margin: 0 0 8px;
   font-size: 14px;
+}
+
+/* the chevron of a fold: points down when closed, up when open */
+.chev {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 6px 4px 8px;
+  border-right: 2px solid var(--tg-theme-hint-color, var(--tgui--hint_color));
+  border-bottom: 2px solid var(--tg-theme-hint-color, var(--tgui--hint_color));
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.fold.open .chev,
+.open .chev {
+  margin-bottom: -2px;
+  transform: rotate(-135deg);
+}
+
+.linkish {
+  color: var(--tg-theme-link-color, var(--tgui--link_color));
+}
+
+/* Telegram Web colours section headers blue and Telegram UI uses that colour for the
+   footers too, so every explanation read like a link; footers are hints */
+footer,
+footer * {
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color)) !important;
+}
+
+.msg.warn {
+  margin: 10px 16px 4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255, 166, 0, 0.14);
+  color: var(--tg-theme-text-color, var(--tgui--text_color));
+}
+
+/* the tick list: progress bar and the price beside the ⓘ */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+}
+
+.progress {
+  flex: 1;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--tg-theme-secondary-bg-color, var(--tgui--secondary_bg_color));
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--tg-theme-button-color, var(--tgui--button_color));
+  transition: width 0.25s ease;
+}
+
+.progress-text {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.row-after {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .page-text a {
@@ -132,7 +247,7 @@ body {
   font-size: 12px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--tg-theme-section-header-text-color, var(--tgui--section_header_text_color, #6d6d72));
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
 }
 
 .nowrap,

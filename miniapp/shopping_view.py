@@ -7,6 +7,7 @@ out, and the internal fields stay home. No number is computed here.
 """
 from datetime import datetime
 
+from lib.fmt_grocery import money
 from lib.ui import YEREVAN
 from miniapp import screens
 from shopping import checklist
@@ -14,7 +15,8 @@ from shopping import checklist
 
 def _when(utc_iso):
     try:
-        return datetime.fromisoformat(utc_iso).astimezone(YEREVAN).strftime("%d %b %H:%M")
+        d = datetime.fromisoformat(utc_iso).astimezone(YEREVAN)
+        return f"{d.day} {d:%b %H:%M}"
     except (TypeError, ValueError):
         return ""
 
@@ -34,6 +36,7 @@ def shape(raw, names):
         items = [{"key": i["key"], "item": i["item"], "amount": i.get("amount") or "",
                   "shop_name": i.get("shop_name"), "buy": i.get("buy"), "product": i.get("product"),
                   "url": _url(i.get("url")), "reason": i.get("reason"),
+                  "cost": money(i["cost"]) if isinstance(i.get("cost"), (int, float)) else None,
                   "done": bool(i.get("done")),
                   "by_name": _who(i.get("by"), names) if i.get("done") else None,
                   "at": _when(i.get("at_utc")) if i.get("done") else None}

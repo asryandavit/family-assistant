@@ -9,9 +9,11 @@ import os
 import shutil
 import tempfile
 import unittest
+from datetime import datetime, timedelta
 from unittest import mock
 
 from lib import config
+from lib.ui import YEREVAN
 from miniapp import actions, inbox, people, screens
 from tests.test_miniapp_server import ADULT, OWNER, STRANGER, Base, init_data
 
@@ -40,6 +42,13 @@ class HtmlBlocks(unittest.TestCase):
         fold = p["blocks"][2]
         self.assertEqual(fold["title"], "Safety")
         self.assertEqual([b["s"][0]["t"] for b in fold["b"]], ["Stop at chest pain.", "Call a doctor."])
+
+    def test_an_empty_line_starts_a_new_card(self):
+        h = ("T\n<b>Lunch</b> soup\n\n<b>Davit</b> 18:15\n<blockquote><b>A</b>\nx</blockquote>\n"
+             "<blockquote><b>B</b>\ny</blockquote>\n\n\n<i>note</i>\n")
+        kinds = [b["k"] for b in screens.html_blocks(h)["blocks"]]
+        # one gap per run of empty lines; folds on consecutive lines stay together; none at the end
+        self.assertEqual(kinds, ["p", "gap", "p", "fold", "fold", "gap", "p"])
 
     def test_no_markup_survives(self):
         p = screens.html_blocks("<b>a</b> <code>x</code> <i>y</i>\n\n<b>z</b>")
@@ -86,7 +95,15 @@ class BasketView(unittest.TestCase):
         self.assertIn("22 items at both shops", v["compare"])
         self.assertTrue(all(i["url"] is None or i["url"].startswith("https://")
                             for g in v["groups"] for i in g["items"]))
-        self.assertRegex(v["when"], r"^\d\d \w{3} \d\d:\d\d$")
+        self.assertRegex(v["when"], r"^\d{1,2} \w{3} \d\d:\d\d$")
+
+    def test_old_prices_say_so(self):
+        shutil.copy(os.path.join(F, "basket_weekly.json"), os.path.join(self.root, ".browser"))
+        raw = fixture("basket_weekly.json")
+        run_day = datetime.fromisoformat(raw["run_utc"]).astimezone(YEREVAN).date()
+        self.assertIsNone(screens.basket_view(self.root, "weekly", today=run_day)["stale"])
+        old = screens.basket_view(self.root, "weekly", today=run_day + timedelta(days=10))["stale"]
+        self.assertEqual(old, "10 days old — Price the list now for fresh prices")
 
     def test_missing_file_and_bad_kind(self):
         self.assertEqual(screens.basket_view(self.root, "monthly"), {"empty": True, "kind": "monthly"})
@@ -103,9 +120,10 @@ class TravelView(unittest.TestCase):
         return fixture("travel_rows.json")[tab]
 
     def view(self, **over):
+        # the task times as schtasks gives them on this PC (captured 2026-11-16, US locale)
         with mock.patch("lib.tasks.query", return_value={"exists": True, "enabled": True,
-                                                          "next_run": "x", "last_run": "y"}), \
-                mock.patch("lib.tasks._short_dt", side_effect=lambda s: f"@{s}"):
+                                                          "next_run": "11/17/2026 8:00:00 AM",
+                                                          "last_run": "11/16/2026 8:00:01 PM"}):
             return screens.travel_view({}, rows_fn=over.get("rows_fn", self.rows))
 
     def test_real_rows(self):
@@ -119,7 +137,16 @@ class TravelView(unittest.TestCase):
         scores = [s for s in v["stays"]]
         self.assertTrue(scores and len(scores) <= 6)
         self.assertTrue(all(s["url"] is None or s["url"].startswith("https://") for s in scores))
-        self.assertEqual(v["scan"], {"enabled": True, "next": "@x", "last": "@y"})
+        self.assertEqual(v["scan"], {"enabled": True, "next": "17 Nov 08:00", "last": "16 Nov 20:00"})
+        self.assertEqual(v["run_label"], "10 Nov")
+        self.assertNotIn(screens.NO_ZONE, [s["why"] for s in v["stays"]])   # noise, not a reason
+
+    def test_task_time(self):
+        self.assertEqual(screens.task_time("11/17/2026 8:00:00 AM"), "17 Nov 08:00")
+        self.assertEqual(screens.task_time("17/11/2026 20:05:00"), "17 Nov 20:05")
+        self.assertIsNone(screens.task_time("N/A"))
+        self.assertIsNone(screens.task_time(None))
+        self.assertEqual(screens.task_time("soon"), "soon")
 
     def test_stays_best_score_first(self):
         raw = self.rows("Stays")

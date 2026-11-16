@@ -585,3 +585,18 @@ it (or undoes it with the reason). A quiet refresh every 15 s brings the other p
 a recipe link opens outside the app, Next week, a tick lands in the shared state and edits the chats, the other
 person's tick is shown by name, ⓘ shows the reason, New week asks first and clears, Monthly is separate.
 Not tested in a browser: the 15 s refresh itself (a timer) and Telegram's real clients.
+
+## 18. Look and feel pass (owner: "improve the visibility, UX and UI", 2026-11-16, decision 110)
+
+Found by going through every screen in Telegram Web (the "base" platform, popup about phone width):
+
+| Where | Was | Now |
+|---|---|---|
+| every screen | section footers (explanations, "Nothing ticked yet") in **link blue**: Telegram Web colours section headers blue and Telegram UI uses the same colour for footers, so text read like links; field labels the same | footers and field labels in the hint colour (`styles.css`, `footer *`) |
+| Today / Next week / Training | one long card of text; folds with a 6 px ▾ | an **empty line in the chat's text starts a new card** (`screens.html_blocks` emits `{"k": "gap"}`; only a real empty line, never a tag boundary): meals · training + habit · this week's menu (its bold first line becomes the card header) · the training folds. A line that opens with a bold word shows it as a small label over the rest ("BREAKFAST", "DAVIT", "NEW THIS WEEK"); a bold-only line is a subheading. Folds: full-width rows with dividers, a real chevron that turns, the open body indented with an accent line |
+| Basket | every item **twice** — the tick list, then the same items again in the priced list; a card holding only "Nothing ticked yet"; no price on the tick rows; nothing said the prices are four weeks old | the tick row shows the last basket's price for its pick beside ⓘ (`checklist.items_for` carries `cost`, the basket file's own figure; the app only formats it); a **progress bar** "3 of 27 in the cart"; the priced list is a summary (total, comparison, each shop's subtotal) with **"Show every product and its price"** folding the per-shop list; an amber "28 days old — Price the list now" note (`basket_view.stale`, the same `age_note` as Travel) |
+| Travel | "last 11/16 8:00 · next 11/17 8:00" (US order, AM/PM dropped — 20:00 would also read 8:00), "scan of 2026-11-16", "no zone data" under every stay, the "16 days old" warning only at the bottom | `screens.task_time` → "16 Nov 08:00"; "scan of 16 Nov"; "no zone data" not shown (it is the scorer's absence of a reason); the age note at the top of its card in amber |
+| Market | "Check prices now" with nothing watched | shown only when something is watched |
+
+Unchanged on purpose: the chat's texts (the gaps were always in them; the chat simply shows empty lines), the
+Home screen, China's search flow.

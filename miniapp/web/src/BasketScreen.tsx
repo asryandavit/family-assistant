@@ -17,6 +17,7 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
   const run = useAction();
   const price = useAction();
   const [product, setProduct] = useState("");
+  const [showAll, setShowAll] = useState(false);
   useClosingConfirmation(product.trim().length > 0);
 
   // The list goes to BOTH chats, so it is asked first. The screen's main action lives in
@@ -45,28 +46,43 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
     ) : (
       <>
         <Section
-          header={`${kind === "weekly" ? "This week's list" : "Monthly staples"} · priced ${state.data.when}`}
+          header={`Prices · ${kind === "weekly" ? "this week's list" : "monthly staples"} · ${state.data.when}`}
           footer={state.data.partial ? "Partial: some items could not be priced." : undefined}
         >
+          {state.data.stale && <div className="msg warn">⚠️ {state.data.stale}.</div>}
           <Cell multiline subtitle={state.data.compare ?? undefined}>
             <b>Total {state.data.total}</b>
           </Cell>
+          {state.data.groups.map((g) => (
+            <Cell key={g.shop} after={<span className="hint nowrap">{g.subtotal ?? ""}</span>}>
+              {g.dot} {g.name} · {g.items.length} item{g.items.length === 1 ? "" : "s"}
+            </Cell>
+          ))}
+          <Cell
+            onClick={() => setShowAll((v) => !v)}
+            after={<span className="chev" aria-hidden="true" />}
+            aria-expanded={showAll}
+            className={showAll ? "open" : undefined}
+          >
+            <span className="linkish">{showAll ? "Hide the products" : "Show every product and its price"}</span>
+          </Cell>
         </Section>
-        {state.data.groups.map((g) => (
-          <Section key={g.shop} header={`${g.dot} ${g.name}${g.subtotal ? ` · ${g.subtotal}` : ""}`}>
-            {g.items.map((i) => (
-              <Cell
-                key={i.item + i.product}
-                multiline
-                subtitle={`${i.buy}${i.product ? ` · ${i.product}` : ""}`}
-                after={<span className="hint nowrap">{i.cost}</span>}
-                onClick={i.url ? () => openLink(i.url as string) : undefined}
-              >
-                {i.item}
-              </Cell>
-            ))}
-          </Section>
-        ))}
+        {showAll &&
+          state.data.groups.map((g) => (
+            <Section key={g.shop} header={`${g.dot} ${g.name}${g.subtotal ? ` · ${g.subtotal}` : ""}`}>
+              {g.items.map((i) => (
+                <Cell
+                  key={i.item + i.product}
+                  multiline
+                  subtitle={`${i.buy}${i.product ? ` · ${i.product}` : ""}`}
+                  after={<span className="hint nowrap">{i.cost}</span>}
+                  onClick={i.url ? () => openLink(i.url as string) : undefined}
+                >
+                  {i.item}
+                </Cell>
+              ))}
+            </Section>
+          ))}
         {(state.data.unpriced.length > 0 || state.data.skipped.length > 0) && (
           <Section header="Not priced">
             {state.data.unpriced.map((x) => (
@@ -104,7 +120,9 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
 
         <TickList kind={kind} onFail={props.onFail} />
 
-        <Section header="Prices" footer="The bot prices the list at both shops (about 2 minutes), fills the checklist and sends it to both of you.">
+        {state.kind !== "ok" ? <Waiting state={state} onRetry={() => void reload()} icon="🧺" /> : body}
+
+        <Section footer="The bot prices the list at both shops (about 2 minutes), refreshes the prices above and sends the list to both of you.">
           {!mainButton && (
             <div className="actions">
               <RunButton job="basket" args={kind} label={`🧺 Price the ${kind} list now`} action={run} confirm={ASK} />
@@ -112,8 +130,6 @@ export function BasketScreen(props: { onFail: (r: Result<unknown>) => void }) {
           )}
           <Notice msg={run.msg} />
         </Section>
-
-        {state.kind !== "ok" ? <Waiting state={state} onRetry={() => void reload()} icon="🧺" /> : body}
 
         <Section header="Price check" footer="One product at both shops, cheapest first. English or Armenian.">
           <Field

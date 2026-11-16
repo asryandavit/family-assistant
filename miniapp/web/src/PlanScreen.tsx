@@ -1,7 +1,7 @@
 import { List, Placeholder, Section, TabsList } from "@telegram-apps/telegram-ui";
 
 import type { Result } from "./api";
-import { Blocks, useLoad, Waiting } from "./common";
+import { BlockCards, useLoad, Waiting } from "./common";
 import { usePref } from "./hooks";
 import { haptic } from "./telegram";
 import type { Page } from "./types";
@@ -48,9 +48,7 @@ export function PlanScreen(props: { onFail: (r: Result<unknown>) => void }) {
             </Placeholder>
           </Section>
         ) : (
-          <Section header={state.data.title}>
-            <Blocks blocks={state.data.blocks} />
-          </Section>
+          <BlockCards title={state.data.title} blocks={state.data.blocks} />
         )}
       </List>
     </div>

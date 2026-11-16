@@ -83,7 +83,7 @@ def today_page(root, chat_id, day=None):
         body.append(pt.session_summary(plan, p, info["people"][p]))
         body += pt.today_extras(plan, p, day, chat_id)
     if info["nudge"]:
-        body += ["", f"<i>Habit: {esc(info['nudge'])}</i>"]
+        body.append(f"<i>Habit: {esc(info['nudge'])}</i>")     # with training, one card
 
     # this week's menu under today. Today's day is marked but stays folded: its meals are
     # already on top, and opening it showed them twice (seen 2026-11-16). The app opens a
@@ -94,7 +94,8 @@ def today_page(root, chat_id, day=None):
     body += ["", f"<b>\U0001f37d This week's menu</b> · <i>{esc(sub)}</i>"] + wbody
 
     training = [pt.session_fold(plan, p, info["people"][p], 3, True) for p in pv.PEOPLE]
-    folded = "\n".join([wfolded] + [f for f in training if f] + [pt.safety_fold()])
+    # an empty line between the week and training: the app draws each group as its own card
+    folded = wfolded + "\n\n" + "\n".join([f for f in training if f] + [pt.safety_fold()])
     html = ui.page(ui.header("\U0001f4c5", "Today", ui.day_label(_dt(day)), _week_line(info)),
                    body, folded, f"<i>{esc(pt.RECIPE_NOTE)}</i>")
     return screens.html_blocks(html)

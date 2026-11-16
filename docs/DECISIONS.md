@@ -1351,3 +1351,22 @@ and with nothing ticked it says so with a Back button (the app's confirm likewis
 says ~9. **Not changed:** the basket prices are from 19 Oct (weekly) / 29 Oct (monthly), before the
 quality rules, so ⓘ has no reasons until the next 🧺 Basket run. Docs: docs/TELEGRAM_UX.md §5
 (tick list), plan/meals/principles.md (Sunday), plan/meals/dishes.md (sd-greens, two names).
+
+**110 — 2026-11-16 — Mini App look and feel: cards instead of one text wall, prices on the tick list, hint-coloured footers, one date style.**
+Owner: "what needs fix and improvement? check it on web and improve the visibility, UX and UI". Every screen
+was opened in Telegram Web. **(1) Footers in link blue:** Telegram Web themes section headers blue and
+Telegram UI reuses that colour for section footers, so every explanation looked like a link; footers and form
+labels now use the hint colour. **(2) Plan pages were one long card.** `screens.html_blocks` now emits a
+`gap` block for an empty line in the chat's text (tracked as two newlines in a row, so the newline between two
+folds is not one) and the page draws each group as its own card; a bold-led line shows its word as a small
+label, a bold-only line is a subheading, folds got dividers, a turning chevron and an indented body. On Today
+the habit joins the training card and the training folds get their own card (`menus.today_page`, app only).
+**(3) Basket showed every item twice** (tick list, then the priced list). The tick row now shows its pick's
+price from the last basket (`checklist.items_for` passes the file's `cost` through, `shopping_view` formats it
+with `money`; no arithmetic) and the priced list is folded behind a summary with each shop's subtotal; a
+progress bar replaces the card that only said "Nothing ticked yet"; `basket_view` adds `stale` (the Travel
+`age_note`), shown in amber: the prices are 28 days old today. **(4) Travel** showed the Windows task times
+in US order without AM/PM ("8:00" for 20:00 too): `screens.task_time` parses schtasks' format (captured on
+this PC: `11/17/2026 8:00:00 AM`) into "17 Nov 08:00"; scan dates read "16 Nov"; the scorer's "no zone data"
+is not shown as a reason; age notes moved to the top of their card. **(5) Market** hides "Check prices now"
+with nothing watched. `lib/` and `listener.py` untouched. Docs: docs/briefs/MINI_APP.md §18.
