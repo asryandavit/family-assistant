@@ -1370,3 +1370,14 @@ in US order without AM/PM ("8:00" for 20:00 too): `screens.task_time` parses sch
 this PC: `11/17/2026 8:00:00 AM`) into "17 Nov 08:00"; scan dates read "16 Nov"; the scorer's "no zone data"
 is not shown as a reason; age notes moved to the top of their card. **(5) Market** hides "Check prices now"
 with nothing watched. `lib/` and `listener.py` untouched. Docs: docs/briefs/MINI_APP.md §18.
+
+**111 — 2026-11-16 — Look and feel, after the live check of 110.**
+Decision 110 checked in Telegram Web with real data: cards, labels, folds, tick-row prices, the progress bar,
+the price summary with its amber age note, and the Travel dates all render as intended. Three things did not:
+**(1)** a card that opens with a fold (Today's training folds) showed a white strip above the first fold — the
+card's top padding; a first fold now sits flush with no divider above it. **(2)** A note after the folds
+("This week: fish 2× …", "Recipe links are for technique …") sat directly under a closed fold and read as
+its content; it now has a divider above it and is set in the hint colour, as the card's footnote.
+**(3)** Home's server time showed the date as "2026-11-16"; it now reads "Mon 16 Nov" like every other
+screen (display only, `App.tsx`). CSS and one display helper; no Python, `lib/` and `listener.py` untouched.
+Docs: docs/briefs/MINI_APP.md §18.

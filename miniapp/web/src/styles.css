@@ -151,6 +151,24 @@ body {
   margin-bottom: -12px;
 }
 
+/* a card that opens with a fold: no white strip and no line above the first one */
+.fold:first-child {
+  margin-top: -10px;
+  border-top: none;
+}
+
+/* a note after the folds belongs to the card, not to the fold above it */
+.fold + p {
+  margin-top: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--tgui--divider, rgba(0, 0, 0, 0.08));
+}
+
+.fold ~ p {
+  color: var(--tg-theme-hint-color, var(--tgui--hint_color));
+  font-size: 14px;
+}
+
 .fold-body {
   margin: 0 20px 12px 24px;
   padding: 2px 0 0 14px;

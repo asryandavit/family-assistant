@@ -23,6 +23,15 @@ import { atLeast, haptic, platform, webApp } from "./telegram";
 // bar — five tabs left the outer icons in the phone's rounded corners (owner, 2026-11-10).
 // Each row opens its screen; Telegram's back button returns Home.
 const DEFAULT_SECTIONS = ["Today", "China", "Market", "Basket", "Travel"];
+
+// "2026-11-16" → "Mon 16 Nov", the date style of every other screen (decision 110)
+function dayLabel(iso: string | undefined): string | undefined {
+  const m = iso && /^(\d{4})-(\d\d)-(\d\d)/.exec(iso);
+  if (!m) return iso;
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  const opts = { timeZone: "UTC" } as const;
+  return `${d.toLocaleDateString("en-GB", { ...opts, weekday: "short" })} ${d.getUTCDate()} ${d.toLocaleDateString("en-GB", { ...opts, month: "short" })}`;
+}
 const ICONS: Record<string, string> = {
   Today: "📅",
   China: "🏮", // not the 🇨🇳 flag: Windows has no flag emoji and shows "CN"
@@ -325,7 +334,7 @@ function Home(props: {
         >
           <Cell
             after={status ? status.time_local.slice(11) : "…"}
-            subtitle={status?.time_local.slice(0, 10)}
+            subtitle={dayLabel(status?.time_local)}
           >
             Server time (Yerevan)
           </Cell>

@@ -600,3 +600,7 @@ Found by going through every screen in Telegram Web (the "base" platform, popup 
 
 Unchanged on purpose: the chat's texts (the gaps were always in them; the chat simply shows empty lines), the
 Home screen, China's search flow.
+
+After the live check (decision 111): a card that opens with a fold has no white strip above it; a note after
+the folds has a divider above it and the hint colour, so it no longer reads as the last fold's content; Home's
+server date reads "Mon 16 Nov".
