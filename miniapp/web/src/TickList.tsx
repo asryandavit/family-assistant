@@ -1,5 +1,5 @@
 import { Button, Cell, Placeholder, Section, Spinner } from "@telegram-apps/telegram-ui";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { get, post, type Result } from "./api";
 import { Notice, openLink, type Msg } from "./common";
@@ -88,7 +88,8 @@ export function TickList(props: { kind: "weekly" | "monthly"; onFail: (r: Result
   const reset = async () => {
     if (!data || "unavailable" in data) return;
     const what = kind === "weekly" ? "week" : "month";
-    if (!(await confirmAsk(`Clear all ${data.done} ticks and start a new ${what}? The items stay.`))) return;
+    const ticks = data.done === 1 ? "the 1 tick" : `all ${data.done} ticks`;
+    if (!(await confirmAsk(`Clear ${ticks} and start a new ${what}? The items stay.`))) return;
     const r = await post<Answer>("/api/list/reset", { kind });
     if (r.kind === "ok") apply(r.data);
     else setMsg({ ok: false, text: "The PC did not answer — nothing was cleared." });
@@ -184,7 +185,12 @@ function Row(props: { item: ShopItem; open: boolean; onTick: () => void; onInfo:
             </button>
           ) : undefined
         }
-        onClick={onTick}
+        onClick={(e: MouseEvent) => {
+          // the ⓘ button sits inside the row; a tap on it (or on the row's ripple layer over
+          // it) must open the details, never tick (seen in Telegram Web, 2026-11-16)
+          if ((e.target as HTMLElement).closest?.(".info")) return;
+          onTick();
+        }}
       >
         <span className={i.done ? "struck" : undefined}>{i.item}</span>
       </Cell>

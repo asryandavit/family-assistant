@@ -47,7 +47,7 @@ STUB = r"""
     for (const [k, v] of Object.entries(t)) r.setProperty('--tg-theme-' + k.replace(/_/g, '-'), v); };
   css(theme);
   const W = { initData: h.get('tgWebAppData') || '', colorScheme: theme.bg_color === '#212121' ? 'dark' : 'light',
-    themeParams: theme, platform: 'ios', version: '8.0', ready() {}, expand() {}, close() {},
+    themeParams: theme, platform: h.get('tgWebAppPlatform') || 'ios', version: '8.0', ready() {}, expand() {}, close() {},
     isVersionAtLeast() { return true; }, setHeaderColor() {}, setBackgroundColor() {},
     onEvent(e, f) { (listeners[e] = listeners[e] || []).push(f); },
     offEvent(e, f) { listeners[e] = (listeners[e] || []).filter(x => x !== f); },
@@ -119,10 +119,10 @@ class SmokeBase(unittest.TestCase):
         self.page = self.ctx.new_page()
         self.addCleanup(self.ctx.close)
 
-    def open(self, screen="", theme=LIGHT):
+    def open(self, screen="", theme=LIGHT, platform="ios"):
         raw = init_data(OWNER)
         url = (f"http://127.0.0.1:{self.port}/{('?screen=' + screen) if screen else ''}#tgWebAppData="
-               + quote(raw, safe="") + "&tgWebAppVersion=8.0&tgWebAppPlatform=ios&tgWebAppThemeParams="
+               + quote(raw, safe="") + f"&tgWebAppVersion=8.0&tgWebAppPlatform={platform}&tgWebAppThemeParams="
                + quote(json.dumps(theme), safe=""))
         self.page.goto(url)
 

@@ -96,8 +96,8 @@ class StageB(SmokeBase):
             self.assertTrue(self.page.get_by_text(label).first.is_visible(), label)
         self.page.locator("a[href^='https://']").first.wait_for()
         self.assertGreaterEqual(self.page.locator("a[href^='https://']").count(), 1)
-        self.page.get_by_text("· today").first.wait_for()                 # today's day is the open one
-        self.assertGreaterEqual(self.page.get_by_text("Lunch").count(), 2)  # on top and in its day
+        self.page.get_by_text("· today (meals above)").first.wait_for()   # today's day is marked...
+        self.assertEqual(self.page.get_by_text("Lunch", exact=True).count(), 1)  # ...but not shown twice
 
     def test_a_recipe_link_opens_outside_the_app(self):
         self.open("today")
@@ -146,13 +146,21 @@ class StageB(SmokeBase):
         self.assertEqual(self.tg("opened")[-1], "https://example.com/p")
         self.assertEqual(self.done_on_disk(), 0)                           # opening details did not tick
 
+    def test_the_info_button_works_on_telegram_web_too(self):
+        # Telegram Web reports platform "weba"; Telegram UI then draws a ripple layer over each
+        # row, which caught the tap on ⓘ and ticked the row instead (found 2026-11-16)
+        self.open("basket", platform="weba")
+        self.page.get_by_label(f"Why this pick: {self.first}").click(timeout=3000)
+        self.page.get_by_text(REASON).wait_for()
+        self.assertEqual(self.done_on_disk(), 0)
+
     def test_new_week_asks_first_and_clears_the_ticks(self):
         checklist.tick(self.root, "weekly", checklist.items_for(self.root, "weekly")[0]["key"], OWNER)
         self.open("basket")
         self.page.get_by_text("✓ Davit").first.wait_for()
         self.page.get_by_role("button", name="New week").click()
         self.page.locator(".box.on").first.wait_for(state="detached")
-        self.assertIn("Clear all 1 ticks", self.tg("confirms")[-1])
+        self.assertIn("Clear the 1 tick and start a new week", self.tg("confirms")[-1])
         self.assertEqual(self.done_on_disk(), 0)
         self.assertEqual(shopping_view.view(self.root, "weekly", NAMES)["reset"]["by_name"], "Davit")
 

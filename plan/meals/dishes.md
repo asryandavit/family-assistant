@@ -86,7 +86,7 @@ add a dish here and it starts appearing; change a column and the next weeks foll
 | `ln-fish-bake` | Baked trout with vegetables | fish | fish | staple | grain | | | Check every bone | Lemon and paprika only on Karine's portion | Trout; Zucchini; Carrots; Olive oil | https://www.themediterraneandish.com/easy-baked-trout-recipe/ |
 | `fs-mackerel-potato` | Canned mackerel with warm potatoes and herbs | fish | fish | staple | — | | | Mash it, check for bones | | Canned mackerel; Potatoes; Dill; Olive oil | |
 | `fs-salmon-sheetpan` | Sheet-pan salmon with vegetables | fish | fish | new | grain | | | Check every bone | Salmon when it's affordable — trout works the same | Salmon; Zucchini; Bell peppers; Olive oil | https://www.themediterraneandish.com/sheet-pan-salmon-and-vegetables/ |
-| `fs-trout-papillote` | Trout baked in parchment with herbs | fish | fish | new | grain | | | Check every bone | | Trout; Dill; Parsley; Olive oil | https://www.bbcgoodfood.com/recipes/trout-en-papillote |
+| `fs-trout-papillote` | Parchment-baked trout with herbs | fish | fish | new | grain | | | Check every bone | | Trout; Dill; Parsley; Olive oil | https://www.bbcgoodfood.com/recipes/trout-en-papillote |
 | `fs-mackerel-roast` | Oven-roasted mackerel in foil | fish | fish | new | grain | | | Check every bone | No lemon on Davit's portion | Mackerel (fresh); Onions; Parsley; Olive oil | https://www.themediterraneandish.com/oven-roasted-spanish-mackerel/ |
 | `fs-sardines` | Sardines on toast with tomato and herbs | fish | fish | new | — | | | Mash the sardines | Ten minutes — canned sardines | Canned sardines; Bread; Tomatoes; Parsley | https://www.bbcgoodfood.com/recipes/sardines-on-toast |
 | `fs-baked-fish` | Baked white fish with garlic and herbs | fish | fish | new | grain | | | Check every bone | | White fish; Garlic; Parsley; Olive oil | https://www.themediterraneandish.com/baked-fish-recipe/ |
@@ -105,7 +105,7 @@ add a dish here and it starts appearing; change a column and the next weeks foll
 
 | id | dish | slot | protein | status | side | group | prep | son | tip | buy | ref |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `dn-matsun-bowl` | Matsun with cucumber and herbs, with boiled potato | light | dairy | staple | — | | | Cucumber grated | | Matsun; Cucumbers; Dill; Potatoes | |
+| `dn-matsun-bowl` | Matsun bowl with cucumber and herbs, with boiled potato | light | dairy | staple | — | | | Cucumber grated | | Matsun; Cucumbers; Dill; Potatoes | |
 | `dn-eetch` | Eetch — Armenian bulgur salad | light | grain | staple | egg | | | | Go easy on the tomato paste for Davit | Bulgur; Tomato paste; Parsley; Onions | https://www.armenianinstitute.org.uk/food/eetch |
 | `dn-tabbouleh` | Tabbouleh — bulgur and herb salad | light | grain | new | egg | | | Herbs chopped very fine | Olive oil only — no lemon for Davit | Bulgur; Parsley; Cucumbers; Tomatoes; Olive oil | https://www.themediterraneandish.com/tabouli-salad/ |
 | `dn-greek-salad` | Greek salad with a little feta | light | dairy | new | egg | | | Soft vegetables, cut small | Feta small for Davit | Tomatoes; Cucumbers; Bell peppers; Feta; Olive oil | https://www.themediterraneandish.com/traditional-greek-salad-recipe/ |
@@ -121,6 +121,7 @@ Names are written in lower case: they follow a dish ("… + buckwheat").
 | `sd-bulgur` | bulgur pilaf | side | grain | staple | — | | | | | Bulgur | |
 | `sd-barley` | pearl barley | side | grain | staple | — | | | | | Pearl barley | |
 | `sd-salad` | green salad and a little lavash | side | veg | staple | — | | | | | Cucumbers; Tomatoes; Parsley; Lavash | |
+| `sd-greens` | green salad | side | veg | staple | — | | | | | Cucumbers; Tomatoes; Parsley | |
 | `sd-egg` | a boiled egg | side | egg | staple | — | | | | | Eggs | |
 | `sd-matsun` | matsun | side | dairy | staple | — | | | | | Matsun | |
 

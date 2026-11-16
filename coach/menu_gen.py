@@ -16,7 +16,7 @@ The layout of a week (principles.md "The weekly rules"):
     Thu  breakfast | main B                     | egg dinner
     Fri  breakfast | fish 2                     | light dinner
     Sat  breakfast | weekend lunch 1            | Scoolinary project   prep: Sunday shop
-    Sun  breakfast | weekend lunch 2            | weekend lunch 2, small, + salad
+    Sun  breakfast | weekend lunch 2            | weekend lunch 2 leftovers, small, + greens
 
 Rules: main B is a legume; exactly one of main A and the soup is a legume, so legumes are
 4 meals and never twice in a day; fish twice; a lunch or dinner dish never returns the
@@ -248,7 +248,9 @@ def generate(lib, dishes, week, hist):
                 "dinner": cell(egg)},
         "Fri": {"lunch": cell(fish2), "dinner": cell(light)},
         "Sat": {"lunch": cell(wk1), "dinner": "`wk-scoolinary`"},
-        "Sun": {"lunch": cell(wk2), "dinner": "`%s` (small portion) + `sd-salad`" % wk2},
+        # Sunday evening is the batch session: dinner is lunch's leftovers, with plain greens
+        # (not sd-salad: its lavash doubled the lavash of dishes served with it, 2026-11-16)
+        "Sun": {"lunch": cell(wk2), "dinner": "`%s` (leftovers, small portion) + `sd-greens`" % wk2},
     }
     # breakfasts: the fixed pattern, least recently used within each kind, never the
     # same breakfast two days running
@@ -279,7 +281,8 @@ def generate(lib, dishes, week, hist):
                      if pv.ids_in(days[d]["lunch"] + days[d]["dinner"]).count(x) == 0]
             days[d]["prep"] = " · ".join(p for p in dict.fromkeys(preps) if p)
     days["Sat"]["prep"] = " · ".join(x for x in (days["Sat"]["prep"], "Shopping for the Sunday batch") if x)
-    days["Sun"]["prep"] = "Batch cooking for next week"
+    # Sunday has no "prep for tomorrow": next week's batch is cooked on Sunday itself and
+    # shows as that day's "Batch cooking" line (plan_view._batch_today)
     eggs = any("bf-eggs-boiled" in days[d]["breakfast"] for d in pv.DAYS[:3])
     def ahead(dish_id):
         """A Sunday-batch dish's soak happens the evening before -- in last week's days."""
@@ -300,9 +303,11 @@ def generate(lib, dishes, week, hist):
 
 def short_name(name):
     """'Harissa — chicken and wheat porridge' -> 'Harissa'; 'Overnight oats soaked in
-    matsun, with …' -> 'Overnight oats soaked in matsun'. Words from the library only."""
+    matsun, with …' -> 'Overnight oats'; 'Oat porridge (hercules) cooked in water …' ->
+    'Oat porridge (hercules)'. Words from the library only -- a name that shortens badly is
+    renamed in dishes.md (the short name is the day's title in the menu)."""
     n = name.split(" — ")[0].split(", ")[0]
-    for cut in (" with ", " in ", " from "):
+    for cut in (" with ", " in ", " from ", " cooked ", " soaked "):
         if cut in n[3:]:
             n = n[:n.index(cut, 3)]
     return n.strip()
@@ -412,6 +417,33 @@ def week_ingredients(root, week):
             if w.strip():
                 out.add(w.strip())
     return sorted(out)
+
+
+def week_shopping(root, week):
+    """[(word, [short dish name, ...])] for a week's menu, in first-use order (Monday first):
+    each dishes.md `buy` word with the dishes that need it -- what the tick list adds for the
+    menu (shopping/checklist.py). A side's words name the dish it is served with. Raises
+    GenerationError like week_menu."""
+    dishes = pv.parse_dishes(pv.read_dishes(root))
+    menu = week_menu(root, dishes, week)
+    out = {}
+    for d in pv.DAYS:
+        meals = menu["days"].get(d) or {}
+        for k in ("breakfast", "lunch", "dinner"):
+            ids = pv.ids_in(meals.get(k, ""))
+            mains = [i for i in ids if (dishes.get(i) or {}).get("slot") != "side"]
+            for i in ids:
+                dish = dishes.get(i) or {}
+                # a side is named by the dish it comes with ("for Sheet-pan salmon")
+                owner = dishes.get(mains[0]) if mains and dish.get("slot") == "side" else dish
+                n = short_name((owner or {}).get("name") or i)
+                for w in (dish.get("buy") or "").split(";"):
+                    w = w.strip()
+                    if w:
+                        names = out.setdefault(w, [])
+                        if n not in names:
+                            names.append(n)
+    return list(out.items())
 
 
 # ------------------------------------------------------------------ writing week files

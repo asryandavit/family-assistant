@@ -146,8 +146,8 @@ export function ChinaScreen(props: { onFail: (r: Result<unknown>) => void }) {
         {d && d.empty && (
           <Section>
             <Placeholder
-              header="No China search yet"
-              description="Type what you want above. Results of your last search stay here for 24 hours."
+              header="No China search in the last 24 hours"
+              description="Type what you want above. Results stay here for 24 hours after a search; older ones are cleared."
             >
               <span className="big">🏮</span>
             </Placeholder>
@@ -272,7 +272,7 @@ function SearchForm(props: {
   return (
     <Section
       header="Search China"
-      footer="PDD = Pinduoduo. Pinduoduo and 1688 are read automatically (about 5 minutes); Taobao gets a search link. If the bot needs to ask you something it asks in the chat. For a photo search, send the photo to the bot."
+      footer="PDD = Pinduoduo. Pinduoduo and 1688 are read automatically (about 9 minutes); Taobao gets a search link. If the bot needs to ask you something it asks in the chat. For a photo search, send the photo to the bot."
     >
       <Field
         header="What are you looking for?"

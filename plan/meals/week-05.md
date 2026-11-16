@@ -21,4 +21,4 @@ New this week: `ln-mujaddara` · `fs-salmon-sheetpan` · `wk-souvlaki`
 | **Thu** | `bf-hercules` | `ln-mujaddara` + `sd-salad` | `dn-omelette` | — |
 | **Fri** | `bf-eggs-scrambled` | `fs-salmon-sheetpan` + `sd-barley` | `dn-eetch` + `sd-egg` | — |
 | **Sat** | `bf-hercules` | `ln-veg-stew` + `sd-egg` | `wk-scoolinary` | Chicken souvlaki: marinate the chicken tonight · Shopping for the Sunday batch |
-| **Sun** | `bf-katnashor` | `wk-souvlaki` | `wk-souvlaki` (small portion) + `sd-salad` | Batch cooking for next week |
+| **Sun** | `bf-katnashor` | `wk-souvlaki` | `wk-souvlaki` (leftovers, small portion) + `sd-greens` | — |

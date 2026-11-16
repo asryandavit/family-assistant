@@ -21,4 +21,4 @@ New this week: `ln-vospov-kufteh` · `sp-pumpkin` · `fs-mackerel-roast`
 | **Thu** | `bf-hercules` | `ln-vospov-kufteh` + `sd-salad` | `dn-salad-egg` | — |
 | **Fri** | `bf-eggs-scrambled` | `ln-fish-bake` + `sd-bulgur` | `dn-matsun-bowl` | — |
 | **Sat** | `bf-hercules` | `ln-veg-stew` + `sd-egg` | `wk-scoolinary` | Shopping for the Sunday batch |
-| **Sun** | `bf-katnashor` | `ln-dolma-lean` + `sd-matsun` | `ln-dolma-lean` (small portion) + `sd-salad` | Batch cooking for next week |
+| **Sun** | `bf-katnashor` | `ln-dolma-lean` + `sd-matsun` | `ln-dolma-lean` (leftovers, small portion) + `sd-greens` | — |

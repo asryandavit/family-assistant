@@ -21,4 +21,4 @@ New this week: `ln-gigantes` · `sp-white-bean` · `wk-briam`
 | **Thu** | `bf-hercules` | `ln-gigantes` + `sd-salad` | `dn-omelette` | — |
 | **Fri** | `bf-eggs-scrambled` | `fs-salmon-sheetpan` + `sd-bulgur` | `dn-eetch` + `sd-egg` | — |
 | **Sat** | `bf-hercules` | `wk-cabbage-tolma` + `sd-matsun` | `wk-scoolinary` | Shopping for the Sunday batch |
-| **Sun** | `bf-katnashor` | `wk-briam` + `sd-egg` | `wk-briam` (small portion) + `sd-salad` | Batch cooking for next week |
+| **Sun** | `bf-katnashor` | `wk-briam` + `sd-egg` | `wk-briam` (leftovers, small portion) + `sd-greens` | — |

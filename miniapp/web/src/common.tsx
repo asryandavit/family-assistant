@@ -199,7 +199,8 @@ export function Blocks(props: { blocks: Block[] }) {
 }
 
 function Fold(props: { title: string; lines: { k: "p"; s: Seg[] }[] }) {
-  const [open, setOpen] = useState(/today/i.test(props.title));
+  // today's day opens by itself, except on Today where its meals are already on top
+  const [open, setOpen] = useState(/· today(?! \()/i.test(props.title));
   return (
     <div className="fold">
       <Cell multiline onClick={() => setOpen((o) => !o)} after={<span className="hint">{open ? "▴" : "▾"}</span>}>

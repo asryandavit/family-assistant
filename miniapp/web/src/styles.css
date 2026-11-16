@@ -196,6 +196,10 @@ body {
 }
 
 .info {
+  /* above the row's ripple layer (Telegram UI paints it absolutely over the whole Cell on
+     the "base" platform, e.g. Telegram Web) -- without this a tap on ⓘ ticked the row */
+  position: relative;
+  z-index: 1;
   min-width: 44px;
   min-height: 44px;
   margin: -8px -8px -8px 0;

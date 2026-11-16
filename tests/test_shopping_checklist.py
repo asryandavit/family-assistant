@@ -13,8 +13,9 @@ from shopping import bot, checklist
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DAVIT, KARINE = "111", "222"
 ENV = {"TELEGRAM_CHAT_ID": DAVIT, "TELEGRAM_CHAT_ID_2": KARINE}
-SUN = date(2026, 11, 15)          # Sunday of ISO week 46
-MON = date(2026, 11, 16)          # the next week
+SUN = date(2026, 11, 15)          # shops for ISO week 47 (the shopping week starts Saturday)
+MON = date(2026, 11, 16)          # the same shopping week
+SAT = date(2026, 11, 21)          # the next shopping week (for 23-29 Nov)
 
 
 def make_root():
@@ -39,9 +40,9 @@ class Store(unittest.TestCase):
         aisles = [g["aisle"] for g in v["groups"]]
         self.assertEqual(aisles[:5], ["Vegetables", "Greens", "Fruit", "Dairy & eggs", "Meat & fish"])
         self.assertEqual(len(aisles), len(set(aisles)))               # each aisle once
-        self.assertEqual((v["done"], v["period"]), (0, "2026-W46"))
+        self.assertEqual((v["done"], v["period"]), (0, "2026-W47"))
         self.assertEqual(v["total"], 24)                              # 23 priced + Scoolinary
-        self.assertEqual(v["period_label"], "week 9 Nov – 15 Nov")
+        self.assertEqual(v["period_label"], "week 16 Nov – 22 Nov")
         json.dumps(v)                                                 # Mini App-ready
 
     def test_both_people_tick_the_same_list_and_ids_are_recorded(self):
@@ -69,7 +70,9 @@ class Store(unittest.TestCase):
     def test_a_new_week_starts_empty_and_staples_keep_their_month(self):
         checklist.tick(self.root, "weekly", "eggs", DAVIT, today=SUN)
         checklist.tick(self.root, "monthly", "olive-oil", DAVIT, today=SUN)
-        self.assertEqual(checklist.load(self.root, "weekly", today=MON)["done"], 0)
+        # bought on Sunday for the batch: still ticked on Monday, cleared from Saturday
+        self.assertEqual(checklist.load(self.root, "weekly", today=MON)["done"], 1)
+        self.assertEqual(checklist.load(self.root, "weekly", today=SAT)["done"], 0)
         self.assertEqual(checklist.load(self.root, "monthly", today=MON)["done"], 1)
         self.assertEqual(checklist.load(self.root, "monthly", today=date(2026, 12, 1))["done"], 0)
 
@@ -163,11 +166,19 @@ class Telegram(unittest.TestCase):
         self.assertEqual(checklist.load(self.root, "weekly")["done"], 0)
         self.assertEqual(self.tg.edits[-1][:2], (DAVIT, 55))
 
+    def test_new_week_with_nothing_ticked_says_so_and_offers_back(self):
+        bot.handle({}, self.root, "/list", DAVIT, tg=self.tg, env=ENV)
+        self.assertIsNone(self.cb("gl:r:w", DAVIT, 101))
+        text = self.tg.edits[-1][2]
+        self.assertIn("Nothing is ticked on this week's list yet", text)
+        self.assertNotIn("0 ticks", text)
+        self.assertNotIn("the this week", text)
+
     def test_new_week_asks_first_then_clears(self):
         bot.handle({}, self.root, "/list", DAVIT, tg=self.tg, env=ENV)
         self.cb(self.buttons(DAVIT)[0][0][1], DAVIT, 101)
         self.assertIsNone(self.cb("gl:r:w", DAVIT, 101))
-        self.assertIn("Clear all 1 ticks", self.tg.edits[-1][2])
+        self.assertIn("Clear the 1 tick on this week's list", self.tg.edits[-1][2])
         self.assertEqual(checklist.load(self.root, "weekly")["done"], 1)        # not yet
         self.cb("gl:R:w", DAVIT, 101)
         self.assertEqual(checklist.load(self.root, "weekly")["done"], 0)
@@ -192,6 +203,69 @@ class SheetMirror(unittest.TestCase):
                  "Yerevan City total", "Total"]
         self.assertEqual(bot.sheet_updates(col_b, {"Eggs": True, "Caviar": True}),
                          [{"range": "A6", "values": [[True]]}])
+
+
+class ShoppingWeek(unittest.TestCase):
+    """The weekly list runs Saturday to Friday and is named after the menu week it buys for."""
+
+    def test_saturday_already_shops_for_next_week(self):
+        cases = {date(2026, 11, 20): ("2026-W47", "week 16 Nov – 22 Nov"),     # Friday
+                 date(2026, 11, 21): ("2026-W48", "week 23 Nov – 29 Nov"),     # Saturday
+                 date(2026, 11, 22): ("2026-W48", "week 23 Nov – 29 Nov"),     # Sunday
+                 date(2026, 11, 23): ("2026-W48", "week 23 Nov – 29 Nov")}     # Monday
+        for day, (period, label) in cases.items():
+            self.assertEqual((checklist.period_of("weekly", day), checklist.period_label("weekly", day)),
+                             (period, label), day)
+        self.assertEqual(checklist.period_of("monthly", date(2026, 11, 30)), "2026-11")
+
+    def test_year_end(self):
+        self.assertEqual(checklist.period_of("weekly", date(2026, 12, 26)), "2026-W53")
+        self.assertEqual(checklist.period_of("weekly", date(2027, 1, 2)), "2027-W01")
+
+
+class MenuItems(unittest.TestCase):
+    """The week's menu items basket.md has no row for join the weekly list (real repo plan
+    files, read only: items_for writes nothing)."""
+
+    def menu_rows(self, day):
+        return [(i["item"], i["amount"]) for i in checklist.items_for(ROOT, "weekly", day)
+                if i["aisle"] == checklist.MENU_AISLE]
+
+    def test_week_5_adds_what_its_dishes_need_and_names_the_dish(self):
+        rows = dict(self.menu_rows(MON))
+        self.assertEqual(rows["Salmon"], "for Sheet-pan salmon")
+        self.assertEqual(rows["Eggplant"], "for Ajapsandal")
+        self.assertEqual(rows["Pearl barley"], "for Sheet-pan salmon")        # a side names its dish
+
+    def test_saturday_shows_next_weeks_menu(self):
+        rows = dict(self.menu_rows(SAT))
+        self.assertIn("Turkey mince", rows)
+        self.assertIn("Turkey meatballs", rows["Turkey mince"])
+        self.assertNotIn("Salmon", rows)
+
+    def test_nothing_basket_md_already_has_is_repeated(self):
+        from lib import basket as bk
+        with open(os.path.join(ROOT, "plan", "meals", "basket.md"), encoding="utf-8") as f:
+            known = {r["item"].lower() for r in bk.parse_mapping(f.read())}
+        for day in (MON, SAT):
+            for item, _ in self.menu_rows(day):
+                self.assertNotIn(item.lower(), known, item)
+        keys = [i["key"] for i in checklist.items_for(ROOT, "weekly", MON)]
+        self.assertEqual(len(keys), len(set(keys)))
+
+    def test_monthly_list_and_a_root_without_a_plan_get_no_menu_rows(self):
+        self.assertFalse(any(i["aisle"] == checklist.MENU_AISLE for i in checklist.items_for(ROOT, "monthly", MON)))
+        root = make_root()
+        self.addCleanup(shutil.rmtree, root, True)
+        self.assertEqual(checklist.menu_words(root, MON), [])
+        self.assertEqual(len(checklist.items_for(root, "weekly", MON)), 24)
+
+    def test_a_menu_that_cannot_be_built_leaves_the_staples(self):
+        from unittest import mock
+
+        from coach import menu_gen
+        with mock.patch.object(menu_gen, "week_shopping", side_effect=menu_gen.GenerationError("x")):
+            self.assertEqual(checklist.menu_words(ROOT, MON), [])
 
 
 if __name__ == "__main__":

@@ -75,6 +75,7 @@ class Today(unittest.TestCase):
         days = [t for t in titles if t[:3] in pv.DAYS]
         self.assertEqual(len(days), 7)
         self.assertEqual([t for t in days if "today" in t], [t for t in days if t.startswith("Mon 9 Nov")])
+        self.assertTrue(any(menus.TODAY_ABOVE in t for t in days))   # folded: its meals are on top
         self.assertIn("Every day", titles)
 
     def test_week_menu_comes_after_the_meals_not_before(self):

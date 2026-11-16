@@ -31,6 +31,7 @@ from shopping import checklist
 CODES = {"w": "weekly", "m": "monthly"}
 CODE = {v: k for k, v in CODES.items()}
 TITLE = {"weekly": "this week", "monthly": "monthly staples"}
+LIST_NAME = {"weekly": "this week's list", "monthly": "the monthly staples list"}
 NEW = {"weekly": "♻️ New week", "monthly": "♻️ New month"}
 OTHER = {"weekly": ("\U0001f4e6 Staples", "gl:o:m"), "monthly": ("\U0001f96c This week", "gl:o:w")}
 BUTTON_CHARS = 18
@@ -111,9 +112,13 @@ def render(view, root, env=None):
 
 def render_confirm(view):
     kind, c = view["kind"], CODE[view["kind"]]
-    text = (ui.header("♻️", "Shopping list", TITLE[kind])
-            + f"\n\nClear all {view['done']} ticks on the {TITLE[kind]} list? "
-              "The items stay; only the ticks go.")
+    head = ui.header("♻️", "Shopping list", TITLE[kind])
+    name, n = LIST_NAME[kind], view["done"]
+    if n == 0:
+        return (head + f"\n\nNothing is ticked on {name} yet, so there is nothing to clear.",
+                [[("◀️ Back to the list", f"gl:v:{c}")]])
+    what = "the 1 tick" if n == 1 else f"all {n} ticks"
+    text = head + f"\n\nClear {what} on {name}? The items stay; only the ticks go."
     return text, [[("Yes, clear the ticks", f"gl:R:{c}"), ("Cancel", f"gl:v:{c}")]]
 
 

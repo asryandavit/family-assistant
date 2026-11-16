@@ -21,4 +21,4 @@ New this week: `ln-turkey-meatballs` · `fs-trout-papillote` · `wk-stuffed-pepp
 | **Thu** | `bf-hercules` | `ln-lobi` + `sd-salad` | `dn-salad-egg` | — |
 | **Fri** | `bf-eggs-scrambled` | `fs-trout-papillote` + `sd-barley` | `dn-matsun-bowl` | Harissa: start it in the morning (it simmers about 4 hours) |
 | **Sat** | `bf-hercules` | `wk-harissa` + `sd-salad` | `wk-scoolinary` | Shopping for the Sunday batch |
-| **Sun** | `bf-katnashor` | `wk-stuffed-peppers` + `sd-matsun` | `wk-stuffed-peppers` (small portion) + `sd-salad` | Batch cooking for next week |
+| **Sun** | `bf-katnashor` | `wk-stuffed-peppers` + `sd-matsun` | `wk-stuffed-peppers` (leftovers, small portion) + `sd-greens` | — |

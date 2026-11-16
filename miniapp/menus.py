@@ -7,7 +7,7 @@ the generated week and every number come from the one source, coach/menu_gen via
 tests/test_miniapp_menus.py compares them with the chat's text so the two cannot drift apart.
 
     today_page(root, chat_id, day)   today's meals + batch session + training on top, this week's
-                                     menu under it (today's day open), the safety fold last
+                                     menu under it (today's day marked, folded), the safety fold last
     menu_page(root, which, day)      "meals" = this week, "week" = next week, one fold per day
 """
 from datetime import datetime, timedelta
@@ -17,6 +17,8 @@ from coach import plan_view as pv
 from lib import ui
 from lib.telegram import esc
 from miniapp import screens
+
+TODAY_ABOVE = "today (meals above)"
 
 
 def _dt(d):
@@ -83,9 +85,12 @@ def today_page(root, chat_id, day=None):
     if info["nudge"]:
         body += ["", f"<i>Habit: {esc(info['nudge'])}</i>"]
 
-    # this week's menu under today, today's day open (the app marks the "· today" fold open)
+    # this week's menu under today. Today's day is marked but stays folded: its meals are
+    # already on top, and opening it showed them twice (seen 2026-11-16). The app opens a
+    # fold titled "· today" on its own, but not "· today (meals above)".
     week, monday = _this_week(plan, day)
     sub, wbody, wfolded = pt.week_parts(plan, week, monday, today=day, detail=pt.DETAIL[0])
+    wfolded = wfolded.replace(" · today", " · " + TODAY_ABOVE, 1)
     body += ["", f"<b>\U0001f37d This week's menu</b> · <i>{esc(sub)}</i>"] + wbody
 
     training = [pt.session_fold(plan, p, info["people"][p], 3, True) for p in pv.PEOPLE]

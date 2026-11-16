@@ -12,10 +12,14 @@ functions; the Telegram side is shopping/bot.py.
 What is on the list: every row of plan/meals/basket.md for that list (weekly fresh or
 monthly staples, "as needed" rows included), grouped by the aisle in its quality-rules
 table, with the shop, amount and product of the last basket run when there is one
-(.browser/basket_<kind>.json, written by jobs/grocery_basket.py).
+(.browser/basket_<kind>.json, written by jobs/grocery_basket.py). The weekly list also
+gets the week's menu items that basket.md has no row for (dishes.md `buy` words, e.g.
+salmon or turkey mince), in their own "For this week's menu" group with the dishes that
+need them -- not priced, since the basket job only knows basket.md rows.
 
-Ticks belong to a period -- the ISO week (Monday to Sunday, Yerevan time) for the weekly
-list, the calendar month for staples. A new period starts with nothing ticked; the old
+Ticks belong to a period -- for the weekly list the shopping week, Saturday to Friday
+(Yerevan time), named after the menu week it shops for (Saturday's shop is for the Sunday
+batch and the week after); the calendar month for staples. A new period starts with nothing ticked; the old
 ticks are simply not carried over. State lives in
 .browser/shopping/<household>/checklist_<kind>.json, written atomically under a lock
 file shared by every process (the listener and the Mini App server).
@@ -27,7 +31,7 @@ import re
 import tempfile
 import time
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 from lib import basket as bk
 from lib import ui
@@ -38,8 +42,10 @@ HOUSEHOLD = "family"
 MAPPING = os.path.join("plan", "meals", "basket.md")
 SHOP_NAMES = {"yc": "Yerevan City", "parma": "Parma"}
 # Aisles in walking order; any other aisle named in basket.md comes after, "Other" last.
+MENU_AISLE = "For this week's menu"
 AISLES = ("Vegetables", "Greens", "Fruit", "Dairy & eggs", "Meat & fish", "Bread",
-          "Grains & legumes", "Oils, cans & jars", "Frozen", quality.DEFAULT_AISLE)
+          "Grains & legumes", "Oils, cans & jars", "Frozen", MENU_AISLE, quality.DEFAULT_AISLE)
+SHOP_DAYS = 2      # the shopping week starts on Saturday: the Sunday batch is bought then
 LOCK = "write.lock"
 
 
@@ -114,19 +120,27 @@ def today_local():
     return ui.now_local().date()
 
 
+def menu_monday(day):
+    """The Monday of the menu week a weekly list is for. Shopping for a week starts on the
+    Saturday before it (Saturday's "Shopping for the Sunday batch"; the Sunday menu message's
+    Basket button), so Saturday and Sunday already belong to the next week."""
+    shifted = day + timedelta(days=SHOP_DAYS)
+    return shifted - timedelta(days=shifted.weekday())
+
+
 def period_of(kind, day):
-    """'2026-W46' for the weekly list, '2026-11' for staples."""
+    """'2026-W47' for the weekly list (the ISO week of the menu it shops for: Saturday to
+    Friday), '2026-11' for staples."""
     if kind == "weekly":
-        y, w, _ = day.isocalendar()
+        y, w, _ = menu_monday(day).isocalendar()
         return f"{y}-W{w:02d}"
     return f"{day.year}-{day.month:02d}"
 
 
 def period_label(kind, day):
     if kind == "weekly":
-        y, w, _ = day.isocalendar()
-        monday = datetime.fromisocalendar(y, w, 1).date()
-        sunday = datetime.fromisocalendar(y, w, 7).date()
+        monday = menu_monday(day)
+        sunday = monday + timedelta(days=6)
         return f"week {monday.day} {monday:%b} – {sunday.day} {sunday:%b}"
     return day.strftime("%B %Y")
 
@@ -149,9 +163,26 @@ def _aisle_order(aisle):
     return (AISLES.index(aisle) if aisle in AISLES else len(AISLES) - 1.5, aisle)
 
 
-def items_for(root, kind):
+def menu_words(root, day):
+    """[(word, [dish names])] the week's menu needs that no basket.md row covers (weekly or
+    monthly) -- the menu's own shopping, added to the weekly list. [] before the plan starts
+    or when the menu can't be built (the Sunday menu job reports that to the owner)."""
+    from coach import menu_gen, plan_view
+    monday = menu_monday(day)
+    week = plan_view.week_of(monday, plan_view.plan_start(root))
+    if week < 1:
+        return []
+    try:
+        return menu_gen.week_shopping(root, week)
+    except (menu_gen.GenerationError, OSError, ValueError, KeyError):
+        return []
+
+
+def items_for(root, kind, day=None):
     """[{key, item, aisle, amount, shop, shop_name, buy, product, url, app_url, reason}]
-    in aisle order, then list order. Raises ValueError when basket.md is malformed."""
+    in aisle order, then list order. Raises ValueError when basket.md is malformed.
+    The weekly list also carries the week's menu items basket.md doesn't have (aisle
+    MENU_AISLE, amount "for <dishes>"), for the menu week of `day` (menu_monday)."""
     with open(os.path.join(root, MAPPING), encoding="utf-8") as f:
         md = f.read()
     all_rows = bk.parse_mapping(md)
@@ -171,6 +202,19 @@ def items_for(root, kind):
                     "shop_name": SHOP_NAMES.get(p.get("shop")), "buy": p.get("buy"),
                     "product": p.get("product"), "url": p.get("url"),
                     "app_url": p.get("app_url"), "reason": p.get("reason"), "_n": n})
+    if kind == "weekly":
+        known = {r["item"].lower() for r in all_rows}
+        for n, (word, dishes) in enumerate(menu_words(root, day or today_local()), len(rows)):
+            if word.lower() in known:
+                continue
+            key = ("m-" + slug(word))[:24]
+            while key in keys:
+                key = f"{key[:21]}-{n}"
+            keys.add(key)
+            out.append({"key": key, "item": word, "aisle": MENU_AISLE,
+                        "amount": "for " + ", ".join(dishes), "shop": None, "shop_name": None,
+                        "buy": None, "product": None, "url": None, "app_url": None,
+                        "reason": None, "_n": n})
     out.sort(key=lambda i: (_aisle_order(i["aisle"]), i["_n"]))
     for i in out:
         del i["_n"]
@@ -202,7 +246,7 @@ def _state(root, household, kind, day):
 
 
 def _view(root, household, kind, day, st):
-    items = items_for(root, kind)
+    items = items_for(root, kind, day)
     ticks = st.get("ticks") or {}
     groups, flat = [], []
     for i in items:
@@ -247,7 +291,7 @@ def tick(root, kind, key, user_id, done=None, household=HOUSEHOLD, today=None):
     ValueError for an item that is not on the list."""
     uid = _user(user_id)
     day = today or today_local()
-    keys = {i["key"] for i in items_for(root, kind)}
+    keys = {i["key"] for i in items_for(root, kind, day)}
     if key not in keys:
         raise ValueError("That item is no longer on the list — refresh it.")
     with _lock(root, household):

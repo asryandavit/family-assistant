@@ -19,6 +19,7 @@ SAFETY = ("Stop and seek medical care for chest pain, fainting, severe breathles
           "dark urine with muscle pain, yellowing of eyes or skin, or severe abdominal pain.")
 FORBIDDEN = ("patient", "condition", "disease", "illness", "diagnosis", "treatment")
 NAMES = {"davit": "Davit", "karine": "Karine"}
+LEFTOVERS = "(leftovers, small portion)"   # coach/menu_gen.py writes it on Sunday dinner
 MEAL_LABELS = (("breakfast", "Breakfast"), ("lunch", "Lunch"), ("dinner", "Dinner"),
                ("prep", "Prep for tomorrow"))
 MISSING = ("This week's menu couldn't be put together from the dish list. "
@@ -99,6 +100,11 @@ def meal_lines(plan, meals, refs=False, new=(), notes=False, tips_too=True):
     for key, label in MEAL_LABELS:
         cell = (meals or {}).get(key, "").strip()
         if not cell or cell in ("—", "-"):
+            continue
+        if LEFTOVERS in cell:
+            # Sunday dinner: lunch's dish again -- short names, no second ✨/recipe/notes
+            rest = short_cell(plan, cell.replace(LEFTOVERS, "(small portion)"))
+            out.append(f"<b>{label}</b> Leftovers: {rest}")
             continue
         mark = " ✨ <i>new</i>" if any(i in new for i in _main_ids(plan, cell)) else ""
         link = _recipe(plan, cell) if refs and key != "prep" else ""
