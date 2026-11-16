@@ -56,7 +56,7 @@ after it are built around what it says.
 | Wed, Thu | | **batch lunch B** — always a legume (Wednesday batch) | Wed **fish**, Thu **egg dinner** |
 | Fri | | **fish** | **light dinner** |
 | Sat | | **weekend lunch** — always with a protein | Scoolinary project (the planned treat) |
-| Sun | | **weekend lunch** | the same dish, small portion, with salad |
+| Sun | | **weekend lunch** | its leftovers, small portion, with a green salad (Sunday evening is the batch session) |
 
 - **Mediterranean base:** olive oil, legumes, whole grains (buckwheat, bulgur, pearl barley
   rotated as sides), vegetables and herbs, matsun and katnashor, very little red meat (none

@@ -1314,3 +1314,40 @@ changed (frozen platform):** `listener.log`'s poll-error lines include the first
 token (the failing URL, `str(e)[:120]`): a masked log line is a small additive listener fix to schedule on
 its own. Docs:
 docs/briefs/MINI_APP.md §17, docs/TELEGRAM_UX.md §6, docs/ROADMAP.md (3b).
+
+**109 — 2026-11-16 — Fixes from the first live check in Telegram Web: ⓘ on the tick list, the menu's own shopping on the list, a Saturday shopping week, Sunday's leftovers, wording.**
+The owner asked for everything promised about stages A/B to be checked live; it was, in Telegram Web
+on the owner's account (menu message, morning message, Mini App Today / Next week / Basket / China,
+`/list`, ticking both ways, New week). Fixed: **(1) ⓘ ticked the row instead of opening the reason.**
+Telegram UI draws an absolutely positioned ripple layer over every Cell on the "base" platform
+(Telegram Web, Android, desktop); it caught the tap, so the nested ⓘ button never got it. The smoke tests
+missed it because their Telegram stub always said `ios` (no ripple). ⓘ is now `position: relative;
+z-index: 1`, the row's handler ignores taps inside `.info`, and the stub takes the platform from the URL;
+a new browser test opens the list as `weba` and failed on the old build with "…tgui-8071… intercepts
+pointer events". **(2) The tick list ignored the menu.** It was basket.md's 24 staples only, so week 5's
+salmon, pearl barley and eggplant (and week 6's turkey mince and shelled wheat) were on no list. The
+weekly list now adds every dishes.md `buy` word of the week's menu that no basket.md row covers, in a
+"For this week's menu" group, amount "for <dish>" (a side names the dish it comes with); `coach.menu_gen.
+week_shopping()`; not priced (the basket job only knows basket.md); no menu → just the staples.
+**(3) The shopping week starts on Saturday.** Ticks were per ISO week, but the family shops on Saturday
+for the Sunday batch, so Saturday's ticks vanished on Monday and Saturday showed the week that was ending.
+The weekly period is now Saturday–Friday, named after the menu week it buys for (`menu_monday`: day + 2
+days, back to Monday); the period id stays `YYYY-Www` of that menu week, so today's ticks carried over.
+**(4) Sunday dinner** was the lunch dish again "+ green salad and a little lavash", doubling the lavash
+of dishes served with lavash, and repeated ✨ new and the recipe link. It stays lunch's leftovers (Sunday
+evening is the batch session) but is written `(leftovers, small portion) + sd-greens` (new side: a
+green salad without lavash) and shown as "Leftovers: Chicken souvlaki (small portion) + green salad".
+**(5) Sunday's "Prep for tomorrow: Batch cooking for next week"** was wrong (the batch is that same
+Sunday and already shows as its "Batch cooking" line); Sunday has no prep now. Weeks 5–8 files got both
+edits by hand (no dish changed). **(6) Names:** `short_name` also cuts at " cooked " / " soaked "
+("Oat porridge (hercules)", "Overnight oats"); two dishes renamed so their short names read well
+("Parchment-baked trout with herbs" — it showed as "Trout baked" next to "Baked trout"; "Matsun bowl
+with cucumber and herbs, with boiled potato" — it showed as "Matsun"). **(7) Today** showed today's
+meals twice (on top and in the open day below); on Today the day is marked "· today (meals above)"
+and stays folded (the Meals page still opens today). **(8) Wording:** the chat's clear question said
+"Clear all 0 ticks on the this week list?" — now "Clear all N ticks on this week's list?", "the 1 tick",
+and with nothing ticked it says so with a Back button (the app's confirm likewise); the China screen said
+"No China search yet" when results had simply aged out (kept 24 h) and "about 5 minutes" where the chat
+says ~9. **Not changed:** the basket prices are from 19 Oct (weekly) / 29 Oct (monthly), before the
+quality rules, so ⓘ has no reasons until the next 🧺 Basket run. Docs: docs/TELEGRAM_UX.md §5
+(tick list), plan/meals/principles.md (Sunday), plan/meals/dishes.md (sd-greens, two names).

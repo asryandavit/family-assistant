@@ -324,14 +324,18 @@ searches a day, 3–6 s between pages, a store that shows a check page is skippe
 message. One silent message to the chat that asked: header `✅ Shopping list · this week` with the
 week (`week 9 Nov – 15 Nov`) or the month, `N of M in the cart · last: Karine ticked Eggs 10:42`,
 then the items grouped by aisle in walking order (Vegetables, Greens, Fruit, Dairy & eggs, Meat &
-fish, Bread, Grains & legumes, Oils, cans & jars, Frozen, Other) — `☐ <item>` / `✅ <s>item</s>`,
-the amount to buy and the shop dot from the last 🧺 Basket, the item name linking to the product.
+fish, Bread, Grains & legumes, Oils, cans & jars, Frozen, For this week's menu, Other) — `☐ <item>`
+/ `✅ <s>item</s>`, the amount to buy and the shop dot from the last 🧺 Basket, the item name linking
+to the product. **For this week's menu** holds what the week's dishes need that basket.md has no row
+for (dishes.md `buy` words, e.g. `☐ Salmon · for Sheet-pan salmon`; not priced).
 Buttons: one per item, two per row (`☐ Eggs` / `✅ Eggs`), then `🔄 Refresh` · `📦 Staples` (or
-`🥬 This week`), then `♻️ New week` / `♻️ New month`, which first asks "Clear all N ticks…?" with
-`Yes, clear the ticks` · `Cancel`. A tap ticks or unticks for the household and edits the list
+`🥬 This week`), then `♻️ New week` / `♻️ New month`, which first asks "Clear all N ticks on this
+week's list?" with `Yes, clear the ticks` · `Cancel` (nothing ticked: says so, with `◀️ Back to the
+list`). A tap ticks or unticks for the household and edits the list
 message in **both** chats (the latest list message per chat is remembered); a button from an older
-list (items changed since) redraws the list and says "tap the item once more". A new ISO week
-(Monday, Yerevan time) or month starts with nothing ticked. The Shopping list Sheet's boxes follow
+list (items changed since) redraws the list and says "tap the item once more". A new shopping week
+(Saturday, Yerevan time — Saturday's shop is for the Sunday batch, so from Saturday the list is
+next week's, labelled with that menu week) or month starts with nothing ticked. The Shopping list Sheet's boxes follow
 each tick (one way). The Mini App shows the same list through `shopping/checklist.py`.
 
 ## 6. Bot profile
