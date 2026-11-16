@@ -62,6 +62,8 @@ export interface Travel {
   unavailable: boolean;
   trips: {
     route: string;
+    name?: string;
+    codes?: string;
     kind: string;
     out: string;
     back: string;

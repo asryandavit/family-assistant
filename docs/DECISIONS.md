@@ -1381,3 +1381,13 @@ its content; it now has a divider above it and is set in the hint colour, as the
 **(3)** Home's server time showed the date as "2026-11-16"; it now reads "Mon 16 Nov" like every other
 screen (display only, `App.tsx`). CSS and one display helper; no Python, `lib/` and `listener.py` untouched.
 Docs: docs/briefs/MINI_APP.md §18.
+
+**112 — 2026-11-16 — Travel in the Mini App names cities, not airport codes.**
+Owner: "show city names instead of airport codes on Travel". The Cheapest trips rows read "OTP", "BRI>NAP".
+`screens.route_names` turns the Trips tab's route into "Bucharest" / "Bari ⇢ Naples" through `lib.places.city`
+— the lookup the chat already uses (areas.json's curated names first, then the Wizz station map), so the app
+and the chat name a place the same way; an unknown code stays a code. "⇢" is the chat's open-jaw mark (fly into
+the first city, home from the second) and the card's footer now says so. The codes stay on the row's second
+line ("BRI ⇢ NAP · 23 Feb → 2 Mar · …") because /flights and /stays take them. Only the two route shapes in
+the live sheet exist ("XXX" return, "XXX>YYY" open-jaw; checked 2026-11-16). `lib/` read, not changed.
+Docs: docs/briefs/MINI_APP.md §18.

@@ -604,3 +604,6 @@ Home screen, China's search flow.
 After the live check (decision 111): a card that opens with a fold has no white strip above it; a note after
 the folds has a divider above it and the hint colour, so it no longer reads as the last fold's content; Home's
 server date reads "Mon 16 Nov".
+
+Travel names cities (decision 112): a trip row's title is "Bucharest" or "Bari ⇢ Naples" (`screens.route_names`,
+via `lib.places.city`, the chat's lookup), with the codes kept at the start of the second line for /flights.

@@ -42,17 +42,17 @@ export function TravelScreen(props: { onFail: (r: Result<unknown>) => void }) {
         {t.trips.length > 0 && (
           <Section
             header={`Cheapest trips · scan of ${t.run_label ?? t.run_date}`}
-            footer="Return trip, total for everyone in the party; club = with the Wizz Discount Club."
+            footer="Return trip, total for everyone in the party; club = with the Wizz Discount Club. A ⇢ B: fly into A, home from B."
           >
             {t.trips_note && <div className="msg warn">⚠️ {t.trips_note}.</div>}
             {t.trips.map((x, i) => (
               <Cell
                 key={i}
                 multiline
-                subtitle={`${x.out} → ${x.back} · ${x.nights} nights · ${x.pax}`}
+                subtitle={`${x.codes ?? x.route} · ${x.out} → ${x.back} · ${x.nights} nights · ${x.pax}`}
                 after={<Price main={`${x.total} ${x.currency}`} sub={x.club ? `club ${x.club}` : undefined} />}
               >
-                {x.route}
+                {x.name ?? x.route}
               </Cell>
             ))}
           </Section>

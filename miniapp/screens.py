@@ -314,6 +314,18 @@ def task_time(s):
 
 
 NO_ZONE = "no zone data"
+OPEN_JAW = " ⇢ "        # the chat's mark for "fly into the first city, home from the second"
+
+
+def route_names(cfg, route):
+    """The Trips tab's route as the reader wants it: 'OTP' -> ('Bucharest', 'OTP'),
+    'BRI>NAP' -> ('Bari ⇢ Naples', 'BRI ⇢ NAP'). Names come from lib.places, the lookup the
+    chat uses (areas.json, then the Wizz station map); an unknown code stays a code."""
+    from lib import places
+    codes = [c.strip() for c in str(route or "").split(">") if c.strip()]
+    if not codes:
+        return route, route
+    return OPEN_JAW.join(places.city(cfg, c) for c in codes), OPEN_JAW.join(codes)
 
 
 def age_note(day, today, action):
@@ -360,8 +372,9 @@ def travel_view(cfg, root=None, rows_fn=None, today=None):
         cur.sort(key=lambda r: _num(r[8]))
         for r in cur[:8]:
             wdc = _num(r[9])
+            name, codes = route_names(cfg, r[3])
             out["trips"].append({
-                "route": r[3], "kind": r[2], "out": _short_date(r[4]), "back": _short_date(r[5]),
+                "route": r[3], "name": name, "codes": codes, "kind": r[2], "out": _short_date(r[4]), "back": _short_date(r[5]),
                 "nights": r[6], "pax": r[7], "currency": r[10],
                 "total": _usd(_num(r[8])), "club": _usd(wdc) if wdc is not None else None})
     if stays:

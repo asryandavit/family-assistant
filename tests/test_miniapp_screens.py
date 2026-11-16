@@ -133,6 +133,7 @@ class TravelView(unittest.TestCase):
         self.assertEqual(totals, sorted(totals))                          # cheapest first
         self.assertLessEqual(len(v["trips"]), 8)
         self.assertEqual(v["trips"][0]["route"], "BRI")
+        self.assertEqual(v["trips"][0]["codes"], "BRI")
         self.assertEqual(v["trips"][0]["total"], "158")
         scores = [s for s in v["stays"]]
         self.assertTrue(scores and len(scores) <= 6)
@@ -140,6 +141,22 @@ class TravelView(unittest.TestCase):
         self.assertEqual(v["scan"], {"enabled": True, "next": "17 Nov 08:00", "last": "16 Nov 20:00"})
         self.assertEqual(v["run_label"], "10 Nov")
         self.assertNotIn(screens.NO_ZONE, [s["why"] for s in v["stays"]])   # noise, not a reason
+
+    def test_route_names(self):
+        # entries as they are in this repo's stations.json (Wizz map) and areas.json (curated)
+        root = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, root, True)
+        with open(os.path.join(root, "stations.json"), "w", encoding="utf-8") as f:
+            json.dump({"stations": {"BRI": {"name": "Bari", "country": "Italy"},
+                                    "NAP": {"name": "Naples", "country": "Italy"},
+                                    "FCO": {"name": "Rome Fiumicino", "country": "Italy"}}}, f)
+        with open(os.path.join(root, "areas.json"), "w", encoding="utf-8") as f:
+            json.dump({"FCO": {"city": "Rome"}}, f)
+        cfg = {"_root": root}
+        self.assertEqual(screens.route_names(cfg, "BRI>NAP"), ("Bari ⇢ Naples", "BRI ⇢ NAP"))
+        self.assertEqual(screens.route_names(cfg, "FCO"), ("Rome", "FCO"))       # curated name wins
+        self.assertEqual(screens.route_names(cfg, "XYZ"), ("XYZ", "XYZ"))        # unknown stays a code
+        self.assertEqual(screens.route_names(cfg, ""), ("", ""))
 
     def test_task_time(self):
         self.assertEqual(screens.task_time("11/17/2026 8:00:00 AM"), "17 Nov 08:00")
