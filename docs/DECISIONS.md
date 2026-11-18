@@ -1403,3 +1403,15 @@ line for an item a forwarder refuses by air), X3 the shared engine (Amazon P1b),
 buys directly on every site (no buy-for-me path or fee); Onex, Globbing, BuyForYou and EasyTrans are all
 forwarders with different prices and warehouses; Dubai (Amazon.ae, noon) parked. Docs: CROSS_BORDER.md (new),
 ROADMAP.md.
+
+**114 — 2026-11-18 — Cross-border X0: what the sites say, in `market/buying.md`.**
+Read-only checks for the "where to buy" plan (113). New hand-edited `market/buying.md`: one row per store
+(warehouse origin, the buying step, what the site's delivery to the warehouse means, the store-specific thing
+to check) and a forwarder-restrictions table. No number in it; no account data (no forwarder publishes its
+warehouse city, so the steps say "from your account"). Pinduoduo/Taobao delivery to the warehouse and 1688's
+minimum order are already captured on every `/china` result, so X1 needs no new reading. Only Globbing publishes
+restrictions (batteries only inside a device, ≤ 100 Wh; perfume ≤ 200 ml; magnets and pressurised items refused);
+Onex, BuyForYou and EasyTrans publish none, so X2 says "check with <forwarder>" for them instead of guessing.
+Customs: Onex and Globbing still state €200 / 31 kg / 15 %; the EAEU 5 % rule is reported for 1 Jan 2027, so
+`market/customs.md` stays on `default` (re-check January 2027). No code changed. Docs: CROSS_BORDER.md §6,
+ROADMAP.md, market/buying.md (new).

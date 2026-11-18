@@ -184,6 +184,27 @@ Order: X0 → X1 → X2 → X3 → X4.
 
 ---
 
-## 6. X0 results
+## 6. X0 results (2026-11-18, decision 114)
 
-(empty until X0 runs)
+Read-only checks: the forwarders' public sites, the EasyTrans API the tariff refresh already uses, the
+captured `/china` and `/amazon` results in the repo, and a web search on the customs rule. No account
+was signed in to, nothing was ordered. Output: `market/buying.md` (two tables, every row dated and sourced).
+
+| # | Question | Found | What it changes |
+|---|---|---|---|
+| 1 | Forwarder warehouse per store | China: Onex, Globbing, BuyForYou (air) and EasyTrans (truck), as in `tariffs.json`. UK, DE and IT as in `stores.md`. **No forwarder publishes its warehouse city**: Onex and Globbing name countries only (Globbing: the US one is in Delaware); BuyForYou says "USA and China"; the EasyTrans site renders only in a browser | The steps say "your <forwarder> <country> warehouse address — from your account" and print only the public postcode we already have (Amazon). No address is stored |
+| 2 | Pinduoduo / Taobao delivery to the warehouse | Already in every `/china` result: `domestic_delivery_text` (包邮 = free, ¥ fee, or unknown, never shown as free when unknown) | No new reading. X1 puts it in step 2 |
+| 3 | 1688 minimum order | Already captured on every 1688 result (`min_order_text`, e.g. "1个起批", "1套起批") with quantity tiers in the reason | X1 moves it from the fold's end into "How to buy" |
+| 4 | Amazon refusals to forwarder addresses | None seen in P1's real runs. Amazon's first-order free delivery is a condition on every store | Kept as in P1: the condition is said, not counted. Nothing new to build |
+| 5 | Forwarder restrictions | **Globbing** publishes a list (batteries only inside a device and ≤ 100 Wh; perfume ≤ 200 ml; magnets and pressurised items not allowed; not split by mode). **Onex, BuyForYou, EasyTrans publish none** that can be read | X2 cannot say "air refused" for Onex, BuyForYou or EasyTrans. For them the line says "check with <forwarder> before ordering"; for Globbing the route is marked from the table |
+| 6 | Customs | Onex's and Globbing's FAQs (read 2026-11-18) still state **€200 and 31 kg duty-free, 15 % of the part over €200, €2 per kg over 31 kg** (Globbing cites the SRC announcement of 2024-03-29). The EAEU 5 % rule is reported for **1 Jan 2027**, not 1 Jul 2026 (a news article; not official). BuyForYou states no rule | `market/customs.md` stays on `default`. Re-check in January 2027 |
+| 7 | EasyTrans China truck days | API `expectedArrivalDay: 35` (the owner's experience: about 1.5 months from departure) | No change; the existing note stands |
+
+**Not done in X0, on purpose:**
+- No login was made to read the warehouse addresses: they are the owner's account data.
+- No message was sent to any forwarder.
+
+Asking Onex and BuyForYou for their battery and liquid rules is the owner's call: a message on the
+owner's behalf needs the owner's yes.
+
+**Next: X1** — `market/buying.py` and the "How to buy" section in `/china` and `/amazon` results.
