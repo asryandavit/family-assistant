@@ -34,6 +34,7 @@ export interface ChinaCard {
   delivery: string | null;
   sales: string | null;
   min_order: string | null;
+  how?: string[]; // "How to buy" steps (market/buying.py, CROSS_BORDER X1)
   specs: string[];
   material: string | null;
   size: string | null;

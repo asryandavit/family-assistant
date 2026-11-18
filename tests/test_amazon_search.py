@@ -106,6 +106,9 @@ class Search(unittest.TestCase):
                        "AMD", "Seller:", "Trust", "usb c ladegerät 65w", "caricatore usb c 65w", "/dp/"):
             self.assertIn(needle, rich)
         self.assertTrue(any(lbl.startswith("👁 Watch") for row in btns for lbl, _ in row))
+        self.assertIn("🛍 How to buy", rich)                             # CROSS_BORDER X1
+        self.assertIn("1. Buy on amazon.co.uk with your card — £", rich)
+        self.assertIn("UK warehouse (E17 4SX)", rich)
         self.assertTrue(self.session.exited)                             # browser always released
         last = search.load_last(self.root, "222")
         self.assertEqual(last["job"], "ab12cd34")

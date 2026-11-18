@@ -208,3 +208,95 @@ Asking Onex and BuyForYou for their battery and liquid rules is the owner's call
 owner's behalf needs the owner's yes.
 
 **Next: X1** — `market/buying.py` and the "How to buy" section in `/china` and `/amazon` results.
+
+---
+
+## 7. X1 results (2026-11-18, decision 115)
+
+### Built
+
+- **`market/buying.py`** (new) reads both tables of `market/buying.md` and gives:
+  - `how_to(data, store, quote, price_text, delivery_text, flags, extra, today, store_rows) → steps[]`;
+  - `attach(offers, step_fn, today, log)`, which sets `offer["how"]`.
+- **The steps, in order:**
+  1. Pay: the row's words and the price as the result shows it.
+  2. Deliver to your forwarder's <country> warehouse. The public postcode is shown when `stores.md`
+     has one (the Amazon stores only), and the site's delivery there as the result read it.
+  3. The cheapest forwarder × mode with its delivered total and arrival.
+  4. "Faster: …, +N AMD" when another route arrives sooner. The difference is the only sum made
+     here (AMD minus AMD).
+  5. Customs: none, about N AMD, or near the €200 limit.
+  6. "Check: …" from the row.
+  7. Extra lines (1688's minimum order).
+  8. One ⚠️ line per restriction flag, judged for the cheapest route's forwarder from the
+     restrictions table: "publishes no rule — check with …", "does not take it", or "takes it only if …".
+  9. A dated ⚠️ when the row is older than 90 days.
+- **Wired in:**
+  - `china/search.how_steps` + `assemble`, and `amazon/search.how_steps` + `assemble`. The steps are
+    set on the ranked results before the answer is built, so they are saved in `last_<chat>.json`
+    and the Mini App shows them without a new endpoint.
+  - `china/report.how_lines` (the Amazon report imports it): a "🛍 How to buy" label, then the steps
+    numbered; ⚠️ lines are not numbered. It goes at the end of each result's fold, before the link,
+    and the plain fallback gets the same lines.
+  - 1688's separate "Minimum order" line is dropped when the steps carry it.
+  - Mini App China card: a "How to buy" section under "Shipping to Yerevan" (`china_view.py` passes
+    `how`; `ChinaScreen.tsx` numbers it the same way).
+- **Failure:**
+  - A store with no row gets no steps, never invented ones.
+  - A missing or broken `buying.md` never fails a search: every result says "How to buy is
+    unavailable: market/buying.md could not be read" and the worker log has the reason.
+- **Fix found while testing:** the DE and IT rows' check column said only "Same". It is now the
+  sentence, and a test keeps every row's check a real sentence.
+
+### Example (Amazon DE, from the captured test pages)
+
+```
+🛍 How to buy
+1. Buy on amazon.de with your card — €19.99.
+2. Deliver to your forwarder's Germany warehouse (82152) — the full address and your code are in
+   your forwarder account. Amazon's delivery there: FREE delivery Friday, 13 November on eligible
+   first order (free on a first/eligible order only - real cost unknown — not counted).
+3. In your forwarder account choose Onex truck — the cheapest, 12,796 AMD delivered,
+   arrives ~Fri 4 – Fri 11 Dec · 15–20 wd.
+4. Faster: Onex air, +900 AMD, arrives ~Fri 20 – Fri 27 Nov · 5–10 wd.
+5. Customs: none (under €200 and 31 kg).
+6. Check: Seller and "Dispatched by Amazon" line, shown on every result.
+```
+
+### Tests
+
+- `tests/test_buying.py` (new, 12 tests):
+  - the committed file loads (6 stores, 16 restriction rows);
+  - the order and words of the steps, and the faster line only when it is really faster;
+  - unpriced and customs (over and near);
+  - restriction unknown / refused / limited;
+  - China row with the 1688 extra;
+  - no row gives no steps;
+  - a stale row shows its date;
+  - a file with no Stores table is refused;
+  - `attach` with a broken file tells every result.
+- `tests/test_china_search.py` and `tests/test_amazon_search.py`: the end-to-end answers contain
+  "🛍 How to buy" and the first step, and the saved answer carries `how`.
+- Full suite: 968 passed, 846 subtests. Ruff: the new files are clean. The changed files have no
+  new findings: the counts are the same as before the change, because the repo has no ruff config
+  and the defaults flag the old `%` formatting.
+- Mini App: `npm run build` clean.
+
+### Phone demo (owner)
+
+1. `/amazon usb c charger 65w` → open any result's fold. The last part is **🛍 How to buy**,
+   steps 1–6 as above, with the store's postcode and Amazon's delivery line.
+2. `/china usb c charger 65w` → a Pinduoduo result's fold:
+   - "Buy in the Pinduoduo app yourself — ¥…";
+   - "Deliver to your forwarder's China warehouse …";
+   - the cheapest route and, when one arrives sooner, the faster route;
+   - "Check: Group price (拼单) …".
+
+   A 1688 result also shows "Minimum order: …".
+3. A power-bank search shows "⚠️ Battery: … publishes no rule — check with … before ordering" when
+   Onex is cheapest, or "Globbing takes it only if …" when Globbing is.
+4. Mini App → 🇨🇳 China → a card → Details → **How to buy**, numbered the same way.
+
+The China and Amazon workers and the Mini App server must be restarted once to load the new code.
+
+**Next: X2** — the 🛍 Where to buy block (cheapest / fastest / most trusted) above the results.

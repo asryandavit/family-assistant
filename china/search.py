@@ -14,6 +14,7 @@ import time
 from datetime import UTC, datetime, timezone
 
 from china import data_dir, photo, pricing, report, runner, taobao, validate
+from market import buying
 from market import rates as rates_mod
 
 SITES = ("pinduoduo", "taobao", "1688")
@@ -89,6 +90,16 @@ def read_site(cfg, ccfg, site, description, query_cn, log=print):
     return runner.site(cfg, ccfg, site, description, query_cn)
 
 
+def how_steps(data, rows, p, today):
+    """CROSS_BORDER X1: the buying steps for one priced result (words from market/buying.md,
+    numbers from the result's quote)."""
+    extra = [f"Minimum order: {p['min_order_text'].rstrip('.')}."] if p.get("min_order_text") else []
+    price = report.cny(p["price"], p.get("currency")) if p.get("price") is not None else ""
+    return buying.how_to(data, p["site"], p.get("quote"), price,
+                         f"The seller's delivery there: {p.get('delivery_note') or 'not shown'}",
+                         flags=p.get("flags") or [], extra=extra, today=today, store_rows=rows)
+
+
 def assemble(answers, ccfg, routes, rates, today):
     """answers: validated site answers in site order -> (sites, pick, reason, groups, category,
     brand_guidance) for report.build()."""
@@ -107,6 +118,7 @@ def assemble(answers, ccfg, routes, rates, today):
         sites.append({"site": a["site"], "status": a["status"], "notice": a.get("notice"),
                       "ranked": ranked})
         all_ranked.extend(ranked)
+    buying.attach(all_ranked, how_steps, today)
     pick, reason = pricing.best_pick(all_ranked)
     groups = pricing.same_product(all_ranked)
     return sites, pick, reason, groups, category, guidance

@@ -19,6 +19,7 @@ import time
 from datetime import UTC, datetime
 
 from amazon import data_dir, limits, parse, pricing, report, runner, trust
+from market import buying
 from market import rates as rates_mod
 from market import stores as stores_mod
 
@@ -195,6 +196,22 @@ def read_store(session, site, query, description, acfg, root, today, store, name
 
 # ------------------------------------------------------------------ assembling
 
+def how_steps(data, rows, p, today):
+    """CROSS_BORDER X1: the buying steps for one priced offer (words from market/buying.md,
+    numbers from the offer's quote)."""
+    fee = p.get("delivery_fee")
+    if fee is None:
+        tail = f" ({p.get('delivery_note') or 'fee unknown'} — not counted)"
+    elif fee:
+        tail = f" ({report.money(fee, p['currency'])}, counted)"
+    else:
+        tail = ""
+    price = report.money(p["price"], p["currency"]) if p.get("price") is not None else ""
+    return buying.how_to(data, "amazon_" + p["site"], p.get("quote"), price,
+                         f"Amazon's delivery there: {p.get('delivery_text') or 'not shown'}{tail}",
+                         flags=p.get("restrictions") or [], today=today, store_rows=rows)
+
+
 def assemble(results, acfg, routes, rates, today, store_rows):
     """results: per-store dicts from read_store -> (sites for report, all ranked offers)."""
     tc = acfg["trust"]
@@ -208,6 +225,7 @@ def assemble(results, acfg, routes, rates, today, store_rows):
         ranked = pricing.rank(priced, acfg["top_per_store"], tc["band"])
         sites.append(dict(res, ranked=ranked, offers=None))
         all_ranked.extend(ranked)
+    buying.attach(all_ranked, how_steps, today)
     return sites, all_ranked
 
 

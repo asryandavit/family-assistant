@@ -406,11 +406,17 @@ function ResultCard(props: { job: string; c: ChinaCard }) {
           <Lines items={c.weight} />
           <div className="label">Shipping to Yerevan</div>
           <Lines items={c.routes} />
+          {c.how && c.how.length > 0 && (
+            <>
+              <div className="label">How to buy</div>
+              <Lines items={howNumbered(c.how)} />
+            </>
+          )}
           <Lines items={[c.trust_line]} />
           <Lines
             items={[
               c.sales ? `Sold: ${c.sales}` : null,
-              c.min_order ? `Minimum order: ${c.min_order}` : null,
+              c.min_order && !(c.how && c.how.length) ? `Minimum order: ${c.min_order}` : null,
               c.material ? `Material: ${c.material}` : null,
               c.size ? `Size: ${c.size}` : null,
             ]}
@@ -461,4 +467,10 @@ function ResultCard(props: { job: string; c: ChinaCard }) {
       {msg && <div className={msg.ok ? "msg ok" : "msg bad"}>{msg.text}</div>}
     </Section>
   );
+}
+
+// Steps numbered in order; ⚠️ lines stay unnumbered (same as the chat, china/report.how_lines).
+function howNumbered(steps: string[]): string[] {
+  let n = 0;
+  return steps.map((x) => (x.startsWith("⚠️") ? x : `${++n}. ${x}`));
 }

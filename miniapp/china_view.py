@@ -91,6 +91,7 @@ def card(n, p, category, pick_n):
         "delivery": p.get("delivery_note") or None,
         "sales": "{:,}".format(p["sales"]) if p.get("sales") is not None else None,
         "min_order": p.get("min_order_text") or None,
+        "how": list(p.get("how") or []),
         "specs": [f"{k}: {v}" for k, v in list((p.get("specs") or {}).items())[:6]],
         "material": p.get("material") or None,
         "size": p.get("size_advice") or None,

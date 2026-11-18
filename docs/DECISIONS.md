@@ -1415,3 +1415,24 @@ Onex, BuyForYou and EasyTrans publish none, so X2 says "check with <forwarder>" 
 Customs: Onex and Globbing still state €200 / 31 kg / 15 %; the EAEU 5 % rule is reported for 1 Jan 2027, so
 `market/customs.md` stays on `default` (re-check January 2027). No code changed. Docs: CROSS_BORDER.md §6,
 ROADMAP.md, market/buying.md (new).
+
+**115 — 2026-11-18 — Cross-border X1: "🛍 How to buy" on every /china and /amazon result.**
+`market/buying.py` turns a result's quote and its `market/buying.md` row into steps:
+- pay on the site (price as shown);
+- deliver to your forwarder's <country> warehouse (public postcode when known; the site's delivery
+  as read);
+- the cheapest forwarder × mode with total and arrival, and the faster one with "+N AMD" (the only
+  sum, AMD minus AMD);
+- customs;
+- the row's check;
+- 1688's minimum order;
+- per restriction flag, the cheapest forwarder's published rule, or "publishes no rule — check with
+  …" when there is none;
+- a dated warning after 90 days.
+
+The words come from the table and every number from `market.pricing.quote`. The steps are set on
+the ranked results in both `assemble` functions, so they are in the chat fold (end, before the
+link), the plain fallback and the saved answer the Mini App China card reads. A store with no row
+gets no steps. A broken `buying.md` is said on every result and never fails a search. `lib/` and
+`listener.py` are untouched. Docs: CROSS_BORDER.md §7, ROADMAP.md, market/buying.md (DE/IT check
+column).

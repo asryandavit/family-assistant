@@ -33,8 +33,8 @@ Columns:
 | taobao | china | Buy on Taobao / Tmall yourself (the answer gives a search link; Taobao is not read by the bot) | Same as Pinduoduo: 包邮 = free, otherwise the fee as shown | Coupon prices (券后) need the coupon claimed at checkout | 2026-11-18, from /china results (`taobao_mode: link`) |
 | 1688 | china | Buy on 1688 yourself | The listing's "Shipping cost ¥N" to your forwarder's China warehouse, or free over the seller's limit | 1688 is wholesale: the minimum order (起批量, e.g. "1个起批") and quantity price tiers are on the page and shown on each result | 2026-11-18, from /china results (`min_order_text` captured on every 1688 result) |
 | amazon_uk | uk | Buy on amazon.co.uk with your card | Amazon's delivery to your forwarder's UK warehouse (E17 4SX), as shown. "FREE on your first order" is a condition, not counted | Seller and "Dispatched by Amazon" line, shown on every result | 2026-11-18, from /amazon P1 (AMAZON_SEARCH §11) |
-| amazon_de | germany | Buy on amazon.de with your card | Amazon's delivery to your forwarder's Germany warehouse (82152), as shown. "Kostenlose Lieferung" on a first order is a condition, not counted | Same | 2026-11-18, from /amazon P1 |
-| amazon_it | italy | Buy on amazon.it with your card | Amazon's delivery to your forwarder's Italy warehouse (70122), as shown. A first-order free delivery is a condition, not counted | Same | 2026-11-18, from /amazon P1 |
+| amazon_de | germany | Buy on amazon.de with your card | Amazon's delivery to your forwarder's Germany warehouse (82152), as shown. "Kostenlose Lieferung" on a first order is a condition, not counted | Seller and "Dispatched by Amazon" line, shown on every result | 2026-11-18, from /amazon P1 |
+| amazon_it | italy | Buy on amazon.it with your card | Amazon's delivery to your forwarder's Italy warehouse (70122), as shown. A first-order free delivery is a condition, not counted | Seller and "Dispatched by Amazon" line, shown on every result | 2026-11-18, from /amazon P1 |
 
 ## Forwarder restrictions
 

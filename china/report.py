@@ -135,6 +135,22 @@ def trust_line(p):
     return "🛡 <b>Trust %g</b>: %s" % (p["trust"], parts)
 
 
+def how_lines(p):
+    """The "How to buy" steps (market/buying.py, CROSS_BORDER X1): a bold label, then the steps
+    numbered in order; ⚠️ lines are not numbered."""
+    steps = p.get("how") or []
+    if not steps:
+        return []
+    out, n = ["<b>🛍 How to buy</b>"], 0
+    for x in steps:
+        if x.startswith("⚠️"):
+            out.append(esc(x))
+        else:
+            n += 1
+            out.append(f"{n}. {esc(x)}")
+    return out
+
+
 def detail_lines(p, category):
     L = []
     if p.get("variant"):
@@ -148,7 +164,7 @@ def detail_lines(p, category):
         L.append(trust_line(p))
     if p.get("sales") is not None:
         L.append("Sold: %s" % "{:,}".format(p["sales"]))
-    if p.get("min_order_text"):
+    if p.get("min_order_text") and not p.get("how"):
         L.append("Minimum order: " + esc(p["min_order_text"]))
     specs = list((p.get("specs") or {}).items())[:6]
     if specs:
@@ -174,6 +190,7 @@ def detail_lines(p, category):
     if p["weight_assumed"]:
         msg = SELLER_MSG_PLUG if category == "electronics" else SELLER_MSG
         L.append("Ask the seller: <code>%s</code>" % esc(msg))
+    L.extend(how_lines(p))
     if p.get("link"):
         L.append('<a href="%s">Open on %s</a>' % (attr(p["link"]), SITE_NAME[p["site"]]))
     return L

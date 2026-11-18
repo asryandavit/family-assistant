@@ -16,6 +16,7 @@ from china.report import (  # noqa: F401 - re-exported for callers and tests
     block_count,
     esc,
     fits,
+    how_lines,
     rich_button,
     route_lines,
     short,
@@ -86,6 +87,7 @@ def detail_lines(p):
         L.append("📢 Sponsored result - never the 🏆 pick while an organic one is priced")
     for n in p.get("notes") or []:
         L.append("ℹ️ " + esc(n))
+    L.extend(how_lines(p))
     L.append('<a href="%s">Open on %s</a>' % (attr(p["url"]), parse.NAME[p["site"]]))
     return L
 

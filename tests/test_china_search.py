@@ -81,9 +81,14 @@ class Search(unittest.TestCase):
         self.assertIn("Taobao logged out — open Chrome on the PC and sign in", rich)
         self.assertIn("1688 could not be read this time", rich)
         self.assertIn("🏆", rich)
+        self.assertIn("🛍 How to buy", rich)                   # CROSS_BORDER X1
+        self.assertIn("1. Buy in the Pinduoduo app yourself", rich)
+        self.assertIn("China warehouse", rich)
         last = search.load_last(self.root, "222")
         self.assertEqual(last["job"], "ab12cd34")
         self.assertEqual(len(last["sites"][0]["ranked"]), 3)
+        for p in last["sites"][0]["ranked"]:                  # saved, so the Mini App shows them too
+            self.assertTrue(p["how"][0].startswith("Buy in the Pinduoduo app yourself"))
 
     def test_vague_asks_first(self):
         tg = TG()
