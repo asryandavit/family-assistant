@@ -1391,3 +1391,15 @@ the first city, home from the second) and the card's footer now says so. The cod
 line ("BRI ⇢ NAP · 23 Feb → 2 Mar · …") because /flights and /stays take them. Only the two route shapes in
 the live sheet exist ("XXX" return, "XXX>YYY" open-jaw; checked 2026-11-16). `lib/` read, not changed.
 Docs: docs/briefs/MINI_APP.md §18.
+
+**113 — 2026-11-18 — Cross-border "where to buy" plan (China and Amazon UK/DE/IT).**
+Owner: "add details for cross country like pinduoduo, taobao, amazon de, it … and give details where to buy it".
+A `/china` or `/amazon` answer says what to buy and what it costs delivered, not how to buy it. Plan in
+docs/briefs/CROSS_BORDER.md: X0 discovery (forwarder warehouses per store, domestic delivery to the China
+warehouses, 1688 minimum orders, Amazon refusals, forwarder restrictions, the customs rule), X1 a "How to buy"
+section on every result from a hand-edited `market/buying.md` (dated, sourced rows; no number in it), X2 a
+🛍 Where to buy block (cheapest delivered / fastest / most trusted, each with its difference and reason; no air
+line for an item a forwarder refuses by air), X3 the shared engine (Amazon P1b), X4 `/find`. Owner's answers:
+buys directly on every site (no buy-for-me path or fee); Onex, Globbing, BuyForYou and EasyTrans are all
+forwarders with different prices and warehouses; Dubai (Amazon.ae, noon) parked. Docs: CROSS_BORDER.md (new),
+ROADMAP.md.
